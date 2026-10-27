@@ -6,7 +6,7 @@
 	url = https://github.com/macosswift/sparkle
 [submodule "submodules/telegram-ios"]
 	path = submodules/telegram-ios
-	url = https://github.com/TelegramMessenger/Telegram-iOS
+	url = https://github.com/Impulse-m/ImpulseM.Client.iOS
 [submodule "submodules/rlottie"]
 	path = submodules/rlottie
 	url = https://github.com/macosswift/rlottie
