@@ -1,0 +1,134 @@
+name: macOS build
+
+on:
+  push:
+    branches:
+      - 'ci/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: macos-build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+  CMAKE_POLICY_VERSION_MINIMUM: '3.5'
+
+jobs:
+  build:
+    name: Build unsigned app
+    runs-on: macos-26
+    timeout-minutes: 340
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Report disk space before cleanup
+        run: df -h /
+
+      - name: Free disk space
+        run: |
+          set -eu
+          ACTIVE_XCODE="$(readlink -f /Applications/Xcode.app)"
+          for XCODE_APP in /Applications/Xcode_*.app; do
+            if [ -d "$XCODE_APP" ] && [ "$(readlink -f "$XCODE_APP")" != "$ACTIVE_XCODE" ]; then
+              sudo rm -rf "$XCODE_APP"
+            fi
+          done
+          xcrun simctl delete all || true
+          rm -rf "$HOME/Library/Developer/CoreSimulator/Caches" || true
+          df -h /
+
+      - name: Select Xcode
+        run: |
+          set -eu
+          sudo xcode-select -s "$DEVELOPER_DIR"
+          xcodebuild -version
+
+      - name: Install Homebrew build tools
+        run: |
+          set -eu
+          # openssl@1.1 is no longer published by Homebrew, so it is not installed.
+          brew install cmake ninja meson nasm yasm zlib autoconf libtool automake pkgconf
+          cmake --version
+          ninja --version
+          meson --version
+
+      - name: Install Rosetta 2
+        run: |
+          set -eu
+          if ! arch -x86_64 /usr/bin/true >/dev/null 2>&1; then
+            softwareupdate --install-rosetta --agree-to-license
+          fi
+
+      - name: Check out submodules
+        run: |
+          set -eu
+          sh scripts/ci-submodules.sh
+
+      - name: Neutralise clang lifetimebound in abseil
+        run: |
+          set -eu
+          ABSL_ATTR="submodules/tg_owt/src/third_party/abseil-cpp/absl/base/attributes.h"
+          sed -i '' \
+            -e 's|^#define ABSL_ATTRIBUTE_LIFETIME_BOUND \[\[clang::lifetimebound\]\]|#define ABSL_ATTRIBUTE_LIFETIME_BOUND|' \
+            -e 's|^#define ABSL_ATTRIBUTE_LIFETIME_BOUND __attribute__((lifetimebound))|#define ABSL_ATTRIBUTE_LIFETIME_BOUND|' \
+            "$ABSL_ATTR"
+
+      - name: Report Rust toolchain
+        run: |
+          set -eu
+          rustup --version || true
+          cargo --version || true
+
+      - name: Restore native framework cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            core-xprojects/*/build
+            packages/WalletEngine/wallet_engineFFI.xcframework
+            submodules/telegram-ios/submodules/MTProtoRustEngine/MTProtoEngineFFI.xcframework
+          key: macos-native-${{ hashFiles('scripts/framework-inputs.sh', 'scripts/configure_frameworks.sh') }}-${{ github.run_id }}
+          restore-keys: |
+            macos-native-${{ hashFiles('scripts/framework-inputs.sh', 'scripts/configure_frameworks.sh') }}-
+
+      - name: Build native frameworks
+        run: |
+          set -o pipefail
+          mkdir -p build-logs
+          START_SECONDS="$(date +%s)"
+          sh scripts/configure_frameworks.sh 2>&1 | tee build-logs/configure-frameworks.log
+          echo "configure_frameworks.sh took $(( $(date +%s) - START_SECONDS )) seconds"
+
+      - name: Build app without code signing
+        run: |
+          set -o pipefail
+          mkdir -p build-logs
+          START_SECONDS="$(date +%s)"
+          xcodebuild \
+            -workspace Telegram-Mac.xcworkspace \
+            -scheme Telegram \
+            -configuration Debug \
+            -destination 'platform=macOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build 2>&1 | tee build-logs/xcodebuild.log
+          echo "xcodebuild took $(( $(date +%s) - START_SECONDS )) seconds"
+
+      - name: Report disk space after build
+        if: always()
+        run: df -h /
+
+      - name: Upload build logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-build-logs
+          path: build-logs/
+          if-no-files-found: warn
+          retention-days: 7
