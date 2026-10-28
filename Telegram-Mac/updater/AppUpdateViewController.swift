@@ -262,11 +262,8 @@ func AppUpdateViewController() -> InputDataController {
     
 }
 
-#if STABLE
-private let updates_channel_xml = "impulsem_macos_stable_updates_xml"
-#else
-private let updates_channel_xml = "impulsem_macos_beta_updates_xml"
-#endif
+/// The update channel must be pinned by peer id before the internal source is ever enabled.
+private let impulseUpdateChannelUsername: String? = nil
 
 
 private final class InternalUpdaterDownloader : SPUDownloaderSession {
@@ -363,11 +360,16 @@ private final class InternalUpdateDriver : ExternalUpdateDriver {
     override func checkForUpdates(at URL: URL!, host aHost: SUHost!, domain: String!) {
         self.host = aHost
 
+        guard let channelUsername: String = impulseUpdateChannelUsername else {
+            abortUpdateWithError(NSError(domain: strings().appUpdateErrorFailedUpdating, code: 0, userInfo: nil))
+            return
+        }
+
         updateSharedState {
             return $0.withUpdatedLoadingState(.initializing)
         }
-        
-        let signal = requestUpdatesXml(account: self.context.account, source: updates_channel_xml) |> deliverOnMainQueue |> timeout(20.0, queue: .mainQueue(), alternate: .fail(.xmlLoad))
+
+        let signal = requestUpdatesXml(account: self.context.account, source: channelUsername) |> deliverOnMainQueue |> timeout(20.0, queue: .mainQueue(), alternate: .fail(.xmlLoad))
         
         disposabe.set(signal.start(next: { [weak self] data in
             let appcast = SUAppcast()
@@ -791,12 +793,7 @@ func updater_resetWithUpdaterSource(_ source: UpdaterSource, force: Bool = true)
 
 private func alternateUpdaterSource(_ source: UpdaterSource) -> UpdaterSource? {
     switch source {
-    case let .external(context):
-        #if STABLE || DEBUG || BETA
-        if let context = context {
-            return .internal(context: context)
-        }
-        #endif
+    case .external:
         return nil
     case let .internal(context):
         return .external(context: context)

@@ -1160,7 +1160,7 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
                                 }
                                 setAppUpdaterBaseDomain(applicationUpdateUrlPrefix)
                                 #if STABLE || BETA || DEBUG
-                                updater_resetWithUpdaterSource(.internal(context: context.context))
+                                updater_resetWithUpdaterSource(.external(context: context.context))
                                 #else
                                 updater_resetWithUpdaterSource(.external(context: context.context))
                                 #endif
@@ -1227,7 +1227,7 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
                                         setAppUpdaterBaseDomain(applicationUpdateUrlPrefix)
                                         #if STABLE
                                         if let context = self.contextValue?.context {
-                                            updater_resetWithUpdaterSource(.internal(context: context))
+                                            updater_resetWithUpdaterSource(.external(context: context))
                                         } else {
                                             updater_resetWithUpdaterSource(.external(context: nil))
                                         }
@@ -1323,7 +1323,7 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
             showModal(with: InputDataModalController(AppUpdateViewController()), for: window)
             #if STABLE
                 if let context = self.contextValue?.context {
-                    updater_resetWithUpdaterSource(.internal(context: context))
+                    updater_resetWithUpdaterSource(.external(context: context))
                 } else {
                     updater_resetWithUpdaterSource(.external(context: nil))
                 }
