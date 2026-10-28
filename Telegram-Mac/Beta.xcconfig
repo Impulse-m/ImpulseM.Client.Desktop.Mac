@@ -1,6 +1,5 @@
 #include "common.xcconfig"
 
-DSA_PEM_FILE = dsa_pub.pem
 SFEED_URL = https:$(SIMPLE_SLASH)/macos.impulsem.net/beta/versions.xml
 SOURCE = BETA
 

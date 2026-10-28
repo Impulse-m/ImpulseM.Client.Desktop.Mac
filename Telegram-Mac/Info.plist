@@ -76,8 +76,8 @@
 	<string>${SOURCE}</string>
 	<key>SUFeedURL</key>
 	<string>${SFEED_URL}</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>${DSA_PEM_FILE}</string>
+	<key>SUPublicEDKey</key>
+	<string>&lt;IMPULSEM_ED_PUBLIC_KEY&gt;</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SFCompactRounded-Semibold.otf</string>

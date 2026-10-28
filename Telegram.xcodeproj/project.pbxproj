@@ -757,12 +757,11 @@
 		C2057FA71EBBCEA7000423DC /* voip_fail.caf in Resources */ = {isa = PBXBuildFile; fileRef = C2CFCABB1EBB4A2200843F6A /* voip_fail.caf */; };
 		C2057FA81EBBCEA7000423DC /* voip_ringback.caf in Resources */ = {isa = PBXBuildFile; fileRef = C2CFCABC1EBB4A2200843F6A /* voip_ringback.caf */; };
 		C20617830079F8F7D835E5CB /* ShortPeerRowShare in Frameworks */ = {isa = PBXBuildFile; productRef = 14388EF519B427EE2034DD9C /* ShortPeerRowShare */; };
-		C21074241E77F5DF006EE5EF /* dsa_pub_prod.pem in Resources */ = {isa = PBXBuildFile; fileRef = C21074231E77F5DF006EE5EF /* dsa_pub_prod.pem */; };
 		C21A48AE1F7CFBBE0095ADB1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21A48AD1F7CFBBE0095ADB1 /* OpenGL.framework */; };
 		C21A48B21F7D0D3F0095ADB1 /* VideoMessage.fsh in Resources */ = {isa = PBXBuildFile; fileRef = C21A48B11F7D0D3F0095ADB1 /* VideoMessage.fsh */; };
 		C21A48B41F7D0D6B0095ADB1 /* VideoMessage.vsh in Resources */ = {isa = PBXBuildFile; fileRef = C21A48B31F7D0D6B0095ADB1 /* VideoMessage.vsh */; };
 		C2303E8A1D9A76D800098E12 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2303E891D9A76D800098E12 /* MainViewController.swift */; };
-		C232EA3D1E1C06EF00C4D38C /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = C232EA3C1E1C06EF00C4D38C /* dsa_pub.pem */; };
+		C232EA3D1E1C06EF00C4D38C /* ed_pub.txt in Resources */ = {isa = PBXBuildFile; fileRef = C232EA3C1E1C06EF00C4D38C /* ed_pub.txt */; };
 		C232EA951E1D07E700C4D38C /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C232EA941E1D07E700C4D38C /* icon.icns */; };
 		C232EA981E1D07E700C4D38C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C232EA971E1D07E700C4D38C /* ShareViewController.swift */; };
 		C232EA9B1E1D07E700C4D38C /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C232EA991E1D07E700C4D38C /* ShareViewController.xib */; };
@@ -1784,7 +1783,6 @@
 		1F82B1F0D3F5C2735D5F3CA7 /* StickerSettingsHooksInstall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerSettingsHooksInstall.swift; sourceTree = "<group>"; };
 		C209C37C1F2628D7009231FE /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		C209C37D1F2628D7009231FE /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
-		C21074231E77F5DF006EE5EF /* dsa_pub_prod.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub_prod.pem; sourceTree = "<group>"; };
 		C21656CA1EE1CC6F0041A6BA /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C21656CB1EE1CC730041A6BA /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C21656CC1EE1CC760041A6BA /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1795,7 +1793,7 @@
 		C21A48B31F7D0D6B0095ADB1 /* VideoMessage.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = VideoMessage.vsh; sourceTree = "<group>"; };
 		C2203E9F1DDE040F001E6AB6 /* libcommonCrypto.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcommonCrypto.tbd; path = usr/lib/system/libcommonCrypto.tbd; sourceTree = SDKROOT; };
 		C2303E891D9A76D800098E12 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		C232EA3C1E1C06EF00C4D38C /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		C232EA3C1E1C06EF00C4D38C /* ed_pub.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ed_pub.txt; sourceTree = "<group>"; };
 		C232EA911E1D07E700C4D38C /* ImpulseMShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ImpulseMShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C232EA941E1D07E700C4D38C /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		C232EA961E1D07E700C4D38C /* TelegramShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TelegramShare.entitlements; sourceTree = "<group>"; };
@@ -3143,8 +3141,7 @@
 		A65E34E2CEB962279BC862DB /* keys */ = {
 			isa = PBXGroup;
 			children = (
-				C232EA3C1E1C06EF00C4D38C /* dsa_pub.pem */,
-				C21074231E77F5DF006EE5EF /* dsa_pub_prod.pem */,
+				C232EA3C1E1C06EF00C4D38C /* ed_pub.txt */,
 			);
 			path = keys;
 			sourceTree = "<group>";
@@ -4338,7 +4335,7 @@
 				27CB175C2763740C00DD25E0 /* menu_reset.tgs in Resources */,
 				9F03681B22771A9700456348 /* anim_pin.json in Resources */,
 				27803BF027A3E944007B0FA9 /* menu_folder_lamp.tgs in Resources */,
-				C232EA3D1E1C06EF00C4D38C /* dsa_pub.pem in Resources */,
+				C232EA3D1E1C06EF00C4D38C /* ed_pub.txt in Resources */,
 				2733671227620B600027441E /* menu_copy_media.tgs in Resources */,
 				275549132747C24F0098A3CD /* device_windows.tgs in Resources */,
 				27C50ADF2AC6F87000FED2E4 /* premium_gift_12.tgs in Resources */,
@@ -4492,7 +4489,6 @@
 				2747FD3E292CD4530045B95C /* menu_report_false_positive.tgs in Resources */,
 				A731925925DBA60000218E0E /* gigagroup.tgs in Resources */,
 				27B836202B5FF51F00E82683 /* menu_tag_rename.tgs in Resources */,
-				C21074241E77F5DF006EE5EF /* dsa_pub_prod.pem in Resources */,
 				2733672C276214050027441E /* menu_select_messages.tgs in Resources */,
 				9F03681922771A9700456348 /* anim_archive.json in Resources */,
 				C23D0D7C1F1A649900AF5151 /* SFCompactRounded-Semibold.otf in Resources */,

@@ -2,7 +2,6 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 #include "common.xcconfig"
 
-DSA_PEM_FILE = dsa_pub.pem
 SFEED_URL = https:${SIMPLE_SLASH}/macos.impulsem.net/alpha/versions.xml
 IMPULSEM_DISPLAY_NAME = ImpulseM Beta
 
