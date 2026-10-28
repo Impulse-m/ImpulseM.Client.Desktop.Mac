@@ -92,7 +92,7 @@ func updateApplication(sharedContext: SharedAccountContext) {
     switch state {
     case let .readyToInstall(item):
         cancelStagedUpdate()
-        var text: String = "Telegram was updated to \(item.versionTitle.lowercased())"
+        var text: String = "\(appName) was updated to \(item.versionTitle.lowercased())"
         text += "\n\n"
         
         text += item.updateText
@@ -263,9 +263,9 @@ func AppUpdateViewController() -> InputDataController {
 }
 
 #if STABLE
-private let updates_channel_xml = "macos_stable_updates_xml"
+private let updates_channel_xml = "impulsem_macos_stable_updates_xml"
 #else
-private let updates_channel_xml = "macos_beta_updates_xml"
+private let updates_channel_xml = "impulsem_macos_beta_updates_xml"
 #endif
 
 
@@ -284,7 +284,7 @@ private final class InternalUpdaterDownloader : SPUDownloaderSession {
     }
     
     override func suggestedFilename() -> String! {
-        return "Telegram.app.zip"
+        return "ImpulseM.app.zip"
     }
     
     
@@ -381,7 +381,7 @@ private final class InternalUpdateDriver : ExternalUpdateDriver {
     override func downloadUpdate() {
         let downloader = InternalUpdaterDownloader(context: self.context, updateItem: self.updateItem, delegate: self)
         self.download = downloader
-        let fileName = "Telegram \(self.updateItem.versionString ?? "")"
+        let fileName = "\(appName) \(self.updateItem.versionString ?? "")"
 
         downloader.startPersistentDownload(with: SPUURLRequest(), bundleIdentifier: host.bundle.bundleIdentifier!, desiredFilename: fileName)
     }
