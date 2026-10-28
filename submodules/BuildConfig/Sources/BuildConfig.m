@@ -6,7 +6,7 @@
 #import <MurMurHash32/MurMurHash32.h>
 #import <CryptoUtils/Crypto.h>
 
-static NSString *telegramApplicationSecretKey = @"telegramApplicationSecretKey_v7";
+static NSString *impulsemApplicationSecretKey = @"impulsemApplicationSecretKey_v1";
 
 
 @implementation LocalPrivateKey
@@ -296,20 +296,20 @@ static NSString *telegramApplicationSecretKey = @"telegramApplicationSecretKey_v
     NSArray *components = [accessGroup componentsSeparatedByString:@"."];
     NSString *bundleSeedID = [[components objectEnumerator] nextObject];
     CFRelease(result);
-    return @"6N38VWS5BX";
+    return @"TEAM_ID_PLACEHOLDER";
 }
 
 
 
 + (NSString * _Nullable)bundleSeedId {
-    return @"6N38VWS5BX";
+    return @"TEAM_ID_PLACEHOLDER";
 }
 
 + (NSData * _Nonnull)applicationSecretTag:(bool)isCheckKey {
     if (isCheckKey) {
-        return [[telegramApplicationSecretKey stringByAppendingString:@"_check"] dataUsingEncoding:NSUTF8StringEncoding];
+        return [[impulsemApplicationSecretKey stringByAppendingString:@"_check"] dataUsingEncoding:NSUTF8StringEncoding];
     } else {
-        return [telegramApplicationSecretKey dataUsingEncoding:NSUTF8StringEncoding];
+        return [impulsemApplicationSecretKey dataUsingEncoding:NSUTF8StringEncoding];
     }
 }
     
