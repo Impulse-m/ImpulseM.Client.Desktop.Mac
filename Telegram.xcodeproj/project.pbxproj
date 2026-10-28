@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A7D1C9E2B5F4081A3C6D9E2 /* ImpulseNetworkEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 7B2E9F4A1C6D4835B0E8F1A7 /* ImpulseNetworkEngine */; };
 		179E9277EEDF6EE57D278A28 /* MTProtoRustEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 65444FEC9F6C1C634AC14116 /* MTProtoRustEngine */; };
 		12B8AB7F6634C633C0AC2E8B /* ImpulseNetworkEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 0A632FDA5808D0F5E9132C29 /* ImpulseNetworkEngine */; };
 		00AE230C300112A4002DAD5B /* menu_article.tgs in Resources */ = {isa = PBXBuildFile; fileRef = 00AE230B300112A4002DAD5B /* menu_article.tgs */; };
@@ -1033,6 +1034,7 @@
 
 /* Begin PBXFileReference section */
 		FD784E303A88B94212763B13 /* MTProtoRustEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MTProtoRustEngine; path = "submodules/telegram-ios/submodules/MTProtoRustEngine"; sourceTree = "<group>"; };
+		3C9E5B2A7D1F4E08A6B4C2D9 /* ImpulseNetworkEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ImpulseNetworkEngine; path = "submodules/telegram-ios/submodules/ImpulseNetworkEngine"; sourceTree = "<group>"; };
 		00AE230B300112A4002DAD5B /* menu_article.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = menu_article.tgs; sourceTree = "<group>"; };
 		6DF2B389CBB80EB29FD391E4 /* menu_message.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = menu_message.tgs; sourceTree = "<group>"; };
 		020D35D47A7FBCCF522B829E /* AffiliateUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AffiliateUI; path = packages/AffiliateUI; sourceTree = "<group>"; };
@@ -2010,6 +2012,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB6DAD8DF0C1248CC621AFB /* PasscodeCore in Frameworks */,
+				4A7D1C9E2B5F4081A3C6D9E2 /* ImpulseNetworkEngine in Frameworks */,
 				C20617830079F8F7D835E5CB /* ShortPeerRowShare in Frameworks */,
 				2037C058F06EC3DBD00E2F08 /* AvatarUIShare in Frameworks */,
 				B1FA9B51E5E4F05E194C4934 /* TelegramUtilsShare in Frameworks */,
@@ -2744,6 +2747,7 @@
 			isa = PBXGroup;
 			children = (
 				FD784E303A88B94212763B13 /* MTProtoRustEngine */,
+				3C9E5B2A7D1F4E08A6B4C2D9 /* ImpulseNetworkEngine */,
 				7EFAFFDDB86A365C817F7F0A /* PasscodeCore */,
 				DC03D85B85DFD13971D4E5B3 /* GiftCraftingUI */,
 				345CA31BC0A2A11FA5B91D15 /* SelectColorUI */,
@@ -3633,6 +3637,7 @@
 			name = TelegramShare;
 			packageProductDependencies = (
 				8108E8A15C9EE293636E539F /* PasscodeCore */,
+				7B2E9F4A1C6D4835B0E8F1A7 /* ImpulseNetworkEngine */,
 				14388EF519B427EE2034DD9C /* ShortPeerRowShare */,
 				2DBE492FD219DCD254A93957 /* AvatarUIShare */,
 				F3DD5977041CBCE33A98E464 /* TelegramUtilsShare */,
@@ -5189,6 +5194,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7B2E9F4A1C6D4835B0E8F1A7 /* ImpulseNetworkEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ImpulseNetworkEngine;
+		};
 		0A632FDA5808D0F5E9132C29 /* ImpulseNetworkEngine */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ImpulseNetworkEngine;
