@@ -87,7 +87,8 @@ jobs:
           cargo --version || true
 
       - name: Restore native framework cache
-        uses: actions/cache@v4
+        id: native-cache
+        uses: actions/cache/restore@v4
         with:
           path: |
             core-xprojects/*/build
@@ -104,6 +105,16 @@ jobs:
           START_SECONDS="$(date +%s)"
           sh scripts/configure_frameworks.sh 2>&1 | tee build-logs/configure-frameworks.log
           echo "configure_frameworks.sh took $(( $(date +%s) - START_SECONDS )) seconds"
+
+      - name: Save native framework cache
+        if: always() && steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            core-xprojects/*/build
+            packages/WalletEngine/wallet_engineFFI.xcframework
+            submodules/telegram-ios/submodules/MTProtoRustEngine/MTProtoEngineFFI.xcframework
+          key: macos-native-${{ hashFiles('scripts/framework-inputs.sh', 'scripts/configure_frameworks.sh') }}-${{ github.run_id }}
 
       - name: Build app without code signing
         run: |

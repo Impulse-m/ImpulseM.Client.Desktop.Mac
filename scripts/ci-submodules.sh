@@ -24,6 +24,7 @@ log "Initialising top-level submodules"
 git submodule update --init -- \
     submodules/libprisma \
     submodules/libtgvoip \
+    submodules/regex \
     submodules/rlottie \
     submodules/tgcalls \
     submodules/tlottie \
@@ -45,6 +46,7 @@ log "Verifying that every required checkout is populated"
 for REQUIRED_PATH in \
     submodules/libprisma \
     submodules/libtgvoip \
+    submodules/regex/include/boost/regex.hpp \
     submodules/rlottie \
     submodules/tgcalls \
     submodules/tlottie \
