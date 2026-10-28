@@ -81,11 +81,49 @@ jobs:
           fi
 
       - name: Test ImpulseTransport and ApiCredentials packages
+        timeout-minutes: 25
         run: |
           set -o pipefail
           mkdir -p build-logs
           swift --version
-          swift test --package-path submodules/telegram-ios/submodules/ImpulseTransport 2>&1 | tee build-logs/swift-test-impulse-transport.log
+          IMPULSE_TRANSPORT_DIR="submodules/telegram-ios/submodules/ImpulseTransport"
+          HANG_WINDOW_SECONDS=900
+          swift build --build-tests --package-path "$IMPULSE_TRANSPORT_DIR" 2>&1 | tee build-logs/swift-build-impulse-transport.log
+          (
+            set -o pipefail
+            swift test --skip-build --package-path "$IMPULSE_TRANSPORT_DIR" 2>&1 | tee build-logs/swift-test-impulse-transport.log
+          ) &
+          TEST_RUNNER_PID=$!
+          START_SECONDS="$(date +%s)"
+          HUNG=0
+          while kill -0 "$TEST_RUNNER_PID" 2>/dev/null; do
+            if [ $(( $(date +%s) - START_SECONDS )) -ge "$HANG_WINDOW_SECONDS" ]; then
+              HUNG=1
+              break
+            fi
+            sleep 5
+          done
+          if [ "$HUNG" -eq 1 ]; then
+            echo "Test run exceeded ${HANG_WINDOW_SECONDS} seconds; sampling xctest processes into build-logs/"
+            for XCTEST_PID in $(pgrep -f xctest || true); do
+              sample "$XCTEST_PID" 10 -file "build-logs/hang-sample-$XCTEST_PID.txt" || echo "sample failed for pid $XCTEST_PID"
+              ps -M "$XCTEST_PID" > "build-logs/hang-ps-M-$XCTEST_PID.txt" 2>&1 || true
+            done
+            for XCTEST_PID in $(pgrep -f xctest || true); do
+              kill -9 "$XCTEST_PID" 2>/dev/null || true
+            done
+            pkill -9 -P "$TEST_RUNNER_PID" 2>/dev/null || true
+            kill -9 "$TEST_RUNNER_PID" 2>/dev/null || true
+            wait "$TEST_RUNNER_PID" 2>/dev/null || true
+            echo "::error::ImpulseTransport tests did not finish within ${HANG_WINDOW_SECONDS} seconds and were killed. Hang samples (sample and ps -M output) are in build-logs/ (hang-sample-<pid>.txt, hang-ps-M-<pid>.txt)."
+            exit 1
+          fi
+          TEST_STATUS=0
+          wait "$TEST_RUNNER_PID" || TEST_STATUS=$?
+          if [ "$TEST_STATUS" -ne 0 ]; then
+            echo "::error::ImpulseTransport tests failed with exit status $TEST_STATUS"
+            exit "$TEST_STATUS"
+          fi
           swift test --package-path packages/ApiCredentials 2>&1 | tee build-logs/swift-test-api-credentials.log
 
       - name: Neutralise clang lifetimebound in abseil
@@ -155,6 +193,7 @@ jobs:
           bash packages/TelegramLinks/Tests/run-tests.sh 2>&1 | tee build-logs/telegram-links-tests.log
 
       - name: Test ImpulseNetworkEngine package
+        timeout-minutes: 45
         run: |
           set -o pipefail
           mkdir -p build-logs
