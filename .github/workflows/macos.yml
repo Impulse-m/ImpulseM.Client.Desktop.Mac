@@ -81,48 +81,59 @@ jobs:
           fi
 
       - name: Test ImpulseTransport and ApiCredentials packages
-        timeout-minutes: 25
+        timeout-minutes: 60
         run: |
           set -o pipefail
           mkdir -p build-logs
           swift --version
           IMPULSE_TRANSPORT_DIR="submodules/telegram-ios/submodules/ImpulseTransport"
-          HANG_WINDOW_SECONDS=900
           swift build --build-tests --package-path "$IMPULSE_TRANSPORT_DIR" 2>&1 | tee build-logs/swift-build-impulse-transport.log
-          (
-            set -o pipefail
-            swift test --skip-build --package-path "$IMPULSE_TRANSPORT_DIR" 2>&1 | tee build-logs/swift-test-impulse-transport.log
-          ) &
-          TEST_RUNNER_PID=$!
-          START_SECONDS="$(date +%s)"
-          HUNG=0
-          while kill -0 "$TEST_RUNNER_PID" 2>/dev/null; do
-            if [ $(( $(date +%s) - START_SECONDS )) -ge "$HANG_WINDOW_SECONDS" ]; then
-              HUNG=1
-              break
-            fi
-            sleep 5
-          done
-          if [ "$HUNG" -eq 1 ]; then
-            echo "Test run exceeded ${HANG_WINDOW_SECONDS} seconds; sampling xctest processes into build-logs/"
-            for XCTEST_PID in $(pgrep -f xctest || true); do
-              sample "$XCTEST_PID" 10 -file "build-logs/hang-sample-$XCTEST_PID.txt" || echo "sample failed for pid $XCTEST_PID"
-              ps -M "$XCTEST_PID" > "build-logs/hang-ps-M-$XCTEST_PID.txt" 2>&1 || true
-            done
-            for XCTEST_PID in $(pgrep -f xctest || true); do
-              kill -9 "$XCTEST_PID" 2>/dev/null || true
-            done
-            pkill -9 -P "$TEST_RUNNER_PID" 2>/dev/null || true
-            kill -9 "$TEST_RUNNER_PID" 2>/dev/null || true
-            wait "$TEST_RUNNER_PID" 2>/dev/null || true
-            echo "::error::ImpulseTransport tests did not finish within ${HANG_WINDOW_SECONDS} seconds and were killed. Hang samples (sample and ps -M output) are in build-logs/ (hang-sample-<pid>.txt, hang-ps-M-<pid>.txt)."
+          CLASSES_FILE="build-logs/impulse-transport-classes.txt"
+          swift test --skip-build --list-tests --package-path "$IMPULSE_TRANSPORT_DIR" | sed -n 's|^ImpulseTransportTests\.\([^/]*\)/.*|\1|p' | sort -u > "$CLASSES_FILE"
+          if [ ! -s "$CLASSES_FILE" ]; then
+            echo "::error::No ImpulseTransport test classes were listed"
             exit 1
           fi
-          TEST_STATUS=0
-          wait "$TEST_RUNNER_PID" || TEST_STATUS=$?
-          if [ "$TEST_STATUS" -ne 0 ]; then
-            echo "::error::ImpulseTransport tests failed with exit status $TEST_STATUS"
-            exit "$TEST_STATUS"
+          PASSED_CLASSES=""
+          FAILED_CLASSES=""
+          TIMED_OUT_CLASSES=""
+          for CLASS in $(cat "$CLASSES_FILE"); do
+            echo "Running ImpulseTransport test class ${CLASS}"
+            CLASS_STATUS=0
+            (
+              NSUnbufferedIO=YES perl -e 'alarm shift; exec @ARGV' 180 swift test --skip-build --package-path "$IMPULSE_TRANSPORT_DIR" --filter "ImpulseTransportTests.${CLASS}/" 2>&1 | tee "build-logs/swift-test-${CLASS}.log"
+              exit "${PIPESTATUS[0]}"
+            ) || CLASS_STATUS=$?
+            if [ "$CLASS_STATUS" -eq 142 ]; then
+              TIMED_OUT_CLASSES="$TIMED_OUT_CLASSES $CLASS"
+              pkill -9 -f xctest || true
+            elif [ "$CLASS_STATUS" -ne 0 ]; then
+              FAILED_CLASSES="$FAILED_CLASSES $CLASS"
+            else
+              PASSED_CLASSES="$PASSED_CLASSES $CLASS"
+            fi
+          done
+          echo "ImpulseTransport test summary"
+          echo "Passed:"
+          for NAME in $PASSED_CLASSES; do
+            echo "$NAME"
+          done
+          echo "Failed:"
+          for NAME in $FAILED_CLASSES; do
+            echo "$NAME"
+          done
+          echo "Timed out:"
+          for NAME in $TIMED_OUT_CLASSES; do
+            echo "$NAME"
+          done
+          for NAME in $FAILED_CLASSES; do
+            echo "::error::ImpulseTransport test class ${NAME} failed"
+          done
+          for NAME in $TIMED_OUT_CLASSES; do
+            echo "::error::ImpulseTransport test class ${NAME} timed out after 180 seconds"
+          done
+          if [ -n "$FAILED_CLASSES" ] || [ -n "$TIMED_OUT_CLASSES" ]; then
+            exit 1
           fi
           swift test --package-path packages/ApiCredentials 2>&1 | tee build-logs/swift-test-api-credentials.log
 
