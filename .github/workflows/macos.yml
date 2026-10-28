@@ -154,6 +154,12 @@ jobs:
           mkdir -p build-logs
           bash packages/TelegramLinks/Tests/run-tests.sh 2>&1 | tee build-logs/telegram-links-tests.log
 
+      - name: Test ImpulseNetworkEngine package
+        run: |
+          set -o pipefail
+          mkdir -p build-logs
+          swift test --package-path submodules/telegram-ios/submodules/ImpulseNetworkEngine 2>&1 | tee build-logs/swift-test-impulse-network-engine.log
+
       - name: Report disk space after build
         if: always()
         run: df -h /
