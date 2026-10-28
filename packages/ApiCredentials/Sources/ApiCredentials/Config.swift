@@ -5,7 +5,7 @@ public final class ApiEnvironment {
         return ImpulseBrand.apiId
     }
     public static var apiHash:String {
-        return "3975f648bb682ee889f35483bc618d1c"
+        return "21f053db6ffe90fd4519db7b90249ec9"
     }
     
     public static var bundleId: String {
