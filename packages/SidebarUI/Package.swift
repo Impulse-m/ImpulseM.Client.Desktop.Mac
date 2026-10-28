@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "SidebarUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [.library(name: "SidebarUI", targets: ["SidebarUI"])],
     dependencies: [
         .package(name: "InputDataUI", path: "../InputDataUI"),

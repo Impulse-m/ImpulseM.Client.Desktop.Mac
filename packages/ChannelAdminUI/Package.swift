@@ -29,7 +29,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "ChannelAdminUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "ChannelAdminUI", targets: ["ChannelAdminUI"]),
     ],

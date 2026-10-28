@@ -23,7 +23,7 @@ let common: [Target.Dependency] = [
 
 let package = Package(
     name: "TelegramUtils",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "TelegramUtils", targets: ["TelegramUtils"]),
         .library(name: "TelegramUtilsShare", targets: ["TelegramUtilsShare"]),

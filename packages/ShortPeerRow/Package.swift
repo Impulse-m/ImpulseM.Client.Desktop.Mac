@@ -13,7 +13,7 @@ let common: [Target.Dependency] = [
 
 let package = Package(
     name: "ShortPeerRow",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "ShortPeerRow", targets: ["ShortPeerRow"]),
         .library(name: "ShortPeerRowShare", targets: ["ShortPeerRowShare"]),

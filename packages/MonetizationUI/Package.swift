@@ -31,7 +31,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "MonetizationUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "MonetizationUI", targets: ["MonetizationUI"]),
     ],

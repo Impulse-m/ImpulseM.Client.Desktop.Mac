@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "InlineStickers",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "InlineStickers", targets: ["InlineStickers"]),
         .library(name: "InlineStickersShare", targets: ["InlineStickersShare"]),

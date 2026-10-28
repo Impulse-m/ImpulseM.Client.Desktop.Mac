@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "ComponentsUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "ComponentsUI", targets: ["ComponentsUI"]),
     ],

@@ -44,7 +44,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "GroupCallScreenUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "GroupCallScreenUI", targets: ["GroupCallScreenUI"]),
     ],

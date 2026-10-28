@@ -18,7 +18,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "AudioPlayerCore",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "AudioPlayerCore", targets: ["AudioPlayerCore"]),
     ],

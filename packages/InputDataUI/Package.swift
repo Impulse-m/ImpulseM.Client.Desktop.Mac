@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "InputDataUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [.library(name: "InputDataUI", targets: ["InputDataUI"])],
     dependencies: [
         .package(name: "ColorPalette", path: "../ColorPalette"),

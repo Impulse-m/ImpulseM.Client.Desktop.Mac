@@ -14,7 +14,7 @@ let common: [Target.Dependency] = [
 
 let package = Package(
     name: "TelegramContext",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "TelegramContext", targets: ["TelegramContext"]),
         .library(name: "TelegramContextShare", targets: ["TelegramContextShare"]),

@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "CrashReports",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "CrashReports", targets: ["CrashReports"]),
     ],

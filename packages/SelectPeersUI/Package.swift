@@ -19,7 +19,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "SelectPeersUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "SelectPeersUI", targets: ["SelectPeersUI"]),
     ],

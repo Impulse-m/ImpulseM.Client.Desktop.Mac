@@ -17,7 +17,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "InlineStickerLayer",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "InlineStickerLayer", targets: ["InlineStickerLayer"]),
     ],

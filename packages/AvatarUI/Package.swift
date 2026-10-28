@@ -11,7 +11,7 @@ let common: [Target.Dependency] = [
 
 let package = Package(
     name: "AvatarUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "AvatarUI", targets: ["AvatarUI"]),
         .library(name: "AvatarUIShare", targets: ["AvatarUIShare"]),

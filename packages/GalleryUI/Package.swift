@@ -42,7 +42,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "GalleryUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "GalleryUI", targets: ["GalleryUI"]),
     ],

@@ -48,7 +48,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "SettingsUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "SettingsUI", targets: ["SettingsUI"]),
     ],

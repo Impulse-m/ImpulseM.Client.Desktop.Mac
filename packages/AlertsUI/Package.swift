@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "AlertsUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "AlertsUI", targets: ["AlertsUI"]),
     ],

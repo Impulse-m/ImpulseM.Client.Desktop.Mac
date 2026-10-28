@@ -21,7 +21,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "WidgetUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "WidgetUI", targets: ["WidgetUI"]),
     ],

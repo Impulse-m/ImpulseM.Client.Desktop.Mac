@@ -20,7 +20,7 @@ let dependencies: [Target.Dependency] = [
 
 let package = Package(
     name: "TelegramTheme",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "TelegramTheme", targets: ["TelegramTheme"]),
         .library(name: "TelegramThemeShare", targets: ["TelegramThemeShare"]),

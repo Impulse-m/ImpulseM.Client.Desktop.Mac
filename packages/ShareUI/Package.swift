@@ -31,7 +31,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "ShareUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "ShareUI", targets: ["ShareUI"]),
     ],

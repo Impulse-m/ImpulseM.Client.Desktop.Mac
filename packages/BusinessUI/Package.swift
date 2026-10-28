@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "BusinessUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "BusinessUI", targets: ["BusinessUI"]),
     ],

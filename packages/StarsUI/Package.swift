@@ -43,7 +43,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "StarsUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "StarsUI", targets: ["StarsUI"]),
     ],

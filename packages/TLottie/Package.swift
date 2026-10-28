@@ -13,7 +13,7 @@ let headers = root.appendingPathComponent("submodules/tlottie/include").path
 
 let package = Package(
     name: "TLottie",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "TLottie", targets: ["TLottie"]),
     ],

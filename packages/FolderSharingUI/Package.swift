@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "FolderSharingUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [.library(name: "FolderSharingUI", targets: ["FolderSharingUI"])],
     dependencies: [
         .package(name: "InputDataUI", path: "../InputDataUI"),

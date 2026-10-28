@@ -18,7 +18,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "InactiveChannelsUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "InactiveChannelsUI", targets: ["InactiveChannelsUI"]),
     ],

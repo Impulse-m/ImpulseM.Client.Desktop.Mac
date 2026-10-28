@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "TelegramLinks",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [.library(name: "TelegramLinks", targets: ["TelegramLinks"])],
     dependencies: [
         .package(name: "TelegramCore", path: "../../submodules/telegram-ios/submodules/TelegramCore"),

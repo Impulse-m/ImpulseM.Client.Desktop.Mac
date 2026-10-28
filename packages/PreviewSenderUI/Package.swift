@@ -36,7 +36,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "PreviewSenderUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "PreviewSenderUI", targets: ["PreviewSenderUI"]),
     ],

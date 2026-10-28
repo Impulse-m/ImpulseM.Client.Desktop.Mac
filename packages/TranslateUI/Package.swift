@@ -26,7 +26,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "TranslateUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "TranslateUI", targets: ["TranslateUI"]),
     ],

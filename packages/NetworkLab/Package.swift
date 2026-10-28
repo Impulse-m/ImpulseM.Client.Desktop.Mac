@@ -9,7 +9,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "NetworkLab",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "NetworkLab", targets: ["NetworkLab"]),
     ],

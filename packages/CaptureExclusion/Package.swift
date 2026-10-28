@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "CaptureExclusion",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "CaptureExclusion", targets: ["CaptureExclusion"]),
     ],

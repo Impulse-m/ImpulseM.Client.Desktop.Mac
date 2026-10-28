@@ -16,7 +16,7 @@ let deps: [(String, String)] = [
 
 let package = Package(
     name: "GigagroupUI",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "GigagroupUI", targets: ["GigagroupUI"]),
     ],

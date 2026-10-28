@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "InlineMediaGrid",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "InlineMediaGrid", targets: ["InlineMediaGrid"]),
     ],

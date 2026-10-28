@@ -15,7 +15,7 @@ let common: [Target.Dependency] = [
 
 let package = Package(
     name: "GeneralRows",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "GeneralRows", targets: ["GeneralRows"]),
         .library(name: "GeneralRowsShare", targets: ["GeneralRowsShare"]),

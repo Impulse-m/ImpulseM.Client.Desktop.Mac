@@ -28,7 +28,7 @@ let coreLinkerFlags: [String] = coreLibraries.flatMap { ["-L", coreXprojects.app
 
 let package = Package(
     name: "TelegramCallsCore",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "TelegramCallsCore", targets: ["TelegramCallsCore"]),
     ],

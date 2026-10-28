@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "UniqueGiftRenderer",
-    platforms: [.macOS(.v10_13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "UniqueGiftRenderer", targets: ["UniqueGiftRenderer"]),
     ],
