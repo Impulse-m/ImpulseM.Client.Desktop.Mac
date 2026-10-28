@@ -186,6 +186,46 @@ jobs:
             build 2>&1 | tee build-logs/xcodebuild.log
           echo "xcodebuild took $(( $(date +%s) - START_SECONDS )) seconds"
 
+      - name: Locate unsigned app bundle
+        if: success()
+        id: locate-app
+        run: |
+          set -eu
+          SETTINGS_JSON="$(xcodebuild -workspace Telegram-Mac.xcworkspace -scheme Telegram -configuration Debug -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO -showBuildSettings -json)"
+          APP_PATH="$(printf '%s' "$SETTINGS_JSON" | python3 -c '
+          import json
+          import os
+          import sys
+          entries = json.load(sys.stdin)
+          apps = []
+          for entry in entries:
+              settings = entry["buildSettings"]
+              if entry.get("target") == "Telegram" and settings.get("WRAPPER_EXTENSION") == "app":
+                  apps.append(os.path.join(settings["BUILT_PRODUCTS_DIR"], settings["FULL_PRODUCT_NAME"]))
+          unique_apps = sorted(set(apps))
+          if len(unique_apps) != 1:
+              sys.exit("expected exactly one app bundle, found: " + repr(unique_apps))
+          print(unique_apps[0])
+          ')"
+          test -d "$APP_PATH"
+          echo "app_path=$APP_PATH" >> "$GITHUB_OUTPUT"
+
+      - name: Zip unsigned app bundle
+        if: success()
+        run: |
+          set -eu
+          mkdir -p build-artifacts
+          ditto -c -k --keepParent "${{ steps.locate-app.outputs.app_path }}" build-artifacts/ImpulseM-macOS-unsigned.zip
+
+      - name: Upload unsigned app bundle
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-app-unsigned
+          path: build-artifacts/ImpulseM-macOS-unsigned.zip
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Test TelegramLinks package
         run: |
           set -o pipefail
