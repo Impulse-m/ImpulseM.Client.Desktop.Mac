@@ -38,9 +38,6 @@ framework_source_roots() {
         wallet-engine)
             echo "$1/submodules/telegram-ios/third-party/wallet-engine/wallet-engine"
             ;;
-        mtproto-engine)
-            echo "$1/submodules/telegram-ios/third-party/mtproto-engine"
-            ;;
         *)
             ;;
     esac
@@ -62,7 +59,7 @@ framework_dependencies() {
 
 framework_extra_fingerprint() {
     case "$1" in
-        wallet-engine|mtproto-engine)
+        wallet-engine)
             CARGO_BIN=""
             if [ -n "${CARGO:-}" ]; then
                 CARGO_BIN="$CARGO"
@@ -86,9 +83,6 @@ framework_reset_outputs() {
     case "$2" in
         wallet-engine)
             rm -rf "$1/packages/WalletEngine/wallet_engineFFI.xcframework"
-            ;;
-        mtproto-engine)
-            rm -rf "$1/submodules/telegram-ios/submodules/MTProtoRustEngine/MTProtoEngineFFI.xcframework"
             ;;
         *)
             ;;
@@ -143,12 +137,6 @@ framework_required_outputs() {
             printf '%s\n' "$BUILD_DIR/libwallet_engine.a" "$BUILD_DIR/WalletEngineFFI.swift" \
                 "$XCFRAMEWORK/Info.plist" "$XCFRAMEWORK/macos-arm64_x86_64/libwallet_engine.a" \
                 "$XCFRAMEWORK/macos-arm64_x86_64/Headers/"{wallet_engineFFI.h,module.modulemap}
-            ;;
-        mtproto-engine)
-            local XCFRAMEWORK="$1/submodules/telegram-ios/submodules/MTProtoRustEngine/MTProtoEngineFFI.xcframework"
-            printf '%s\n' "$BUILD_DIR/libmtproto_engine_ffi.a" "$XCFRAMEWORK/Info.plist" \
-                "$XCFRAMEWORK/macos-arm64_x86_64/libmtproto_engine_ffi.a" \
-                "$XCFRAMEWORK/macos-arm64_x86_64/Headers/MTProtoEngineFFI/"{mtproto_engine.h,module.modulemap}
             ;;
         *) return 1 ;;
     esac
