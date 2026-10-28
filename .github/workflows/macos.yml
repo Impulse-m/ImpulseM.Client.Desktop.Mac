@@ -189,7 +189,7 @@ jobs:
           START_SECONDS="$(date +%s)"
           xcodebuild \
             -workspace Telegram-Mac.xcworkspace \
-            -scheme Telegram \
+            -scheme ImpulseM \
             -configuration Debug \
             -destination 'platform=macOS' \
             CODE_SIGNING_ALLOWED=NO \
@@ -202,7 +202,7 @@ jobs:
         id: locate-app
         run: |
           set -eu
-          SETTINGS_JSON="$(xcodebuild -workspace Telegram-Mac.xcworkspace -scheme Telegram -configuration Debug -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO -showBuildSettings -json)"
+          SETTINGS_JSON="$(xcodebuild -workspace Telegram-Mac.xcworkspace -scheme ImpulseM -configuration Debug -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO -showBuildSettings -json)"
           APP_PATH="$(printf '%s' "$SETTINGS_JSON" | python3 -c '
           import json
           import os
