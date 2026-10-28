@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		179E9277EEDF6EE57D278A28 /* MTProtoRustEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 65444FEC9F6C1C634AC14116 /* MTProtoRustEngine */; };
+		12B8AB7F6634C633C0AC2E8B /* ImpulseNetworkEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 0A632FDA5808D0F5E9132C29 /* ImpulseNetworkEngine */; };
 		00AE230C300112A4002DAD5B /* menu_article.tgs in Resources */ = {isa = PBXBuildFile; fileRef = 00AE230B300112A4002DAD5B /* menu_article.tgs */; };
 		714DAA74A82E31CED3FF114A /* menu_message.tgs in Resources */ = {isa = PBXBuildFile; fileRef = 6DF2B389CBB80EB29FD391E4 /* menu_message.tgs */; };
 		02885965B606813DF37313B7 /* ArchiveUtils in Frameworks */ = {isa = PBXBuildFile; productRef = A8854B9690865C40BA969030 /* ArchiveUtils */; };
@@ -2065,6 +2066,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				179E9277EEDF6EE57D278A28 /* MTProtoRustEngine in Frameworks */,
+				12B8AB7F6634C633C0AC2E8B /* ImpulseNetworkEngine in Frameworks */,
 				26F8A3445EB870ACB07A9BAA /* PasscodeCore in Frameworks */,
 				A624E60A4F34F0CDF90B607B /* GiftCraftingUI in Frameworks */,
 				A4DD29EBDF4B061DC097DF07 /* SelectColorUI in Frameworks */,
@@ -3691,6 +3693,7 @@
 			name = Telegram;
 			packageProductDependencies = (
 				65444FEC9F6C1C634AC14116 /* MTProtoRustEngine */,
+				0A632FDA5808D0F5E9132C29 /* ImpulseNetworkEngine */,
 				C0C39F69D94F71B3D37CE102 /* PasscodeCore */,
 				F685D321C7FA76A9B76D43C9 /* GiftCraftingUI */,
 				98C169B320DF068A3C81E7FC /* SelectColorUI */,
@@ -5186,6 +5189,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0A632FDA5808D0F5E9132C29 /* ImpulseNetworkEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ImpulseNetworkEngine;
+		};
 		65444FEC9F6C1C634AC14116 /* MTProtoRustEngine */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MTProtoRustEngine;

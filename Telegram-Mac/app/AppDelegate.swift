@@ -7,8 +7,7 @@ import DateUtils
 import TGUIKit
 import Quartz
 import MtProtoKit
-import MTProtoRustEngine
-import MTProtoRustEngineMapping
+import ImpulseNetworkEngine
 import CoreServices
 import LocalAuthentication
 import OpenSSLEncryption
@@ -269,7 +268,6 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
     
     private(set) var appEncryption: AppEncryptionParameters!
     private var memoryPressureMonitor: MemoryPressureMonitor?
-    private var rustEngineCrash: CrashedRun?
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         TGUIKitAccessibility.isEnabled = FastSettings.accessibilityTreeEffective
@@ -494,11 +492,6 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
         let appEncryption = AppEncryptionParameters(path: rootPath)
 
         let accountManager = AccountManager<TelegramAccountManagerTypes>(basePath: containerUrl + "/accounts-metadata", isTemporary: false, isReadOnly: false, useCaches: true, removeDatabaseOnError: true, accessChallenge: makeAccountManagerAccessChallenge(basePath: containerUrl + "/accounts-metadata", isTemporary: false, isReadOnly: false))
-
-        if let crash = self.rustEngineCrash {
-            self.rustEngineCrash = nil
-            let _ = recordRustEngineCrash(accountManager: accountManager, appVersion: ApiEnvironment.version, crashedBundleVersion: crash.bundleVersion, timestamp: crash.timestamp).startStandalone()
-        }
 
         if let deviceSpecificEncryptionParameters = appEncryption.decrypt() {
             let parameters = ValueBoxEncryptionParameters(forceEncryptionIfNoSet: true, key: ValueBoxEncryptionParameters.Key(data: deviceSpecificEncryptionParameters.key)!, salt: ValueBoxEncryptionParameters.Salt(data: deviceSpecificEncryptionParameters.salt)!)
@@ -829,7 +822,7 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
                 useBetaFeatures = false
                 #endif
                 
-                let networkArguments = NetworkInitializationArguments(apiId: ApiEnvironment.apiId, apiHash: ApiEnvironment.apiHash, languagesCategory: ApiEnvironment.language, appVersion: ApiEnvironment.version, voipMaxLayer: OngoingCallContext.maxLayer, voipVersions: voipVersions, appData: appData, externalRequestVerificationStream: .single([:]), externalRecaptchaRequestVerification: { _, _ in return .complete() }, autolockDeadine: .single(nil), encryptionProvider: OpenSSLEncryptionProvider(), deviceModelName: deviceModelPretty(), useBetaFeatures: useBetaFeatures, isICloudEnabled: false, networkEngineFactory: RustNetworkEngineFactory())
+                let networkArguments = NetworkInitializationArguments(apiId: ApiEnvironment.apiId, apiHash: ApiEnvironment.apiHash, languagesCategory: ApiEnvironment.language, appVersion: ApiEnvironment.version, voipMaxLayer: OngoingCallContext.maxLayer, voipVersions: voipVersions, appData: appData, externalRequestVerificationStream: .single([:]), externalRecaptchaRequestVerification: { _, _ in return .complete() }, autolockDeadine: .single(nil), encryptionProvider: OpenSSLEncryptionProvider(), deviceModelName: deviceModelPretty(), useBetaFeatures: useBetaFeatures, isICloudEnabled: false, networkEngineFactory: ImpulseNetworkEngineFactory())
                 
                 let sharedContext = SharedAccountContext(accountManager: accountManager, networkArguments: networkArguments, rootPath: rootPath, encryptionParameters: encryptionParameters, appEncryption: appEncryption, displayUpgradeProgress: displayUpgrade)
                 
@@ -1388,7 +1381,6 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
     
     private func recoverFromCrashOnLaunchIfNeeded(containerPath: String) {
         let marker = readCrashMarker(folder: containerPath)
-        self.rustEngineCrash = marker?.crashedRun(onThread: rustEngineOwnsThread(named:), orQueue: rustEngineOwnsQueue(label:))
         clearCrashMarker(folder: containerPath)
         guard let marker = marker else {
             return
