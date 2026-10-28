@@ -1731,8 +1731,6 @@
 		A731925825DBA60000218E0E /* gigagroup.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = gigagroup.tgs; sourceTree = "<group>"; };
 		A7377E5B23B5E99500AD3ADD /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		A7393D412407FF0F00CE44CA /* dice_idle.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = dice_idle.tgs; sourceTree = "<group>"; };
-		A74EB06F237961A1005F55AE /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = submodules/AppCenter/AppCenter.framework; sourceTree = "<group>"; };
-		A74EB070237961A1005F55AE /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = submodules/AppCenter/AppCenterCrashes.framework; sourceTree = "<group>"; };
 		A76C8A9D2420FFE400FDB071 /* folder_empty.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = folder_empty.tgs; sourceTree = "<group>"; };
 		A76C8AA124221D2800FDB071 /* graph_loading.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = graph_loading.tgs; sourceTree = "<group>"; };
 		A778DC2D23C77AD800DD307B /* confetti.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = confetti.mp3; sourceTree = "<group>"; };
@@ -1864,7 +1862,6 @@
 		C5FB70AE2B510B41E9DBF81D /* InlineStickers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = InlineStickers; path = packages/InlineStickers; sourceTree = "<group>"; };
 		C8E557CD29F61B19E1E36EA0 /* TelegramContext */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TelegramContext; path = packages/TelegramContext; sourceTree = "<group>"; };
 		CAE966DA56984311BA2F5233 /* StarsHooksInstall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarsHooksInstall.swift; sourceTree = "<group>"; };
-		D0076EE725685A50007EF588 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0076EEA25685BB5007EF588 /* libbz2.1.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.1.0.tbd; path = usr/lib/libbz2.1.0.tbd; sourceTree = SDKROOT; };
 		D00CA6502281BB0900FFACAD /* Telegram-Sandbox.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "Telegram-Sandbox.entitlements"; sourceTree = "<group>"; };
 		D06E38AA24A5F3B700C7D03A /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
@@ -1885,8 +1882,6 @@
 		D07C6D7F2346A42F00468B1A /* monkey_see.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = monkey_see.tgs; sourceTree = "<group>"; };
 		D0803142C045160CB74E067A /* SystemPermissions */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SystemPermissions; path = packages/SystemPermissions; sourceTree = "<group>"; };
 		D0830FC324127468006198E7 /* new_folder.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = new_folder.tgs; sourceTree = "<group>"; };
-		D0983E162568373E00467703 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenterAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0983E182568373E00467703 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenterCrashes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D098C7151D7E175A007784E4 /* ImpulseM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImpulseM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D098C7181D7E175A007784E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D098C71A1D7E175A007784E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -3548,16 +3543,11 @@
 				271999E62683C04B000DE2B7 /* MetalPerformanceShaders.framework */,
 				272C182F267D00350030B5FB /* CoreMediaIO.framework */,
 				D0076EEA25685BB5007EF588 /* libbz2.1.0.tbd */,
-				D0076EE725685A50007EF588 /* AppCenter.framework */,
-				D0983E162568373E00467703 /* AppCenterAnalytics.framework */,
-				D0983E182568373E00467703 /* AppCenterCrashes.framework */,
 				D09D836D24A6205500120F73 /* libtgvoip.framework */,
 				D06E38AB24A5F3B700C7D03A /* Metal.framework */,
 				D06E38AA24A5F3B700C7D03A /* MetalKit.framework */,
 				A7377E5B23B5E99500AD3ADD /* libxml2.tbd */,
 				A71DC82A23858311000EEDE2 /* CoreSpotlight.framework */,
-				A74EB06F237961A1005F55AE /* AppCenter.framework */,
-				A74EB070237961A1005F55AE /* AppCenterCrashes.framework */,
 				A7ED5DAE236C7CE100040372 /* RLottie.framework */,
 				9F6FF3212248E298004364FE /* UserNotifications.framework */,
 				9F4EEF8321D4F59C002C3B33 /* Accelerate.framework */,
@@ -4854,13 +4844,12 @@
 				DEVELOPMENT_TEAM = TEAM_ID_PLACEHOLDER;
 				ENABLE_BITCODE = NO;
 				ENABLE_DEBUG_DYLIB = YES;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 					"$(PROJECT_DIR)/submodules",
-					"$(PROJECT_DIR)/submodules/AppCenter",
 				);
 				GCC_C_LANGUAGE_STANDARD = c17;
 				GCC_OPTIMIZATION_LEVEL = 2;
@@ -4921,7 +4910,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = TEAM_ID_PLACEHOLDER;
 				ENABLE_DEBUG_DYLIB = YES;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c17;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -4974,7 +4963,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TEAM_ID_PLACEHOLDER;
 				ENABLE_DEBUG_DYLIB = YES;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c17;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -5083,13 +5072,12 @@
 				DEVELOPMENT_TEAM = TEAM_ID_PLACEHOLDER;
 				ENABLE_BITCODE = NO;
 				ENABLE_DEBUG_DYLIB = YES;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 					"$(PROJECT_DIR)/submodules",
-					"$(PROJECT_DIR)/submodules/AppCenter",
 				);
 				GCC_C_LANGUAGE_STANDARD = c17;
 				GCC_OPTIMIZATION_LEVEL = 0;
