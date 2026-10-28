@@ -2,18 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>com.apple.developer.associated-domains</key>
-	<array>
-		<string>webcredentials:telegram.org</string>
-	</array>
 	<key>com.apple.developer.maps</key>
 	<true/>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
-		<string>6N38VWS5BX.ru.keepcoder.Telegram.TelegramShare</string>
+		<string>TEAM_ID_PLACEHOLDER.net.impulsem.messenger.mac</string>
+		<string>TEAM_ID_PLACEHOLDER.net.impulsem.messenger.mac.share</string>
 	</array>
 	<key>com.apple.security.device.audio-input</key>
 	<true/>
@@ -31,8 +27,8 @@
 	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
-		<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
+		<string>TEAM_ID_PLACEHOLDER.net.impulsem.messenger.mac</string>
+		<string>TEAM_ID_PLACEHOLDER.net.impulsem.messenger.mac.share</string>
 	</array>
 </dict>
 </plist>
