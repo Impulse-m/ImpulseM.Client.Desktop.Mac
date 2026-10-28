@@ -71,6 +71,23 @@ jobs:
           set -eu
           sh scripts/ci-submodules.sh
 
+      - name: Check out Centrifugo Swift SDK
+        run: |
+          set -eu
+          # ImpulseTransport resolves ImpulseM.Centrifugo.Client.Swift as a sibling of the repository checkout.
+          SDK_DIR="$(dirname "$GITHUB_WORKSPACE")/ImpulseM.Centrifugo.Client.Swift"
+          if [ ! -f "$SDK_DIR/Package.swift" ]; then
+            git clone --depth 1 https://github.com/Impulse-m/ImpulseM.Centrifugo.Client.Swift.git "$SDK_DIR"
+          fi
+
+      - name: Test ImpulseTransport and ApiCredentials packages
+        run: |
+          set -o pipefail
+          mkdir -p build-logs
+          swift --version
+          swift test --package-path submodules/telegram-ios/submodules/ImpulseTransport 2>&1 | tee build-logs/swift-test-impulse-transport.log
+          swift test --package-path packages/ApiCredentials 2>&1 | tee build-logs/swift-test-api-credentials.log
+
       - name: Neutralise clang lifetimebound in abseil
         run: |
           set -eu
@@ -130,6 +147,12 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             build 2>&1 | tee build-logs/xcodebuild.log
           echo "xcodebuild took $(( $(date +%s) - START_SECONDS )) seconds"
+
+      - name: Test TelegramLinks package
+        run: |
+          set -o pipefail
+          mkdir -p build-logs
+          bash packages/TelegramLinks/Tests/run-tests.sh 2>&1 | tee build-logs/telegram-links-tests.log
 
       - name: Report disk space after build
         if: always()
