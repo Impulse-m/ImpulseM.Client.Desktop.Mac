@@ -188,6 +188,8 @@ private func entries(_ state: State, arguments: Arguments) -> [InputDataEntry] {
             return "MtProtoKit"
         case .rust:
             return "Rust"
+        case .impulse:
+            return "ImpulseM"
         }
     }
     var networkEngineValue = networkEngineTitle(state.networkEngine)
