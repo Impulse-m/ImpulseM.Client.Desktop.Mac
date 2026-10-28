@@ -402,7 +402,7 @@
 		27A01AEA2BA07ACF00C59661 /* fragment.tgs in Resources */ = {isa = PBXBuildFile; fileRef = 27A01AE92BA07ACF00C59661 /* fragment.tgs */; };
 		27A08A2227E8B73D00284048 /* change_sim.tgs in Resources */ = {isa = PBXBuildFile; fileRef = 27A08A2127E8B73D00284048 /* change_sim.tgs */; };
 		27A1B2C3D4E5F60718293A4B /* GeneralRowsHooksInstall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A1B2C3D4E5F60718293A4C /* GeneralRowsHooksInstall.swift */; };
-		27A35BDB2F03C73E0001B63D /* TelegramShare.appex in CopyFiles */ = {isa = PBXBuildFile; fileRef = C232EA911E1D07E700C4D38C /* TelegramShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		27A35BDB2F03C73E0001B63D /* ImpulseMShare.appex in CopyFiles */ = {isa = PBXBuildFile; fileRef = C232EA911E1D07E700C4D38C /* ImpulseMShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		27A3F3186D8477CAC156B43F /* ProxyUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 7D600E220F3342D01F1516C2 /* ProxyUtils */; };
 		27A6978D273D192800B33415 /* libphonenumber in Frameworks */ = {isa = PBXBuildFile; productRef = 27A6978C273D192800B33415 /* libphonenumber */; };
 		27A69790273D1DE900B33415 /* FFMpegBinding in Frameworks */ = {isa = PBXBuildFile; productRef = 27A6978F273D1DE900B33415 /* FFMpegBinding */; };
@@ -1004,7 +1004,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				27A35BDB2F03C73E0001B63D /* TelegramShare.appex in CopyFiles */,
+				27A35BDB2F03C73E0001B63D /* ImpulseMShare.appex in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1800,7 +1800,7 @@
 		C2203E9F1DDE040F001E6AB6 /* libcommonCrypto.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcommonCrypto.tbd; path = usr/lib/system/libcommonCrypto.tbd; sourceTree = SDKROOT; };
 		C2303E891D9A76D800098E12 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C232EA3C1E1C06EF00C4D38C /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
-		C232EA911E1D07E700C4D38C /* TelegramShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TelegramShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C232EA911E1D07E700C4D38C /* ImpulseMShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ImpulseMShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C232EA941E1D07E700C4D38C /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		C232EA961E1D07E700C4D38C /* TelegramShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TelegramShare.entitlements; sourceTree = "<group>"; };
 		C232EA971E1D07E700C4D38C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -3363,7 +3363,7 @@
 			isa = PBXGroup;
 			children = (
 				D098C7151D7E175A007784E4 /* ImpulseM.app */,
-				C232EA911E1D07E700C4D38C /* TelegramShare.appex */,
+				C232EA911E1D07E700C4D38C /* ImpulseMShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3663,8 +3663,8 @@
 				2703762A2CA1FD92003EC235 /* libwebp */,
 				7110771E0000000000000003 /* TLottie */,
 			);
-			productName = TelegramShare;
-			productReference = C232EA911E1D07E700C4D38C /* TelegramShare.appex */;
+			productName = ImpulseMShare;
+			productReference = C232EA911E1D07E700C4D38C /* ImpulseMShare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		D098C7141D7E175A007784E4 /* Telegram */ = {
@@ -4954,7 +4954,8 @@
 				OTHER_LDFLAGS = "";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.impulsem.messenger.mac.share;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = TelegramShare;
+				PRODUCT_NAME = ImpulseMShare;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SHARE;
@@ -5007,7 +5008,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.impulsem.messenger.mac.share;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = TelegramShare;
+				PRODUCT_NAME = ImpulseMShare;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SHARE;
