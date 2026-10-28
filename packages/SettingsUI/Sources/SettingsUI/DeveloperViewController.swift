@@ -31,7 +31,6 @@ private final class Arguments {
     public let toggleNativeGraphicContext: () -> Void
     public let toggleDebugWebApp: () -> Void
     public let toggleNetwork: () -> Void
-    public let selectNetworkEngine: (NetworkEngineKind) -> Void
     public let toggleDownloads: () -> Void
     public let toggleCanViewPeerId: () -> Void
     public let crash: () -> Void
@@ -50,7 +49,6 @@ private final class Arguments {
          toggleNativeGraphicContext: @escaping () -> Void,
          toggleDebugWebApp: @escaping () -> Void,
          toggleNetwork: @escaping () -> Void,
-         selectNetworkEngine: @escaping (NetworkEngineKind) -> Void,
          toggleDownloads: @escaping () -> Void,
          toggleCanViewPeerId: @escaping () -> Void,
          crash: @escaping () -> Void,
@@ -69,7 +67,6 @@ private final class Arguments {
         self.toggleNativeGraphicContext = toggleNativeGraphicContext
         self.toggleDebugWebApp = toggleDebugWebApp
         self.toggleNetwork = toggleNetwork
-        self.selectNetworkEngine = selectNetworkEngine
         self.toggleDownloads = toggleDownloads
         self.toggleCanViewPeerId = toggleCanViewPeerId
         self.crash = crash
@@ -87,8 +84,6 @@ private struct State: Equatable {
     public var useNativeGraphicContext: Bool = false
     public var debugWebApp: Bool = false
     public var useNetworkFramework: Bool = false
-    public var networkEngine: NetworkEngineKind = .mtProtoKit
-    public var activeNetworkEngine: NetworkEngineKind = .mtProtoKit
     public var useExperimentalDownload: Bool = false
     public var canViewPeerId: Bool = false
     public var accessibilityTree: Bool = true
@@ -105,7 +100,6 @@ private let _id_animate_input_emoji = InputDataIdentifier("_id_animate_input_emo
 private let _id_native_graphic_context = InputDataIdentifier("_id_native_graphic_context")
 private let _id_debug_web_app = InputDataIdentifier("_id_debug_web_app")
 private let _id_network = InputDataIdentifier("_id_network")
-private let _id_network_engine = InputDataIdentifier("_id_network_engine")
 private let _id_downloads = InputDataIdentifier("_id_downloads")
 private let _id_show_peer_id = InputDataIdentifier("_id_show_peer_id")
 private let _id_crash = InputDataIdentifier("_id_crash")
@@ -182,31 +176,6 @@ private func entries(_ state: State, arguments: Arguments) -> [InputDataEntry] {
     entries.append(.general(sectionId: sectionId, index: index, value: .none, error: nil, identifier: _id_network, data: InputDataGeneralData(name: "Experimental Network", color: theme.colors.text, type: .switchable(state.useNetworkFramework), viewType: .firstItem, action: arguments.toggleNetwork)))
     index += 1
 
-    let networkEngineTitle: (NetworkEngineKind) -> String = { engine in
-        switch engine {
-        case .mtProtoKit:
-            return "MtProtoKit"
-        case .rust:
-            return "Rust"
-        case .impulse:
-            return "ImpulseM"
-        }
-    }
-    var networkEngineValue = networkEngineTitle(state.networkEngine)
-    if state.networkEngine != state.activeNetworkEngine {
-        networkEngineValue += " (active: \(networkEngineTitle(state.activeNetworkEngine)))"
-    }
-    let networkEngineItems: [ContextMenuItem] = [
-        ContextMenuItem("MtProtoKit", handler: {
-            arguments.selectNetworkEngine(.mtProtoKit)
-        }),
-        ContextMenuItem("Rust (restart required)", handler: {
-            arguments.selectNetworkEngine(.rust)
-        })
-    ]
-    entries.append(.general(sectionId: sectionId, index: index, value: .none, error: nil, identifier: _id_network_engine, data: InputDataGeneralData(name: "Network Engine", color: theme.colors.text, type: .contextSelector(networkEngineValue, networkEngineItems), viewType: .innerItem)))
-    index += 1
-
     entries.append(.general(sectionId: sectionId, index: index, value: .none, error: nil, identifier: _id_downloads, data: InputDataGeneralData(name: "Experimental Downloads", color: theme.colors.text, type: .switchable(state.useExperimentalDownload), viewType: .lastItem, action: arguments.toggleDownloads)))
     index += 1
 
@@ -248,8 +217,6 @@ public func DeveloperViewController(context: any AccountContextProtocol) -> Inpu
         useNativeGraphicContext: FastSettings.useNativeGraphicContext,
         debugWebApp: FastSettings.debugWebApp,
         useNetworkFramework: false,
-        networkEngine: .mtProtoKit,
-        activeNetworkEngine: context.account.network.engineKind,
         useExperimentalDownload: false,
         canViewPeerId: FastSettings.canViewPeerId,
         accessibilityTree: FastSettings.accessibilityTreeEnabled,
@@ -334,31 +301,6 @@ public func DeveloperViewController(context: any AccountContextProtocol) -> Inpu
             }
             return current
         }).start()
-    }, selectNetworkEngine: { engine in
-        if stateValue.with({ $0.networkEngine }) == engine {
-            return
-        }
-        _ = updateNetworkEngineSettings(accountManager: context.sharedContext.accountManager, { current in
-            var current = current
-            current.engine = engine
-            return current
-        }).start()
-        let network = context.account.network
-        if engine != network.engineKind {
-            if network.switchEngine(to: engine, reason: "developer settings") {
-                updateState { current in
-                    var current = current
-                    current.activeNetworkEngine = network.engineKind
-                    return current
-                }
-            } else if network.isRustEngineDisabled {
-                alert(for: context.window, header: "Network Engine", info: "The server disabled the Rust engine (mtproto_engine_rust_disabled).")
-            } else {
-                verifyAlert(for: context.window, header: "Network Engine", information: "Restart Telegram to switch the network engine.", ok: strings().commonRestart, successHandler: { _ in
-                    restartApp()
-                })
-            }
-        }
     }, toggleDownloads: {
         _ = updateNetworkSettingsInteractively(postbox: context.account.postbox, network: context.account.network, { current in
             var current = current
@@ -418,16 +360,14 @@ public func DeveloperViewController(context: any AccountContextProtocol) -> Inpu
     }
 
     actionsDisposable.add(combineLatest(queue: .mainQueue(),
-        context.sharedContext.accountManager.sharedData(keys: [SharedDataKeys.loggingSettings, SharedDataKeys.networkEngineSettings]),
+        context.sharedContext.accountManager.sharedData(keys: [SharedDataKeys.loggingSettings]),
         networkSignal
     ).start(next: { sharedData, networkSettings in
         let logging = sharedData.entries[SharedDataKeys.loggingSettings]?.get(LoggingSettings.self) ?? LoggingSettings.defaultSettings
-        let networkEngine = sharedData.entries[SharedDataKeys.networkEngineSettings]?.get(NetworkEngineSettings.self) ?? NetworkEngineSettings.defaultSettings
         updateState { current in
             var current = current
             current.logToFile = logging.logToFile
             current.useNetworkFramework = networkSettings.useNetworkFramework ?? false
-            current.networkEngine = networkEngine.engine
             current.useExperimentalDownload = networkSettings.useExperimentalDownload ?? false
             return current
         }
