@@ -21,5 +21,9 @@ let package = Package(
         .target(
             name: "ApiCredentials",
             dependencies: []),
+        .testTarget(
+            name: "ApiCredentialsTests",
+            dependencies: ["ApiCredentials"],
+            path: "Tests/ApiCredentialsTests"),
     ]
 )
