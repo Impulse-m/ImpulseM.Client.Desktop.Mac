@@ -24,6 +24,7 @@ import ChatHistoryModel
 import ChatUI
 import ChatModeTypes
 import InlineStickerLayer
+import ApiCredentials
 
 public struct PeerListHiddenItems : Equatable {
     public var archive: ItemHideStatus
@@ -2970,15 +2971,19 @@ open class PeersListController<Context: AccountContextProtocol>: TelegramGeneric
                     }
                 }, itemImage: MenuAnimation.menu_gear.value))
             } else {
-                let items = [ContextMenuItem(strings().composePopoverNewGroup, handler: { [weak self] in
+                var items: [ContextMenuItem] = [ContextMenuItem(strings().composePopoverNewGroup, handler: { [weak self] in
                     ChatListUIHooks.shared.composeCreateGroup(self?.context)
-                }, itemImage: MenuAnimation.menu_create_group.value),
-                ContextMenuItem(strings().composePopoverNewSecretChat, handler: { [weak self] in
-                    ChatListUIHooks.shared.composeCreateSecretChat(self?.context)
-                }, itemImage: MenuAnimation.menu_lock.value),
-                ContextMenuItem(strings().composePopoverNewChannel, handler: { [weak self] in
+                }, itemImage: MenuAnimation.menu_create_group.value)];
+
+                if ImpulseFeatures.SECRET_CHATS {
+                    items.append(ContextMenuItem(strings().composePopoverNewSecretChat, handler: { [weak self] in
+                        ChatListUIHooks.shared.composeCreateSecretChat(self?.context)
+                    }, itemImage: MenuAnimation.menu_lock.value))
+                }
+
+                items.append(ContextMenuItem(strings().composePopoverNewChannel, handler: { [weak self] in
                     ChatListUIHooks.shared.composeCreateChannel(self?.context)
-                }, itemImage: MenuAnimation.menu_channel.value)];
+                }, itemImage: MenuAnimation.menu_channel.value))
 
                 for item in items {
                     menu.addItem(item)

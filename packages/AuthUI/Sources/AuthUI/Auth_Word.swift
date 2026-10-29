@@ -1,6 +1,7 @@
 import TGUIKit
 import AppKit
 import TelegramCore
+import ApiCredentials
 import TelegramMedia
 import InputView
 import SwiftSignalKit
@@ -404,7 +405,7 @@ public final class Auth_WordView: View {
                 let secValue = sec > 9 ? "\(sec)" : "0\(sec)"
                 if timeout > 0 {
                     switch nextType {
-                    case .call:
+                    case .call where ImpulseFeatures.CALL_VERIFICATION:
                         nextText = strings().loginWillCall(minutes, secValue)
                         break
                     case .sms:
@@ -415,7 +416,7 @@ public final class Auth_WordView: View {
                     }
                 } else {
                     switch nextType {
-                    case .call:
+                    case .call where ImpulseFeatures.CALL_VERIFICATION:
                         nextText = strings().loginPhoneDialed
                         break
                     default:

@@ -10,6 +10,7 @@ import TelegramContext
 import TelegramUtils
 import AlertsUI
 import WallpaperUI
+import ApiCredentials
 
 enum SettingsSearchableItemIcon {
     case profile
@@ -200,7 +201,7 @@ private func profileSearchableItems<Context: AccountContextProtocol>(context: Co
     }))
     if canAddAccount {
         items.append(SettingsSearchableItem(id: .profile(4), title: strings().editAccountAddAccount, alternate: synonyms(strings().settingsSearchSynonymsEditProfileAddAccount), icon: icon, breadcrumbs: [strings().editAccountTitle], present: { context, _, present in
-            let isTestingEnvironment = NSApp.currentEvent?.modifierFlags.contains(.command) == true
+            let isTestingEnvironment: Bool = ImpulseFeatures.TEST_BACKEND && NSApp.currentEvent?.modifierFlags.contains(.command) == true
             context.sharedContext.beginNewAuth(testingEnvironment: isTestingEnvironment)
         }))
     }
@@ -681,14 +682,18 @@ func settingsSearchableItems<Context: AccountContextProtocol>(context: Context, 
                     }
                 })
             })
-            allItems.append(support)
+            if ImpulseFeatures.HELP_SECTION {
+                allItems.append(support)
+            }
             
             let faq = SettingsSearchableItem<Context>(id: .faq(0), title: strings().accountSettingsFAQ, alternate: synonyms(strings().settingsSearchSynonymsFAQ), icon: .faq, breadcrumbs: [], present: { context, navigationController, present in
                 let _ = (cachedFaqInstantPage(context: context) |> deliverOnMainQueue).start(next: { resolvedUrl in
                     SettingsHooks.shared.executeInAppLink(resolvedUrl)
                 })
             })
-            allItems.append(faq)
+            if ImpulseFeatures.HELP_SECTION {
+                allItems.append(faq)
+            }
             
             return allItems
     }

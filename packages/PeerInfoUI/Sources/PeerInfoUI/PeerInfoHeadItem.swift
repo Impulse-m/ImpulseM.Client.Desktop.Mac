@@ -24,6 +24,7 @@ import TelegramContext
 import TelegramTheme
 import TelegramUtils
 import InlineStickerLayer
+import ApiCredentials
 
 private func profileButtonColor(over background: NSColor, isDark: Bool) -> NSColor {
     let base = background.usingColorSpace(.sRGB) ?? background
@@ -97,7 +98,7 @@ private func actionItems<Context: AccountContextProtocol>(item: PeerInfoHeadItem
         if !peer.isBot {
             
             let payStars = (item.peerView.cachedData as? CachedUserData)?.sendPaidMessageStars != nil
-            if !(item.peerView.peers[item.peerView.peerId] is TelegramSecretChat), arguments.context.peerId != peer.id, !isServicePeer(peer) && !peer.rawDisplayTitle.isEmpty, !payStars {
+            if ImpulseFeatures.SECRET_CHATS, !(item.peerView.peers[item.peerView.peerId] is TelegramSecretChat), arguments.context.peerId != peer.id, !isServicePeer(peer) && !peer.rawDisplayTitle.isEmpty, !payStars {
                 items.append(ActionItem(text: strings().peerInfoActionSecretChat, color: item.accentColor, image: theme.icons.profile_secret_chat, animation: .menu_lock, action: arguments.startSecretChat))
             }
             if peer.id != item.context.peerId, item.peerView.peerIsContact, peer.phone != nil {
@@ -211,9 +212,11 @@ private func actionItems<Context: AccountContextProtocol>(item: PeerInfoHeadItem
             }))
         }
         if peer.isSupergroup {
-            items.append(ActionItem(text: strings().peerInfoActionBoostGroup, color: item.accentColor, image: theme.icons.profile_boost, animation: .menu_boost, action: {
-                arguments.boosts(peer.groupAccess)
-            }))
+            if ImpulseFeatures.BOOSTS {
+                items.append(ActionItem(text: strings().peerInfoActionBoostGroup, color: item.accentColor, image: theme.icons.profile_boost, animation: .menu_boost, action: {
+                    arguments.boosts(peer.groupAccess)
+                }))
+            }
             if peer.groupAccess.canEditGroupInfo {
                 items.append(ActionItem(text: strings().peerInfoActionAcrhivedStories, color: item.accentColor, image: theme.icons.profile_archive, animation: .menu_archive, action: {
                     arguments.archiveStories()
@@ -336,9 +339,11 @@ private func actionItems<Context: AccountContextProtocol>(item: PeerInfoHeadItem
             }
         }
         
-        items.append(ActionItem(text: strings().peerInfoActionBoostChannel, color: item.accentColor, image: theme.icons.profile_boost, animation: .menu_boost, action: {
-            arguments.boosts(peer.groupAccess)
-        }))
+        if ImpulseFeatures.BOOSTS {
+            items.append(ActionItem(text: strings().peerInfoActionBoostChannel, color: item.accentColor, image: theme.icons.profile_boost, animation: .menu_boost, action: {
+                arguments.boosts(peer.groupAccess)
+            }))
+        }
         
         if peer.groupAccess.canEditGroupInfo {
             

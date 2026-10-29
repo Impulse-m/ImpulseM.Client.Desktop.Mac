@@ -9,6 +9,7 @@ import Localization
 import ColorPalette
 import InAppSettings
 import TelegramTheme
+import ApiCredentials
 import TelegramContext
 import TelegramUtils
 import GeneralRows
@@ -644,7 +645,7 @@ public func EditAccountInfoController<Context: AccountContextProtocol>(context: 
         let phoneRow = getController?()?.tableView.item(stableId: InputDataEntryId.general(_id_phone))?.view as? GeneralContainableRowView
         showModal(with: navigation, for: context.window, morphSource: { [weak phoneRow] in phoneRow?.containerView })
     }, addAccount: {
-        let testingEnvironment = NSApp.currentEvent?.modifierFlags.contains(.command) == true
+        let testingEnvironment: Bool = ImpulseFeatures.TEST_BACKEND && NSApp.currentEvent?.modifierFlags.contains(.command) == true
         context.sharedContext.beginNewAuth(testingEnvironment: testingEnvironment)
     }, userNameColor: {
         context.bindings.rootNavigation().push(SettingsHooks.shared.makeSelectColorParentController(context, stateValue.with { $0.peer! }))

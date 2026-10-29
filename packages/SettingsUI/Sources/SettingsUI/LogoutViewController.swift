@@ -18,6 +18,7 @@ import InAppSettings
 import AvatarUI
 import ShortPeerRow
 import LocalAnimations
+import ApiCredentials
 
 private struct LogoutControllerState : Equatable {
     
@@ -101,7 +102,7 @@ public func LogoutViewController<Context: AccountContextProtocol>(context: Conte
     let logoutConfirmationDisposable = MetaDisposable()
 
     let arguments = LogoutControllerArguments(addAccount: {
-        let testingEnvironment = NSApp.currentEvent?.modifierFlags.contains(.command) == true
+        let testingEnvironment: Bool = ImpulseFeatures.TEST_BACKEND && NSApp.currentEvent?.modifierFlags.contains(.command) == true
         context.sharedContext.beginNewAuth(testingEnvironment: testingEnvironment)
     }, setPasscode: {
         closeAllModals()

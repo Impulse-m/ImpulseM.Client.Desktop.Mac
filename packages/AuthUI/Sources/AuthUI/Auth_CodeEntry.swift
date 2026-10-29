@@ -1,6 +1,7 @@
 import Foundation
 import TGUIKit
 import TelegramCore
+import ApiCredentials
 import AppKit
 import SwiftSignalKit
 import TelegramMedia
@@ -309,7 +310,7 @@ public final class Auth_CodeEntryView: View {
                 let secValue = sec > 9 ? "\(sec)" : "0\(sec)"
                 if timeout > 0 {
                     switch nextType {
-                    case .call:
+                    case .call where ImpulseFeatures.CALL_VERIFICATION:
                         nextText = strings().loginWillCall(minutes, secValue)
                         break
                     case .sms:
@@ -320,7 +321,7 @@ public final class Auth_CodeEntryView: View {
                     }
                 } else {
                     switch nextType {
-                    case .call:
+                    case .call where ImpulseFeatures.CALL_VERIFICATION:
                         nextText = strings().loginPhoneDialed
                         break
                     default:
