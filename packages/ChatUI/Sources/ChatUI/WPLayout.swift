@@ -15,6 +15,7 @@ import TelegramTheme
 import TelegramUtils
 import InlineStickerLayer
 import StarsUI
+import ApiCredentials
 
 
 public struct WPLayoutPresentation {
@@ -564,7 +565,7 @@ public class WPLayout: Equatable {
     }
     
     public var isProxyConfig: Bool {
-        return content.type == "proxy"
+        return ImpulseFeatures.PROXY && content.type == "proxy"
     }
     
     public var proxyConfig: ProxyServerSettings? {

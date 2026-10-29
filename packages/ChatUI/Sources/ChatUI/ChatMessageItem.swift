@@ -23,6 +23,7 @@ import TelegramMediaUtils
 import TelegramTheme
 import TelegramUtils
 import InlineStickerLayer
+import ApiCredentials
 
 
 private func openCalendarWithEvent(date: Date, title: String) {
@@ -87,7 +88,7 @@ public class ChatMessageItem: ChatRowItem {
     
     public override var isSharable: Bool {
         if let webpage = webpageLayout {
-            if webpage.content.type == "proxy" {
+            if ImpulseFeatures.PROXY && webpage.content.type == "proxy" {
                 return true
             }
         }

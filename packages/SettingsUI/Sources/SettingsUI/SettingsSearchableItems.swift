@@ -502,7 +502,7 @@ private func proxySearchableItems<Context: AccountContextProtocol>(context: Cont
             break
         }
     }
-    if hasSocksServers {
+    if ImpulseFeatures.PROXY && hasSocksServers {
         items.append(SettingsSearchableItem(id: .proxy(2), title: strings().proxySettingsUseForCalls, alternate: synonyms(strings().settingsSearchSynonymsProxyUseForCalls), icon: icon, breadcrumbs: [strings().accountSettingsProxy], present: { context, _, present in
             presentProxySettings(context, present)
         }))
