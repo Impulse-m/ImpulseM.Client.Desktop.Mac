@@ -23,6 +23,7 @@ import AlertsUI
 import FilePanels
 import GeneralRows
 import InputDataUI
+import ApiCredentials
 import InputTextView
 import InstantPageUI
 import LocalAnimations
@@ -528,6 +529,7 @@ public func RichTextEditorController(context: any AccountContextProtocol, initia
         close?()
     }
     coordinator.aiAction.action = { [weak coordinator] in
+        guard ImpulseFeatures.AI_COMPOSE else { return }
         guard let coordinator else { return }
         guard context.isPremium else {
             showModalText(for: context.window, text: strings().richTextEditorWindowAiPremiumRequired, button: strings().alertLearnMore, callback: { _ in
@@ -1109,9 +1111,10 @@ public final class RichTextEditorCoordinator {
         addPremiumStarBadge(tableButton)
         addPremiumStarBadge(aiButton)
 
+        let aiControl: NSView? = ImpulseFeatures.AI_COMPOSE ? aiButton : nil
         self.toolbar = EditorToolbarView(
             left: [closeButton],
-            ai: aiButton,
+            ai: aiControl,
             center: [formatButton, listButton, quoteButton, tableButton, attachButton, linkButton, emojiButton],
             send: sendButton
         )

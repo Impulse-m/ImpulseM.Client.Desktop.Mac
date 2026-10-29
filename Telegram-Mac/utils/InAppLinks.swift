@@ -2504,7 +2504,7 @@ func inApp(for url:NSString, context: AccountContext? = nil, peerId:PeerId? = ni
         guard let context else { return .nothing }
         return .createBot(link: link, context: context, managerUsername: managerUsername, botUsername: botUsername, title: title)
     case let .addStyle(link, slug):
-        guard let context else { return .nothing }
+        guard ImpulseFeatures.AI_COMPOSE, let context else { return .nothing }
         return .addStyle(link: link, slug: slug, context: context)
     }
 }
