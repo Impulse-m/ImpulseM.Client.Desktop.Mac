@@ -37,7 +37,6 @@ let deps: [(String, String)] = [
     ("CallsUI", "../CallsUI"),
     ("ChatModeTypes", "../ChatModeTypes"),
     ("EntertainmentUI", "../EntertainmentUI"),
-    ("TgVoipWebrtc", "../../submodules/tgcalls"),
     ("PushToTalk", "../PushToTalk"),
     ("InlineStickerLayer", "../InlineStickerLayer"),
 ]

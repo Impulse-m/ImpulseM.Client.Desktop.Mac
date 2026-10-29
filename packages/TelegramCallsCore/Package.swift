@@ -4,14 +4,12 @@ import PackageDescription
 import Foundation
 
 let coreLibraries: [(path: String, name: String)] = [
-    ("webrtc/build/webrtc", "mac_framework_objc_static"),
     ("openssl/build/openssl/lib", "ssl"),
     ("openssl/build/openssl/lib", "crypto"),
     ("ffmpeg/build/ffmpeg/lib", "avformat"),
     ("ffmpeg/build/ffmpeg/lib", "avcodec"),
     ("ffmpeg/build/ffmpeg/lib", "swresample"),
     ("ffmpeg/build/ffmpeg/lib", "avutil"),
-    ("OpenH264/build/output/lib", "openh264"),
     ("libvpx/build/libvpx/lib", "vpx"),
     ("dav1d/build/dav1d/lib", "dav1d"),
     ("libopus/build/libopus/lib", "opus"),
@@ -37,7 +35,6 @@ let package = Package(
         .package(name: "TelegramCore", path: "../../submodules/telegram-ios/submodules/TelegramCore"),
         .package(name: "Postbox", path: "../../submodules/telegram-ios/submodules/Postbox"),
         .package(name: "TelegramVoip", path: "../../submodules/telegram-ios/submodules/TelegramVoip"),
-        .package(name: "TgVoipWebrtc", path: "../../submodules/tgcalls"),
         .package(url: "https://github.com/livekit/client-sdk-swift.git", .exact("2.19.0")),
         .package(name: "TdBinding", path: "../../submodules/telegram-ios/third-party/td/TdBinding"),
         .package(name: "TGUIKit", path: "../TGUIKit"),
@@ -62,7 +59,6 @@ let package = Package(
                 .product(name: "TelegramCore", package: "TelegramCore", condition: nil),
                 .product(name: "Postbox", package: "Postbox", condition: nil),
                 .product(name: "TelegramVoip", package: "TelegramVoip", condition: nil),
-                .product(name: "TgVoipWebrtc", package: "TgVoipWebrtc", condition: nil),
                 .product(name: "LiveKit", package: "client-sdk-swift", condition: nil),
                 .product(name: "TdBinding", package: "TdBinding", condition: nil),
                 .product(name: "TGUIKit", package: "TGUIKit", condition: nil),
