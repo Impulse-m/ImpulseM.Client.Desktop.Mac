@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'ci/**'
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -80,6 +81,12 @@ jobs:
             git clone --depth 1 https://github.com/Impulse-m/ImpulseM.Centrifugo.Client.Swift.git "$SDK_DIR"
           fi
 
+      - name: Check brand strings
+        run: |
+          set -eu
+          python3 -I -m unittest discover -s tools/brand_check -p "test_*.py"
+          python3 -I tools/brand_check/check_strings.py Telegram-Mac/en.lproj/Localizable.strings
+
       - name: Test ImpulseTransport and ApiCredentials packages
         timeout-minutes: 60
         run: |
@@ -136,6 +143,18 @@ jobs:
             exit 1
           fi
           swift test --package-path packages/ApiCredentials 2>&1 | tee build-logs/swift-test-api-credentials.log
+
+      - name: Dev-stack smoke checks
+        if: ${{ vars.IMPULSEM_DEV_STACK_BASE_URL != '' }}
+        timeout-minutes: 10
+        env:
+          IMPULSEM_DEV_STACK: '1'
+          IMPULSEM_DEV_STACK_BASE_URL: ${{ vars.IMPULSEM_DEV_STACK_BASE_URL }}
+          IMPULSEM_DEV_STACK_PHONE: ${{ vars.IMPULSEM_DEV_STACK_PHONE }}
+        run: |
+          set -o pipefail
+          mkdir -p build-logs
+          swift test --skip-build --package-path submodules/telegram-ios/submodules/ImpulseTransport --filter DevStack 2>&1 | tee build-logs/swift-test-dev-stack.log
 
       - name: Neutralise clang lifetimebound in abseil
         run: |
@@ -237,6 +256,16 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Report app entitlements
+        if: success()
+        run: |
+          set -u
+          mkdir -p build-logs
+          APP_PATH="${{ steps.locate-app.outputs.app_path }}"
+          # Report only: unsigned builds carry no entitlements, so this step never fails the job.
+          codesign -d --entitlements :- "$APP_PATH" > build-logs/app-entitlements.plist 2>&1 || true
+          cat build-logs/app-entitlements.plist
+
       - name: Test TelegramLinks package
         run: |
           set -o pipefail
@@ -249,6 +278,14 @@ jobs:
           set -o pipefail
           mkdir -p build-logs
           swift test --package-path submodules/telegram-ios/submodules/ImpulseNetworkEngine 2>&1 | tee build-logs/swift-test-impulse-network-engine.log
+
+      - name: Test ImpulseProxy and ColorPalette packages
+        timeout-minutes: 45
+        run: |
+          set -o pipefail
+          mkdir -p build-logs
+          swift test --package-path packages/ImpulseProxy 2>&1 | tee build-logs/swift-test-impulse-proxy.log
+          swift test --package-path packages/ColorPalette 2>&1 | tee build-logs/swift-test-color-palette.log
 
       - name: Report disk space after build
         if: always()
