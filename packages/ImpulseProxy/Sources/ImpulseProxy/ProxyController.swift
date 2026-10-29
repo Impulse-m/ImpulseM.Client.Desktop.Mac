@@ -159,6 +159,8 @@ public final class ProxyController: XrayCoreLifecycle, @unchecked Sendable {
     /// Receives the new epoch after the route or the core runtime changed. Runs on the thread that made the change,
     /// sometimes on the worker, so an observer must stay quick and must not call the controller.
     public typealias EpochObserver = @Sendable (Int) -> Void
+    /// Receives the new status each time it changes. Runs on the thread that changed the status.
+    public typealias StatusObserver = @Sendable (ProxyStatus) -> Void
     /// Receives the settings after every update, so the owner can store them.
     public typealias Persist = @Sendable (ImpulseProxyState) -> Void
     /// Runs a closure on the worker after a delay in seconds.
@@ -220,6 +222,20 @@ public final class ProxyController: XrayCoreLifecycle, @unchecked Sendable {
     private static let userByteCount: Int = 16
     private static let passwordByteCount: Int = 24
 
+    private struct EpochObserverEntry {
+        let identifier: Int
+        let observation: ProxyObservation
+        let handler: EpochObserver
+    }
+
+
+    private struct StatusObserverEntry {
+        let identifier: Int
+        let observation: ProxyObservation
+        let handler: StatusObserver
+    }
+
+
     private let lock: NSLock = NSLock()
     private let worker: DispatchQueue
     private let driver: XrayCoreDriver
@@ -234,7 +250,10 @@ public final class ProxyController: XrayCoreLifecycle, @unchecked Sendable {
     private var publishedRoute: ProxyRoute
     private var publishedRuntime: ProxyRuntime?
     private var epochValue: Int = 0
-    private var observers: [EpochObserver] = []
+    private var publishedStatus: ProxyStatus
+    private var nextObserverIdentifier: Int = 0
+    private var epochObserverEntries: [EpochObserverEntry] = []
+    private var statusObserverEntries: [StatusObserverEntry] = []
 
 
     public init(
@@ -254,8 +273,10 @@ public final class ProxyController: XrayCoreLifecycle, @unchecked Sendable {
         self.driver = driver
         self.persistHandler = persist
         self.scheduler = scheduler ?? defaultScheduler
+        let initialStatus: ProxyStatus = initialState.enabled ? ProxyStatus.starting : ProxyStatus.off
         self.state = initialState
-        self.statusValue = initialState.enabled ? ProxyStatus.starting : ProxyStatus.off
+        self.statusValue = initialStatus
+        self.publishedStatus = initialStatus
         self.publishedRoute = ProxyRouting.decide(
             enabled: initialState.enabled,
             useForTransport: initialState.useForTransport,
@@ -265,12 +286,58 @@ public final class ProxyController: XrayCoreLifecycle, @unchecked Sendable {
 
 
     /// Registers an observer of the route epoch. Observers must be quick; they run on the thread that changed the state.
+    /// Cancel the returned handle to stop the delivery.
+    @discardableResult
     public func observeEpoch(
         _ observer: @escaping EpochObserver
-    ) {
-        locked { () -> Void in
-            observers.append(observer)
+    ) -> ProxyObservation {
+        let identifier: Int = locked { () -> Int in
+            nextObserverIdentifier += 1
+            return nextObserverIdentifier
         }
+        let observation: ProxyObservation = ProxyObservation(
+            onCancel: { [weak self] () -> Void in
+                self?.removeEpochObserver(identifier: identifier)
+            }
+        )
+        locked { () -> Void in
+            epochObserverEntries.append(
+                EpochObserverEntry(
+                    identifier: identifier,
+                    observation: observation,
+                    handler: observer
+                )
+            )
+        }
+        return observation
+    }
+
+
+    /// Registers an observer of the status. It is called on each change of the status, not with the current value.
+    /// Cancel the returned handle to stop the delivery.
+    @discardableResult
+    public func observeStatus(
+        _ observer: @escaping StatusObserver
+    ) -> ProxyObservation {
+        let identifier: Int = locked { () -> Int in
+            nextObserverIdentifier += 1
+            return nextObserverIdentifier
+        }
+        let observation: ProxyObservation = ProxyObservation(
+            onCancel: { [weak self] () -> Void in
+                self?.removeStatusObserver(identifier: identifier)
+            }
+        )
+        locked { () -> Void in
+            statusObserverEntries.append(
+                StatusObserverEntry(
+                    identifier: identifier,
+                    observation: observation,
+                    handler: observer
+                )
+            )
+        }
+        return observation
     }
 
 
@@ -312,6 +379,7 @@ public final class ProxyController: XrayCoreLifecycle, @unchecked Sendable {
             }
         }
         notifyChanged()
+        notifyStatusIfChanged()
     }
 
 
@@ -427,6 +495,7 @@ public final class ProxyController: XrayCoreLifecycle, @unchecked Sendable {
                 lastErrorValue = nil
             }
             notifyChanged()
+            notifyStatusIfChanged()
             scheduleHealthCheck(generation: generationValue)
         } catch {
             setStatus(
@@ -539,12 +608,38 @@ public final class ProxyController: XrayCoreLifecycle, @unchecked Sendable {
             }
         }
         notifyChanged()
+        notifyStatusIfChanged()
+    }
+
+
+    // Publishes the status to the status observers when it differs from the last status they were given.
+    private func notifyStatusIfChanged() {
+        var observersToCall: [StatusObserverEntry] = []
+        var changedStatus: ProxyStatus = ProxyStatus.off
+        var changed: Bool = false
+        locked { () -> Void in
+            if statusValue == publishedStatus {
+                return
+            }
+            publishedStatus = statusValue
+            changedStatus = statusValue
+            changed = true
+            observersToCall = statusObserverEntries
+        }
+        if !changed {
+            return
+        }
+        for entry: StatusObserverEntry in observersToCall {
+            if entry.observation.isActive {
+                entry.handler(changedStatus)
+            }
+        }
     }
 
 
     // Publishes the epoch when the route or the runtime differs from what the transport last saw.
     private func notifyChanged() {
-        var observersToCall: [EpochObserver] = []
+        var observersToCall: [EpochObserverEntry] = []
         var changedEpoch: Int = 0
         var changed: Bool = false
         locked { () -> Void in
@@ -562,13 +657,37 @@ public final class ProxyController: XrayCoreLifecycle, @unchecked Sendable {
             epochValue += 1
             changedEpoch = epochValue
             changed = true
-            observersToCall = observers
+            observersToCall = epochObserverEntries
         }
         if !changed {
             return
         }
-        for observer: EpochObserver in observersToCall {
-            observer(changedEpoch)
+        for entry: EpochObserverEntry in observersToCall {
+            if entry.observation.isActive {
+                entry.handler(changedEpoch)
+            }
+        }
+    }
+
+
+    private func removeEpochObserver(
+        identifier: Int
+    ) {
+        locked { () -> Void in
+            epochObserverEntries.removeAll { (entry: EpochObserverEntry) -> Bool in
+                return entry.identifier == identifier
+            }
+        }
+    }
+
+
+    private func removeStatusObserver(
+        identifier: Int
+    ) {
+        locked { () -> Void in
+            statusObserverEntries.removeAll { (entry: StatusObserverEntry) -> Bool in
+                return entry.identifier == identifier
+            }
         }
     }
 

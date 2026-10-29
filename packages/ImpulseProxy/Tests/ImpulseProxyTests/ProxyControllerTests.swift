@@ -257,6 +257,40 @@ final class EpochRecorder: @unchecked Sendable {
 }
 
 
+/// Records every status the controller publishes to its status observer.
+final class StatusRecorder: @unchecked Sendable {
+    private let lock: NSLock = NSLock()
+    private var recorded: [ProxyStatus] = []
+
+
+    var values: [ProxyStatus] {
+        return locked { () -> [ProxyStatus] in
+            return recorded
+        }
+    }
+
+
+    func record(
+        _ status: ProxyStatus
+    ) {
+        locked { () -> Void in
+            recorded.append(status)
+        }
+    }
+
+
+    private func locked<T>(
+        _ body: () -> T
+    ) -> T {
+        lock.lock()
+        defer {
+            lock.unlock()
+        }
+        return body()
+    }
+}
+
+
 final class ProxyControllerTests: XCTestCase {
     private static let validOutbound: String = #"{"protocol":"vless","tag":"proxy","settings":{"vnext":[{"address":"h.example","port":443,"users":[{"id":"11111111-1111-1111-1111-111111111111","encryption":"none"}]}]},"streamSettings":{"network":"tcp","security":"tls","tlsSettings":{"serverName":"a"}}}"#
 
@@ -606,6 +640,98 @@ final class ProxyControllerTests: XCTestCase {
         controller.restartCore()
         let second: String = try XCTUnwrap(controller.runtime?.httpAccess.credentials.password)
         XCTAssertNotEqual(first, second)
+    }
+
+
+    func testStatusObserverSeesOffStartingRunningAndFailed() {
+        let driver: FakeXrayCoreDriver = FakeXrayCoreDriver()
+        let scheduler: FakeHealthScheduler = FakeHealthScheduler()
+        let recorder: StatusRecorder = StatusRecorder()
+        let controller: ProxyController = ProxyControllerTests.makeController(
+            state: ProxyControllerTests.state(enabled: true, selectedId: "a"),
+            driver: driver,
+            scheduler: scheduler
+        )
+        controller.observeStatus { (status: ProxyStatus) -> Void in
+            recorder.record(status)
+        }
+        controller.startIfEnabled()
+        controller.drainWorker()
+        XCTAssertEqual(recorder.values, [.running])
+
+        controller.update { (next: inout ImpulseProxyState) -> Void in
+            next.enabled = false
+        }
+        controller.drainWorker()
+        XCTAssertEqual(recorder.values, [.running, .starting, .off])
+
+        controller.update { (next: inout ImpulseProxyState) -> Void in
+            next.enabled = true
+            next.selectedId = nil
+        }
+        controller.drainWorker()
+        XCTAssertEqual(recorder.values, [.running, .starting, .off, .starting, .failed])
+    }
+
+
+    func testStartingToFailedReachesStatusObserverWithoutAnEpoch() {
+        let driver: FakeXrayCoreDriver = FakeXrayCoreDriver()
+        let scheduler: FakeHealthScheduler = FakeHealthScheduler()
+        let epochRecorder: EpochRecorder = EpochRecorder()
+        let statusRecorder: StatusRecorder = StatusRecorder()
+        let controller: ProxyController = ProxyControllerTests.makeController(
+            state: ProxyControllerTests.state(enabled: true, selectedId: nil),
+            driver: driver,
+            scheduler: scheduler
+        )
+        controller.observeEpoch { (epoch: Int) -> Void in
+            epochRecorder.record(epoch)
+        }
+        controller.observeStatus { (status: ProxyStatus) -> Void in
+            statusRecorder.record(status)
+        }
+        controller.startIfEnabled()
+        controller.drainWorker()
+        XCTAssertEqual(controller.status, .failed)
+        XCTAssertEqual(controller.route, .blocked)
+        XCTAssertNil(controller.runtime)
+        XCTAssertEqual(epochRecorder.count, 0)
+        XCTAssertEqual(statusRecorder.values, [.failed])
+    }
+
+
+    func testCancelledObservationsGetNoFurtherChanges() {
+        let driver: FakeXrayCoreDriver = FakeXrayCoreDriver()
+        let scheduler: FakeHealthScheduler = FakeHealthScheduler()
+        let cancelledEpochs: EpochRecorder = EpochRecorder()
+        let cancelledStatuses: StatusRecorder = StatusRecorder()
+        let keptStatuses: StatusRecorder = StatusRecorder()
+        let controller: ProxyController = ProxyControllerTests.makeController(
+            state: ProxyControllerTests.state(enabled: true, selectedId: "a"),
+            driver: driver,
+            scheduler: scheduler
+        )
+        let epochObservation: ProxyObservation = controller.observeEpoch { (epoch: Int) -> Void in
+            cancelledEpochs.record(epoch)
+        }
+        let statusObservation: ProxyObservation = controller.observeStatus { (status: ProxyStatus) -> Void in
+            cancelledStatuses.record(status)
+        }
+        controller.observeStatus { (status: ProxyStatus) -> Void in
+            keptStatuses.record(status)
+        }
+        epochObservation.cancel()
+        statusObservation.cancel()
+        statusObservation.cancel()
+        XCTAssertFalse(epochObservation.isActive)
+        XCTAssertFalse(statusObservation.isActive)
+
+        controller.startIfEnabled()
+        controller.drainWorker()
+        XCTAssertEqual(controller.status, .running)
+        XCTAssertEqual(cancelledEpochs.count, 0)
+        XCTAssertEqual(cancelledStatuses.values, [])
+        XCTAssertEqual(keptStatuses.values, [.running])
     }
 
 
