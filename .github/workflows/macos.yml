@@ -190,6 +190,7 @@ jobs:
           START_SECONDS="$(date +%s)"
           sh scripts/configure_frameworks.sh 2>&1 | tee build-logs/configure-frameworks.log
           echo "configure_frameworks.sh took $(( $(date +%s) - START_SECONDS )) seconds"
+          df -h /
 
       - name: Save native framework cache
         if: always() && steps.native-cache.outputs.cache-hit != 'true'
@@ -216,6 +217,7 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             build 2>&1 | tee build-logs/xcodebuild.log
           echo "xcodebuild took $(( $(date +%s) - START_SECONDS )) seconds"
+          df -h /
 
       - name: Locate unsigned app bundle
         if: success()
