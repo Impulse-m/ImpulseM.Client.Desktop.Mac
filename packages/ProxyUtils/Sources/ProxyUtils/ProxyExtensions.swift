@@ -63,6 +63,38 @@ public extension ProxySettings {
 }
 
 public extension ProxyServerSettings {
+    var link: String {
+        let prefix: String
+        switch self.connection {
+        case .mtp:
+            prefix = "proxy"
+        case .socks5:
+            prefix = "socks"
+        case .web:
+            prefix = "webproxy"
+        }
+        var link: String
+        if case .web = self.connection {
+            return webProxySettingsLink(self) ?? ""
+        } else {
+            link = "tg://\(prefix)?server=\(self.host)&port=\(self.port)"
+        }
+        switch self.connection {
+        case let .mtp(secret):
+            link += "&secret=\((secret as NSData).hexString)"
+        case let .socks5(username, password):
+            if let username = username {
+                link += "&user=\(username)"
+            }
+            if let password = password {
+                link += "&pass=\(password)"
+            }
+        case .web:
+            break
+        }
+        return link
+    }
+
     var isEmpty: Bool {
         if host.isEmpty {
             return true
