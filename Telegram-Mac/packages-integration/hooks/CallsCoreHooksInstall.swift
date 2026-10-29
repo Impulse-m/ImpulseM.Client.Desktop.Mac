@@ -5,7 +5,6 @@ import TelegramCore
 import SwiftSignalKit
 import TelegramCallsCore
 import TelegramMediaUtils
-import TgVoipWebrtc
 
 func installCallsCoreUIHooks() {
     installCallsCoreHooks(.init(presentUpgradedConferenceCall: { sharedContext, conferenceCall, accountContext, window in
@@ -18,7 +17,7 @@ func installCallsCoreUIHooks() {
         sharedContext.peerCall?.onCompletion?()
         applyGroupCallResult(sharedContext, callContext)
     }, presentScreenCapturePicker: { devices, microIsOff, select in
-        return presentDesktopCapturerWindow(mode: .screencast, select: { source, value in
+        return presentDesktopCapturerWindow(mode: .screencast, select: { (source: CallCaptureSource, value: Bool) in
             select(source, value)
         }, devices: devices, microIsOff: microIsOff)
     }, showCall: { session in

@@ -1,7 +1,6 @@
 import Foundation
 import LiveKit
 import TelegramVoip
-import TgVoipWebrtc
 
 
 /// Whether the macOS screen picker can list and share screens. ScreenCaptureKit sources need macOS 12.3.
@@ -15,7 +14,7 @@ public func macOSScreenShareSupported() -> Bool {
 
 
 /// One display or window that the desktop picker lists. It wraps the LiveKit capture source that the screen share track is built from.
-public final class MacOSScreenPickerSource : VideoSourceMac, Equatable {
+public final class MacOSScreenPickerSource : CallCaptureSource, Equatable {
     private let titleValue: String
     private let identifier: String
     private let capturerFactory: () -> OngoingCallVideoCapturer?

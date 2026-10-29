@@ -404,7 +404,7 @@ public class PCallSession {
     private let isVideoAvailable: Bool
     private var videoIsForceDisabled: Bool
     public private(set) var isScreenCapture: Bool
-    private var screenCaptureSource: VideoSourceMac?
+    private var screenCaptureSource: CallCaptureSource?
     private let enableStunMarking: Bool
     private let enableTCP: Bool
     public let preferredVideoCodec: String?
@@ -1224,7 +1224,7 @@ public class PCallSession {
         }
     }
     
-    public func enableScreenCapture(_ source: VideoSourceMac) {
+    public func enableScreenCapture(_ source: CallCaptureSource) {
         
         let id = source.deviceIdKey()
         

@@ -5,14 +5,13 @@ import TelegramCore
 import SwiftSignalKit
 import TelegramContext
 import TelegramMediaUtils
-import TgVoipWebrtc
 import AVFoundation
 import SystemPermissions
 import ProxyUtils
 
 public struct CallsCoreHooks {
     public let presentUpgradedConferenceCall: (any SharedAccountContextProtocol, PresentationGroupCallImpl, any AccountContextProtocol, Window) -> Void
-    public let presentScreenCapturePicker: (DevicesContext, Bool, @escaping (VideoSourceMac, Bool) -> Void) -> NSWindow?
+    public let presentScreenCapturePicker: (DevicesContext, Bool, @escaping (CallCaptureSource, Bool) -> Void) -> NSWindow?
     public let showCall: (PCallSession) -> Void
     public let accountContext: (AccountRecordId) -> (any AccountContextProtocol)?
     public let activeWindow: () -> Window?
@@ -22,7 +21,7 @@ public struct CallsCoreHooks {
     public let verifyAlert: (Window, String, String, String, String?, @escaping (Bool) -> Void) -> Void
 
     public init(presentUpgradedConferenceCall: @escaping (any SharedAccountContextProtocol, PresentationGroupCallImpl, any AccountContextProtocol, Window) -> Void,
-                presentScreenCapturePicker: @escaping (DevicesContext, Bool, @escaping (VideoSourceMac, Bool) -> Void) -> NSWindow?,
+                presentScreenCapturePicker: @escaping (DevicesContext, Bool, @escaping (CallCaptureSource, Bool) -> Void) -> NSWindow?,
                 showCall: @escaping (PCallSession) -> Void,
                 accountContext: @escaping (AccountRecordId) -> (any AccountContextProtocol)?,
                 activeWindow: @escaping () -> Window?,

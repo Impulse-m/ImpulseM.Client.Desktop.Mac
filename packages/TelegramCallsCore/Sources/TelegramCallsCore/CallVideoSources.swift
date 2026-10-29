@@ -1,6 +1,5 @@
 import Foundation
 import AVFoundation
-import TgVoipWebrtc
 import LiveKit
 import TelegramVoip
 import Localization
@@ -22,17 +21,17 @@ public struct DesktopCapturerObjectWrapper : Equatable {
         return true
     }
 
-    public let source: VideoSourceMac
+    public let source: CallCaptureSource
     public let isAvailableToStream: Bool
-    public init(source: VideoSourceMac, isAvailableToStream: Bool) {
+    public init(source: CallCaptureSource, isAvailableToStream: Bool) {
         self.source = source
         self.isAvailableToStream = isAvailableToStream
     }
 }
 
-public final class CameraCaptureDevice : VideoSourceMac, Equatable {
+public final class CameraCaptureDevice : CallCaptureSource, Equatable {
     public func isEqual(_ another: Any) -> Bool {
-        if let another = another as? VideoSourceMac {
+        if let another = another as? CallCaptureSource {
             return another.uniqueKey() == self.uniqueKey()
         } else {
             return false
