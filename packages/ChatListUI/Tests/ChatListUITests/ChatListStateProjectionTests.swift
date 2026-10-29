@@ -13,13 +13,13 @@ final class ChatListStateProjectionTests: XCTestCase {
     }
 
     private func base() -> PeerListState {
-        return PeerListState(proxySettings: .defaultSettings, connectionStatus: .online(proxyAddress: nil), splitState: .dual, searchState: .None, peer: nil, forumPeer: nil, mode: .plain, activities: .init(activities: [:]), appear: .normal, controllerAppear: .normal, hiddenItems: .default, selectedForum: nil, stories: nil, isContacts: false, filterData: FilterData(requestTimestamp: 10), presentation: theme, privacy: nil, displaySavedAsTopics: false)
+        return PeerListState(proxyIndicator: .connected, splitState: .dual, searchState: .None, peer: nil, forumPeer: nil, mode: .plain, activities: .init(activities: [:]), appear: .normal, controllerAppear: .normal, hiddenItems: .default, selectedForum: nil, stories: nil, isContacts: false, filterData: FilterData(requestTimestamp: 10), presentation: theme, privacy: nil, displaySavedAsTopics: false)
     }
 
     func testFieldsTheChatListDoesNotReadDoNotRebuildIt() {
         let state = base()
         var other = state
-        other.connectionStatus = .waitingForNetwork
+        other.proxyIndicator = .connecting
         other.searchQuery = "query"
         other.searchState = .Focus
         other.hasDownloads = true
@@ -27,6 +27,16 @@ final class ChatListStateProjectionTests: XCTestCase {
         other.filterData = FilterData(filter: state.filterData.filter, tabs: state.filterData.tabs, sidebar: true, showTags: state.filterData.showTags, request: .Initial(100, nil), badges: .init(total: 42, filters: []), requestTimestamp: state.filterData.requestTimestamp, isTop: false)
         XCTAssertNotEqual(state, other)
         XCTAssertEqual(ChatListStateProjection(state), ChatListStateProjection(other))
+    }
+
+    func testProxyIndicatorNilIsADistinctStateFromAnyCase() {
+        var hidden: PeerListState = base()
+        hidden.proxyIndicator = nil
+        var failed: PeerListState = base()
+        failed.proxyIndicator = .failed
+        XCTAssertNotEqual(hidden, failed)
+        XCTAssertNil(hidden.proxyIndicator)
+        XCTAssertEqual(failed.proxyIndicator, .failed)
     }
 
     func testFieldsTheChatListReadsStillRebuildIt() {

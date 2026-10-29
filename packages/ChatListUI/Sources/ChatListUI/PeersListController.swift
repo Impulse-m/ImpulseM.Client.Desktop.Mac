@@ -17,7 +17,6 @@ import AlertsUI
 import AvatarUI
 import SceneEffects
 import PremiumStatusUI
-import ProxyUtils
 import WebAppUI
 import StoriesUI
 import ChatHistoryModel
@@ -281,8 +280,7 @@ public struct PeerListState : Equatable {
         
     }
     
-    public var proxySettings: ProxySettings
-    public var connectionStatus: ConnectionStatus
+    public var proxyIndicator: ChatListProxyIndicator? = nil
     public var splitState: SplitViewState
     public var searchState: SearchFieldState = .None
     public var searchQuery: String = ""
@@ -334,7 +332,7 @@ public struct PeerListState : Equatable {
     }
     
     public static func initialize(_ isContacts: Bool) -> PeerListState {
-        return .init(proxySettings: .defaultSettings, connectionStatus: .waitingForNetwork, splitState: .dual, searchState: .None, peer: nil, forumPeer: nil, mode: .plain, activities: .init(activities: [:]), appear: .normal, controllerAppear: .normal, hiddenItems: .default, selectedForum: nil, stories: nil, isContacts: isContacts, filterData: FilterData(), presentation: theme, privacy: nil, displaySavedAsTopics: false)
+        return .init(proxyIndicator: nil, splitState: .dual, searchState: .None, peer: nil, forumPeer: nil, mode: .plain, activities: .init(activities: [:]), appear: .normal, controllerAppear: .normal, hiddenItems: .default, selectedForum: nil, stories: nil, isContacts: isContacts, filterData: FilterData(), presentation: theme, privacy: nil, displaySavedAsTopics: false)
 
     }
 }
@@ -357,40 +355,40 @@ private final class ProxyView : Control {
         return image
     }
 
-    func update(_ pref: ProxySettings, connection: ConnectionStatus, animated: Bool) {
-        switch connection {
-        case .connecting, .waitingForNetwork:
-            if pref.enabled {
-                let current: ProgressIndicator
-                if let view = self.connecting {
-                    current = view
-                } else {
-                    current = ProgressIndicator(frame: focus(NSMakeSize(11, 11)))
-                    self.connecting = current
-                    addSubview(current)
-                }
-                current.userInteractionEnabled = false
-                current.isEventLess = true
-                current.progressColor = theme.colors.accentIcon
-            } else if let view = connecting {
-                performSubviewRemoval(view, animated: animated)
-                self.connecting = nil
-            }
-
-            button.set(image: proxyImage(pref.enabled ? theme.icons.proxyState : theme.icons.proxyEnable), for: .Normal)
-        case .online, .updating:
-            if let view = connecting {
-                performSubviewRemoval(view, animated: animated)
-                self.connecting = nil
-            }
-            if pref.enabled  {
-                button.set(image: proxyImage(theme.icons.proxyEnabled), for: .Normal)
+    func update(_ indicator: ChatListProxyIndicator, animated: Bool) {
+        switch indicator {
+        case .connecting:
+            let current: ProgressIndicator
+            if let view = self.connecting {
+                current = view
             } else {
-                button.set(image: proxyImage(theme.icons.proxyEnable), for: .Normal)
+                current = ProgressIndicator(frame: focus(NSMakeSize(11, 11)))
+                self.connecting = current
+                addSubview(current)
             }
+            current.userInteractionEnabled = false
+            current.isEventLess = true
+            current.progressColor = theme.colors.accentIcon
+            button.set(image: proxyImage(theme.icons.proxyState), for: .Normal)
+        case .off:
+            removeConnecting(animated: animated)
+            button.set(image: proxyImage(theme.icons.proxyEnable), for: .Normal)
+        case .connected:
+            removeConnecting(animated: animated)
+            button.set(image: proxyImage(theme.icons.proxyEnabled), for: .Normal)
+        case .failed:
+            removeConnecting(animated: animated)
+            button.set(image: proxyImage(theme.icons.errorImage), for: .Normal)
         }
         button.sizeToFit()
         needsLayout = true
+    }
+
+    private func removeConnecting(animated: Bool) {
+        if let view = connecting {
+            performSubviewRemoval(view, animated: animated)
+            self.connecting = nil
+        }
     }
 
     override func layout() {
@@ -1314,7 +1312,7 @@ public class PeerListContainerView : Control {
         
         let hasControls = state.splitState != .minimisize && mode.isPlain && mode == .plain
         
-        let hasProxy = (!state.proxySettings.servers.isEmpty || state.proxySettings.effectiveActiveServer != nil) && hasControls && !state.isContacts
+        let hasProxy = state.proxyIndicator != nil && hasControls && !state.isContacts
         
         
         if hasProxy {
@@ -1334,8 +1332,10 @@ public class PeerListContainerView : Control {
                     self?.openProxy?(control)
                 }, for: .Click)
             }
-            current.update(state.proxySettings, connection: state.connectionStatus, animated: animated)
-            
+            if let proxyIndicator = state.proxyIndicator {
+                current.update(proxyIndicator, animated: animated)
+            }
+
         } else if let view = self.proxy {
             performSubviewRemoval(view, animated: animated)
             self.proxy = nil
@@ -2571,11 +2571,7 @@ open class PeersListController<Context: AccountContextProtocol>: TelegramGeneric
 
         let layoutSignal = context.layoutValue
         
-        let proxy = proxySettings(accountManager: context.sharedContext.accountManager) |> mapToSignal { ps -> Signal<(ProxySettings, ConnectionStatus), NoError> in
-            return context.account.network.connectionStatus |> map { status -> (ProxySettings, ConnectionStatus) in
-                return (ps, status)
-            }
-        }
+        let proxyIndicator: Signal<ChatListProxyIndicator?, NoError> = ChatListUIHooks.shared.proxyIndicator(context) |> distinctUntilChanged
         
         let peer: Signal<PeerEquatable?, NoError> = getPeerView(peerId: context.peerId, postbox: context.account.postbox) |> map { peer in
             if let peer = peer {
@@ -2694,11 +2690,10 @@ open class PeersListController<Context: AccountContextProtocol>: TelegramGeneric
         
         let hasDownloads = combineLatest(hasRecentDownload, hasDownloading) |> map { $0 || $1 }
         
-        actionsDisposable.add(combineLatest(queue: .mainQueue(), proxy, layoutSignal, peer, forumPeer, inputActivities, storyState, appearMode.get(), privacy.get(), appearanceSignal, BrowserStateContext.get(context).fullState(), hasDownloads).start(next: { pref, layout, peer, forumPeer, inputActivities, storyState, appearMode, privacy, appearance, webappsState, hasDownloads in
+        actionsDisposable.add(combineLatest(queue: .mainQueue(), proxyIndicator, layoutSignal, peer, forumPeer, inputActivities, storyState, appearMode.get(), privacy.get(), appearanceSignal, BrowserStateContext.get(context).fullState(), hasDownloads).start(next: { proxyIndicator, layout, peer, forumPeer, inputActivities, storyState, appearMode, privacy, appearance, webappsState, hasDownloads in
             updateState { value in
                 var current: PeerListState = value
-                current.proxySettings = pref.0
-                current.connectionStatus = pref.1
+                current.proxyIndicator = proxyIndicator
                 current.splitState = layout
                 current.controllerAppear = isFull ? .normal : .short
                 current.peer = peer
