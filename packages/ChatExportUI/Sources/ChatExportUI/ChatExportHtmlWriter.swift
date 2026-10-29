@@ -738,7 +738,7 @@ public final class ChatExportHtmlWriter {
         return richEscape(string).replacingOccurrences(of: "\"", with: "&quot;")
     }
 
-    public static func renderEntities(text: String, entities: [MessageTextEntity]) -> String {
+    public static func renderEntities(text: String, entities: [MessageTextEntity], meUrlPrefix: String) -> String {
         if text.isEmpty {
             return ""
         }
@@ -767,12 +767,12 @@ public final class ChatExportHtmlWriter {
             }
             let substring = ns.substring(with: NSRange(location: start, length: end - start))
             let active = entities.filter { $0.range.lowerBound <= start && $0.range.upperBound >= end }
-            result += wrapSegment(substring, entities: active)
+            result += wrapSegment(substring, entities: active, meUrlPrefix: meUrlPrefix)
         }
         return result
     }
 
-    private static func wrapSegment(_ raw: String, entities: [MessageTextEntity]) -> String {
+    private static func wrapSegment(_ raw: String, entities: [MessageTextEntity], meUrlPrefix: String) -> String {
         var isPre = false
         var preLanguage: String? = nil
         var isCode = false
@@ -832,8 +832,10 @@ public final class ChatExportHtmlWriter {
             case .PhoneNumber:
                 wrap("<a href=\"tel:\(escapeAttribute(raw.replacingOccurrences(of: " ", with: "")))\">", "</a>")
             case .Mention:
-                let username = raw.hasPrefix("@") ? String(raw.dropFirst()) : raw
-                wrap("<a href=\"https://t.me/\(escapeAttribute(username))\">", "</a>")
+                if !meUrlPrefix.isEmpty {
+                    let username: String = raw.hasPrefix("@") ? String(raw.dropFirst()) : raw
+                    wrap("<a href=\"\(escapeAttribute(meUrlPrefix + username))\">", "</a>")
+                }
             case .TextMention:
                 wrap("<a onclick=\"return ShowMentionName()\" href=\"#\">", "</a>")
             case .Hashtag:
