@@ -162,7 +162,6 @@
 		27352DE82CE479A200220A87 /* headless_prologue.js in Resources */ = {isa = PBXBuildFile; fileRef = 27352DE02CE479A200220A87 /* headless_prologue.js */; };
 		2738A2D4289C41CE00EC1010 /* CurrencyFormat in Frameworks */ = {isa = PBXBuildFile; productRef = 2738A2D3289C41CE00EC1010 /* CurrencyFormat */; };
 		2738A2E228A124F700EC1010 /* gift.scn in Resources */ = {isa = PBXBuildFile; fileRef = 2738A2E128A124F700EC1010 /* gift.scn */; };
-		2739A4B02CABC52A0065186B /* libopenh264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2739A4AF2CABC4260065186B /* libopenh264.a */; };
 		2739D4A02DBFC3C50086DAEF /* DetectSpeech in Frameworks */ = {isa = PBXBuildFile; productRef = 2739D49F2DBFC3C50086DAEF /* DetectSpeech */; };
 		273AF9942CCB7E4F00C2067E /* improving_video.tgs in Resources */ = {isa = PBXBuildFile; fileRef = 273AF9932CCB7E4F00C2067E /* improving_video.tgs */; };
 		273C04032C2B75E400AF2751 /* TelegramMediaPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 273C04022C2B75E400AF2751 /* TelegramMediaPlayer */; };
@@ -396,7 +395,6 @@
 		279E8ECE27425CBD000E1BD5 /* InAppVideoServices in Frameworks */ = {isa = PBXBuildFile; productRef = 279E8ECD27425CBD000E1BD5 /* InAppVideoServices */; };
 		279FD2A0273C1234004F08A1 /* BuildConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 279FD29F273C1234004F08A1 /* BuildConfig */; };
 		279FD2A7273C1251004F08A1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 279FD2A6273C1251004F08A1 /* Zip */; };
-		279FD2AD273C1291004F08A1 /* TgVoipWebrtc in Frameworks */ = {isa = PBXBuildFile; productRef = 279FD2AC273C1291004F08A1 /* TgVoipWebrtc */; };
 		27A01AD32B9AF40800C59661 /* menu_search.tgs in Resources */ = {isa = PBXBuildFile; fileRef = 27A01AD22B9AF40800C59661 /* menu_search.tgs */; };
 		27A01AEA2BA07ACF00C59661 /* fragment.tgs in Resources */ = {isa = PBXBuildFile; fileRef = 27A01AE92BA07ACF00C59661 /* fragment.tgs */; };
 		27A08A2227E8B73D00284048 /* change_sim.tgs in Resources */ = {isa = PBXBuildFile; fileRef = 27A08A2127E8B73D00284048 /* change_sim.tgs */; };
@@ -553,7 +551,6 @@
 		27D43DAE27917738006968A6 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27D43DAD27917735006968A6 /* libjpeg.a */; };
 		27D43DB027917748006968A6 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27D43DAF27917747006968A6 /* libssl.a */; };
 		27D43DB22791774C006968A6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27D43DB12791774A006968A6 /* libcrypto.a */; };
-		27D43DB42791779C006968A6 /* libmac_framework_objc_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27D43DB327917798006968A6 /* libmac_framework_objc_static.a */; };
 		27D43DB727918CFF006968A6 /* Mozjpeg in Frameworks */ = {isa = PBXBuildFile; productRef = 27D43DB627918CFF006968A6 /* Mozjpeg */; };
 		27D43DB927918F2C006968A6 /* Mozjpeg in Frameworks */ = {isa = PBXBuildFile; productRef = 27D43DB827918F2C006968A6 /* Mozjpeg */; };
 		27D43DC3279191A5006968A6 /* OpenSSLEncryption in Frameworks */ = {isa = PBXBuildFile; productRef = 27D43DC2279191A5006968A6 /* OpenSSLEncryption */; };
@@ -1183,7 +1180,6 @@
 		27352DE32CE479A200220A87 /* index.bundle.js.LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.bundle.js.LICENSE.txt; sourceTree = "<group>"; };
 		2738A2D2289C416D00EC1010 /* CurrencyFormat */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CurrencyFormat; path = packages/CurrencyFormat; sourceTree = "<group>"; };
 		2738A2E128A124F700EC1010 /* gift.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = gift.scn; sourceTree = "<group>"; };
-		2739A4AF2CABC4260065186B /* libopenh264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopenh264.a; path = "core-xprojects/OpenH264/build/output/lib/libopenh264.a"; sourceTree = "<group>"; };
 		2739D49E2DBFC2A10086DAEF /* DetectSpeech */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DetectSpeech; path = packages/DetectSpeech; sourceTree = "<group>"; };
 		273AF9932CCB7E4F00C2067E /* improving_video.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = improving_video.tgs; sourceTree = "<group>"; };
 		273C04042C2B75E900AF2751 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -1563,7 +1559,6 @@
 		27D43DAD27917735006968A6 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = "core-xprojects/Mozjpeg/build/libjpeg.a"; sourceTree = "<group>"; };
 		27D43DAF27917747006968A6 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "core-xprojects/openssl/build/openssl/lib/libssl.a"; sourceTree = "<group>"; };
 		27D43DB12791774A006968A6 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "core-xprojects/openssl/build/openssl/lib/libcrypto.a"; sourceTree = "<group>"; };
-		27D43DB327917798006968A6 /* libmac_framework_objc_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmac_framework_objc_static.a; path = "core-xprojects/webrtc/build/webrtc/libmac_framework_objc_static.a"; sourceTree = "<group>"; };
 		27D43DB527918ABB006968A6 /* Mozjpeg */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mozjpeg; path = submodules/Mozjpeg; sourceTree = "<group>"; };
 		27D43DBD27919152006968A6 /* OpenSSLEncryptionProvider */ = {isa = PBXFileReference; lastKnownFileType = folder; name = OpenSSLEncryptionProvider; path = "submodules/telegram-ios/submodules/OpenSSLEncryptionProvider"; sourceTree = "<group>"; };
 		27D48B442A72739E00721995 /* menu_download_circle.tgs */ = {isa = PBXFileReference; lastKnownFileType = file; path = menu_download_circle.tgs; sourceTree = "<group>"; };
@@ -2171,7 +2166,6 @@
 				27BE52462D9B0A8600F40837 /* libtdutils.a in Frameworks */,
 				27BE52442D9B05D600F40837 /* libtde2e.a in Frameworks */,
 				27C1FF512B74CD2A00B086E3 /* PrivateCallScreen in Frameworks */,
-				2739A4B02CABC52A0065186B /* libopenh264.a in Frameworks */,
 				277335622ED48C0800E4BF4B /* AuthenticationServices.framework in Frameworks */,
 				270D04912AEA7C1500EFF1E1 /* CodeSyntax.framework in Frameworks */,
 				27034076282CF79E00D0156C /* SceneKit.framework in Frameworks */,
@@ -2209,7 +2203,6 @@
 				D06E38AC24A5F3B700C7D03A /* MetalKit.framework in Frameworks */,
 				27A69790273D1DE900B33415 /* FFMpegBinding in Frameworks */,
 				D06E38AD24A5F3B700C7D03A /* Metal.framework in Frameworks */,
-				279FD2AD273C1291004F08A1 /* TgVoipWebrtc in Frameworks */,
 				A71DC82B23858312000EEDE2 /* CoreSpotlight.framework in Frameworks */,
 				2738A2D4289C41CE00EC1010 /* CurrencyFormat in Frameworks */,
 				A7ED5DAF236C7CE100040372 /* RLottie.framework in Frameworks */,
@@ -2282,7 +2275,6 @@
 				27B8E7BD27424E90001B8DF7 /* TGGifConverter in Frameworks */,
 				2796FF0D274249B000DA653C /* RingBuffer in Frameworks */,
 				C250B0331DB788B3004E9FBE /* Foundation.framework in Frameworks */,
-				27D43DB42791779C006968A6 /* libmac_framework_objc_static.a in Frameworks */,
 				27D9131128353E58007CF40F /* StoreKit.framework in Frameworks */,
 				2796FEF827423F5300DA653C /* TGPassportMRZ in Frameworks */,
 				278B89A62791939700ECF71C /* libwebp in Frameworks */,
@@ -3511,7 +3503,6 @@
 				27BE52452D9B0A8600F40837 /* libtdutils.a */,
 				278751582D91A8A50005D9F9 /* libtde2e.a */,
 				27A7FBDB2CF73E7A00AE9432 /* libdav1d.a */,
-				2739A4AF2CABC4260065186B /* libopenh264.a */,
 				2703762E2CA1FEC4003EC235 /* libiconv.2.tbd */,
 				2703762D2CA1FE62003EC235 /* libSystem.B.tbd */,
 				273C04042C2B75E900AF2751 /* MediaPlayer.framework */,
@@ -3523,7 +3514,6 @@
 				27D913092833A1C9007CF40F /* StoreKit.framework */,
 				27034075282CF79E00D0156C /* SceneKit.framework */,
 				2748D44427C61DCF0057CF99 /* libtgvoip.framework */,
-				27D43DB327917798006968A6 /* libmac_framework_objc_static.a */,
 				27D43DB12791774A006968A6 /* libcrypto.a */,
 				27D43DAF27917747006968A6 /* libssl.a */,
 				27D43DAD27917735006968A6 /* libjpeg.a */,
@@ -3795,7 +3785,6 @@
 				2700B221273ADC94003E4018 /* HotKey */,
 				279FD29F273C1234004F08A1 /* BuildConfig */,
 				279FD2A6273C1251004F08A1 /* Zip */,
-				279FD2AC273C1291004F08A1 /* TgVoipWebrtc */,
 				27A6978C273D192800B33415 /* libphonenumber */,
 				27A6978F273D1DE900B33415 /* FFMpegBinding */,
 				27A69792273D210400B33415 /* OpusBinding */,
@@ -4868,8 +4857,6 @@
 					"$(PROJECT_DIR)/core-xprojects/libwebp/build/libwebp/lib",
 					"$(PROJECT_DIR)/core-xprojects/Mozjpeg/build",
 					"$(PROJECT_DIR)/core-xprojects/openssl/build/openssl/lib",
-					"$(PROJECT_DIR)/core-xprojects/webrtc/build/webrtc",
-					"$(PROJECT_DIR)/core-xprojects/OpenH264/build/output/lib",
 					"$(PROJECT_DIR)/core-xprojects/dav1d/build/dav1d/lib",
 					"$(PROJECT_DIR)/core-xprojects/tde2e/build/tde2e/lib",
 				);
@@ -5096,8 +5083,6 @@
 					"$(PROJECT_DIR)/core-xprojects/libwebp/build/libwebp/lib",
 					"$(PROJECT_DIR)/core-xprojects/Mozjpeg/build",
 					"$(PROJECT_DIR)/core-xprojects/openssl/build/openssl/lib",
-					"$(PROJECT_DIR)/core-xprojects/webrtc/build/webrtc",
-					"$(PROJECT_DIR)/core-xprojects/OpenH264/build/output/lib",
 					"$(PROJECT_DIR)/core-xprojects/dav1d/build/dav1d/lib",
 					"$(PROJECT_DIR)/core-xprojects/tde2e/build/tde2e/lib",
 				);
@@ -5396,10 +5381,6 @@
 		279FD2A6273C1251004F08A1 /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Zip;
-		};
-		279FD2AC273C1291004F08A1 /* TgVoipWebrtc */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TgVoipWebrtc;
 		};
 		27A6978C273D192800B33415 /* libphonenumber */ = {
 			isa = XCSwiftPackageProductDependency;

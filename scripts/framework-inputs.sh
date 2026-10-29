@@ -29,9 +29,6 @@ framework_source_roots() {
         ffmpeg)
             echo "$1/submodules/telegram-ios/submodules/ffmpeg/Sources/FFMpeg"
             ;;
-        webrtc)
-            echo "$1/submodules/tg_owt"
-            ;;
         tde2e)
             echo "$1/submodules/telegram-ios/third-party/td/td"
             ;;
@@ -51,7 +48,6 @@ framework_inputs() {
 framework_dependencies() {
     case "$1" in
         ffmpeg) echo "libopus libvpx dav1d" ;;
-        webrtc) echo "OpenH264 OpenSSL mozjpeg libopus libvpx ffmpeg" ;;
         tde2e) echo "OpenSSL" ;;
         *) echo "" ;;
     esac
@@ -102,9 +98,6 @@ framework_outputs_consistent() {
 framework_required_outputs() {
     local BUILD_DIR="$(framework_build_dir "$1" "$2")"
     case "$2" in
-        OpenH264)
-            printf '%s\n' "$BUILD_DIR/output/lib/libopenh264.a" "$BUILD_DIR/output/include/include/wels/codec_api.h"
-            ;;
         OpenSSL)
             printf '%s\n' "$BUILD_DIR/openssl/lib/libcrypto.a" "$BUILD_DIR/openssl/lib/libssl.a" "$BUILD_DIR/openssl/include/openssl/ssl.h"
             ;;
@@ -125,9 +118,6 @@ framework_required_outputs() {
             ;;
         ffmpeg)
             printf '%s\n' "$BUILD_DIR/ffmpeg/lib/"{libavcodec,libavformat,libavutil,libswresample}.a "$BUILD_DIR/ffmpeg/include/libavcodec/avcodec.h"
-            ;;
-        webrtc)
-            printf '%s\n' "$BUILD_DIR/webrtc/libmac_framework_objc_static.a" "$BUILD_DIR/src/api/peer_connection_interface.h"
             ;;
         tde2e)
             printf '%s\n' "$BUILD_DIR/tde2e/lib/"{libtde2e,libtdutils}.a

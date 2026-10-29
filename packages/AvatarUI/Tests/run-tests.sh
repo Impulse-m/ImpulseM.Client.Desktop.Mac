@@ -5,7 +5,7 @@ args=(swift test --package-path "$repo_root/packages/AvatarUI" -Xlinker -lbz2 -X
 for directory in \
     libvpx/build/libvpx/lib ffmpeg/build/ffmpeg/lib libopus/build/libopus/lib \
     libwebp/build/libwebp/lib Mozjpeg/build openssl/build/openssl/lib \
-    webrtc/build/webrtc OpenH264/build/output/lib dav1d/build/dav1d/lib tde2e/build/tde2e/lib
+    dav1d/build/dav1d/lib tde2e/build/tde2e/lib
 do
     for library in "$repo_root/core-xprojects/$directory"/*.a; do
         [[ -f "$library" ]] || { echo "Missing native libraries: $directory" >&2; exit 1; }
