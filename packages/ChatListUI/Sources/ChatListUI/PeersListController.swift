@@ -24,6 +24,7 @@ import ChatUI
 import ChatModeTypes
 import InlineStickerLayer
 import ApiCredentials
+import ProxyUtils
 
 public struct PeerListHiddenItems : Equatable {
     public var archive: ItemHideStatus
