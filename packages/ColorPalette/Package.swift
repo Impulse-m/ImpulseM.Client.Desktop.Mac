@@ -23,5 +23,8 @@ let package = Package(
         .target(
             name: "ColorPalette",
             dependencies: [.product(name: "Colors", package: "Colors", condition: nil)]),
+        .testTarget(
+            name: "ColorPaletteTests",
+            dependencies: ["ColorPalette"]),
     ]
 )

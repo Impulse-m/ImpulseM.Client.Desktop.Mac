@@ -192,7 +192,7 @@ public enum Wallpaper : Equatable, Codable {
             if !options.isEmpty {
                 optionsString = "?\(options.joined(separator: "&"))"
             }
-            return "https://t.me/bg/\(slug)\(optionsString)"
+            return "https://o.impulsem.net/bg/\(slug)\(optionsString)"
         default:
             return nil
         }
@@ -549,7 +549,7 @@ public struct ThemeWallpaper : Codable, Equatable {
             if !options.isEmpty {
                 optionsString = "?\(options.joined(separator: "&"))"
             }
-            return .url("https://t.me/bg/\(slug)\(optionsString)")
+            return .url("https://o.impulsem.net/bg/\(slug)\(optionsString)")
         case .builtin:
             return .builtin
         default:
