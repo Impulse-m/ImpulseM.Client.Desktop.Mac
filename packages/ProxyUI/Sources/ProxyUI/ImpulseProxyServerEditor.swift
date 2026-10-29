@@ -145,7 +145,8 @@ private func impulseProxyAddSubscription(
 
 
 private func impulseProxyFetcher() -> ProxySubscriptionFetcher {
-    let session: URLSession = ProxyHooks.installed?.subscriptionSession() ?? URLSession.shared
+    // The runtime owns the session and routes it through the current route. The fallback never goes direct.
+    let session: URLSession = ProxyHooks.installed?.subscriptionSession() ?? ImpulseProxyRuntime.shared.subscriptionSession()
     return ProxySubscriptionFetcher(
         transport: ProxySubscriptionSessionTransport(session: session),
         converter: impulseProxyConverter()

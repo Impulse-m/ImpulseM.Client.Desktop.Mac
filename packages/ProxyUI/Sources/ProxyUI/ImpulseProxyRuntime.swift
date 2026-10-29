@@ -6,11 +6,17 @@ import SwiftSignalKit
 import TelegramCore
 
 
+/// Writes one state to the stored record. It calls `completed` once the write has finished, and returns the
+/// disposable of the write, which the runtime releases when `completed` runs.
+typealias ImpulseProxyRecordWriter = (ImpulseProxy.ImpulseProxyState, @escaping () -> Void) -> Disposable
+
+
 /// The single owner of the ImpulseM proxy controller and of the route the transport uses.
 ///
 /// The app starts it once at launch and stops it at termination. Until it starts, the route is BLOCKED (the blackhole),
 /// never direct. The controller is created from the stored record, and every later change of the record is applied to it.
 /// A change made through the controller is written back to the record, and the write does not restart the core again.
+/// `stop()` ends the record observer, so a record change made after the stop is not applied and cannot restart the core.
 public final class ImpulseProxyRuntime: ImpulseProxyRouteSource, @unchecked Sendable {
     /// The process-wide runtime. The app starts it from `launchApp` and stops it in `applicationWillTerminate`.
     public static let shared: ImpulseProxyRuntime = ImpulseProxyRuntime(
@@ -32,14 +38,20 @@ public final class ImpulseProxyRuntime: ImpulseProxyRouteSource, @unchecked Send
         ImpulseProxy.ImpulseProxyState(),
         ignoreRepeated: true
     )
-    private let disposables: DisposableSet = DisposableSet()
     private var started: Bool = false
+    private var stopped: Bool = false
     private var controllerValue: ProxyController?
     private var adapterValue: ImpulseProxyRouteAdapter?
     private var routeObservation: ImpulseProxyRouteObservation?
-    private var recordWriter: ((ImpulseProxy.ImpulseProxyState) -> Void)?
+    private var recordDisposable: Disposable?
+    private var recordWriter: ImpulseProxyRecordWriter?
     // The last state known to be in the stored record, either read from it or written to it.
     private var lastRecord: ImpulseProxy.ImpulseProxyState?
+    // Writes sent to the record that have not completed yet, oldest first.
+    private var inFlightWrites: [ImpulseProxyRuntimeWrite] = []
+    private var writeSequence: Int = 0
+    private var writeDisposables: [Int: Disposable] = [:]
+    private var subscriptionSessionValue: ImpulseProxySubscriptionSession?
     private var routeHandlers: [ImpulseProxyRuntimeRouteHandler] = []
     private var nextHandlerIdentifier: Int = 0
 
@@ -57,6 +69,22 @@ public final class ImpulseProxyRuntime: ImpulseProxyRouteSource, @unchecked Send
     public var controller: ProxyController? {
         return locked { () -> ProxyController? in
             return controllerValue
+        }
+    }
+
+
+    /// The number of writes sent to the record that have not completed yet.
+    var inFlightWriteCount: Int {
+        return locked { () -> Int in
+            return inFlightWrites.count
+        }
+    }
+
+
+    /// The number of write disposables the runtime still holds. A completed write releases its disposable.
+    var retainedWriteCount: Int {
+        return locked { () -> Int in
+            return writeDisposables.count
         }
     }
 
@@ -101,17 +129,32 @@ public final class ImpulseProxyRuntime: ImpulseProxyRouteSource, @unchecked Send
     }
 
 
-    /// The stored settings, as the runtime last saw them.
+    /// The stored settings, as the runtime last applied them.
     public func settingsSignal() -> Signal<ImpulseProxy.ImpulseProxyState, NoError> {
         return settingsPromise.get()
     }
 
 
-    /// A session that routes through the current route. The caller invalidates it when it is done.
+    /// The session that routes subscription downloads through the current route. The runtime owns it: the same session
+    /// is returned while the route stays the same, and a route change invalidates it and builds the next one.
+    /// The caller must not invalidate it.
     public func subscriptionSession() -> URLSession {
-        let configuration: URLSessionConfiguration = URLSessionConfiguration.ephemeral
-        configuration.connectionProxyDictionary = ImpulseProxyConnectionProxy.dictionary(for: currentRoute)
-        return URLSession(configuration: configuration)
+        let route: ImpulseProxyRoute? = currentRoute
+        return locked { () -> URLSession in
+            if let current: ImpulseProxySubscriptionSession = subscriptionSessionValue, current.route == route {
+                return current.session
+            }
+            let configuration: URLSessionConfiguration = URLSessionConfiguration.ephemeral
+            configuration.connectionProxyDictionary = ImpulseProxyConnectionProxy.dictionary(for: route)
+            let session: URLSession = URLSession(configuration: configuration)
+            // Tasks already running on the old session finish on it.
+            subscriptionSessionValue?.session.finishTasksAndInvalidate()
+            subscriptionSessionValue = ImpulseProxySubscriptionSession(
+                route: route,
+                session: session
+            )
+            return session
+        }
     }
 
 
@@ -121,30 +164,34 @@ public final class ImpulseProxyRuntime: ImpulseProxyRouteSource, @unchecked Send
     ) {
         start(
             recordSignal: ImpulseProxySettingsStore.signal(accountManager: accountManager),
-            writeRecord: { (state: ImpulseProxy.ImpulseProxyState) -> Void in
-                let disposable: Disposable = ImpulseProxySettingsStore.save(
+            writeRecord: { (state: ImpulseProxy.ImpulseProxyState, completed: @escaping () -> Void) -> Disposable in
+                return ImpulseProxySettingsStore.save(
                     accountManager: accountManager,
                     state: state
-                ).start()
-                self.disposables.add(disposable)
+                ).start(completed: completed)
             }
         )
     }
 
 
-    /// Stops the core at termination. The runtime keeps its controller, so nothing restarts the core afterwards.
+    /// Stops the runtime at termination. It ends the record observer, so nothing applies a record change afterwards,
+    /// and it stops the core. The controller stays, so a later record change cannot start the core again.
     public func stop() {
-        let current: ProxyController? = locked { () -> ProxyController? in
-            return controllerValue
+        let stopping: (controller: ProxyController?, observer: Disposable?) = locked { () -> (controller: ProxyController?, observer: Disposable?) in
+            stopped = true
+            let observer: Disposable? = recordDisposable
+            recordDisposable = nil
+            return (controller: controllerValue, observer: observer)
         }
-        try? current?.stopCore()
+        stopping.observer?.dispose()
+        try? stopping.controller?.stopCore()
     }
 
 
     /// Starts the runtime from a record signal and a record writer. Later calls do nothing.
     func start(
         recordSignal: Signal<ImpulseProxy.ImpulseProxyState, NoError>,
-        writeRecord: @escaping (ImpulseProxy.ImpulseProxyState) -> Void
+        writeRecord: @escaping ImpulseProxyRecordWriter
     ) {
         let shouldStart: Bool = locked { () -> Bool in
             if started {
@@ -160,17 +207,39 @@ public final class ImpulseProxyRuntime: ImpulseProxyRouteSource, @unchecked Send
         let disposable: Disposable = recordSignal.start(next: { [weak self] (record: ImpulseProxy.ImpulseProxyState) -> Void in
             self?.applyRecord(record)
         })
-        disposables.add(disposable)
+        let disposeNow: Bool = locked { () -> Bool in
+            if stopped {
+                return true
+            }
+            recordDisposable = disposable
+            return false
+        }
+        if disposeNow {
+            disposable.dispose()
+        }
     }
 
 
-    // Creates the controller from the first record, and applies each later record that differs from its snapshot.
+    // Creates the controller from the first record. A later record is applied unless it is older than a write in flight:
+    // while a write is in flight, only the newest write's own echo is applied, and a record that differs from it is ignored.
     private func applyRecord(
         _ record: ImpulseProxy.ImpulseProxyState
     ) {
+        let accepted: Bool = locked { () -> Bool in
+            if stopped {
+                return false
+            }
+            if let newest: ImpulseProxyRuntimeWrite = inFlightWrites.last, newest.state != record {
+                return false
+            }
+            lastRecord = record
+            return true
+        }
+        if !accepted {
+            return
+        }
         settingsPromise.set(record)
         let existing: ProxyController? = locked { () -> ProxyController? in
-            lastRecord = record
             return controllerValue
         }
         guard let controller: ProxyController = existing else {
@@ -218,14 +287,51 @@ public final class ImpulseProxyRuntime: ImpulseProxyRouteSource, @unchecked Send
     private func persist(
         _ state: ImpulseProxy.ImpulseProxyState
     ) {
-        let writer: ((ImpulseProxy.ImpulseProxyState) -> Void)? = locked { () -> ((ImpulseProxy.ImpulseProxyState) -> Void)? in
+        let pending: (sequence: Int, writer: ImpulseProxyRecordWriter)? = locked { () -> (sequence: Int, writer: ImpulseProxyRecordWriter)? in
             if lastRecord == state {
                 return nil
             }
+            guard let writer: ImpulseProxyRecordWriter = recordWriter else {
+                return nil
+            }
             lastRecord = state
-            return recordWriter
+            writeSequence += 1
+            inFlightWrites.append(
+                ImpulseProxyRuntimeWrite(
+                    sequence: writeSequence,
+                    state: state
+                )
+            )
+            return (sequence: writeSequence, writer: writer)
         }
-        writer?(state)
+        guard let pending: (sequence: Int, writer: ImpulseProxyRecordWriter) = pending else {
+            return
+        }
+        let sequence: Int = pending.sequence
+        let disposable: Disposable = pending.writer(state, { [weak self] () -> Void in
+            self?.finishWrite(sequence: sequence)
+        })
+        locked { () -> Void in
+            // A write that completed before the writer returned has nothing left to hold.
+            if inFlightWrites.contains(where: { (write: ImpulseProxyRuntimeWrite) -> Bool in
+                return write.sequence == sequence
+            }) {
+                writeDisposables[sequence] = disposable
+            }
+        }
+    }
+
+
+    // Releases a completed write: it leaves the in-flight list and its disposable is dropped.
+    private func finishWrite(
+        sequence: Int
+    ) {
+        locked { () -> Void in
+            inFlightWrites.removeAll { (write: ImpulseProxyRuntimeWrite) -> Bool in
+                return write.sequence == sequence
+            }
+            writeDisposables.removeValue(forKey: sequence)
+        }
     }
 
 
@@ -281,6 +387,18 @@ public final class ImpulseProxyRuntime: ImpulseProxyRouteSource, @unchecked Send
     }
 
 
+}
+
+
+private struct ImpulseProxyRuntimeWrite {
+    let sequence: Int
+    let state: ImpulseProxy.ImpulseProxyState
+}
+
+
+private struct ImpulseProxySubscriptionSession {
+    let route: ImpulseProxyRoute?
+    let session: URLSession
 }
 
 
