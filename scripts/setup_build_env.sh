@@ -50,8 +50,8 @@ fi
 
 # ---------------------------------------------------------------------------
 # 2. Build tools (Homebrew packages)
-#    NOTE: nasm (OpenH264) and meson (dav1d) are required but were missing from
-#    the original INSTALL.md list.
+#    openssl is built from source by configure_frameworks.sh, so no Homebrew
+#    OpenSSL formula is needed (openssl@1.1 was removed from Homebrew).
 # ---------------------------------------------------------------------------
 BREW_PACKAGES=(
   cmake        # libwebp / mozjpeg / tde2e / webrtc (tg_owt)
@@ -59,7 +59,6 @@ BREW_PACKAGES=(
   meson        # dav1d
   nasm         # OpenH264 (x86_64 assembly)
   yasm         # ffmpeg / libvpx assembly
-  openssl@1.1  # used by several configure steps
   zlib
   autoconf
   libtool
