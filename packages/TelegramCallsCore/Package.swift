@@ -38,7 +38,7 @@ let package = Package(
         .package(name: "Postbox", path: "../../submodules/telegram-ios/submodules/Postbox"),
         .package(name: "TelegramVoip", path: "../../submodules/telegram-ios/submodules/TelegramVoip"),
         .package(name: "TgVoipWebrtc", path: "../../submodules/tgcalls"),
-        .package(url: "https://github.com/livekit/client-sdk-swift.git", exact: "2.19.0"),
+        .package(url: "https://github.com/livekit/client-sdk-swift.git", .exact("2.19.0")),
         .package(name: "TdBinding", path: "../../submodules/telegram-ios/third-party/td/TdBinding"),
         .package(name: "TGUIKit", path: "../TGUIKit"),
         .package(name: "ColorPalette", path: "../ColorPalette"),
