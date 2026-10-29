@@ -1279,17 +1279,15 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             }
             if case let .established(callInfo, _, _, _, _) = strongSelf.internalState {
                 var _: [(UInt32, String?, String?)] = []
-                var removedSsrc: [UInt32] = []
+                var removedPeers: [PeerId] = []
                 for (callId, update) in updates {
                     if callId == callInfo.id {
                         switch update {
                         case let .state(update):
                             for participantUpdate in update.participantUpdates {
                                 if case .left = participantUpdate.participationStatusChange {
-                                    if let ssrc = participantUpdate.ssrc {
-                                        removedSsrc.append(ssrc)
-                                    }
-                                    
+                                    removedPeers.append(participantUpdate.peerId)
+
                                     if participantUpdate.peerId == strongSelf.joinAsPeerId {
                                         if case let .established(_, _, _, ssrc, _) = strongSelf.internalState, ssrc == participantUpdate.ssrc {
                                             strongSelf.markAsCanBeRemoved()
@@ -1331,8 +1329,15 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                         }
                     }
                 }
-                if !removedSsrc.isEmpty {
-                    strongSelf.genericCallContext?.removeSsrcs(ssrcs: removedSsrc)
+                if !removedPeers.isEmpty {
+                    strongSelf.genericCallContext?.updateParticipants(removedPeers.map { (peerId: PeerId) -> LiveKitGroupParticipant in
+                        return LiveKitGroupParticipant(
+                            peerKey: GroupCallParticipantsContext.Participant.Id.peer(peerId).description,
+                            isSelf: peerId == strongSelf.joinAsPeerId,
+                            videoEndpoint: nil,
+                            presentationEndpoint: nil
+                        )
+                    })
                 }
                 //strongSelf.callContext?.addParticipants(participants: addedParticipants)
             }
@@ -1750,7 +1755,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             encryptionContext = OngoingGroupCallEncryptionContextImpl(e2eCall: Atomic(value: ConferenceCallE2EContext.ContextStateHolder()), channelId: 0)
         }
                                    
-        let prioritizeVP8 = self.accountContext.appConfiguration.getBoolValue("macos_calls_prioritize_vp8", orElse: false)
+        let prioritizeVP8: Bool = self.accountContext.appConfiguration.getBoolValue("macos_calls_prioritize_vp8", orElse: false)
         
         if shouldJoin, let callInfo = activeCallInfo, !self.liveKitContextRequested {
             self.liveKitContextRequested = true
@@ -1758,7 +1763,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                 // Group E2E, conference and stream calls have no group media on LiveKit. They end before any room is joined.
                 self.markAsCanBeRemoved()
             } else {
-                self.startLiveKitGroupCall(callInfo: callInfo)
+                self.startLiveKitGroupCall(callInfo: callInfo, prioritizeVP8: prioritizeVP8)
             }
         }
         switch previousInternalState {
@@ -2574,7 +2579,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
 
     /// Builds the LiveKit group context of the call and starts it. The mute state is read when the context is built and pushed again before it starts,
     /// so a mute set in between holds when the room connects.
-    private func startLiveKitGroupCall(callInfo: GroupCallInfo) {
+    private func startLiveKitGroupCall(callInfo: GroupCallInfo, prioritizeVP8: Bool) {
         Task { @MainActor [weak self] in
             guard let strongSelf = self, !strongSelf.markedAsCanBeRemoved else {
                 return
@@ -2603,7 +2608,8 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                     }
                     await strongSelf.liveKitLeavePresentation(callInfo: callInfo)
                 },
-                initialMuted: strongSelf.effectiveLiveKitMuted
+                initialMuted: strongSelf.effectiveLiveKitMuted,
+                prioritizeVP8: prioritizeVP8
             )
             genericCallContext.onStateChanged = { [weak self] (state: LiveKitGroupCallState) -> Void in
                 guard let strongSelf = self else {
@@ -2621,6 +2627,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                 }
             })
             strongSelf.stateVersionValue += 1
+            genericCallContext.setRequestedVideoChannels(strongSelf.requestedLiveKitVideo)
             genericCallContext.setMuted(strongSelf.effectiveLiveKitMuted)
             genericCallContext.start()
             strongSelf.subscribeLiveKitGroupCall(genericCallContext)
@@ -3377,7 +3384,17 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             self?.mustStopVideo?()
         })
         self.hasVideo = true
-        self.genericCallContext?.requestVideo(deviceId)
+        let capturer: OngoingCallVideoCapturer = deviceId
+        Task { @MainActor [weak self] in
+            // The camera track is created in the background. A capturer that was replaced or disabled meanwhile publishes nothing.
+            guard let track: LiveKitLocalVideoTrack = await capturer.makeLocalVideoTrack() else {
+                return
+            }
+            guard let strongSelf = self, strongSelf.videoCapturer === capturer else {
+                return
+            }
+            strongSelf.genericCallContext?.setCamera(track: track)
+        }
         self.participantsContext?.updateVideoState(peerId: self.joinAsPeerId, isVideoMuted: false, isVideoPaused: false, isPresentationPaused: nil)
 
         self.stateValue.sources.video = source
@@ -3397,7 +3414,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         self.hasVideo = false
         if let _ = self.videoCapturer {
             self.videoCapturer = nil
-            self.genericCallContext?.disableVideo()
+            self.genericCallContext?.disableCamera()
             self.participantsContext?.updateVideoState(peerId: self.joinAsPeerId, isVideoMuted: true, isVideoPaused: false, isPresentationPaused: nil)
         }
         self.stateValue.sources.video = nil
@@ -3421,11 +3438,37 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
 
     private var requestedVideoChannels: [OngoingGroupCallContext.VideoChannel] = []
     private var suspendVideoChannelRequests: Bool = false
-    
+
+    /// The video channels that the LiveKit call requests now: none while requests are suspended, otherwise the requested channels.
+    /// A channel that is not in the list is disabled on the LiveKit room.
+    private var requestedLiveKitVideo: [LiveKitGroupVideoRequest] {
+        if self.suspendVideoChannelRequests {
+            return []
+        }
+        return self.requestedVideoChannels.map { (channel: OngoingGroupCallContext.VideoChannel) -> LiveKitGroupVideoRequest in
+            return LiveKitGroupVideoRequest(
+                endpoint: channel.endpointId,
+                quality: PresentationGroupCallImpl.liveKitVideoQuality(channel.maxQuality),
+                isVisible: true
+            )
+        }
+    }
+
+    private static func liveKitVideoQuality(_ quality: OngoingGroupCallContext.VideoChannel.Quality) -> LiveKitGroupVideoQuality {
+        switch quality {
+        case .thumbnail:
+            return .low
+        case .medium:
+            return .medium
+        case .full:
+            return .high
+        }
+    }
+
     public func setSuspendVideoChannelRequests(_ value: Bool) {
         if CallVideoTuning.isOptimized, self.suspendVideoChannelRequests != value {
             self.suspendVideoChannelRequests = value
-            self.genericCallContext?.setRequestedVideoChannels(value ? [] : self.requestedVideoChannels)
+            self.genericCallContext?.setRequestedVideoChannels(self.requestedLiveKitVideo)
         }
     }
     
@@ -3465,7 +3508,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         }
         self.requestedVideoChannels = requestedVideoChannels
         if !self.suspendVideoChannelRequests {
-            self.genericCallContext?.setRequestedVideoChannels(self.requestedVideoChannels)
+            self.genericCallContext?.setRequestedVideoChannels(self.requestedLiveKitVideo)
         }
     }
 
