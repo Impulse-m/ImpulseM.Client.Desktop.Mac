@@ -148,29 +148,6 @@ private final class ConferenceCallE2EContextStateImpl: ConferenceCallE2EContextS
     }
 }
 
-public class OngoingGroupCallEncryptionContextImpl: OngoingGroupCallEncryptionContext {
-    private let e2eCall: Atomic<ConferenceCallE2EContext.ContextStateHolder>
-    private let channelId: Int32
-    
-    public init(e2eCall: Atomic<ConferenceCallE2EContext.ContextStateHolder>, channelId: Int32) {
-        self.e2eCall = e2eCall
-        self.channelId = channelId
-    }
-    
-    public func encrypt(message: Data, plaintextPrefixLength: Int) -> Data? {
-        let channelId = self.channelId
-        return self.e2eCall.with({ $0.state?.encrypt(message: message, channelId: channelId, plaintextPrefixLength: plaintextPrefixLength) })
-    }
-
-    
-    public func decrypt(message: Data, userId: Int64) -> Data? {
-        return self.e2eCall.with({ $0.state?.decrypt(message: message, userId: userId) })
-    }
-}
-
-
-
-
 public final class TelegramE2EEncryptionProviderImpl: TelegramE2EEncryptionProvider {
     public static let shared = TelegramE2EEncryptionProviderImpl()
     
@@ -1584,13 +1561,6 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
 
 
         
-        var encryptionContext: OngoingGroupCallEncryptionContext?
-        if let e2eContext = self.e2eContext {
-            encryptionContext = OngoingGroupCallEncryptionContextImpl(e2eCall: e2eContext.state, channelId: 0)
-        } else if self.isConference {
-            // Prevent non-encrypted conference calls
-            encryptionContext = OngoingGroupCallEncryptionContextImpl(e2eCall: Atomic(value: ConferenceCallE2EContext.ContextStateHolder()), channelId: 0)
-        }
                                    
         let prioritizeVP8: Bool = self.accountContext.appConfiguration.getBoolValue("macos_calls_prioritize_vp8", orElse: false)
         
@@ -2342,7 +2312,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
 
     /// Whether the call cannot run on LiveKit group media: group E2E, conference and stream calls end before any room is joined.
     private var isRefusedOnLiveKit: Bool {
-        return self.e2eContext != nil || self.isConference || self.isStream
+        return LiveKitGroupCallRefusal.refusesCall(hasE2EContext: self.e2eContext != nil, isConference: self.isConference, isStream: self.isStream)
     }
 
 
@@ -2640,6 +2610,11 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         let outcome: GroupCallSignalOutcome<JoinGroupCallResult, JoinGroupCallError> = await awaitGroupCallSignal(joinSignal |> deliverOnMainQueue)
         switch outcome {
         case let .value(joinCallResult):
+            if LiveKitGroupCallRefusal.refusesAnswer(connectionMode: joinCallResult.connectionMode) {
+                // A broadcast answer has no LiveKit room. The call ends through the same path as a failed join.
+                self.markAsCanBeRemoved()
+                throw LiveKitGroupJoinError.serverError("broadcast")
+            }
             return self.completeLiveKitMainJoin(joinCallResult: joinCallResult, localSsrc: localSsrc)
         case let .failure(error):
             if case .anonymousNotAllowed = error {
