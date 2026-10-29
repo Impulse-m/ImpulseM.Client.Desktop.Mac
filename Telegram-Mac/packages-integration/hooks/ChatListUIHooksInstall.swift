@@ -6,6 +6,7 @@ import SwiftSignalKit
 import ChatListUI
 import CrashReports
 import ApiCredentials
+import ProxyUI
 
 extension FWDNavigationAction: @retroactive ChatListForwardAction {
 
@@ -177,6 +178,38 @@ func installChatListUIHooks() {
     })
     hooks.navigateToChatWithContext = { navigation, context, chatLocation, mode, focusTarget, initialAction, holder, additional, style, callback in
         navigateToChat(navigation: navigation, context: context.concrete, chatLocation: chatLocation, mode: mode, focusTarget: focusTarget, initialAction: initialAction, chatLocationContextHolder: holder, additional: additional, navigationStyle: style, callback: callback)
+    }
+    hooks.proxyIndicator = { context -> Signal<ChatListProxyIndicator?, NoError> in
+        return combineLatest(
+            ImpulseProxyRuntime.shared.statusSignal(),
+            ImpulseProxyRuntime.shared.settingsSignal(),
+            context.account.network.connectionStatus
+        ) |> map { status, settings, connection -> ChatListProxyIndicator? in
+            guard ImpulseFeatures.VLESS else {
+                return nil
+            }
+            let hasServer: Bool = settings.selectedId != nil || !settings.manual.isEmpty || settings.subscriptions.contains { (subscription) -> Bool in
+                return !subscription.servers.isEmpty
+            }
+            guard hasServer else {
+                return nil
+            }
+            switch status {
+            case .off:
+                return .off
+            case .starting:
+                return .connecting
+            case .failed:
+                return .failed
+            case .running:
+                switch connection {
+                case .online, .updating:
+                    return .connected
+                case .connecting, .waitingForNetwork:
+                    return .connecting
+                }
+            }
+        }
     }
     ChatListUIHooks.install(hooks)
 }
