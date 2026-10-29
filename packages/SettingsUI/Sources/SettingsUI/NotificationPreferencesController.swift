@@ -483,7 +483,7 @@ public func NotificationPreferencesController(_ context: any AccountContextProto
     }
 
     
-    let controller = InputDataController(dataSignal: entriesSignal |> map { InputDataSignalValue(entries: $0) }, title: strings().telegramNotificationSettingsViewController, removeAfterDisappear: false, hasDone: false, identifier: "notification-settings")
+    let controller = InputDataController(dataSignal: entriesSignal |> map { InputDataSignalValue(entries: $0) }, title: strings().impulseMNotificationSettingsViewController, removeAfterDisappear: false, hasDone: false, identifier: "notification-settings")
     
     
     

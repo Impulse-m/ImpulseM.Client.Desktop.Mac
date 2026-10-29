@@ -359,7 +359,7 @@ public func LanguageController(_ context: any AccountContextProtocol, focusOnIte
         return InputDataSignalValue(entries: entries(state, arguments: arguments))
     }
     
-    let controller = InputDataController(dataSignal: signal, title: strings().telegramLanguageViewController, hasDone: false, identifier: "language")
+    let controller = InputDataController(dataSignal: signal, title: strings().impulseMLanguageViewController, hasDone: false, identifier: "language")
 
     controller._becomeFirstResponder = {
         return false

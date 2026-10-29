@@ -456,7 +456,7 @@ private func prepareEntries(left: [AppearanceWrapperEntry<GeneralSettingsEntry>]
 open class GeneralSettingsViewController<Context: AccountContextProtocol>: TableViewController<Context> {
 
     open override var defaultBarTitle: String {
-        return strings().telegramGeneralSettingsViewController
+        return strings().impulseMGeneralSettingsViewController
     }
 
     

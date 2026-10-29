@@ -382,7 +382,7 @@ private func prepareTransition(left:[AppearanceWrapperEntry<InstalledStickerPack
 open class InstalledStickerPacksController<Context: AccountContextProtocol>: TableViewController<Context> {
 
     open override var defaultBarTitle: String {
-        return localizedString("Telegram.InstalledStickerPacksController")
+        return localizedString("ImpulseM.InstalledStickerPacksController")
     }
 
     private let focusOnItemTag: InstalledStickerPacksEntryTag?
