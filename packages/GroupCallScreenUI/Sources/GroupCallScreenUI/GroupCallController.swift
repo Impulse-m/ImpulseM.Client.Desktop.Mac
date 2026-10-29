@@ -1335,10 +1335,14 @@ public final class GroupCallUIController : ViewController {
         }, audioLevel: { [weak self] peerId in
             if let call = self?.data.call {
                 if peerId == call.joinAsPeerId {
-                    return combineLatest(animate, call.myAudioLevel)
-                        |> map (Optional.init)
-                        |> map { $0?.1 == 0 || $0?.0 == false ? nil : $0?.1 }
-                        |> mapToThrottled { value in
+                    let levels: Signal<(Bool, Float), NoError> = combineLatest(animate, call.myAudioLevel)
+                    let visibleLevel: Signal<Float?, NoError> = levels |> map { (value: (Bool, Float)) -> Float? in
+                        let visible: Bool = value.0
+                        let level: Float = value.1
+                        return level == 0 || !visible ? nil : level
+                    }
+                    return visibleLevel
+                        |> mapToThrottled { (value: Float?) -> Signal<Float?, NoError> in
                             return .single(value) |> delay(0.1, queue: .mainQueue())
                         }
                         |> deliverOnMainQueue
