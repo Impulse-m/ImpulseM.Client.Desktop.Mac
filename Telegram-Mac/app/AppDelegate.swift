@@ -1109,9 +1109,7 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
                             #if DEBUG
                             EmojiPanelLab.startIfRequested(context: context.context, outputDirectory: URL(fileURLWithPath: self.containerUrl).appendingPathComponent("perf-lab"))
                             GifPanelLab.startIfRequested(context: context.context, outputDirectory: URL(fileURLWithPath: self.containerUrl).appendingPathComponent("perf-lab"))
-                            ScreenCaptureLab.startIfRequested(outputDirectory: URL(fileURLWithPath: self.containerUrl).appendingPathComponent("perf-lab"))
                             CallVideoLab.startIfRequested(outputDirectory: URL(fileURLWithPath: self.containerUrl).appendingPathComponent("perf-lab"))
-                            PeerCallLab.startIfRequested(context: context.context, outputDirectory: URL(fileURLWithPath: self.containerUrl).appendingPathComponent("perf-lab"))
                             VideoPlayerLab.startIfRequested(context: context.context, outputDirectory: URL(fileURLWithPath: self.containerUrl).appendingPathComponent("perf-lab"))
                             ChatNavigationLab.startIfRequested(context: context.context, outputDirectory: URL(fileURLWithPath: self.containerUrl).appendingPathComponent("perf-lab"))
                             PeerMediaLab.startIfRequested(context: context.context, outputDirectory: URL(fileURLWithPath: self.containerUrl).appendingPathComponent("perf-lab"))

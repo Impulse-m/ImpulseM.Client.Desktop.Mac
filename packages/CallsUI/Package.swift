@@ -30,7 +30,6 @@ let deps: [(String, String)] = [
     ("ShortPeerRow", "../ShortPeerRow"),
     ("MessageUtils", "../MessageUtils"),
     ("DateSelectorUI", "../DateSelectorUI"),
-    ("TgVoipWebrtc", "../../submodules/tgcalls"),
     ("PushToTalk", "../PushToTalk"),
     ("PerfLab", "../PerfLab"),
     ("SceneEffects", "../SceneEffects"),
@@ -60,6 +59,10 @@ let package = Package(
                 .product(name: "Emoji", package: "Emoji", condition: nil),
             ] + deps.map { .product(name: $0.0, package: $0.0, condition: nil) },
             path: "Sources/CallsUI",
+            exclude: [
+                "PeerCallLab.swift",
+                "ScreenCaptureLab.swift",
+            ],
             swiftSettings: [.unsafeFlags(["-Xcc", "-DWEBRTC_MAC=1"])]),
     ]
 )
