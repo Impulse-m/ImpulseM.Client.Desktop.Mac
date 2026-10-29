@@ -1434,22 +1434,26 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
                 let link = inApp(for: url as NSString, context: context, openInfo: { (peerId, isChat, postId, action) in
                     context.bindings.rootNavigation().push(ChatController(context: context, chatLocation: .peer(peerId), focusTarget: .init(messageId: postId), initialAction:action), true)
                 }, applyProxy: { proxy in
-                    applyExternalProxy(proxy, accountManager: context.sharedContext.accountManager)
+                    if ImpulseFeatures.PROXY {
+                        applyExternalProxy(proxy, accountManager: context.sharedContext.accountManager)
+                    }
                 })
                 execute(inapp: link, isExternal: true)
             } else if let authContext = self.authContextValue {
-                let settings = proxySettings(from: url)
-                if settings.1 {
-                    AppDelegate.eventProcessed = nil
-                    if let proxy = settings.0 {
-                        applyExternalProxy(proxy, accountManager: authContext.sharedContext.accountManager)
-                    } else {
-                        _ = updateProxySettingsInteractively(accountManager: authContext.sharedContext.accountManager, { current -> ProxySettings in
-                            return current.withUpdatedActiveServer(nil)
-                        }).start()
+                if ImpulseFeatures.PROXY {
+                    let settings = proxySettings(from: url)
+                    if settings.1 {
+                        AppDelegate.eventProcessed = nil
+                        if let proxy = settings.0 {
+                            applyExternalProxy(proxy, accountManager: authContext.sharedContext.accountManager)
+                        } else {
+                            _ = updateProxySettingsInteractively(accountManager: authContext.sharedContext.accountManager, { current -> ProxySettings in
+                                return current.withUpdatedActiveServer(nil)
+                            }).start()
+                        }
                     }
                 }
-                
+
                 if url.range(of: legacyPassportUsername) != nil || url.range(of: "tg://passport") != nil {
                     alert(for: mainWindow, info: strings().secureIdLoginText)
                     self.executeUrlAfterLogin = url
