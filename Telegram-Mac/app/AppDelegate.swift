@@ -8,6 +8,7 @@ import TGUIKit
 import Quartz
 import MtProtoKit
 import ImpulseNetworkEngine
+import ProxyUI
 import CoreServices
 import LocalAuthentication
 import OpenSSLEncryption
@@ -822,8 +823,10 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
                 useBetaFeatures = false
                 #endif
                 
-                let networkArguments = NetworkInitializationArguments(apiId: ApiEnvironment.apiId, apiHash: ApiEnvironment.apiHash, languagesCategory: ApiEnvironment.language, appVersion: ApiEnvironment.version, voipMaxLayer: OngoingCallContext.maxLayer, voipVersions: voipVersions, appData: appData, externalRequestVerificationStream: .single([:]), externalRecaptchaRequestVerification: { _, _ in return .complete() }, autolockDeadine: .single(nil), encryptionProvider: OpenSSLEncryptionProvider(), deviceModelName: deviceModelPretty(), useBetaFeatures: useBetaFeatures, isICloudEnabled: false, networkEngineFactory: ImpulseNetworkEngineFactory())
-                
+                let networkArguments = NetworkInitializationArguments(apiId: ApiEnvironment.apiId, apiHash: ApiEnvironment.apiHash, languagesCategory: ApiEnvironment.language, appVersion: ApiEnvironment.version, voipMaxLayer: OngoingCallContext.maxLayer, voipVersions: voipVersions, appData: appData, externalRequestVerificationStream: .single([:]), externalRecaptchaRequestVerification: { _, _ in return .complete() }, autolockDeadine: .single(nil), encryptionProvider: OpenSSLEncryptionProvider(), deviceModelName: deviceModelPretty(), useBetaFeatures: useBetaFeatures, isICloudEnabled: false, networkEngineFactory: ImpulseNetworkEngineFactory(proxyRouteSource: ImpulseProxyRuntime.shared))
+
+                ImpulseProxyRuntime.shared.start(accountManager: accountManager)
+
                 let sharedContext = SharedAccountContext(accountManager: accountManager, networkArguments: networkArguments, rootPath: rootPath, encryptionParameters: encryptionParameters, appEncryption: appEncryption, displayUpgradeProgress: displayUpgrade)
                 
                 self.hangKeybind(sharedContext)
@@ -1616,6 +1619,7 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
     
     func applicationWillTerminate(_ notification: Notification) {
         self.terminated = true
+        ImpulseProxyRuntime.shared.stop()
         disarmCrashMarker()
         if let containerUrl = self.containerUrl {
             clearCrashMarker(folder: containerUrl)
