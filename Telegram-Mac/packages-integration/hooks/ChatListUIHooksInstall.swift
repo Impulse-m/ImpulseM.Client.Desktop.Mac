@@ -43,6 +43,9 @@ private func crashReportIcon() -> CGImage? {
 }
 
 private func sendCrashReports(_ reports: [CrashReport], context: AccountContext) {
+    guard crashReportsBotFlowEnabled else {
+        return
+    }
     _ = (context.engine.peers.resolvePeerByName(name: crashReportsBotUsername, referrer: nil) |> filter { $0 != .progress } |> take(1) |> deliverOnMainQueue).start(next: { result in
         guard let peer = result.result else {
             showModalText(for: context.window, text: strings().crashReportCouldNotOpenBot(crashReportsBotUsername))
@@ -155,6 +158,9 @@ func installChatListUIHooks() {
     }, formatPhoneNumber: { context, number in
         return formatPhoneNumber(context: context.concrete, number: number)
     }, crashReportCard: { context in
+        guard crashReportsBotFlowEnabled else {
+            return Signal<ChatListCrashReportCard?, NoError>.single(nil)
+        }
         return crashReportStore.reports |> deliverOnMainQueue |> map { reports -> ChatListCrashReportCard? in
             guard let newest = reports.first else {
                 return nil

@@ -3,6 +3,9 @@ import SwiftSignalKit
 
 public let crashReportsBotUsername = "macos_stable_updater_bot"
 
+/// The crash report upload flow to the bot stays off until an ImpulseM bot exists.
+public let crashReportsBotFlowEnabled: Bool = false
+
 public struct CrashReport: Equatable {
     public let url: URL
     public let date: Date
