@@ -238,7 +238,7 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
                     }
                 }
                 if current.selected == nil {
-                    let savedKey: String = FastSettings.defaultScreenShare()
+                    let savedKey: String? = FastSettings.defaultScreenShare()
                     let savedScreen: MacOSScreenPickerSource? = current.screens.first(where: { $0.uniqueKey() == savedKey })
                     let savedWindow: MacOSScreenPickerSource? = current.windows.first(where: { $0.uniqueKey() == savedKey })
                     let firstCamera: CameraCaptureDevice? = current.cameras.first
