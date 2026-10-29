@@ -143,8 +143,12 @@ private func checkProxyStatus(context: (any AccountContextProtocol), server: Pro
     }
 }
 
+func externalProxyApplyAllowed(featureEnabled: Bool) -> Bool {
+    return featureEnabled
+}
+
 public func applyExternalProxy(_ server: ProxyServerSettings, accountManager: AccountManager<TelegramAccountManagerTypes>) {
-    guard ImpulseFeatures.PROXY else {
+    guard externalProxyApplyAllowed(featureEnabled: ImpulseFeatures.PROXY) else {
         return
     }
 
