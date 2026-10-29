@@ -38,9 +38,9 @@ private func makeSearchItem(for peer: Peer, index: Int, accountPeer: Peer, accou
     let key = SpotlightIdentifier(recordId: accountId, source: .peerId(peer.id))
     let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeData as String)
     attributeSet.title = peer.displayTitle + " → \(accountPeer.addressName ?? accountPeer.displayTitle)"
-    attributeSet.contentDescription = "Popular contact in telegram"
+    attributeSet.contentDescription = "Popular contact in ImpulseM"
     attributeSet.thumbnailData = theme.icons.appUpdate.data
-    attributeSet.creator = "Telegram"
+    attributeSet.creator = "ImpulseM"
     attributeSet.kind = "Contact"
     
     return .recentPeer(key, index, CSSearchableItem(uniqueIdentifier: key.stringValue, domainIdentifier: Bundle.main.bundleIdentifier!, attributeSet: attributeSet), peer)

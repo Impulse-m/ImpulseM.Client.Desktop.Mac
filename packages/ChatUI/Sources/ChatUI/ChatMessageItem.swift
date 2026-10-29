@@ -38,7 +38,7 @@ private func openCalendarWithEvent(date: Date, title: String) {
     let icsContent = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//Telegram//macOS//EN",
+        "PRODID:-//ImpulseM//macOS//EN",
         "BEGIN:VEVENT",
         "DTSTART:\(startDate)",
         "DTEND:\(endDate)",
