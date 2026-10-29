@@ -1,7 +1,6 @@
 import Foundation
 import AVFoundation
 import TGUIKit
-import TgVoipWebrtc
 import SwiftSignalKit
 import TelegramMedia
 import Localization
@@ -340,8 +339,8 @@ public final class DesktopCapturerWindow : Window {
     private let listController: DesktopCaptureListUI
     public let mode: VideoSourceMacMode
     fileprivate let microIsOff: Bool
-    fileprivate let select: (VideoSourceMac, Bool)->Void
-    init(mode: VideoSourceMacMode, select: @escaping(VideoSourceMac, Bool)->Void, devices: DevicesContext, microIsOff: Bool) {
+    fileprivate let select: (CallCaptureSource, Bool)->Void
+    init(mode: VideoSourceMacMode, select: @escaping(CallCaptureSource, Bool)->Void, devices: DevicesContext, microIsOff: Bool) {
         self.mode = mode
         self.select = select
         self.microIsOff = microIsOff
@@ -436,7 +435,7 @@ public final class DesktopCapturerWindow : Window {
     }
 }
 
-extension VideoSourceMac {
+extension CallCaptureSource {
 
     public var mode: VideoSourceMacMode {
         if self is MacOSScreenPickerSource {
@@ -453,7 +452,7 @@ extension VideoSourceMac {
     }
 }
 
-public func presentDesktopCapturerWindow(mode: VideoSourceMacMode, select: @escaping(VideoSourceMac, Bool)->Void, devices: DevicesContext, microIsOff: Bool) -> DesktopCapturerWindow? {
+public func presentDesktopCapturerWindow(mode: VideoSourceMacMode, select: @escaping(CallCaptureSource, Bool)->Void, devices: DevicesContext, microIsOff: Bool) -> DesktopCapturerWindow? {
 
     switch mode {
     case .video:

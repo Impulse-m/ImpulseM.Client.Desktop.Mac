@@ -1,6 +1,5 @@
 import Foundation
 import AVFoundation
-import TgVoipWebrtc
 import TGUIKit
 import SwiftSignalKit
 import TelegramUtils
@@ -192,8 +191,8 @@ private final class DesktopCaptureSourceMacView : Control {
         return rect
     }
 
-    private var source: VideoSourceMac?
-    func update(view: NSView, source: VideoSourceMac, selected: Bool, animated: Bool, callback:@escaping()->Void) {
+    private var source: CallCaptureSource?
+    func update(view: NSView, source: CallCaptureSource, selected: Bool, animated: Bool, callback:@escaping()->Void) {
         self.callback = callback
         self.source = source
         view.frame = bounds
@@ -234,7 +233,7 @@ private final class DesktopCaptureSourceMacView : Control {
         needsLayout = true
     }
 
-    func viewFor(_ other: VideoSourceMac) -> NSView? {
+    func viewFor(_ other: CallCaptureSource) -> NSView? {
         if let source = self.source {
             if source.isEqual(other) {
                 return self.view

@@ -1,7 +1,6 @@
 import Foundation
 import AVFoundation
 import TGUIKit
-import TgVoipWebrtc
 import SwiftSignalKit
 import InAppSettings
 import TelegramTheme
@@ -35,9 +34,9 @@ private struct DesktopCaptureListState : Equatable {
     var cameras:[CameraCaptureDevice]
     var screens: [MacOSScreenPickerSource]
     var windows: [MacOSScreenPickerSource]
-    var selected: VideoSourceMac?
+    var selected: CallCaptureSource?
     var access:Access
-    init(cameras: [CameraCaptureDevice], screens: [MacOSScreenPickerSource], windows: [MacOSScreenPickerSource], selected: VideoSourceMac?, access: Access) {
+    init(cameras: [CameraCaptureDevice], screens: [MacOSScreenPickerSource], windows: [MacOSScreenPickerSource], selected: CallCaptureSource?, access: Access) {
         self.cameras = cameras
         self.screens = screens
         self.windows = windows
@@ -152,8 +151,8 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
 
     var excludeWindowNumber: Int = 0
 
-    private var getCurrentlySelected: (()->VideoSourceMac?)? = nil
-    var selected: VideoSourceMac? {
+    private var getCurrentlySelected: (()->CallCaptureSource?)? = nil
+    var selected: CallCaptureSource? {
         return self.getCurrentlySelected?()
     }
 
@@ -305,7 +304,7 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
             return EmptyDisposable
         } |> then(.complete() |> suspendAwareDelay(5, queue: .mainQueue()))) |> restart
 
-        let updateSelected: Signal<VideoSourceMac?, NoError> = statePromise.get() |> map { $0.selected } |> distinctUntilChanged(isEqual:  { lhs, rhs in
+        let updateSelected: Signal<CallCaptureSource?, NoError> = statePromise.get() |> map { $0.selected } |> distinctUntilChanged(isEqual:  { lhs, rhs in
             if let lhs = lhs, let rhs = rhs {
                 return lhs.isEqual(rhs)
             } else if (lhs != nil) != (rhs != nil) {
