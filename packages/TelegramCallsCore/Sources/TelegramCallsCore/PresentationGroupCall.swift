@@ -1072,6 +1072,8 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     private var groupCallParticipantUpdatesDisposable: Disposable?
     
     private let networkStateDisposable = MetaDisposable()
+    private let liveKitNetworkStatePromise: ValuePromise<LiveKitGroupNetworkState> = ValuePromise<LiveKitGroupNetworkState>(LiveKitGroupNetworkState(state: .connecting), ignoreRepeated: true)
+    private let liveKitAudioLevelsPipe: ValuePipe<[(LiveKitGroupAudioLevelKey, Float, Bool)]> = ValuePipe<[(LiveKitGroupAudioLevelKey, Float, Bool)]>()
     private let isMutedDisposable = MetaDisposable()
     private let memberStatesDisposable = MetaDisposable()
     private let leaveDisposable = MetaDisposable()
@@ -1787,6 +1789,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                     guard let strongSelf = self else {
                         return
                     }
+                    strongSelf.liveKitNetworkStatePromise.set(LiveKitGroupNetworkState(state: state))
                     if case .ended = state {
                         strongSelf.markAsCanBeRemoved()
                     }
@@ -2595,8 +2598,8 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
 
     @MainActor
     private func subscribeLiveKitGroupCall(_ genericCallContext: LiveKitGroupCallContext) {
-        self.networkStateDisposable.set((genericCallContext.networkState
-        |> deliverOnMainQueue).start(next: { [weak self] state in
+        self.networkStateDisposable.set((self.liveKitNetworkStatePromise.get()
+        |> deliverOnMainQueue).start(next: { [weak self] (state: LiveKitGroupNetworkState) -> Void in
             guard let strongSelf = self else {
                 return
             }
@@ -2641,7 +2644,10 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             }
         }))
 
-        self.audioLevelsDisposable.set((genericCallContext.audioLevels
+        genericCallContext.onAudioLevels = { [weak self] (levels: [(LiveKitGroupAudioLevelKey, Float, Bool)]) -> Void in
+            self?.liveKitAudioLevelsPipe.putNext(levels)
+        }
+        self.audioLevelsDisposable.set((self.liveKitAudioLevelsPipe.signal()
         |> deliverOnMainQueue).start(next: { [weak self] levels in
             guard let strongSelf = self else {
                 return
@@ -3098,7 +3104,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             self.muteActionVersion += 1
             self.isMutedValue = .muted(isPushToTalkActive: false)
             self.isMutedPromise.set(self.isMutedValue)
-            self.genericCallContext?.setIsMuted(true)
+            self.genericCallContext?.setMuted(true)
             self.stateValue.muteState = muteState ?? GroupCallParticipantsContext.Participant.MuteState(canUnmute: true, mutedByYou: false)
         } else if muteState != nil, self.isMutedValue == .unmuted {
             let _ = self.updateMuteState(peerId: self.joinAsPeerId, isMuted: false)
@@ -3139,7 +3145,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                 isVisuallyMuted = false
                 let _ = self.updateMuteState(peerId: self.joinAsPeerId, isMuted: false)
             }
-            self.genericCallContext?.setIsMuted(isEffectivelyMuted)
+            self.genericCallContext?.setMuted(isEffectivelyMuted)
             
 
             if isVisuallyMuted {
