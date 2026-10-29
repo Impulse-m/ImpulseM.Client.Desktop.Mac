@@ -5,6 +5,7 @@ import TelegramCore
 import TGUIKit
 import Localization
 import TelegramContext
+import ApiCredentials
 
 
 
@@ -70,6 +71,9 @@ func cachedFaqInstantPage(context: any AccountContextProtocol) -> Signal<Setting
 }
 
 func faqSearchableItems<Context: AccountContextProtocol>(context: Context) -> Signal<[SettingsSearchableItem<Context>], NoError> {
+    if !ImpulseFeatures.HELP_SECTION {
+        return .single([])
+    }
     return cachedFaqInstantPage(context: context)
         |> map { resolvedUrl -> [SettingsSearchableItem<Context>] in
             var results: [SettingsSearchableItem<Context>] = []

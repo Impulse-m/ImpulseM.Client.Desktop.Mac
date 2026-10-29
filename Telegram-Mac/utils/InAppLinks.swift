@@ -1701,19 +1701,25 @@ func execute(inapp:inAppLink, window: Window? = nil, isExternal: Bool = false, a
             afterComplete(true)
             return
         case .ask_question:
-            _ = showModalProgress(signal: context.engine.peers.supportPeerId(), for: getWindow(context)).start(next: { peerId in
-                if let peerId = peerId {
-                    context.bindings.rootNavigation().push(ChatController(context: context, chatLocation: .peer(peerId)))
-                }
-            })
+            if ImpulseFeatures.HELP_SECTION {
+                _ = showModalProgress(signal: context.engine.peers.supportPeerId(), for: getWindow(context)).start(next: { peerId in
+                    if let peerId = peerId {
+                        context.bindings.rootNavigation().push(ChatController(context: context, chatLocation: .peer(peerId)))
+                    }
+                })
+            }
             afterComplete(true)
             return
         case .faq:
-            openFaq(context: context)
+            if ImpulseFeatures.HELP_SECTION {
+                openFaq(context: context)
+            }
             afterComplete(true)
             return
         case .privacy_policy:
-            execute(inapp: .external(link: "https://telegram.org/privacy", true))
+            if ImpulseFeatures.HELP_SECTION {
+                execute(inapp: .external(link: "https://telegram.org/privacy", true))
+            }
             afterComplete(true)
             return
         case .search:
