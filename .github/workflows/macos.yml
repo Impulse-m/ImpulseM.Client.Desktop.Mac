@@ -227,24 +227,14 @@ jobs:
             echo "::error::Products directory not found: $PRODUCTS_DIR"
             exit 1
           fi
-          APPS="$(find "$PRODUCTS_DIR" -mindepth 1 -maxdepth 1 -type d -name '*.app' | sort)"
-          if [ -z "$APPS" ]; then
-            APP_COUNT=0
-          else
-            APP_COUNT="$(printf '%s\n' "$APPS" | wc -l | tr -d ' ')"
-          fi
-          if [ "$APP_COUNT" -ne 1 ]; then
-            echo "::error::Expected exactly one .app bundle in $PRODUCTS_DIR, found $APP_COUNT"
+          # The products also hold helper bundles (Sparkle's Autoupdate.app), so take the app by its product name.
+          APP_PATH="$PRODUCTS_DIR/ImpulseM.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "::error::App bundle not found: $APP_PATH"
             echo "Contents of $PRODUCTS_DIR:"
             ls -1 "$PRODUCTS_DIR"
-            if [ -n "$APPS" ]; then
-              echo "Matching .app directories:"
-              printf '%s\n' "$APPS"
-            fi
             exit 1
           fi
-          APP_PATH="$APPS"
-          test -d "$APP_PATH"
           echo "app_path=$APP_PATH" >> "$GITHUB_OUTPUT"
 
       - name: Zip unsigned app bundle
