@@ -112,6 +112,7 @@ public struct ChatListUIHooks {
     public let makeEditForumTopicController: (any AccountContextProtocol, PeerId, MessageHistoryThreadData, Int64) -> ViewController
     public let formatPhoneNumber: (any AccountContextProtocol, String) -> String
     public let crashReportCard: (any AccountContextProtocol) -> Signal<ChatListCrashReportCard?, NoError>
+    public var proxyIndicator: (any AccountContextProtocol) -> Signal<ChatListProxyIndicator?, NoError> = { _ in .single(nil) }
 
     public init(makeShareLinkModal: @escaping (any AccountContextProtocol, String) -> ModalViewController,
                 pushPeerInfo: @escaping (NavigationViewController, any AccountContextProtocol, PeerId) -> Void,
