@@ -32,7 +32,6 @@ let deps: [(String, String)] = [
     ("PremiumStatusUI", "../PremiumStatusUI"),
     ("StarsUI", "../StarsUI"),
     ("PasskeysUI", "../PasskeysUI"),
-    ("ProxyUtils", "../ProxyUtils"),
     ("CommunityUI", "../CommunityUI"),
     ("SelectPeersUI", "../SelectPeersUI"),
     ("FolderSharingUI", "../FolderSharingUI"),

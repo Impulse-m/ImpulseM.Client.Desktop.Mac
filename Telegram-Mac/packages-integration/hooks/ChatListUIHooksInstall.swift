@@ -185,30 +185,23 @@ func installChatListUIHooks() {
             ImpulseProxyRuntime.shared.settingsSignal(),
             context.account.network.connectionStatus
         ) |> map { status, settings, connection -> ChatListProxyIndicator? in
-            guard ImpulseFeatures.VLESS else {
-                return nil
-            }
-            let hasServer: Bool = settings.selectedId != nil || !settings.manual.isEmpty || settings.subscriptions.contains { (subscription) -> Bool in
-                return !subscription.servers.isEmpty
-            }
-            guard hasServer else {
-                return nil
-            }
+            let runtime: ChatListProxyRuntimeStatus
             switch status {
             case .off:
-                return .off
+                runtime = .off
             case .starting:
-                return .connecting
+                runtime = .starting
             case .failed:
-                return .failed
+                runtime = .failed
             case .running:
-                switch connection {
-                case .online, .updating:
-                    return .connected
-                case .connecting, .waitingForNetwork:
-                    return .connecting
-                }
+                runtime = .running
             }
+            return ChatListProxyIndicatorMapping.indicator(
+                isFeatureEnabled: ImpulseFeatures.VLESS,
+                hasServer: settings.hasAnyServer,
+                runtime: runtime,
+                connection: connection
+            )
         }
     }
     ChatListUIHooks.install(hooks)
