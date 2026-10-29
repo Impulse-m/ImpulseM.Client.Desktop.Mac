@@ -14,7 +14,15 @@ import TelegramTheme
 #endif
 
 
-public let appName = "Telegram"
+public let appName: String = {
+    let displayName: String? = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
+
+    guard let displayName = displayName, !displayName.isEmpty else {
+        return "ImpulseM"
+    }
+
+    return displayName
+}()
 public let kMediaImageExt = "jpg";
 public let kMediaGifExt = "mov";
 public let kMediaVideoExt = "mp4";

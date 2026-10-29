@@ -1,6 +1,7 @@
 import Cocoa
 import TGUIKit
 import TelegramCore
+import TelegramUtils
 import Postbox
 import SwiftSignalKit
 import GeneralRows
@@ -69,11 +70,11 @@ extension WalletUIEnvironment {
         makeAnimatedHeader(size, stableId: stableId, sticker: sticker, text: text, infoText: infoText, stickerSize: stickerSize, image: image, infoLinkHandler: nil, viewType: viewType)
     }
 
-    func alert(for window: Window, header: String? = "Telegram", info: String?, ok: String = strings().modalOK, onClose: (() -> Void)? = nil) {
+    func alert(for window: Window, header: String? = appName, info: String?, ok: String = strings().modalOK, onClose: (() -> Void)? = nil) {
         presentAlert(window: window, header: header, text: info, ok: ok, onClose: onClose)
     }
 
-    func dismissableAlert(for window: Window, header: String? = "Telegram", info: String?, ok: String = strings().modalOK) -> () -> Void {
+    func dismissableAlert(for window: Window, header: String? = appName, info: String?, ok: String = strings().modalOK) -> () -> Void {
         presentDismissableAlert(window: window, header: header, text: info, ok: ok)
     }
 
