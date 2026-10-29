@@ -331,7 +331,7 @@ private final class ChatExportRun {
     private func appendMessage(_ message: Message) {
         if message.media.first is TelegramMediaAction {
             let (text, entities, _) = serviceMessageText(message, account: context.account)
-            let html = ChatExportHtmlWriter.renderEntities(text: text, entities: entities)
+            let html = ChatExportHtmlWriter.renderEntities(text: text, entities: entities, meUrlPrefix: context.meUrlPrefix)
             if format.includesHtml, !html.isEmpty {
                 writer.appendService(id: message.id.id, html: html, timestamp: message.timestamp)
             }
@@ -349,7 +349,7 @@ private final class ChatExportRun {
         if let richText = message.richText {
             textHtml = ChatExportHtmlWriter.renderInstantPage(richText.instantPage)
         } else {
-            textHtml = ChatExportHtmlWriter.renderEntities(text: message.text, entities: message.textEntities?.entities ?? [])
+            textHtml = ChatExportHtmlWriter.renderEntities(text: message.text, entities: message.textEntities?.entities ?? [], meUrlPrefix: context.meUrlPrefix)
         }
 
         var forwarded: String?
@@ -1113,13 +1113,13 @@ private final class FullExportRun {
         public let thumbPath: String?
     }
 
-    private static let topAbout = "Machine-readable JSON export of your Telegram data."
-    private static let contactsAbout = "If you allow access, contacts are continuously synced with Telegram."
+    private static let topAbout = "Machine-readable JSON export of your ImpulseM data."
+    private static let contactsAbout = "If you allow access, contacts are continuously synced with ImpulseM."
     private static let sessionsAbout = "We may store this to display your connected devices in Settings > Privacy & Security > Show all sessions."
     private static let otherAbout = "Other types of data not mentioned above (beta)."
     private static let chatsAbout = "This is the list of all chats from this export."
     private static let frequentAbout = "People and bots you interact with most often."
-    private static let webSessionsAbout = "Websites and bots you have logged into with Telegram."
+    private static let webSessionsAbout = "Websites and bots you have logged into with ImpulseM."
 
     public init(context: any AccountContextProtocol, settings: FullExportSettings, cancelled: Atomic<Bool>, sessionsSignal: Signal<ActiveSessionsContextState, NoError>?, webSessionsSignal: Signal<WebSessionsContextState, NoError>?, emit: @escaping (FullExportUpdate) -> Void) {
         self.context = context
@@ -1408,7 +1408,7 @@ private final class FullExportRun {
         }
 
         let account = overview != nil ? accountHeaderInfo() : nil
-        overview?.writeIndex(fileName: "export_results.html", title: "Telegram Data Export", accountName: account?.name, accountAvatarSrc: account?.avatarSrc, accountColorIndex: account?.colorIndex ?? 0, accountInitials: account?.initials ?? "", menu: menu, chatsHeader: nil, chats: [])
+        overview?.writeIndex(fileName: "export_results.html", title: "ImpulseM Data Export", accountName: account?.name, accountAvatarSrc: account?.avatarSrc, accountColorIndex: account?.colorIndex ?? 0, accountInitials: account?.initials ?? "", menu: menu, chatsHeader: nil, chats: [])
         jsonWriter?.finish()
 
         if isCancelled {
@@ -1811,7 +1811,7 @@ private final class FullExportRun {
         let root = URL(fileURLWithPath: settings.path, isDirectory: true)
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        let base = "Telegram_Export_" + formatter.string(from: Date())
+        let base = "ImpulseM_Export_" + formatter.string(from: Date())
         var candidate = root.appendingPathComponent(base, isDirectory: true)
         var index = 2
         while FileManager.default.fileExists(atPath: candidate.path) {
