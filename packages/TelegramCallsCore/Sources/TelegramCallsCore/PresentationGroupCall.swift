@@ -936,7 +936,6 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     private var genericCallContext: LiveKitGroupCallContext?
     private var liveKitContextRequested: Bool = false
     private var currentConnectionMode: OngoingGroupCallContext.ConnectionMode = .none
-    private var screencastCallContext: OngoingGroupCallContext?
     
     private struct SsrcMapping {
             public var peerId: PeerId
@@ -1066,8 +1065,6 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     }
     
     private let joinDisposable = MetaDisposable()
-    private let screencastJoinDisposable = MetaDisposable()
-    private let screencastRequestDisposable = MetaDisposable()
     private let requestDisposable = MetaDisposable()
     private var groupCallParticipantUpdatesDisposable: Disposable?
     
@@ -1103,7 +1100,11 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     private var didApplyInitialOutput = false
     
     private var screenCapturer: OngoingCallVideoCapturer?
-    
+    /// The screen track waiting for the main connection to be joined. The presentation starts with it.
+    private var pendingScreencastTrack: LiveKitLocalVideoTrack?
+    /// The presentation endpoint from the join answer. It is shown once the presentation is published.
+    private var pendingPresentationEndpointId: String?
+
     public private(set) var schedulePending = false
     private var isScheduledStarted = false
     
@@ -1433,8 +1434,6 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         self.participantsContextStateDisposable.dispose()
         self.myAudioLevelDisposable.dispose()
         self.memberEventsPipeDisposable.dispose()
-        self.screencastJoinDisposable.dispose()
-        self.screencastRequestDisposable.dispose()
         self.myAudioLevelTimer?.invalidate()
         self.typingDisposable.dispose()
         self.updateTitleDisposable.dispose()
@@ -2616,9 +2615,18 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                     return
                 }
                 strongSelf.liveKitNetworkStatePromise.set(LiveKitGroupNetworkState(state: state))
+                if state == .connected {
+                    strongSelf.startPendingScreencast()
+                }
                 if case .ended = state {
                     strongSelf.markAsCanBeRemoved()
                 }
+            }
+            genericCallContext.onPresentationStateChanged = { [weak self] (isActive: Bool) -> Void in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.handleLiveKitPresentationStateChanged(isActive: isActive)
             }
             strongSelf.genericCallContext = genericCallContext
             strongSelf.settingsDisposable = (voiceCallSettings(strongSelf.sharedContext.accountManager) |> deliverOnMainQueue).start(next: { [weak genericCallContext] settings in
@@ -2913,6 +2921,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         let outcome: GroupCallSignalOutcome<JoinGroupCallAsScreencastResult, JoinGroupCallError> = await awaitGroupCallSignal(joinSignal |> deliverOnMainQueue)
         switch outcome {
         case let .value(result):
+            self.pendingPresentationEndpointId = result.endpointId
             return LiveKitGroupJoinResponse(
                 params: result.jsonParams,
                 participants: []
@@ -3008,8 +3017,6 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         self.leaving = true
         self.joinDisposable.dispose()
         self.requestDisposable.dispose()
-        self.screencastJoinDisposable.dispose()
-        self.screencastRequestDisposable.dispose()
         self.networkStateDisposable.dispose()
         self.audioLevelsDisposable.dispose()
         self.participantsContextStateDisposable.dispose()
@@ -3022,7 +3029,6 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         Task { @MainActor in
             liveKitContext?.stop()
         }
-        self.screencastCallContext?.stop(account: account, reportCallId: nil, debugLog: .init(nil))
         self._canBeRemoved.set(.single(true))
     }
     
@@ -3240,131 +3246,100 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     public var mustStopVideo:(()->Void)?
     
     public func requestScreencast(deviceId: OngoingCallVideoCapturer, source: CallCaptureSource) {
-        guard !self.leaving, !self.markedAsCanBeRemoved, self.screencastCallContext == nil, let callInfo = self.internalState.callInfo else {
+        guard !self.leaving, !self.markedAsCanBeRemoved, !self.hasScreencast else {
             return
         }
-        self.screencastRequestDisposable.set(nil)
+        self.hasScreencast = true
         self.screenCapturer = deviceId
-        
+
         self.stateValue.sources.screencast = source
-        
+
         self.screenCapturer?.setOnFatalError({ [weak self] in
             self?.mustStopSharing?()
         })
-        
+
         self.screenCapturer?.setOnPause({ [weak self] paused in
             guard let strongSelf = self else {
                 return
             }
             strongSelf.participantsContext?.updateVideoState(peerId: strongSelf.joinAsPeerId, isVideoMuted: nil, isVideoPaused: false, isPresentationPaused: paused)
         })
-        
-        var encryptionContext: OngoingGroupCallEncryptionContext?
-        if let e2eContext = self.e2eContext {
-            encryptionContext = OngoingGroupCallEncryptionContextImpl(e2eCall: e2eContext.state, channelId: 1)
-        } else if self.isConference {
-            encryptionContext = OngoingGroupCallEncryptionContextImpl(e2eCall: Atomic(value: ConferenceCallE2EContext.ContextStateHolder()), channelId: 1)
-        }
 
-        let screencastCallContext = OngoingGroupCallContext(audioSessionActive: .single(true), video: self.screenCapturer, requestMediaChannelDescriptions: { _, completion in
-            completion([])
-            return EmptyDisposable
-        },
-            rejoinNeeded: {},
-            outgoingAudioBitrateKbit: nil,
-            videoContentType: .screencast,
-            enableNoiseSuppression: false,
-            disableAudioInput: true,
-            enableSystemMute: false,
-            useReferenceImpl: true,
-            prioritizeVP8: false,
-            logPath: "",
-            onMutedSpeechActivityDetected: { _ in },
-            isConference: false,
-            audioIsActiveByDefault: false,
-            isStream: false,
-            sharedAudioDevice: nil,
-            encryptionContext: encryptionContext
-        )
-
-        self.screencastCallContext = screencastCallContext
-        self.hasScreencast = true
-        
-
-        self.screencastJoinDisposable.set((screencastCallContext.joinPayload
-        |> distinctUntilChanged(isEqual: { lhs, rhs in
-            if lhs.0 != rhs.0 {
-                return false
-            }
-            if lhs.1 != rhs.1 {
-                return false
-            }
-            return true
-        })
-        |> deliverOnMainQueue).start(next: { [weak self, weak screencastCallContext] joinPayload, _ in
-            guard let strongSelf = self, let screencastCallContext, strongSelf.screencastCallContext === screencastCallContext else {
-                return
-            }
-
-            strongSelf.screencastRequestDisposable.set((strongSelf.accountContext.engine.calls.joinGroupCallAsScreencast(
-                callId: callInfo.id,
-                accessHash: callInfo.accessHash,
-                joinPayload: joinPayload
-            )
-            |> deliverOnMainQueue).start(next: { [weak self, weak screencastCallContext] joinCallResult in
-                guard let strongSelf = self, let screencastCallContext, strongSelf.screencastCallContext === screencastCallContext else {
-                    return
-                }
-                let clientParams = joinCallResult.jsonParams
-
-                screencastCallContext.setConnectionMode(.rtc, keepBroadcastConnectedIfWasEnabled: false, isUnifiedBroadcast: false)
-                screencastCallContext.setJoinResponse(payload: clientParams)
-                                
-                strongSelf.stateValue.presentationEndpointId = joinCallResult.endpointId
-
-            }, error: { [weak self, weak screencastCallContext] _ in
-                guard let strongSelf = self, let screencastCallContext, strongSelf.screencastCallContext === screencastCallContext else {
+        let capturer: OngoingCallVideoCapturer = deviceId
+        Task { @MainActor [weak self] in
+            // The screen track is created in the background. A capturer that was replaced or stopped meanwhile publishes nothing.
+            guard let track: LiveKitLocalVideoTrack = await capturer.makeLocalVideoTrack() else {
+                guard let strongSelf = self, strongSelf.screenCapturer === capturer else {
                     return
                 }
                 strongSelf.disableScreencast()
                 strongSelf.mustStopSharing?()
-            }))
-        }))
-        
+                return
+            }
+            guard let strongSelf = self, strongSelf.screenCapturer === capturer, strongSelf.hasScreencast else {
+                return
+            }
+            strongSelf.pendingScreencastTrack = track
+            strongSelf.startPendingScreencast()
+        }
     }
 
-    
+
+    /// Starts the screen presentation once its track exists and the main connection is joined. The context refuses a presentation before that.
+    @MainActor
+    private func startPendingScreencast() {
+        guard let track: LiveKitLocalVideoTrack = self.pendingScreencastTrack, let context: LiveKitGroupCallContext = self.genericCallContext, context.state == .connected else {
+            return
+        }
+        self.pendingScreencastTrack = nil
+        context.startPresentation(track: track)
+    }
+
+
+    /// Applies the presentation state of the LiveKit context. A shown presentation gets its endpoint from the join answer.
+    /// A presentation that stops while sharing is still requested (a refused join or a failed publish) stops sharing and tells the UI.
+    @MainActor
+    private func handleLiveKitPresentationStateChanged(isActive: Bool) {
+        if isActive {
+            self.stateValue.presentationEndpointId = self.pendingPresentationEndpointId
+            return
+        }
+        self.pendingPresentationEndpointId = nil
+        self.stateValue.presentationEndpointId = nil
+        guard self.hasScreencast else {
+            return
+        }
+        self.disableScreencast()
+        // Ending the call also stops the presentation. The UI hears of the stop only while the call is still connected.
+        Task { @MainActor [weak self] in
+            guard let strongSelf = self, let context: LiveKitGroupCallContext = strongSelf.genericCallContext, context.state == .connected else {
+                return
+            }
+            strongSelf.mustStopSharing?()
+        }
+    }
+
+
     public func requestScreencast(deviceId: String, source: CallCaptureSource) {
-        if self.screencastCallContext != nil {
+        if self.hasScreencast {
             return
         }
 
         let screenCapturer = OngoingCallVideoCapturer(deviceId)
         requestScreencast(deviceId: screenCapturer, source: source)
     }
-    
+
     public func disableScreencast() {
-        self.screencastRequestDisposable.set(nil)
         self.hasScreencast = false
-        
+        self.pendingScreencastTrack = nil
+        self.pendingPresentationEndpointId = nil
         self.stateValue.presentationEndpointId = nil
-        if let screencastCallContext = self.screencastCallContext {
-            self.screencastJoinDisposable.set(nil)
-            self.screencastCallContext = nil
-            screencastCallContext.disableVideo()
-            screencastCallContext.stop(account: account, reportCallId: nil, debugLog: .init(nil))
-
-            let maybeCallInfo: GroupCallInfo? = self.internalState.callInfo
-
-            if let callInfo = maybeCallInfo {
-                self.screencastJoinDisposable.set(accountContext.engine.calls.leaveGroupCallAsScreencast(
-                    callId: callInfo.id,
-                    accessHash: callInfo.accessHash
-                ).start())
-            }
+        let liveKitContext: LiveKitGroupCallContext? = self.genericCallContext
+        Task { @MainActor in
+            liveKitContext?.stopPresentation()
         }
         self.screenCapturer = nil
-        
+
         self.stateValue.sources.screencast = nil
     }
     
@@ -3878,7 +3853,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         case .video:
             context = self.genericCallContext
         case .screencast:
-            context = self.screencastCallContext
+            context = self.genericCallContext
         }
         
         guard let context = context else {
