@@ -94,160 +94,6 @@ private final class GroupCallSignalWaiter<Value, Failure>: @unchecked Sendable {
 }
 
 
-private enum CurrentImpl {
-    case call(OngoingGroupCallContext)
-    case externalMediaStream(DirectMediaStreamingContext)
-}
-
-private extension CurrentImpl {
-    var joinPayload: Signal<(String, UInt32), NoError> {
-        switch self {
-        case let .call(callContext):
-            return callContext.joinPayload
-        case .externalMediaStream:
-            let ssrcId = UInt32.random(in: 0 ..< UInt32(Int32.max - 1))
-            let dict: [String: Any] = [
-                "fingerprints": [] as [Any],
-                "ufrag": "",
-                "pwd": "",
-                "ssrc": Int32(bitPattern: ssrcId),
-                "ssrc-groups": [] as [Any]
-            ]
-            guard let jsonString = (try? JSONSerialization.data(withJSONObject: dict, options: [])).flatMap({ String(data: $0, encoding: .utf8) }) else {
-                return .never()
-            }
-            return .single((jsonString, ssrcId))
-        }
-    }
-    
-    var networkState: Signal<OngoingGroupCallContext.NetworkState, NoError> {
-        switch self {
-        case let .call(callContext):
-            return callContext.networkState
-        case .externalMediaStream:
-            return .single(OngoingGroupCallContext.NetworkState(isConnected: true, isTransitioningFromBroadcastToRtc: false, isBroadcast: false))
-        }
-    }
-    
-    var audioLevels: Signal<[(OngoingGroupCallContext.AudioLevelKey, Float, Bool)], NoError> {
-        switch self {
-        case let .call(callContext):
-            return callContext.audioLevels
-        case .externalMediaStream:
-            return .single([])
-        }
-    }
-    
-    var isMuted: Signal<Bool, NoError> {
-        switch self {
-        case let .call(callContext):
-            return callContext.isMuted
-        case .externalMediaStream:
-            return .single(true)
-        }
-    }
-
-    var isNoiseSuppressionEnabled: Signal<Bool, NoError> {
-        switch self {
-        case let .call(callContext):
-            return callContext.isNoiseSuppressionEnabled
-        case .externalMediaStream:
-            return .single(false)
-        }
-    }
-    
-    func stop(account: Account, reportCallId: CallId?, debugLog: Promise<String?>) {
-        switch self {
-        case let .call(callContext):
-            callContext.stop(account: account, reportCallId: reportCallId, debugLog: debugLog)
-        case .externalMediaStream:
-            debugLog.set(.single(nil))
-        }
-    }
-    
-    func setIsMuted(_ isMuted: Bool) {
-        switch self {
-        case let .call(callContext):
-            callContext.setIsMuted(isMuted)
-        case .externalMediaStream:
-            break
-        }
-    }
-
-    func setIsNoiseSuppressionEnabled(_ isNoiseSuppressionEnabled: Bool) {
-        switch self {
-        case let .call(callContext):
-            callContext.setIsNoiseSuppressionEnabled(isNoiseSuppressionEnabled)
-        case .externalMediaStream:
-            break
-        }
-    }
-    
-    func requestVideo(_ capturer: OngoingCallVideoCapturer?) {
-        switch self {
-        case let .call(callContext):
-            callContext.requestVideo(capturer)
-        case .externalMediaStream:
-            break
-        }
-    }
-    
-    func disableVideo() {
-        switch self {
-        case let .call(callContext):
-            callContext.disableVideo()
-        case .externalMediaStream:
-            break
-        }
-    }
-    
-    func setVolume(ssrc: UInt32, volume: Double) {
-        switch self {
-        case let .call(callContext):
-            callContext.setVolume(ssrc: ssrc, volume: volume)
-        case .externalMediaStream:
-            break
-        }
-    }
-
-    func setRequestedVideoChannels(_ channels: [OngoingGroupCallContext.VideoChannel]) {
-        switch self {
-        case let .call(callContext):
-            callContext.setRequestedVideoChannels(channels)
-        case .externalMediaStream:
-            break
-        }
-    }
-
-    func addExternalAudioData(data: Data) {
-        switch self {
-        case let .call(callContext):
-            callContext.addExternalAudioData(data: data)
-        case .externalMediaStream:
-            break
-        }
-    }
-
-    func getStats(completion: @escaping (OngoingGroupCallContext.Stats) -> Void) {
-        switch self {
-        case let .call(callContext):
-            callContext.getStats(completion: completion)
-        case .externalMediaStream:
-            break
-        }
-    }
-    
-    func setTone(tone: OngoingGroupCallContext.Tone?) {
-        switch self {
-        case let .call(callContext):
-            callContext.setTone(tone: tone)
-        case .externalMediaStream:
-            break
-        }
-    }
-}
-
-
 private final class ConferenceCallE2EContextStateImpl: ConferenceCallE2EContextState {
     private let call: TdCall
 
@@ -927,7 +773,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     
     private var genericCallContext: LiveKitGroupCallContext?
     private var liveKitContextRequested: Bool = false
-    private var currentConnectionMode: OngoingGroupCallContext.ConnectionMode = .none
+    private var isRtcConnectionMode: Bool = false
     
     private struct SsrcMapping {
             public var peerId: PeerId
@@ -2054,7 +1900,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                         
                         if participant.id == .peer(strongSelf.joinAsPeerId) {
                             var filteredMuteState = participant.muteState
-                            if isReconnectingAsSpeaker || strongSelf.currentConnectionMode != .rtc {
+                            if isReconnectingAsSpeaker || !strongSelf.isRtcConnectionMode {
                                 filteredMuteState = GroupCallParticipantsContext.Participant.MuteState(canUnmute: false, mutedByYou: false)
                                 participant.muteState = filteredMuteState
                             }
@@ -2454,60 +2300,6 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     }
         
 
-    private func requestMediaChannelDescriptions(ssrcs: Set<UInt32>, completion: @escaping ([OngoingGroupCallContext.MediaChannelDescription]) -> Void) -> Disposable {
-        func extractMediaChannelDescriptions(remainingSsrcs: inout Set<UInt32>, participants: [GroupCallParticipantsContext.Participant], into result: inout [OngoingGroupCallContext.MediaChannelDescription]) {
-            for participant in participants {
-                guard let audioSsrc = participant.ssrc else {
-                    continue
-                }
-
-                if remainingSsrcs.contains(audioSsrc) {
-                    remainingSsrcs.remove(audioSsrc)
-                    if let participantPeer = participant.peer {
-                        result.append(OngoingGroupCallContext.MediaChannelDescription(
-                            kind: .audio,
-                            peerId: participantPeer.id.id._internalGetInt64Value(),
-                            audioSsrc: audioSsrc,
-                            videoDescription: nil
-                        ))
-                    }
-                }
-
-                if let screencastSsrc = participant.presentationDescription?.audioSsrc {
-                    if remainingSsrcs.contains(screencastSsrc) {
-                        remainingSsrcs.remove(screencastSsrc)
-                        if let participantPeer = participant.peer {
-                            result.append(OngoingGroupCallContext.MediaChannelDescription(
-                                kind: .audio,
-                                peerId: participantPeer.id.id._internalGetInt64Value(),
-                                audioSsrc: screencastSsrc,
-                                videoDescription: nil
-                            ))
-                        }
-                    }
-                }
-            }
-        }
-
-        var remainingSsrcs = ssrcs
-        var result: [OngoingGroupCallContext.MediaChannelDescription] = []
-
-        if let membersValue = self.membersValue {
-            extractMediaChannelDescriptions(remainingSsrcs: &remainingSsrcs, participants: membersValue.participants, into: &result)
-        }
-
-        if !remainingSsrcs.isEmpty, let callInfo = self.internalState.callInfo {
-            return (accountContext.engine.calls.getGroupCallParticipants(reference: .id(id: callInfo.id, accessHash: callInfo.accessHash), offset: "", ssrcs: Array(remainingSsrcs), limit: 100, sortAscending: callInfo.sortAscending)
-            |> deliverOnMainQueue).start(next: { state in
-                extractMediaChannelDescriptions(remainingSsrcs: &remainingSsrcs, participants: state.participants, into: &result)
-
-                completion(result)
-            })
-        } else {
-            completion(result)
-            return EmptyDisposable
-        }
-    }
 
     
     private func startCheckingCallIfNeeded() {
@@ -2893,9 +2685,9 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
 
         switch joinCallResult.connectionMode {
         case .rtc:
-            self.currentConnectionMode = .rtc
+            self.isRtcConnectionMode = true
         case .broadcast:
-            self.currentConnectionMode = .broadcast
+            self.isRtcConnectionMode = false
         }
 
         self.updateSessionState(internalState: .established(info: joinCallResult.callInfo, connectionMode: joinCallResult.connectionMode, clientParams: joinCallResult.jsonParams, localSsrc: localSsrc, initialState: joinCallResult.state))
@@ -3407,7 +3199,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         
     }
 
-    private var requestedVideoChannels: [OngoingGroupCallContext.VideoChannel] = []
+    private var requestedVideoChannels: [LiveKitGroupVideoRequest] = []
     private var suspendVideoChannelRequests: Bool = false
 
     /// The video channels that the LiveKit call requests now: none while requests are suspended, otherwise the requested channels.
@@ -3416,16 +3208,10 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         if self.suspendVideoChannelRequests {
             return []
         }
-        return self.requestedVideoChannels.map { (channel: OngoingGroupCallContext.VideoChannel) -> LiveKitGroupVideoRequest in
-            return LiveKitGroupVideoRequest(
-                endpoint: channel.endpointId,
-                quality: PresentationGroupCallImpl.liveKitVideoQuality(channel.maxQuality),
-                isVisible: true
-            )
-        }
+        return self.requestedVideoChannels
     }
 
-    private static func liveKitVideoQuality(_ quality: OngoingGroupCallContext.VideoChannel.Quality) -> LiveKitGroupVideoQuality {
+    private static func liveKitVideoQuality(_ quality: PresentationGroupCallRequestedVideo.Quality) -> LiveKitGroupVideoQuality {
         switch quality {
         case .thumbnail:
             return .low
@@ -3444,34 +3230,11 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     }
     
     public func setRequestedVideoList(items: [PresentationGroupCallRequestedVideo]) {
-        let requestedVideoChannels = items.map { item -> OngoingGroupCallContext.VideoChannel in
-            let mappedMinQuality: OngoingGroupCallContext.VideoChannel.Quality
-            let mappedMaxQuality: OngoingGroupCallContext.VideoChannel.Quality
-            switch item.minQuality {
-            case .thumbnail:
-                mappedMinQuality = .thumbnail
-            case .medium:
-                mappedMinQuality = .medium
-            case .full:
-                mappedMinQuality = .full
-            }
-            switch item.maxQuality {
-            case .thumbnail:
-                mappedMaxQuality = .thumbnail
-            case .medium:
-                mappedMaxQuality = .medium
-            case .full:
-                mappedMaxQuality = .full
-            }
-            return OngoingGroupCallContext.VideoChannel(
-                audioSsrc: item.audioSsrc,
-                peerId: item.peerId,
-                endpointId: item.endpointId,
-                ssrcGroups: item.ssrcGroups.map { group in
-                    return OngoingGroupCallContext.VideoChannel.SsrcGroup(semantics: group.semantics, ssrcs: group.ssrcs)
-                },
-                minQuality: mappedMinQuality,
-                maxQuality: mappedMaxQuality
+        let requestedVideoChannels: [LiveKitGroupVideoRequest] = items.map { (item: PresentationGroupCallRequestedVideo) -> LiveKitGroupVideoRequest in
+            return LiveKitGroupVideoRequest(
+                endpoint: item.endpointId,
+                quality: PresentationGroupCallImpl.liveKitVideoQuality(item.maxQuality),
+                isVisible: true
             )
         }
         guard self.requestedVideoChannels != requestedVideoChannels else {
@@ -3537,7 +3300,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         guard !self.leaving && !self.markedAsCanBeRemoved else {
             return
         }
-        self.currentConnectionMode = .none
+        self.isRtcConnectionMode = false
 
         self.internalState = .requesting
         self.internalStatePromise.set(.single(.requesting))
