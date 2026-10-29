@@ -7,7 +7,6 @@ import TGUIKit
 import CoreGraphics
 
 import TelegramVoip
-import TgVoipWebrtc
 import Localization
 import ColorPalette
 import TelegramContext
@@ -1051,11 +1050,36 @@ public class PCallSession {
         switch sessionState.state {
         case .requesting:
             break
-        case let .active(id, key, _, connections, maxLayer, version, _, allowsP2P, _):
+        case let .active(id, key, _, connections, maxLayer, version, customParameters, allowsP2P, _):
             if !wasActive {
                 let logName = "\(id.id)_\(id.accessHash)"
-                
-                let ongoingContext = OngoingCallContext(account: account, callSessionManager: self.callSessionManager, internalId: self.internalId, proxyServer: proxyServer, initialNetworkType: self.currentNetworkType, updatedNetworkType: self.updatedNetworkType, serializedData: self.serializedData, dataSaving: dataSaving, derivedState: self.derivedState, key: key, isOutgoing: sessionState.isOutgoing, video: self.videoCapturer, connections: connections, maxLayer: maxLayer, version: version, allowP2P: allowsP2P, enableTCP: self.enableTCP, enableStunMarking: self.enableStunMarking, logName: logName, preferredVideoCodec: self.preferredVideoCodec, inputDeviceId: self.devicesContext.currentMicroId, outputDeviceId: self.devicesContext.currentOutputId)
+
+                let ongoingContext = OngoingCallContext(
+                    account: account,
+                    callSessionManager: self.callSessionManager,
+                    internalId: self.internalId,
+                    callId: id.id,
+                    proxyServer: proxyServer,
+                    initialNetworkType: self.currentNetworkType,
+                    updatedNetworkType: self.updatedNetworkType,
+                    serializedData: self.serializedData,
+                    dataSaving: dataSaving,
+                    derivedState: self.derivedState,
+                    key: key,
+                    isOutgoing: sessionState.isOutgoing,
+                    video: self.videoCapturer,
+                    connections: connections,
+                    maxLayer: maxLayer,
+                    version: version,
+                    customParameters: customParameters,
+                    allowP2P: allowsP2P,
+                    enableTCP: self.enableTCP,
+                    enableStunMarking: self.enableStunMarking,
+                    logName: logName,
+                    preferredVideoCodec: self.preferredVideoCodec,
+                    inputDeviceId: self.devicesContext.currentMicroId,
+                    outputDeviceId: self.devicesContext.currentOutputId
+                )
                 self.ongoingContext = ongoingContext
                 
                 ongoingContext.setIsMuted(self.isMuted)
