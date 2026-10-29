@@ -144,10 +144,13 @@ final class QrStudioView: View {
     private var contactToken: ExportedContactToken?
     private var contactTokenGeneration = 0
     private var contactTokenStaleAttempt = 0
-    private lazy var placeholderContactLink: String = {
-        let alphabet = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
-        return "https://t.me/contact/" + String((0 ..< 32).map { _ in alphabet.randomElement()! })
+    private lazy var placeholderContactToken: String = {
+        let alphabet: [Character] = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+        return String((0 ..< 32).map { _ in alphabet.randomElement()! })
     }()
+    private var placeholderContactLink: String {
+        return (self.context?.meUrlPrefix ?? "") + "contact/" + self.placeholderContactToken
+    }
     private var didRequestContactToken = false
 
     private let pan = QrStudioPan()
@@ -1137,6 +1140,7 @@ final class QrStudioView: View {
         guard let peer = self.peer else {
             return ""
         }
+        let prefix: String = self.context?.meUrlPrefix ?? ""
         if self.codeState.removeFee && self.paidPrice != nil {
             let token: ExportedNoPaidMessagesToken?
             if self.temporary {
@@ -1152,10 +1156,10 @@ final class QrStudioView: View {
                 }
                 if !self.temporary {
                     if let addressName = peer.addressName, !addressName.isEmpty {
-                        return "https://t.me/\(addressName)?free=\(token.token)"
+                        return prefix + "\(addressName)?free=\(token.token)"
                     }
                     if case let .user(user) = peer, let phone = user.phone, !phone.isEmpty {
-                        return "https://t.me/+\(phone)?free=\(token.token)"
+                        return prefix + "+\(phone)?free=\(token.token)"
                     }
                 }
             }
@@ -1164,11 +1168,11 @@ final class QrStudioView: View {
             return self.contactToken?.url ?? ""
         }
         if let addressName = peer.addressName, !addressName.isEmpty {
-            return "https://t.me/\(addressName)"
+            return prefix + "\(addressName)"
         } else if case let .user(user) = peer {
-            return "https://t.me/+\(user.phone ?? "")"
+            return prefix + "+\(user.phone ?? "")"
         } else if case .channel = peer {
-            return "https://t.me/c/\(peer.id.id._internalGetInt64Value())"
+            return prefix + "c/\(peer.id.id._internalGetInt64Value())"
         }
         return ""
     }
