@@ -1055,11 +1055,11 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             }
             if let id = pendingInputDeviceId {
                 pendingInputDeviceId = nil
-                self.genericCallContext?.switchAudioInput(id)
+                self.genericCallContext?.post(.switchAudioInput(id))
             }
             if let id = pendingOutputDeviceId {
                 pendingOutputDeviceId = nil
-                self.genericCallContext?.switchAudioOutput(id)
+                self.genericCallContext?.post(.switchAudioOutput(id))
             }
         }
         let devicesUpdates = DisposableSet()
@@ -1146,14 +1146,14 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                     }
                 }
                 if !removedPeers.isEmpty {
-                    strongSelf.genericCallContext?.updateParticipants(removedPeers.map { (peerId: PeerId) -> LiveKitGroupParticipant in
+                    strongSelf.genericCallContext?.post(.updateParticipants(removedPeers.map { (peerId: PeerId) -> LiveKitGroupParticipant in
                         return LiveKitGroupParticipant(
                             peerKey: GroupCallParticipantsContext.Participant.Id.peer(peerId).description,
                             isSelf: peerId == strongSelf.joinAsPeerId,
                             videoEndpoint: nil,
                             presentationEndpoint: nil
                         )
-                    })
+                    }))
                 }
                 //strongSelf.callContext?.addParticipants(participants: addedParticipants)
             }
@@ -1882,16 +1882,16 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                         } else {
                             if let ssrc = participant.ssrc {
                                 if let volume = participant.volume {
-                                    strongSelf.genericCallContext?.setVolume(ssrc: ssrc, volume: Double(volume) / 10000.0)
+                                    strongSelf.genericCallContext?.post(.setVolume(ssrc: ssrc, volume: Double(volume) / 10000.0))
                                 } else if participant.muteState?.mutedByYou == true {
-                                    strongSelf.genericCallContext?.setVolume(ssrc: ssrc, volume: 0.0)
+                                    strongSelf.genericCallContext?.post(.setVolume(ssrc: ssrc, volume: 0.0))
                                 }
                             }
                             if let presentationSsrc = participant.presentationDescription?.audioSsrc {
                                 if let volume = participant.volume {
-                                    strongSelf.genericCallContext?.setVolume(ssrc: presentationSsrc, volume: Double(volume) / 10000.0)
+                                    strongSelf.genericCallContext?.post(.setVolume(ssrc: presentationSsrc, volume: Double(volume) / 10000.0))
                                 } else if participant.muteState?.mutedByYou == true {
-                                    strongSelf.genericCallContext?.setVolume(ssrc: presentationSsrc, volume: 0.0)
+                                    strongSelf.genericCallContext?.post(.setVolume(ssrc: presentationSsrc, volume: 0.0))
                                 }
                             }
 
@@ -2912,7 +2912,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             self.muteActionVersion += 1
             self.isMutedValue = .muted(isPushToTalkActive: false)
             self.isMutedPromise.set(self.isMutedValue)
-            self.genericCallContext?.setMuted(true)
+            self.genericCallContext?.post(.setMuted(true))
             self.stateValue.muteState = muteState ?? GroupCallParticipantsContext.Participant.MuteState(canUnmute: true, mutedByYou: false)
         } else if muteState != nil, self.isMutedValue == .unmuted {
             let _ = self.updateMuteState(peerId: self.joinAsPeerId, isMuted: false)
@@ -2953,7 +2953,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                 isVisuallyMuted = false
                 let _ = self.updateMuteState(peerId: self.joinAsPeerId, isMuted: false)
             }
-            self.genericCallContext?.setMuted(isEffectivelyMuted)
+            self.genericCallContext?.post(.setMuted(isEffectivelyMuted))
             
 
             if isVisuallyMuted {
@@ -2964,10 +2964,10 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             
             if !isEffectivelyMuted {
                 if let id = self.devicesContext.currentMicroId {
-                    self.genericCallContext?.switchAudioInput(id)
+                    self.genericCallContext?.post(.switchAudioInput(id))
                 }
                 if let id = self.devicesContext.currentOutputId {
-                    self.genericCallContext?.switchAudioOutput(id)
+                    self.genericCallContext?.post(.switchAudioOutput(id))
                 }
             }
         })
@@ -3152,7 +3152,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         self.hasVideo = false
         if let _ = self.videoCapturer {
             self.videoCapturer = nil
-            self.genericCallContext?.disableCamera()
+            self.genericCallContext?.post(.disableCamera)
             self.participantsContext?.updateVideoState(peerId: self.joinAsPeerId, isVideoMuted: true, isVideoPaused: false, isPresentationPaused: nil)
         }
         self.stateValue.sources.video = nil
@@ -3164,7 +3164,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         var found = false
         for (ssrc, mapping) in self.ssrcMapping {
             if mapping.peerId == peerId {
-                self.genericCallContext?.setVolume(ssrc: ssrc, volume: Double(volume) / 10000.0)
+                self.genericCallContext?.post(.setVolume(ssrc: ssrc, volume: Double(volume) / 10000.0))
                 found = true
             }
         }
@@ -3200,7 +3200,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     public func setSuspendVideoChannelRequests(_ value: Bool) {
         if CallVideoTuning.isOptimized, self.suspendVideoChannelRequests != value {
             self.suspendVideoChannelRequests = value
-            self.genericCallContext?.setRequestedVideoChannels(self.requestedLiveKitVideo)
+            self.genericCallContext?.post(.setRequestedVideoChannels(self.requestedLiveKitVideo))
         }
     }
     
@@ -3217,7 +3217,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         }
         self.requestedVideoChannels = requestedVideoChannels
         if !self.suspendVideoChannelRequests {
-            self.genericCallContext?.setRequestedVideoChannels(self.requestedLiveKitVideo)
+            self.genericCallContext?.post(.setRequestedVideoChannels(self.requestedLiveKitVideo))
         }
     }
 
@@ -3578,20 +3578,28 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         if let promise: Promise<VideoTrack?> = self.remoteVideoTrackPromises[endpointId] {
             return promise.get()
         }
-        let promise: Promise<VideoTrack?> = Promise<VideoTrack?>(self.liveKitRemoteVideoTrack(endpointId: endpointId))
+        let promise: Promise<VideoTrack?> = Promise<VideoTrack?>(nil)
         self.remoteVideoTrackPromises[endpointId] = promise
+        self.requestLiveKitRemoteVideoTrack(endpointId: endpointId, promise: promise)
         return promise.get()
     }
 
-    private func liveKitRemoteVideoTrack(endpointId: String) -> VideoTrack? {
-        let track: VideoTrack? = self.genericCallContext?.remoteVideoTrack(endpoint: endpointId)?.sdkTrack
-        return track
+    /// Asks the call context for the endpoint's track on the main actor, and fulfils the promise with the answer. Without a call context the promise gets nil.
+    private func requestLiveKitRemoteVideoTrack(endpointId: String, promise: Promise<VideoTrack?>) {
+        guard let context: LiveKitGroupCallContext = self.genericCallContext else {
+            promise.set(.single(nil))
+            return
+        }
+        context.requestRemoteVideoTrack(endpoint: endpointId, completion: { (track: LiveKitGroupRemoteVideoTrack?) -> Void in
+            let sdkTrack: VideoTrack? = track?.sdkTrack
+            promise.set(.single(sdkTrack))
+        })
     }
 
     /// Looks every requested endpoint up again in the current call context.
     private func refreshRemoteVideoTracks() {
         for (endpointId, promise): (String, Promise<VideoTrack?>) in self.remoteVideoTrackPromises {
-            promise.set(.single(self.liveKitRemoteVideoTrack(endpointId: endpointId)))
+            self.requestLiveKitRemoteVideoTrack(endpointId: endpointId, promise: promise)
         }
     }
 
