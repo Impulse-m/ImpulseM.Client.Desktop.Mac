@@ -12054,6 +12054,7 @@ open class ChatController<Context: AccountContextProtocol>: TelegramGenericViewC
     }
     
     func showChatThemeSelector() {
+        guard ImpulseFeatures.CHAT_WALLPAPER_AND_THEME else { return }
         
         guard themeSelector == nil else {
             return

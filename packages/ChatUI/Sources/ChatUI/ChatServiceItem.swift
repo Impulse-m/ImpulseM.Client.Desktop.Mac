@@ -10,6 +10,7 @@ import ThemeSettings
 import TelegramMedia
 import TelegramMediaPlayer
 import AlertsUI
+import ApiCredentials
 import AvatarUI
 import ChatHistoryModel
 import GeneralRows
@@ -1282,7 +1283,7 @@ public class ChatServiceItem: ChatRowItem {
                             }
                         }
                         
-                        if !emoji.isEmpty {
+                        if ImpulseFeatures.CHAT_WALLPAPER_AND_THEME, !emoji.isEmpty {
                             let range = attributedString.string.nsstring.range(of: emoji)
                             if range.location != NSNotFound {
                                 attributedString.add(link:LinkHooks.shared.callbackLink("", { [weak chatInteraction] _ in
@@ -6544,7 +6545,7 @@ public class ChatServiceRowView: TableRowView, RevealTableView {
                                 ChatNavigationHooks.shared.showWallpaperPreview(item.context, data.wallpaper, messageId, { [weak chatInteraction] in
                                     chatInteraction?.closeChatThemes()
                                 }, item.context.window)
-                            } else {
+                            } else if ImpulseFeatures.CHAT_WALLPAPER_AND_THEME {
                                 item.chatInteraction.setupChatThemes()
                             }
                         }
