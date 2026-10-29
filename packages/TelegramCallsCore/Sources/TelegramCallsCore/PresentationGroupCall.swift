@@ -7,7 +7,6 @@ import AVFoundation
 import TelegramVoip
 import TGUIKit
 import CallVideoLayer
-import TgVoipWebrtc
 import TdBinding
 import Localization
 import ColorPalette
@@ -630,8 +629,8 @@ private extension PresentationGroupCallState {
 public struct GroupCallInitialOutput {
     public struct Video {
         public var capturer: OngoingCallVideoCapturer
-        public var source: VideoSourceMac
-        public init(capturer: OngoingCallVideoCapturer, source: VideoSourceMac) {
+        public var source: CallCaptureSource
+        public init(capturer: OngoingCallVideoCapturer, source: CallCaptureSource) {
             self.capturer = capturer
             self.source = source
         }
@@ -3008,7 +3007,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     public var mustStopSharing:(()->Void)?
     public var mustStopVideo:(()->Void)?
     
-    public func requestScreencast(deviceId: OngoingCallVideoCapturer, source: VideoSourceMac) {
+    public func requestScreencast(deviceId: OngoingCallVideoCapturer, source: CallCaptureSource) {
         guard !self.leaving, !self.markedAsCanBeRemoved, self.screencastCallContext == nil, let callInfo = self.internalState.callInfo else {
             return
         }
@@ -3103,7 +3102,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     }
 
     
-    public func requestScreencast(deviceId: String, source: VideoSourceMac) {
+    public func requestScreencast(deviceId: String, source: CallCaptureSource) {
         if self.screencastCallContext != nil {
             return
         }
@@ -3143,7 +3142,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     }
 
 
-    public func requestVideo(deviceId: OngoingCallVideoCapturer, source: VideoSourceMac) {
+    public func requestVideo(deviceId: OngoingCallVideoCapturer, source: CallCaptureSource) {
         guard !self.leaving && !self.markedAsCanBeRemoved else {
             return
         }
@@ -3160,7 +3159,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     }
 
     
-    public func requestVideo(deviceId: String, source: VideoSourceMac) {
+    public func requestVideo(deviceId: String, source: CallCaptureSource) {
         if self.videoCapturer != nil {
             return
         }
