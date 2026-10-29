@@ -36,6 +36,7 @@ import TelegramTheme
 import TelegramUtils
 import Strings
 import InputView
+import ApiCredentials
 
 
 private func calculateAdjustedPoint(for point: CGPoint,
@@ -8196,7 +8197,7 @@ open class ChatController<Context: AccountContextProtocol>: TelegramGenericViewC
                     let price = present.sendPaidMessageStars.flatMap({ Int($0.value) })
                     
                     let freezeAccount = context.appConfiguration.getGeneralValue("freeze_since_date", orElse: 0)
-                    let freezeAccountAppealAddressName = context.appConfiguration.getStringValue("freeze_appeal_url", orElse: "https://t.me/spambot")
+                    let freezeAccountAppealAddressName = context.appConfiguration.getStringValue("freeze_appeal_url", orElse: context.meUrlPrefix + "spambot")
                     
                     
                     
@@ -10071,7 +10072,7 @@ open class ChatController<Context: AccountContextProtocol>: TelegramGenericViewC
                                 self?.createGroup()
                             }, itemImage: MenuAnimation.menu_create_group.value))
                         }
-                        if !isServicePeer(peer), chatInteraction.presentation.sendPaidMessageStars == nil {
+                        if ImpulseFeatures.CHAT_WALLPAPER_AND_THEME, !isServicePeer(peer), chatInteraction.presentation.sendPaidMessageStars == nil {
                             items.append(ContextMenuItem(strings().peerInfoChatBackground, handler: { [weak self] in
                                 self?.showChatThemeSelector()
                             }, itemImage: MenuAnimation.menu_change_colors.value))

@@ -116,7 +116,7 @@ private final class OptionsItem : GeneralRowItem {
         
         var options:[OptionsListView.Option] = []
         
-        _ = context.appConfiguration.getStringValue("freeze_appeal_url", orElse: "https://t.me/spambot")
+        _ = context.appConfiguration.getStringValue("freeze_appeal_url", orElse: context.meUrlPrefix + "spambot")
         let freezeTime = context.appConfiguration.getGeneralValue("freeze_since_date", orElse: 0)
 
         
@@ -275,7 +275,7 @@ public func FrozenAccountController(context: any AccountContextProtocol) -> Inpu
         }
     }
     
-    let appealLink = context.appConfiguration.getStringValue("freeze_appeal_url", orElse: "https://t.me/spambot")
+    let appealLink = context.appConfiguration.getStringValue("freeze_appeal_url", orElse: context.meUrlPrefix + "spambot")
 
     
     let appeal:()->Void = {
