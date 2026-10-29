@@ -37,7 +37,7 @@ private func hTmeParseDuration(_ durationStr: String) -> Int {
     return Int(durationStr) ?? 0
 }
 
-public let telegram_me:[String] = ["telegram.me/","telegram.dog/","t.me/"]
+public let telegram_me:[String] = ["telegram.me/","telegram.dog/","t.me/","o.impulsem.net/"]
 private let actions_me:[String] = ["joinchat/","addstickers/","addemoji/","confirmphone","socks", "proxy", "setlanguage/", "bg/", "addtheme/","invoice/", "addlist/", "boost", "giftcode/", "m/", "nft/", "call/", "auction/", "newbot/", "addstyle/", "webproxy"]
 
 let telegram_scheme:String = "tg://"
@@ -210,7 +210,8 @@ public func parseInAppLink(_ url: NSString, options: InAppLinkParsingOptions = I
 
     let mightBeTelegramDomain =
         value.range(of: "t.me").location != NSNotFound ||
-        value.range(of: "telegram.").location != NSNotFound
+        value.range(of: "telegram.").location != NSNotFound ||
+        value.range(of: "impulsem.net").location != NSNotFound
 
     if mightBeTelegramDomain {
     for domain in telegram_me {

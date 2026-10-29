@@ -30,6 +30,19 @@ final class LinkParsingTests: XCTestCase {
         assertPeer("TG://resolve?domain=alice&post=42", username: "alice", post: 42)
     }
 
+    func testImpulseMShortLinkHostIsRecognisedAndUpstreamHostsAreKept() {
+        assertPeer("https://o.impulsem.net/alice/42", username: "alice", post: 42)
+        assertPeer("o.impulsem.net/alice/42", username: "alice", post: 42)
+        assertPeer("https://o.impulsem.net/alice?start=hello", username: "alice", action: .start(parameter: "hello", behavior: .none))
+        for domain in ["t.me", "telegram.me", "telegram.dog"] {
+            assertPeer("https://\(domain)/alice/42", username: "alice", post: 42)
+        }
+        guard case let .external(link, _) = parse("https://impulsem.net/") else {
+            return XCTFail("The ImpulseM site root is an ordinary web link")
+        }
+        XCTAssertEqual(link, "https://impulsem.net/")
+    }
+
     func testFreeMessageLinks() {
         let cases = [
             ("t.me/user?free=AAAA", "user", "AAAA"),
