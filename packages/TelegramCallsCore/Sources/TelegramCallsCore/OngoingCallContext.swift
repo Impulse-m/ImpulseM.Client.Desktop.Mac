@@ -6,6 +6,7 @@ import InAppSettings
 import Postbox
 import TGUIKit
 import TelegramVoip
+import LiveKit
 import Localization
 import ColorPalette
 import TelegramContext
@@ -118,14 +119,27 @@ public struct OngoingCallContextState: Equatable {
 
 
 /// Owns the LiveKit call context of one call. The LiveKit call context is main-actor isolated, so every access runs in a main-actor task.
+///
+/// Media settings made before the room connects are kept and applied when it connects. Media operations run one after another, and a failed one ends the call.
 private final class LiveKitCallBridge: @unchecked Sendable {
     private var context: LiveKitCallContext?
     private var isStopped: Bool = false
+    private var isConnected: Bool = false
+    private var isMicrophoneMuted: Bool = false
+    private var camera: OngoingCallVideoCapturer?
+    private var audioInputId: String?
+    private var audioOutputId: String?
+    private var mediaTask: Task<Void, Never>?
     private let reportState: (LiveKitCallState) -> Void
+    private let reportRemoteVideo: (VideoTrack?) -> Void
 
 
-    init(reportState: @escaping (LiveKitCallState) -> Void) {
+    init(
+        reportState: @escaping (LiveKitCallState) -> Void,
+        reportRemoteVideo: @escaping (VideoTrack?) -> Void
+    ) {
         self.reportState = reportState
+        self.reportRemoteVideo = reportRemoteVideo
     }
 
 
@@ -154,6 +168,14 @@ private final class LiveKitCallBridge: @unchecked Sendable {
         }
         created.onStateChanged = { [weak self] (state: LiveKitCallState) in
             self?.reportState(state)
+            Task { @MainActor [weak self] in
+                self?.handleState(state)
+            }
+        }
+        created.onRemoteTracksChanged = { [weak self] in
+            Task { @MainActor [weak self] in
+                self?.publishRemoteVideo()
+            }
         }
         self.context = created
         created.start()
@@ -161,9 +183,148 @@ private final class LiveKitCallBridge: @unchecked Sendable {
 
 
     @MainActor
+    func setMuted(_ isMuted: Bool) {
+        self.isMicrophoneMuted = isMuted
+        enqueueMicrophone()
+    }
+
+
+    @MainActor
+    func requestVideo(_ capturer: OngoingCallVideoCapturer) {
+        self.camera = capturer
+        enqueueCamera()
+    }
+
+
+    @MainActor
+    func disableVideo() {
+        self.camera = nil
+        enqueueCamera()
+    }
+
+
+    @MainActor
+    func switchAudioInput(_ deviceId: String) {
+        self.audioInputId = deviceId
+        enqueueAudioInput(deviceId)
+    }
+
+
+    @MainActor
+    func switchAudioOutput(_ deviceId: String) {
+        self.audioOutputId = deviceId
+        enqueueAudioOutput(deviceId)
+    }
+
+
+    @MainActor
     func stop() {
         self.isStopped = true
         self.context?.stop()
+    }
+
+
+    @MainActor
+    private func handleState(_ state: LiveKitCallState) {
+        switch state {
+        case .connecting:
+            return
+
+        case .connected:
+            self.isConnected = true
+            enqueueMicrophone()
+            enqueueCamera()
+            if let inputId: String = self.audioInputId {
+                enqueueAudioInput(inputId)
+            }
+            if let outputId: String = self.audioOutputId {
+                enqueueAudioOutput(outputId)
+            }
+            publishRemoteVideo()
+
+        case .ended:
+            self.isConnected = false
+            self.mediaTask?.cancel()
+            self.mediaTask = nil
+            publishRemoteVideo()
+        }
+    }
+
+
+    /// Reports the first remote video track of the room, or nil when the room has none.
+    @MainActor
+    private func publishRemoteVideo() {
+        let remoteTrack: RemoteVideoTrack? = self.context?.media?.remoteParticipants
+            .flatMap { (participant: LiveKitGroupRemoteParticipant) -> [LiveKitGroupRemotePublication] in
+                return participant.videoPublications
+            }
+            .compactMap { (publication: LiveKitGroupRemotePublication) -> RemoteVideoTrack? in
+                return publication.videoTrack?.sdkTrack
+            }
+            .first
+        let track: VideoTrack? = remoteTrack
+        self.reportRemoteVideo(track)
+    }
+
+
+    @MainActor
+    private func enqueueMicrophone() {
+        let isEnabled: Bool = !self.isMicrophoneMuted
+        enqueueMedia { (media: LiveKitCallMedia) in
+            try await media.setMicrophoneEnabled(isEnabled)
+        }
+    }
+
+
+    /// The camera of the call: the track of the requested capturer is published, or the camera is muted when no capturer is requested.
+    @MainActor
+    private func enqueueCamera() {
+        let capturer: OngoingCallVideoCapturer? = self.camera
+        enqueueMedia { (media: LiveKitCallMedia) in
+            guard let capturer: OngoingCallVideoCapturer = capturer else {
+                try await media.setCameraEnabled(false)
+                return
+            }
+            guard let track: LiveKitLocalVideoTrack = await capturer.makeLocalVideoTrack() else {
+                return
+            }
+            try await media.publishCamera(track)
+        }
+    }
+
+
+    @MainActor
+    private func enqueueAudioInput(_ deviceId: String) {
+        enqueueMedia { (media: LiveKitCallMedia) in
+            try await media.setAudioInputDevice(id: deviceId)
+        }
+    }
+
+
+    @MainActor
+    private func enqueueAudioOutput(_ deviceId: String) {
+        enqueueMedia { (media: LiveKitCallMedia) in
+            try await media.setAudioOutputDevice(id: deviceId)
+        }
+    }
+
+
+    /// Runs one media operation of the connected room after the operations queued before it. Operations before the connection are dropped, because the connection applies the current state.
+    /// A failed operation ends the call, as the Android call does when a media update fails.
+    @MainActor
+    private func enqueueMedia(_ operation: @escaping (LiveKitCallMedia) async throws -> Void) {
+        guard self.isConnected, let media: LiveKitCallMedia = self.context?.media else {
+            return
+        }
+        let previous: Task<Void, Never>? = self.mediaTask
+        self.mediaTask = Task { @MainActor [weak self] in
+            await previous?.value
+            do {
+                try await operation(media)
+            } catch {
+                self?.context?.failMediaUpdate()
+            }
+        }
     }
 }
 
@@ -200,6 +361,9 @@ public final class OngoingCallContext {
     private let callSessionManager: CallSessionManager
     private let callVersion: String
     private let bridge: LiveKitCallBridge
+    private let remoteVideoPromise: Promise<VideoTrack?>
+    private let localVideoPromise: Promise<VideoTrack?>
+    private let incomingVideoViewDisposable: MetaDisposable = MetaDisposable()
 
     private let contextState: Promise<OngoingCallContextState?>
     public var state: Signal<OngoingCallContextState?, NoError> {
@@ -286,13 +450,21 @@ public final class OngoingCallContext {
 
         let queue: Queue = Queue()
         let contextState: Promise<OngoingCallContextState?> = Promise<OngoingCallContextState?>(nil)
+        let remoteVideoPromise: Promise<VideoTrack?> = Promise<VideoTrack?>(nil)
         self.queue = queue
         self.contextState = contextState
-        self.bridge = LiveKitCallBridge(reportState: { (state: LiveKitCallState) in
-            queue.async {
-                contextState.set(.single(OngoingCallContext.ongoingState(for: state)))
+        self.remoteVideoPromise = remoteVideoPromise
+        self.localVideoPromise = Promise<VideoTrack?>(nil)
+        self.bridge = LiveKitCallBridge(
+            reportState: { (state: LiveKitCallState) in
+                queue.async {
+                    contextState.set(.single(OngoingCallContext.ongoingState(for: state)))
+                }
+            },
+            reportRemoteVideo: { (track: VideoTrack?) in
+                remoteVideoPromise.set(.single(track))
             }
-        })
+        )
 
         cleanupCallLogs(account: account)
 
@@ -322,45 +494,72 @@ public final class OngoingCallContext {
         }
     }
 
-    /// Microphone and device controls are not routed to the LiveKit room yet.
+    /// Mutes or unmutes the microphone of the call room.
     public func setIsMuted(_ value: Bool) {
+        let bridge: LiveKitCallBridge = self.bridge
+        Task { @MainActor in
+            bridge.setMuted(value)
+        }
     }
 
-    /// Not routed to the LiveKit room yet.
-    public func setIsLowBatteryLevel(_ value: Bool) {
-    }
-
-    /// Camera video is not routed to the LiveKit room yet.
+    /// Publishes the camera track of the capturer to the call room. The track is created on first use.
     public func requestVideo(_ capturer: OngoingCallVideoCapturer) {
+        self.localVideoPromise.set(capturer.video())
+        let bridge: LiveKitCallBridge = self.bridge
+        Task { @MainActor in
+            bridge.requestVideo(capturer)
+        }
     }
 
-    /// Not routed to the LiveKit room yet.
-    public func setRequestedVideoAspect(_ aspect: Float) {
-    }
-
-    /// Not routed to the LiveKit room yet.
+    /// Mutes the camera of the call room. The local video track is reported as absent.
     public func disableVideo() {
+        self.localVideoPromise.set(.single(nil))
+        let bridge: LiveKitCallBridge = self.bridge
+        Task { @MainActor in
+            bridge.disableVideo()
+        }
     }
 
-    /// Not routed to the LiveKit room yet.
+    /// Selects the audio output device of the call room.
     public func switchAudioOutput(_ deviceId: String) {
+        let bridge: LiveKitCallBridge = self.bridge
+        Task { @MainActor in
+            bridge.switchAudioOutput(deviceId)
+        }
     }
 
-    /// Not routed to the LiveKit room yet.
+    /// Selects the audio input device of the call room.
     public func switchAudioInput(_ deviceId: String) {
+        let bridge: LiveKitCallBridge = self.bridge
+        Task { @MainActor in
+            bridge.switchAudioInput(deviceId)
+        }
     }
 
     public func debugInfo() -> Signal<(String, String), NoError> {
         return .single((self.callVersion, ""))
     }
 
-    /// Remote video frames are not routed from the LiveKit room yet.
-    public func video(isIncoming: Bool) -> Signal<OngoingGroupCallContext.VideoFrameData, NoError> {
-        return .complete()
+    /// The remote video track of the call when `isIncoming` is true, otherwise the local camera track. Emits nil while the track does not exist.
+    public func video(isIncoming: Bool) -> Signal<VideoTrack?, NoError> {
+        if isIncoming {
+            return self.remoteVideoPromise.get()
+        }
+        return self.localVideoPromise.get()
     }
 
-    /// Remote video views are not created from the LiveKit room yet.
+    /// Renders the remote video track of the call. The view is created when the remote track exists.
     public func makeIncomingVideoView(completion: @escaping (OngoingCallContextPresentationCallVideoView?) -> Void) {
-        completion(nil)
+        let remoteTracks: Signal<VideoTrack?, NoError> = self.remoteVideoPromise.get()
+        self.incomingVideoViewDisposable.set((remoteTracks
+        |> filter { (track: VideoTrack?) -> Bool in
+            return track != nil
+        }
+        |> take(1)).start(next: { (track: VideoTrack?) in
+            guard let track: VideoTrack = track else {
+                return
+            }
+            completion(makeLiveKitCallVideoPresentationView(track: track))
+        }))
     }
 }

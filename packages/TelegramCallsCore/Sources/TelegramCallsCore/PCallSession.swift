@@ -7,6 +7,7 @@ import TGUIKit
 import CoreGraphics
 
 import TelegramVoip
+import LiveKit
 import Localization
 import ColorPalette
 import TelegramContext
@@ -338,7 +339,6 @@ public class PCallSession {
     private var callContextState: OngoingCallContextState?
     private var ongoingContextStateDisposable: Disposable?
     private var reception: Int32?
-    private var requestedVideoAspect: Float?
     private var receptionDisposable: Disposable?
     
     
@@ -1093,11 +1093,7 @@ public class PCallSession {
                 }
                 
                 self.audioLevelPromise.set(ongoingContext.audioLevel)
-                
-                if let requestedVideoAspect = self.requestedVideoAspect {
-                    ongoingContext.setRequestedVideoAspect(requestedVideoAspect)
-                }
-                
+
                 
                 self.ongoingContextStateDisposable = (ongoingContext.state
                                                       |> deliverOnMainQueue).start(next: { [weak self] contextState in
@@ -1302,12 +1298,6 @@ public class PCallSession {
     }
     
     
-    public func setRequestedVideoAspect(_ aspect: Float) {
-        self.requestedVideoAspect = aspect
-        self.ongoingContext?.setRequestedVideoAspect(aspect)
-    }
-    
-    
     @discardableResult public func hangUpCurrentCall() -> Signal<Bool, NoError> {
         return hangUpCurrentCall(false)
     }
@@ -1440,7 +1430,7 @@ public class PCallSession {
         }
     }
     
-    public func makeVideo(isIncoming: Bool) -> Signal<OngoingGroupCallContext.VideoFrameData, NoError>? {
+    public func makeVideo(isIncoming: Bool) -> Signal<VideoTrack?, NoError>? {
         if isIncoming {
             return self.ongoingContext?.video(isIncoming: isIncoming)
         } else {
