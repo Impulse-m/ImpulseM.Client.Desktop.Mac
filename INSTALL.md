@@ -1,56 +1,45 @@
-# Building Telegram for macOS
+# Building ImpulseM for macOS
 
-The app is an Xcode workspace (`Telegram-Mac.xcworkspace`) that links a set of native
+The app is an Xcode workspace (`Telegram-Mac.xcworkspace`) that links a small set of native
 libraries built once from `core-xprojects/` and a collection of local Swift packages
-from `packages/` and `submodules/telegram-ios/submodules/`. There are no remote Swift
-package dependencies, so once the submodules are checked out the build is offline.
+from `packages/` and `submodules/telegram-ios/submodules/`. Most of them resolve from local
+paths. Two remote Swift dependencies need network access on the first resolve: the LiveKit
+SDK (`client-sdk-swift`, used for calls) and the Centrifugo Swift SDK, which the ImpulseTransport
+package reads as a sibling checkout (see the requirements and the CI workflow).
 
 ## Requirements
 
 - macOS on Apple Silicon or Intel. On Apple Silicon, Rosetta 2 is needed: the `tde2e`
   build compiles an x86_64 code-generation tool and runs it.
-- Full Xcode 16 or newer (Command Line Tools alone are not enough). Xcode 26 is what the
-  team builds with. Xcode 27 supports macOS 12.0 and newer only, so it needs the local
-  changes in [XCODE27.md](XCODE27.md) before anything builds. Make it the active
-  developer directory:
+- Full Xcode 26 (CI selects the default Xcode of the `macos-26` image). Command Line Tools alone are
+  not enough. Make it the active developer directory:
   ```
   sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
   ```
 - Homebrew and these packages:
   ```
-  brew install cmake ninja meson nasm yasm openssl@1.1 zlib autoconf libtool automake pkg-config
+  brew install cmake ninja meson nasm yasm zlib autoconf libtool automake pkg-config
   ```
-- A Rust toolchain via rustup. The TON wallet engine (`wallet-engine`) and the tlottie
-  sticker renderer are Rust libraries; their build scripts pick up `cargo` from `PATH` or
-  `~/.cargo/bin` and rustup installs the toolchain pinned in the engine's
-  `rust-toolchain.toml` automatically. tlottie is built with the toolchain of
-  `mtproto-engine`, so all Rust libraries in the app share one standard library.
-  ```
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
-  ```
-- Git access to `github.com` and `gitlab.com` for the submodules. The `.gitmodules`
-  URLs use SSH. If you only have HTTPS access, add rewrites before cloning:
-  ```
-  git config --global url."https://github.com/".insteadOf "git@github.com:"
-  git config --global url."https://gitlab.com/".insteadOf "git@gitlab.com:"
-  ```
+- Git access to `github.com` for the submodules. All `.gitmodules` URLs are HTTPS.
 
-## 1. Clone with submodules
+## 1. Clone and check out the submodules
 
 ```
-git clone --recurse-submodules https://github.com/macosswift/telegram.git
-cd TelegramSwift
+git clone https://github.com/Impulse-m/ImpulseM.Client.Desktop.Mac.git
+cd ImpulseM.Client.Desktop.Mac
+sh scripts/ci-submodules.sh
 ```
 
-For an existing checkout:
+For an existing checkout, run the same script again; it is safe to repeat.
 
-```
-git submodule update --init --recursive
-```
+`scripts/ci-submodules.sh` initialises every submodule the app and its native libraries are
+built from, from one explicit list. Nothing recurses. Do not replace it with
+`git submodule update --init --recursive`: the nested checkouts of the removed native calls
+stack are not needed, and the recursive update would fetch them.
 
-`--recursive` matters: `submodules/telegram-ios` has nested submodules that the native
-libraries are built from (`third-party/td`, `third-party/dav1d`, `third-party/libvpx`,
-`third-party/webrtc`, `third-party/wallet-engine`, and others).
+The script initialises the nested `submodules/telegram-ios` checkouts that the native
+libraries are built from: `third-party/td`, `third-party/dav1d` and
+`third-party/wallet-engine`.
 
 ## 2. Prepare the machine
 
@@ -60,9 +49,8 @@ sh scripts/setup_build_env.sh
 
 The script is idempotent and does everything from the requirements list that can be
 automated: installs Homebrew and the packages, installs Rosetta 2 on Apple Silicon,
-checks that full Xcode is selected, initialises the submodules recursively, and patches
-`ABSL_ATTRIBUTE_LIFETIME_BOUND` in `tg_owt`'s abseil copy, which recent clang rejects.
-It does not install Rust; do that yourself (see above).
+checks that full Xcode is selected, and initialises the submodules through
+`scripts/ci-submodules.sh`.
 
 Run it with `--build` to continue straight into step 3.
 
@@ -74,49 +62,30 @@ CMAKE_POLICY_VERSION_MINIMUM=3.5 \
 sh scripts/configure_frameworks.sh
 ```
 
-This takes a while, mostly because of WebRTC. The script:
+The native stack is small. Calls run on LiveKit, which comes in as SwiftPM binaries, so
+WebRTC, OpenH264 and tgcalls are not built here. The script:
 
 1. Generates TelegramApi's SwiftPM sources with SwiftTL, then the FlatSerialization
    sources for TelegramCore with the bundled `scripts/flatc`.
-2. Builds, in order, `OpenH264`, `OpenSSLEncryption`, `libopus`, `libvpx`, `Mozjpeg`,
-   `libwebp`, `dav1d`, `ffmpeg`, `webrtc` (tg_owt), `tde2e` and `WalletEngine` through
-   their projects in `core-xprojects/<lib>/`. Outputs land in `core-xprojects/<lib>/build`,
-   which is git-ignored. `WalletEngine` also regenerates
-   `packages/WalletEngine/Sources/WalletEngineFFI/WalletEngineFFI.swift` (checked in) and
-   `packages/WalletEngine/wallet_engineFFI.xcframework` (ignored).
-3. Copies public headers into the `SharedHeaders` directories that `tgcalls`, the
-   OpusBinding, FFMpegBinding, OpenSSLEncryptionProvider, libwebp and Mozjpeg packages
-   expect.
+2. Builds, in order, `OpenSSLEncryption` (a dependency of `tde2e`), `libopus`, `libvpx`,
+   `Mozjpeg`, `libwebp`, `dav1d`, `ffmpeg` and `tde2e` through their projects in
+   `core-xprojects/<lib>/`. Outputs land in `core-xprojects/<lib>/build`, which is
+   git-ignored.
+3. Copies public headers into the `SharedHeaders` directories that the OpusBinding,
+   FFMpegBinding, OpenSSLEncryptionProvider, libwebp and Mozjpeg packages expect.
 4. Runs the `td` macOS cleanup for `TdBinding`.
 
 Framework preparation compares source, toolchain and dependency fingerprints and
-checks required libraries, headers and Rust binding outputs before reusing a build.
+checks required libraries and headers before reusing a build.
 Valid cache hits skip the framework's Xcode invocation. Missing or inconsistent
 outputs are repaired, and a success stamp is written only after output checks pass.
 Build directories without a stamp are rebuilt rather than assumed to be complete.
 To rebuild everything from scratch, put `yes` into `scripts/rebuild` (it is `no` by
 default), run the script, and set it back to `no`.
 
-`CMAKE_POLICY_VERSION_MINIMUM=3.5` is required with CMake 4, which dropped support for
-the old `cmake_minimum_required` versions that mozjpeg and td still declare.
-
-On Xcode 27, run `scripts/xcode27.sh apply` before this step: the library projects target
-macOS 10.11–10.13, which Xcode 27 rejects. See [XCODE27.md](XCODE27.md).
-
-### Rebuilding only the wallet engine
-
-After bumping the `telegram-ios` submodule, or when `wallet_engineFFI.xcframework` is
-missing:
-
-```
-sh core-xprojects/wallet-engine/wallet-engine/build.sh \
-  submodules/telegram-ios/third-party/wallet-engine/wallet-engine \
-  core-xprojects/wallet-engine/build \
-  packages/WalletEngine
-```
-
-Commit the regenerated `WalletEngineFFI.swift` if it changed. The xcframework is never
-committed; every machine builds it.
+`CMAKE_POLICY_VERSION_MINIMUM=3.5` is still required with CMake 4, which dropped support for
+the old `cmake_minimum_required` versions that mozjpeg and td still declare. Keep it while
+those cmake-built libraries are part of the build.
 
 ## 4. Build the app
 
@@ -128,24 +97,30 @@ Schemes:
 
 | Scheme | Use |
 |---|---|
-| `Telegram` | Day-to-day development, Debug configuration (`Telegram-Mac/Debug.xcconfig`) |
+| `ImpulseM` | Day-to-day development, Debug configuration (`Telegram-Mac/Debug.xcconfig`) |
 | `TelegramShare` | The share extension on its own |
 | `Release` | Release archives (`Telegram-Mac/Release.xcconfig`) |
 
 From the command line:
 
 ```
-xcodebuild -workspace Telegram-Mac.xcworkspace -scheme Telegram -configuration Debug build
+xcodebuild -workspace Telegram-Mac.xcworkspace -scheme ImpulseM -configuration Debug build
 ```
 
-The main app targets macOS 11.0 and the share extension macOS 10.13. Swift packages are
-resolved from the local paths in the workspace; no network access is needed.
+The app product is `ImpulseM.app` (executable `ImpulseM`; the Swift module stays `Telegram`).
+The share extension product is `ImpulseMShare`. Both targets set `MACOSX_DEPLOYMENT_TARGET`
+to 12.0. Local Swift packages resolve from their paths in the workspace; the LiveKit and
+Centrifugo SDKs are fetched on the first resolve (see the top of this file).
+
+The GitHub Actions workflow `.github/workflows/macos.yml` builds the app unsigned on
+`macos-26` with `CODE_SIGNING_REQUIRED=NO`, runs the package test suites, and uploads the
+unsigned app bundle as an artifact.
 
 ### Generated TelegramApi sources
 
 `scripts/configure_frameworks.sh` prepares the generated Swift and Objective-C API
 sources before Xcode resolves packages. Both CI build paths run this preparation
-before building or archiving. The shared `Telegram`, `Release`, and `TelegramShare`
+before building or archiving. The shared `ImpulseM`, `Release`, and `TelegramShare`
 schemes also refresh generation before normal builds. Both app targets validate the
 generated files, so a failed generator cannot silently build against stale output.
 
@@ -182,12 +157,26 @@ It prints the temporary directory containing its build logs.
 
 ### Signing
 
-The project is set up for the Telegram team (`6N38VWS5BX`) with bundle identifier
-`ru.keepcoder.Telegram`, an app group `6N38VWS5BX.ru.keepcoder.Telegram` shared with the
-extensions, and iCloud/keychain entitlements tied to that identifier. Building for your
-own team means changing the identifier and team everywhere (see "Forking" below) or
-switching the targets to a personal team with automatic signing and removing the
-entitlements you cannot request.
+The bundle identifiers are `net.impulsem.messenger.mac` for the app and
+`net.impulsem.messenger.mac.share` for the share extension. The app group and the keychain
+access group are `<TEAM>.net.impulsem.messenger.mac` (the first keychain group must equal the
+app group), shared with the extensions. `<TEAM>` is the Apple Team ID.
+
+The repository does not contain a team. `DEVELOPMENT_TEAM` and the entitlement prefixes are
+the placeholder `TEAM_ID_PLACEHOLDER`, so the project does not sign with a real team as
+checked in. Without the team, build unsigned, as CI does:
+
+```
+xcodebuild -workspace Telegram-Mac.xcworkspace -scheme ImpulseM -configuration Debug build \
+  CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
+```
+
+The CI workflow builds unsigned only. Developer ID signing, notarization and Sparkle update
+signing belong to a release job, which runs only when its CI secrets are present. Without the
+secrets the job produces an unsigned artifact; it does not fail for lack of them.
+
+The entitlements carry no `webcredentials` associated domain. Add one only together with the
+passkey sign-in, which is hidden until passkeys are enabled.
 
 ## Build configurations and release channels
 
@@ -196,11 +185,11 @@ xcconfig that defines `TYPE` (a Swift compiler flag) plus the Sparkle feed URL:
 
 | xcconfig | `TYPE` | Feed |
 |---|---|---|
-| `Telegram-Mac/Debug.xcconfig` | (none) | beta feed |
-| `Telegram-Mac/Release.xcconfig` | `STABLE` | `mac-updates.telegram.org/updates` |
-| `configurations/Stable.xcconfig` | `STABLE` | stable feed |
-| `configurations/Beta.xcconfig` | `BETA` | `mac-updates.telegram.org/beta` |
-| `configurations/Alpha.xcconfig` | `ALPHA` | AppCenter feed |
+| `Telegram-Mac/Debug.xcconfig` | `BETA` | beta feed |
+| `Telegram-Mac/Release.xcconfig` | `STABLE` | `macos.impulsem.net/updates/versions.xml` |
+| `configurations/Stable.xcconfig` | `STABLE` | `macos.impulsem.net/updates/versions.xml` |
+| `configurations/Beta.xcconfig` | `BETA` | `macos.impulsem.net/beta/versions.xml` |
+| `configurations/Alpha.xcconfig` | `ALPHA` | `macos.impulsem.net/alpha/versions.xml` |
 | `configurations/AppStore.xcconfig` | `APP_STORE` | none (Mac App Store build) |
 
 `buildbox/build-mac.sh <Alpha|Beta|Stable|AppStore>` is the release recipe: it copies the
@@ -217,7 +206,7 @@ the app target; Swift packages under `packages/` do not read it, so the channel 
 the command line, which applies to every target including packages. Builds started from the Xcode UI
 do not get it, so `#if BETA` / `STABLE` / `ALPHA` / `APP_STORE` inside packages are false there.
 
-The script then extracts `Telegram.app` and its dSYM. GitLab runs this direct Mac
+The script then extracts `ImpulseM.app` and its dSYM from the archive. GitLab runs this direct Mac
 build through `buildbox/internal.sh`, which verifies and deploys the result while
 holding the existing machine-wide lock. `buildbox/build.sh` is the separate legacy
 Parallels VM build path.
@@ -227,8 +216,7 @@ Parallels VM build path.
 Source synchronization preserves native outputs, generated TelegramApi and
 FlatSerialization sources, the SwiftTL build cache and generated shared headers.
 Generators still run their validation; unchanged Swift files and headers keep their
-timestamps, and removed generated files are deleted. tlottie still lets Cargo check
-its inputs, but does not replace an identical universal library.
+timestamps, and removed generated files are deleted.
 
 GitLab retains `.ci-build-logs/<job-id>/` for seven days, including failed jobs:
 
@@ -264,7 +252,7 @@ generation failures, source/header synchronization, all release channel argument
 and packaging failures using temporary fixtures. The Xcode smoke test runs the
 actual archive script against a small unsigned universal app, checking its channel
 condition and dSYM with default settings and with compilation caching enabled.
-It does not replace validation of a signed Telegram archive on the release runner.
+It does not replace validation of a signed ImpulseM archive on the release runner.
 
 Version numbers are bumped manually at release time, not per build: run
 `tools/bump_build_number.sh Telegram-Mac/Info.plist` to increment `CFBundleVersion`, then
@@ -290,7 +278,7 @@ which writes `packages/Localization/Sources/Localization/Localizable.swift`.
 The Swift packages can be tested on their own without building the app, for example:
 
 ```
-cd packages/WalletEngine && swift test
+cd packages/ApiCredentials && swift test
 cd packages/TGUIKit && swift build
 ```
 
@@ -300,27 +288,14 @@ cd packages/TGUIKit && swift build
   Rosetta 2 (`softwareupdate --install-rosetta --agree-to-license`).
 - **CMake complains about `cmake_minimum_required`**: export
   `CMAKE_POLICY_VERSION_MINIMUM=3.5` before running `configure_frameworks.sh`.
-- **clang error about `lifetimebound` in abseil** while building webrtc: run
-  `scripts/setup_build_env.sh` again; it applies the patch.
 - **Xcode reports a missing library or `SharedHeaders` directory**: a library was skipped
   because a stale `core-xprojects/<lib>/build` directory existed. Delete it and rerun
   `configure_frameworks.sh`.
-- **`wallet_engineFFI.xcframework` not found**: Rust was not available when the frameworks
-  were built. Install rustup, then rerun `configure_frameworks.sh` or the wallet engine
-  build script above.
-- **`cargo` not found although Rust is installed**: the engine build script looks in
-  `PATH` and `~/.cargo/bin`; export `CARGO=/path/to/cargo` if it lives elsewhere.
-- **`library 'tlottie' not found`**: `core-xprojects/tlottie/build/libtlottie.a` is missing.
-  Run `sh core-xprojects/tlottie/build.sh` or rerun `configure_frameworks.sh`.
-- **`duplicate symbol '_rust_eh_personality'`**: tlottie was built with a different Rust
-  toolchain than the engines. Delete `core-xprojects/tlottie/build` and rerun
-  `sh core-xprojects/tlottie/build.sh`.
+- **`duplicate symbol` or `library not found` for a native library**: delete
+  `core-xprojects/<lib>/build` and rerun `configure_frameworks.sh`; the stamp is rewritten
+  only after its outputs pass the checks.
 - **RLottie or CodeSyntax not found**: you opened `Telegram.xcodeproj`. Open the
   workspace instead.
-- **"The macOS deployment target 'MACOSX_DEPLOYMENT_TARGET' is set to 10.13, but the range
-  of supported deployment target versions is 12.0 to 27.0.x"**: you are building with
-  Xcode 27. Run `scripts/xcode27.sh apply` ([XCODE27.md](XCODE27.md)), and
-  `scripts/xcode27.sh revert` before committing.
 - **TelegramCore fails to build right after a `telegram-ios` submodule bump**: newly
   imported modules must be listed in
   `submodules/telegram-ios/submodules/TelegramCore/Package.swift`; add the missing
@@ -329,17 +304,20 @@ cd packages/TGUIKit && swift build
 ## If you want to develop a fork
 
 1. Build the app first, as above.
-2. Obtain your own [API ID](https://core.telegram.org/api/obtaining_api_id). The built-in
-   `apiId` is rate-limited and must not be used for anything but verifying binaries.
+2. Use your own API credentials for the fork. The built-in `apiId` 4 (`impulsem-desktop`)
+   belongs to the ImpulseM desktop clients.
 3. Put your `apiId`, `apiHash`, `bundleId` and `teamId` into
-   `packages/ApiCredentials/Sources/ApiCredentials/Config.swift`.
-4. Search the project for `ru.keepcoder.Telegram` and `6N38VWS5BX` and replace them with
-   your bundle identifier and team (project settings, entitlements, app group).
-5. Replace or remove `SFEED_URL`, `DSA_PEM_FILE` and `APPCENTER_SECRET` in the xcconfig
-   files. They point at Telegram's Sparkle update feeds and AppCenter crash collection.
+   `packages/ApiCredentials/Sources/ApiCredentials/Config.swift`. The brand constants that the
+   file reads, such as `apiId` and the placeholders, are in `ImpulseBrand.swift` in the same
+   package.
+4. Search the project for `net.impulsem.messenger` and `TEAM_ID_PLACEHOLDER` and replace them
+   with your bundle identifier and team (project settings, entitlements, app group).
+5. Replace `SFEED_URL` in the xcconfig files with your update feed. The Sparkle public EdDSA key
+   is `Resources/keys/ed_pub.txt`; generate your own key pair and keep the private key out of
+   the repository.
 6. Follow the rules in the README's "Forking" section: do not call the fork Telegram and
    do not reuse the logo.
-7. Questions: open an issue at https://github.com/macosswift/telegram/issues/new.
+7. Questions: open an issue at https://github.com/Impulse-m/ImpulseM.Client.Desktop.Mac/issues/new.
 
 ## Performance labs and CI releases
 
