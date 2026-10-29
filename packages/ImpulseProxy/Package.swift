@@ -17,7 +17,9 @@ let package = Package(
             checksum: "91343cd7542f85dffb17c9e273f0afde207b0004aa49848949e69e4c12450f80"),
         .target(
             name: "ImpulseProxy",
-            dependencies: ["LibXray"]),
+            dependencies: ["LibXray"],
+            // The Go runtime inside libXray resolves DNS through libresolv (res_9_ninit, res_9_nsearch, res_9_nclose).
+            linkerSettings: [.linkedLibrary("resolv")]),
         .testTarget(
             name: "ImpulseProxyTests",
             dependencies: ["ImpulseProxy"]),
