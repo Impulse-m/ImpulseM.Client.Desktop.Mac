@@ -5,14 +5,12 @@ import PackageDescription
 import Foundation
 
 let coreLibraries: [(path: String, name: String)] = [
-    ("webrtc/build/webrtc", "mac_framework_objc_static"),
     ("openssl/build/openssl/lib", "ssl"),
     ("openssl/build/openssl/lib", "crypto"),
     ("ffmpeg/build/ffmpeg/lib", "avformat"),
     ("ffmpeg/build/ffmpeg/lib", "avcodec"),
     ("ffmpeg/build/ffmpeg/lib", "swresample"),
     ("ffmpeg/build/ffmpeg/lib", "avutil"),
-    ("OpenH264/build/output/lib", "openh264"),
     ("libvpx/build/libvpx/lib", "vpx"),
     ("dav1d/build/dav1d/lib", "dav1d"),
     ("libopus/build/libopus/lib", "opus"),
