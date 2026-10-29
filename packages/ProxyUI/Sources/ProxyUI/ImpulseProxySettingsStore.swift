@@ -49,6 +49,23 @@ enum ImpulseProxySettingsStore {
     }
 
 
+    /// Writes the record in one account manager transaction and does not touch the running controller.
+    /// The runtime uses it to persist what the controller already holds.
+    static func save(
+        accountManager: AccountManager<TelegramAccountManagerTypes>,
+        state: ImpulseProxy.ImpulseProxyState
+    ) -> Signal<Void, NoError> {
+        return accountManager.transaction { transaction -> Void in
+            transaction.updateSharedData(SharedDataKeys.proxySettings, { (current: PreferencesEntry?) -> PreferencesEntry? in
+                guard let record: TelegramCore.ImpulseProxyState = ImpulseProxySettingsStore.write(state) else {
+                    return current
+                }
+                return PreferencesEntry(record)
+            })
+        }
+    }
+
+
     private static func read(
         _ entry: PreferencesEntry?
     ) -> ImpulseProxy.ImpulseProxyState {

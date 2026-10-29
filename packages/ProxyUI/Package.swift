@@ -54,6 +54,7 @@ let package = Package(
             name: "ProxyUITests",
             dependencies: [
                 "ProxyUI",
+                .product(name: "SwiftSignalKit", package: "SSignalKit", condition: nil),
             ],
             path: "Tests/ProxyUITests"),
     ]
