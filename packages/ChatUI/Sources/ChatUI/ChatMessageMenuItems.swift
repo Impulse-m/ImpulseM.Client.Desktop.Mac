@@ -10,6 +10,7 @@ import InAppSettings
 import InputView
 import TelegramMedia
 import AlertsUI
+import ApiCredentials
 import ChatHistoryModel
 import ChatModeTypes
 import FilePanels
@@ -912,7 +913,7 @@ public func chatMenuItems(for message: Message, entry: ChatHistoryEntry?, textLa
                 if let entry {
                     for message in entry.messages {
                         if let _ = message.summarizeAttribute {
-                            if entry.additionalData.summarize == nil {
+                            if ImpulseFeatures.AI_COMPOSE, entry.additionalData.summarize == nil {
                                 thirdBlock.append(ContextMenuItem(strings().chatContextSummarize, handler: {
                                     data.chatInteraction.summarize(message)
                                 }, itemImage: MenuAnimation.menu_collapse.value))

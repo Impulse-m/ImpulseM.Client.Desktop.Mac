@@ -12,6 +12,7 @@ let deps: [(String, String)] = [
     ("FoundationUtils", "../FoundationUtils"),
     ("ObjcUtils", "../ObjcUtils"),
     ("CalendarUtils", "../CalendarUtils"),
+    ("ApiCredentials", "../ApiCredentials"),
     ("ThemeSettings", "../ThemeSettings"),
     ("DustLayer", "../DustLayer"),
     ("CaptureExclusion", "../CaptureExclusion"),

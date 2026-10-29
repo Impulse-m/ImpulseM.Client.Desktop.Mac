@@ -440,7 +440,7 @@ public final class ChatLiveTranslateContext {
     private func activateSummarization(for message: Message, state: State) -> Void {
         let toLang: String? = state.to
         let context = self.context
-        let signal = context.engine.messages.summarizeMessage(messageId: message.id, translateToLang: toLang)
+        let signal = context.engine.messages.summarizeMessage(messageId: message.id, translateToLang: toLang, tone: state.tone)
         |> deliverOn(prepareQueue)
 
         actionsDisposable.add(signal.start(error: { [weak self] error in
