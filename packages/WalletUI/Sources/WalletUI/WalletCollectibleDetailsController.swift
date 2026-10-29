@@ -1278,7 +1278,7 @@ func WalletCollectibleDetailsController(context: any AccountContextProtocol, env
         }
         if !items.isEmpty { items.append(ContextSeparatorItem()) }
         if current.kind == .gift, let slug = current.giftSlug {
-            let link = "https://t.me/nft/\(slug)"
+            let link: String = "\(context.meUrlPrefix)nft/\(slug)"
             let copyLink = strings().modalCopyLink
             let share = strings().modalShare
             items.append(ContextMenuItem(copyLink, handler: {
