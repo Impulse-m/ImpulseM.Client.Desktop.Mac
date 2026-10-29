@@ -12,6 +12,7 @@ import InputView
 import TelegramMedia
 import InAppSettings
 import WalletContext
+import ApiCredentials
 
 
 
@@ -1810,7 +1811,7 @@ func execute(inapp:inAppLink, window: Window? = nil, isExternal: Bool = false, a
                 context.bindings.rootNavigation().push(proxyController)
                 if proxySubSection == .add {
                     delay(0.3, closure: {
-                        context.bindings.rootNavigation().push(addProxyController(accountManager: context.sharedContext.accountManager, network: context.account.network, settings: nil))
+                        context.bindings.rootNavigation().push(addProxyController(accountManager: context.sharedContext.accountManager))
                     })
                 }
                 afterComplete(true)
@@ -2414,7 +2415,7 @@ func inApp(for url:NSString, context: AccountContext? = nil, peerId:PeerId? = ni
     case .nothing:
         return .nothing
     case let .socks(link, settings):
-        guard let context, let applyProxy else { return .nothing }
+        guard ImpulseFeatures.PROXY, let context, let applyProxy else { return .nothing }
         return .socks(link: link, settings, context: context, applyProxy: applyProxy)
     case let .requestSecureId(link, value):
         guard let context else { return .nothing }
@@ -2578,7 +2579,16 @@ extension NSMutableAttributedString {
                     if onlyInApp {
                         switch link {
                         case let .external(link, _):
-                            let allowed = ["telegram.org", "telegram.dog", "telegram.me", "telegra.ph", "telesco.pe"]
+                            let allowed: [String] = [
+                                "telegram.org",
+                                "telegram.dog",
+                                "telegram.me",
+                                "telegra.ph",
+                                "telesco.pe",
+                                "impulsem.net",
+                                "o.impulsem.net",
+                                "p.impulsem.net"
+                            ]
                             if let url = URL(string: link) {
                                 if let host = url.host, allowed.contains(host) {
                                     self.addAttribute(NSAttributedString.Key.link, value: inAppLink.external(link: sublink, false), range: range)
