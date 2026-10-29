@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import LiveKit
 import TelegramVoip
@@ -94,15 +95,44 @@ public enum MacOSScreenPickerListing {
     ) -> [MacOSScreenPickerSource] {
         var result: [MacOSScreenPickerSource] = []
         for source: MacOSScreenCaptureSource in sources {
-            let picker: MacOSScreenPickerSource = MacOSScreenPickerSource(
-                title: source.name,
-                identifier: "\(kind):\(source.id)",
-                capturerFactory: { () -> OngoingCallVideoCapturer? in
-                    return OngoingCallVideoCapturer(screenSource: source)
+            if let window: MacOSWindow = source as? MacOSWindow {
+                let title: String
+                if let windowTitle: String = window.title, !windowTitle.isEmpty {
+                    title = windowTitle
+                } else {
+                    title = window.owningApplication?.applicationName ?? ""
                 }
-            )
-            result.append(picker)
+                let picker: MacOSScreenPickerSource = MacOSScreenPickerSource(
+                    title: title,
+                    identifier: "\(kind):\(window.windowID)",
+                    capturerFactory: { () -> OngoingCallVideoCapturer? in
+                        return OngoingCallVideoCapturer(screenSource: source)
+                    }
+                )
+                result.append(picker)
+            } else if let display: MacOSDisplay = source as? MacOSDisplay {
+                let picker: MacOSScreenPickerSource = MacOSScreenPickerSource(
+                    title: screenName(displayID: display.displayID),
+                    identifier: "\(kind):\(display.displayID)",
+                    capturerFactory: { () -> OngoingCallVideoCapturer? in
+                        return OngoingCallVideoCapturer(screenSource: source)
+                    }
+                )
+                result.append(picker)
+            }
         }
         return result
+    }
+
+
+    /// The localized name of the screen that shows `displayID`, or an empty string when no screen matches.
+    private static func screenName(displayID: CGDirectDisplayID) -> String {
+        for screen: NSScreen in NSScreen.screens {
+            let screenNumber: NSNumber? = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber
+            if screenNumber?.uint32Value == displayID {
+                return screen.localizedName
+            }
+        }
+        return ""
     }
 }
