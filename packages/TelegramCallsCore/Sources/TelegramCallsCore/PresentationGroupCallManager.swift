@@ -2,7 +2,6 @@ import Foundation
 import TelegramVoip
 import Postbox
 import TelegramCore
-import TgVoipWebrtc
 import SwiftSignalKit
 import Localization
 import ColorPalette
@@ -197,15 +196,15 @@ public struct VideoSources : Equatable {
         return true
     }
     
-    public var video: VideoSourceMac? = nil
-    public var screencast: VideoSourceMac? = nil
+    public var video: CallCaptureSource? = nil
+    public var screencast: CallCaptureSource? = nil
     
     public var failed: Bool = false
     
     public var isEmpty: Bool {
         return video == nil && screencast == nil
     }
-    public init(video: VideoSourceMac? = nil, screencast: VideoSourceMac? = nil, failed: Bool = false) {
+    public init(video: CallCaptureSource? = nil, screencast: CallCaptureSource? = nil, failed: Bool = false) {
         self.video = video
         self.screencast = screencast
         self.failed = failed
@@ -407,11 +406,11 @@ public protocol PresentationGroupCall : AnyObject {
     func setRequestedVideoList(items: [PresentationGroupCallRequestedVideo])
     func setSuspendVideoChannelRequests(_ value: Bool)
     func makeVideoView(endpointId: String, videoMode: GroupCallVideoMode, completion: @escaping (PresentationCallVideoView?) -> Void)
-    func requestVideo(deviceId: OngoingCallVideoCapturer, source: VideoSourceMac)
-    func requestVideo(deviceId: String, source: VideoSourceMac)
+    func requestVideo(deviceId: OngoingCallVideoCapturer, source: CallCaptureSource)
+    func requestVideo(deviceId: String, source: CallCaptureSource)
     func disableVideo()
-    func requestScreencast(deviceId: OngoingCallVideoCapturer, source: VideoSourceMac)
-    func requestScreencast(deviceId: String, source: VideoSourceMac)
+    func requestScreencast(deviceId: OngoingCallVideoCapturer, source: CallCaptureSource)
+    func requestScreencast(deviceId: String, source: CallCaptureSource)
     func disableScreencast()
     
     func toggleVideoFailed(failed: Bool)
