@@ -31,7 +31,8 @@ final class FakeLibXrayBridge: LibXrayBridge, @unchecked Sendable {
 
 final class LibXrayClientTests: XCTestCase {
     private static let method: String = "convertShareLinksToXrayJson"
-    private static let link: String = "vless://11111111-2222-3333-4444-555555555555@example.com:443?security=none&type=tcp#Test"
+    // Xray refuses VLESS without TLS to a public address, so the link the real bridge converts carries TLS.
+    private static let link: String = "vless://11111111-2222-3333-4444-555555555555@example.com:443?security=tls&sni=example.com&type=tcp#Test"
 
 
     func testEnvelopeCarriesVersionMethodAndPayload() throws {
