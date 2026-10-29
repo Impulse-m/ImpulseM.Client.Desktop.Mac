@@ -182,7 +182,7 @@ public final class PaymentWebInteractionController: ModalViewController, WKNavig
             return
         }
         if case let .externalVerification(completion) = self.intent, let host =  navigationAction.request.url?.host {
-            if host == PaymentsHooks.shared.meUrlHost() || host == "telegram.me" {
+            if host == PaymentsHooks.shared.meUrlHost() {
                 completed = true
                 decisionHandler(.cancel)
                 completion(true)
