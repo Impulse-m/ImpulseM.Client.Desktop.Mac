@@ -16,7 +16,7 @@ class LabExclusionTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.app = self.root / "Telegram.app"
+        self.app = self.root / "ImpulseM.app"
         self.mac = self.app / "Contents" / "MacOS"
         self.mac.mkdir(parents=True)
 

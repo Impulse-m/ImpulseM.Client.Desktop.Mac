@@ -77,12 +77,58 @@ sed -n '/^Build Timing Summary/,$p' "$XCODEBUILD_LOG" | tail -60
 cd ..
 
 archive="./telegrammacos.xcarchive"
-appname="Telegram.app"
+appname="ImpulseM.app"
 
 rm -rf ${appname} ${appname}.dSYM ${appname}.DSYM.zip
-cp -R "${archive}/Products/Applications/Telegram.app" ${appname}
-cp -R "${archive}/dSYMs/Telegram.app.dSYM" ${appname}.dSYM
+cp -R "${archive}/Products/Applications/ImpulseM.app" ${appname}
+cp -R "${archive}/dSYMs/ImpulseM.app.dSYM" ${appname}.dSYM
 
 
 sh "$PWDPATH/scripts/time-step.sh" dsym-compression \
     ditto -c -k --sequesterRsrc --keepParent ${appname}.dSYM ${appname}.DSYM.zip
+
+# Notarization changes the app (ticket staple), so it runs before the update archive is built.
+# Without the signing secrets notarize.sh exits 0 and the app stays unsigned.
+sh "$PWDPATH/buildbox/notarize.sh" "${appname}"
+
+# Sparkle update archive and EdDSA signature. The signing key is a CI secret; without it the
+# archive is still produced, unsigned, and the job does not fail. sign_update is taken from a
+# pinned Sparkle release, because the vendored submodule predates --ed-key-file and --verify.
+SPARKLE_VERSION="2.10.0"
+SPARKLE_SHA256="c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+update_archive="${appname%.app}.zip"
+update_signature="${update_archive}.sparkle.txt"
+
+rm -f "${update_archive}" "${update_signature}"
+sh "$PWDPATH/scripts/time-step.sh" update-archive \
+    ditto -c -k --sequesterRsrc --keepParent "${appname}" "${update_archive}"
+
+if [ -z "${IMPULSEM_SPARKLE_ED_PRIVATE_KEY:-}" ]; then
+    echo "sparkle: the EdDSA update key secret is not present, ${update_archive} stays unsigned"
+else
+    sparkle_dir="${CPPATH}/sparkle-${SPARKLE_VERSION}"
+    sign_update="${sparkle_dir}/bin/sign_update"
+    if [ ! -x "${sign_update}" ]; then
+        mkdir -p "${sparkle_dir}"
+        curl -fsSL -o "${sparkle_dir}/Sparkle.tar.xz" \
+            "https://github.com/sparkle-project/Sparkle/releases/download/${SPARKLE_VERSION}/Sparkle-${SPARKLE_VERSION}.tar.xz"
+        echo "${SPARKLE_SHA256}  ${sparkle_dir}/Sparkle.tar.xz" | shasum -a 256 -c -
+        tar -xJf "${sparkle_dir}/Sparkle.tar.xz" -C "${sparkle_dir}"
+        if [ ! -x "${sign_update}" ]; then
+            echo "error: ${sign_update} is missing from the pinned Sparkle ${SPARKLE_VERSION} archive" >&2
+            exit 1
+        fi
+    fi
+
+    # The key is read from standard input, so it never appears in the command line or the log.
+    printf '%s\n' "${IMPULSEM_SPARKLE_ED_PRIVATE_KEY}" | "${sign_update}" --ed-key-file - "${update_archive}" > "${update_signature}"
+    signature="$(sed -n 's/^sparkle:edSignature="\([^"]*\)".*/\1/p' "${update_signature}")"
+    if [ -z "${signature}" ]; then
+        echo "error: sign_update did not produce an EdDSA signature for ${update_archive}" >&2
+        cat "${update_signature}" >&2
+        exit 1
+    fi
+    printf '%s\n' "${IMPULSEM_SPARKLE_ED_PRIVATE_KEY}" | "${sign_update}" --ed-key-file - --verify "${update_archive}" "${signature}"
+    cat "${update_signature}"
+    echo "sparkle: ${update_archive} is signed and the EdDSA signature verifies"
+fi

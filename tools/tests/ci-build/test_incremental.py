@@ -266,10 +266,10 @@ if os.environ.get("ARCHIVE_RESULT"):
     print("error: deliberate archive failure")
     sys.exit(int(os.environ["ARCHIVE_RESULT"]))
 archive = Path("../telegrammacos.xcarchive")
-app = archive / "Products/Applications/Telegram.app/Contents"
+app = archive / "Products/Applications/ImpulseM.app/Contents"
 app.mkdir(parents=True, exist_ok=True)
 (app / "Info.plist").write_text("fixture")
-symbols = archive / "dSYMs/Telegram.app.dSYM"
+symbols = archive / "dSYMs/ImpulseM.app.dSYM"
 symbols.mkdir(parents=True, exist_ok=True)
 (symbols / "symbols").write_text("symbols")
 print("Build Timing Summary\\nCompileSwift: fixture")
@@ -294,8 +294,8 @@ print("Build Timing Summary\\nCompileSwift: fixture")
             self.assertNotIn("-quiet", arguments)
             self.assertFalse(any(arg.startswith("COMPILATION_CACHE_ENABLE_CACHING=") for arg in arguments))
             output = self.root / "builds" / ("build-" + channel)
-            self.assertTrue((output / "Telegram.app/Contents/Info.plist").exists())
-            self.assertTrue((output / "Telegram.app.DSYM.zip").exists())
+            self.assertTrue((output / "ImpulseM.app/Contents/Info.plist").exists())
+            self.assertTrue((output / "ImpulseM.app.DSYM.zip").exists())
             self.assertIn("CompileSwift", (self.logs / "xcodebuild.log").read_text())
             self.assertTrue((self.logs / "frameworks.log").exists())
 
@@ -316,7 +316,7 @@ print("Build Timing Summary\\nCompileSwift: fixture")
         self.build()
         with self.assertRaises(subprocess.CalledProcessError):
             self.build(ARCHIVE_RESULT="37")
-        self.assertFalse((self.root / "builds/build-Beta/Telegram.app").exists())
+        self.assertFalse((self.root / "builds/build-Beta/ImpulseM.app").exists())
         self.assertIn("deliberate archive failure", (self.logs / "xcodebuild.log").read_text())
 
 

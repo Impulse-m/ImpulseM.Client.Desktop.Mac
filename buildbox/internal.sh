@@ -29,5 +29,5 @@ sh ./buildbox/stop-leftover-builds.sh
 
 sh ./scripts/time-step.sh build sh ./buildbox/build-mac.sh "$tag"
 sh ./scripts/time-step.sh verify sh ./buildbox/verify-build.sh "$BUILD_OUTPUT" "$PWD"
-sh ./scripts/time-step.sh deploy sh deploy-$tag.sh "$BUILD_OUTPUT" "$PWD" Telegram.app ~/.credentials/dsa-$tag
+sh ./scripts/time-step.sh deploy sh deploy-$tag.sh "$BUILD_OUTPUT" "$PWD" ImpulseM.app ~/.credentials/dsa-$tag
 mv "$BUILD_OUTPUT.app-size.pending" "$BUILD_OUTPUT.app-size"
