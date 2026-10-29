@@ -12,6 +12,7 @@ import GeneralRows
 import InputDataUI
 import AlertsUI
 import ProxyUtils
+import ApiCredentials
 
 private func makeProxyAlertData(server: ProxyServerSettings, context: (any AccountContextProtocol), status: ProxyServerStatus?, checkStatus: @escaping () -> Void) -> ModalAlertData {
     var rows: [InputDataTableBasedItem.Row] = []
@@ -143,6 +144,10 @@ private func checkProxyStatus(context: (any AccountContextProtocol), server: Pro
 }
 
 public func applyExternalProxy(_ server: ProxyServerSettings, accountManager: AccountManager<TelegramAccountManagerTypes>) {
+    guard ImpulseFeatures.PROXY else {
+        return
+    }
+
     guard let context = ProxyHooks.shared.currentContext() else {
         return
     }
