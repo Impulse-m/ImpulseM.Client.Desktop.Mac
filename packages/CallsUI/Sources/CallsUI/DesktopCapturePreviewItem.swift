@@ -8,75 +8,18 @@ import TelegramCallsCore
 import GeneralRows
 
 final class DesktopCapturePreviewItem : GeneralRowItem {
-    fileprivate let scope: DesktopCaptureSourceScopeMac
+    fileprivate let source: MacOSScreenPickerSource
     fileprivate let selected: Bool
-    fileprivate let select: (DesktopCaptureSourceMac, DesktopCaptureSourceManagerMac)->Void
-    fileprivate private(set) weak var manager: DesktopCaptureSourceManagerMac?
+    fileprivate let select: (MacOSScreenPickerSource)->Void
     fileprivate let isAvailable: Bool
-    init(_ initialSize: NSSize, stableId: AnyHashable, source: DesktopCaptureSourceMac, isAvailable: Bool, isSelected: Bool, manager: DesktopCaptureSourceManagerMac?, select: @escaping(DesktopCaptureSourceMac, DesktopCaptureSourceManagerMac)->Void) {
-        self.manager = manager
-        self.scope = DesktopCaptureSourceScopeMac(source: source, data: DesktopCaptureSourceDataMac(size: CGSize(width: 135, height: 90).multipliedByScreenScale(), fps: 0.5, captureMouse: false))
+    init(_ initialSize: NSSize, stableId: AnyHashable, source: MacOSScreenPickerSource, isAvailable: Bool, isSelected: Bool, select: @escaping(MacOSScreenPickerSource)->Void) {
+        self.source = source
         self.select = select
         self.isAvailable = isAvailable
         self.selected = isSelected
         super.init(initialSize, stableId: stableId)
     }
-    
-    override var height:CGFloat {
-        return 145
-    }
-    override var width: CGFloat {
-        return 90
-    }
 
-    override var accessibilityLabel: String? {
-        return scope.source.title()
-    }
-
-    override var accessibilityRole: NSAccessibility.Role? {
-        return .radioButton
-    }
-
-    override var accessibilityToggleState: Bool? {
-        return selected
-    }
-
-    override var accessibilityIsEnabled: Bool {
-        return isAvailable
-    }
-
-    override var accessibilityIncludesChildren: Bool {
-        return false
-    }
-
-    override func accessibilityPerformPress() -> Bool {
-        guard let manager = manager else {
-            return false
-        }
-        select(scope.source, manager)
-        return true
-    }
-    
-    override func viewClass() -> AnyClass {
-        return DesktopCapturePreviewView.self
-    }
-}
-
-
-class DesktopCameraCapturerRowItem: GeneralRowItem {
-    fileprivate let source: CameraCaptureDevice
-    fileprivate let selected: Bool
-    fileprivate let select:(CameraCaptureDevice)->Void
-    fileprivate let isAvailable: Bool
-    init(_ initialSize: NSSize, stableId: AnyHashable, device: CameraCaptureDevice, isAvailable: Bool, isSelected: Bool, select:@escaping(CameraCaptureDevice)->Void) {
-        self.source = device
-        self.selected = isSelected
-        self.select = select
-        self.isAvailable = isAvailable
-        super.init(initialSize, stableId: stableId)
-
-    }
-    
     override var height:CGFloat {
         return 145
     }
@@ -108,17 +51,69 @@ class DesktopCameraCapturerRowItem: GeneralRowItem {
         select(source)
         return true
     }
-    
+
     override func viewClass() -> AnyClass {
         return DesktopCapturePreviewView.self
     }
 }
 
 
- 
+class DesktopCameraCapturerRowItem: GeneralRowItem {
+    fileprivate let source: CameraCaptureDevice
+    fileprivate let selected: Bool
+    fileprivate let select:(CameraCaptureDevice)->Void
+    fileprivate let isAvailable: Bool
+    init(_ initialSize: NSSize, stableId: AnyHashable, device: CameraCaptureDevice, isAvailable: Bool, isSelected: Bool, select:@escaping(CameraCaptureDevice)->Void) {
+        self.source = device
+        self.selected = isSelected
+        self.select = select
+        self.isAvailable = isAvailable
+        super.init(initialSize, stableId: stableId)
+
+    }
+
+    override var height:CGFloat {
+        return 145
+    }
+    override var width: CGFloat {
+        return 90
+    }
+
+    override var accessibilityLabel: String? {
+        return source.title()
+    }
+
+    override var accessibilityRole: NSAccessibility.Role? {
+        return .radioButton
+    }
+
+    override var accessibilityToggleState: Bool? {
+        return selected
+    }
+
+    override var accessibilityIsEnabled: Bool {
+        return isAvailable
+    }
+
+    override var accessibilityIncludesChildren: Bool {
+        return false
+    }
+
+    override func accessibilityPerformPress() -> Bool {
+        select(source)
+        return true
+    }
+
+    override func viewClass() -> AnyClass {
+        return DesktopCapturePreviewView.self
+    }
+}
+
+
+
 private final class DesktopCaptureSourceMacView : Control {
-    
-    
+
+
     private var contentView: View = View()
     private let backgroundView: View = View()
     private let textView = TextView()
@@ -127,24 +122,24 @@ private final class DesktopCaptureSourceMacView : Control {
 
     private var callback:(()->Void)?
     private var selected: Bool = false
-    
-    
+
+
     private var view: NSView? = nil
-    
+
     private let shadowView = ShadowView()
-    
+
     required init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         addSubview(contentView)
         addSubview(picture)
         picture.isAccessibilityDecorative = true
-        
+
         shadowView.shadowBackground = .blackTransparent
-        
+
         textView.userInteractionEnabled = false
         textView.isSelectable = false
-    
-        
+
+
         layer?.cornerRadius = 10
         self.contentView.layer?.cornerRadius = 10
         set(handler: { [weak self] control in
@@ -152,30 +147,30 @@ private final class DesktopCaptureSourceMacView : Control {
                 self?.picture.change(opacity: 1)
             }
         }, for: .Hover)
-        
+
         set(handler: { [weak self] control in
             if self?.selected == false {
                 self?.picture.change(opacity: 1)
             }
         }, for: .Highlight)
-        
+
         set(handler: { [weak self] control in
             if self?.selected == false {
                 self?.picture.change(opacity: 0)
             }
         }, for: .Normal)
-                
+
         set(handler: { [weak self] _ in
             self?.callback?()
         }, for: .Click)
     }
-    
+
     var previousState: ControlState?
 
-    
+
     override func stateDidUpdate(_ state: ControlState) {
         super.stateDidUpdate(state)
-        
+
         switch controlState {
         case .Normal:
             if self.selected == false {
@@ -190,13 +185,13 @@ private final class DesktopCaptureSourceMacView : Control {
         }
         previousState = state
     }
-    
+
     var contentRect: NSRect {
         let rect: NSRect
         rect = NSMakeRect(4, 4, frame.width - 8, frame.height - 8)
         return rect
     }
-    
+
     private var source: VideoSourceMac?
     func update(view: NSView, source: VideoSourceMac, selected: Bool, animated: Bool, callback:@escaping()->Void) {
         self.callback = callback
@@ -205,21 +200,21 @@ private final class DesktopCaptureSourceMacView : Control {
         self.view = view
         self.contentView.subviews = [self.backgroundView, view, self.shadowView, self.textView]
 
-        
+
         let layout = TextViewLayout(.initialize(string: source.title(), color: .white, font: .normal(.short)), maximumNumberOfLines: 1, truncationType: .middle)
         layout.measure(width: frame.width - 20)
         textView.update(layout)
-      
+
         self.selected = selected
         backgroundView.backgroundColor = NSColor.black.withAlphaComponent(0.9)
-        
+
         contentView.layer?.cornerRadius = 6
-        
+
         picture.layer?.opacity = selected ? 1 : 0
-        
+
         picture.image = generateImage(frame.size, contextGenerator: { size, ctx in
             ctx.clear(.init(origin: .zero, size: size))
-            
+
             if selected {
                 ctx.setStrokeColor(ScreenCaptureUIHooks.shared.groupCallAccent().cgColor)
             } else {
@@ -233,9 +228,9 @@ private final class DesktopCaptureSourceMacView : Control {
             ctx.strokePath()
         })
         picture.sizeToFit()
-        
+
         updateState()
-        
+
         needsLayout = true
     }
 
@@ -247,14 +242,14 @@ private final class DesktopCaptureSourceMacView : Control {
         }
         return nil
     }
-    
+
     deinit {
         if let layer = self.view?.layer as? AVCaptureVideoPreviewLayer {
             layer.session?.stopRunning()
             layer.session = nil
         }
     }
-    
+
     override func layout() {
         super.layout()
         self.contentView.frame = contentRect
@@ -263,59 +258,45 @@ private final class DesktopCaptureSourceMacView : Control {
         self.view?.frame = contentView.bounds
         self.shadowView.frame = contentView.bounds
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 final class DesktopCapturePreviewView : HorizontalRowView {
-        
+
     private let contentView = DesktopCaptureSourceMacView(frame: NSMakeRect(5, 0, 135, 90))
     private let disposable = MetaDisposable()
     required init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        
+
         addSubview(contentView)
 
     }
-    
-    
+
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
         updateListeners()
         update()
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
         disposable.dispose()
     }
-    
+
     private func updateListeners() {
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(update), name: NSView.boundsDidChangeNotification, object: enclosingScrollView?.contentView)
         NotificationCenter.default.addObserver(self, selector: #selector(update), name: NSView.frameDidChangeNotification, object: enclosingScrollView)
     }
     @objc private func update() {
-        if let item = item as? DesktopCapturePreviewItem {
-            if let manager = item.manager {
-                if visibleRect != .zero, item.isAvailable, window != nil {
-                    disposable.set(delaySignal(0.03).start(completed: { [weak manager, weak item] in
-                        if let item = item {
-                            manager?.start(item.scope)
-                        }
-                    }))
-                } else {
-                    disposable.set(nil)
-                    manager.stop(item.scope)
-                }
-            }
-        }
         if let item = item as? DesktopCameraCapturerRowItem {
             if item.isAvailable {
                 if let session = (contentView.viewFor(item.source)?.layer as? AVCaptureVideoPreviewLayer)?.session {
@@ -334,53 +315,40 @@ final class DesktopCapturePreviewView : HorizontalRowView {
                 }
             }
         }
-        
+
     }
-    
+
     override var backdorColor: NSColor {
         return .clear
     }
-    
+
     override func updateColors() {
         super.updateColors()
         self.backgroundColor = backdorColor
     }
-    
+
     override func updateMouse(animated: Bool) {
         super.updateMouse(animated: animated)
         contentView.updateState()
     }
-    
-    
-    
+
+
+
     override func set(item: TableRowItem, animated: Bool = false) {
-                
-        let previous = self.item as? DesktopCapturePreviewItem
-        
+
         super.set(item: item, animated: animated)
-        
-        if let previous = previous {
-            if let manager = previous.manager {
-                manager.stop(previous.scope)
-            }
-        }
-        
+
         if let item = item as? DesktopCapturePreviewItem {
-            if let manager = item.manager {
-                let view: NSView
-                if item.isAvailable {
-                    view = contentView.viewFor(item.scope.source) ?? manager.create(forScope: item.scope)
-                } else {
-                    view = View()
+            // Screen tiles show a static placeholder. The live picture is shown only for the selected source in the preview window.
+            let view: View = View()
+            view.backgroundColor = .black
+            contentView.update(view: view, source: item.source, selected: item.selected, animated: animated, callback: { [weak item] in
+                if let item = item {
+                    item.select(item.source)
                 }
-                contentView.update(view: view, source: item.scope.source, selected: item.selected, animated: animated, callback: { [weak item] in
-                    if let item = item, let manager = item.manager {
-                        item.select(item.scope.source, manager)
-                    }
-                })
-            }
+            })
         }
-        
+
         if let item = item as? DesktopCameraCapturerRowItem {
             if item.isAvailable {
 
@@ -407,17 +375,17 @@ final class DesktopCapturePreviewView : HorizontalRowView {
                 view = View()
             }
 
-            
+
             contentView.update(view: view, source: item.source, selected: item.selected, animated: animated, callback: { [weak item] in
                 if let item = item {
                     item.select(item.source)
                 }
             })
         }
-        
-        
+
+
         update()
         needsLayout = true
     }
-    
+
 }

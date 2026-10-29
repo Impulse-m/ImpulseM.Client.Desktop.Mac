@@ -1185,7 +1185,9 @@ public final class GroupCallUIController : ViewController {
             let select:(VideoSourceMac)->Void = { source in
                 switch source.mode {
                 case .screencast:
-                    self?.data.call.requestScreencast(deviceId: source.deviceIdKey(), source: source)
+                    if let screenSource = source as? MacOSScreenPickerSource, let capturer = screenSource.makeCapturer() {
+                        self?.data.call.requestScreencast(deviceId: capturer, source: screenSource)
+                    }
                 case .video:
                     self?.data.call.requestVideo(deviceId: source.deviceIdKey(), source: source)
                 }
@@ -1213,12 +1215,15 @@ public final class GroupCallUIController : ViewController {
                         }
                     }))
                 case .screencast:
-                    let screens = DesktopCaptureSourceManagerMac(_s: ())
-                    let windows = DesktopCaptureSourceManagerMac(_w: ())
-                    let sf = screens.list().first(where: { $0.uniqueKey() == FastSettings.defaultScreenShare() })
-                    let wf = windows.list().first(where: { $0.uniqueKey() == FastSettings.defaultScreenShare() })
-                    if let first = sf ?? wf ?? screens.list().first {
-                        select(first)
+                    Task { @MainActor in
+                        let listing = await MacOSScreenPickerListing.load()
+                        let savedKey: String = FastSettings.defaultScreenShare()
+                        let preselected: MacOSScreenPickerSource? = listing.displays.first(where: { $0.uniqueKey() == savedKey })
+                            ?? listing.windows.first(where: { $0.uniqueKey() == savedKey })
+                            ?? listing.displays.first
+                        if let preselected = preselected {
+                            select(preselected)
+                        }
                     }
                 }
                 return

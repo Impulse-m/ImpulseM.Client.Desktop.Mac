@@ -16,10 +16,10 @@ import InputDataUI
 
 
 private final class DesktopCaptureListArguments {
-    let selectDesktop:(DesktopCaptureSourceMac, DesktopCaptureSourceManagerMac)->Void
+    let selectDesktop:(MacOSScreenPickerSource)->Void
     let selectCamera:(CameraCaptureDevice)->Void
 
-    init(selectDesktop:@escaping(DesktopCaptureSourceMac, DesktopCaptureSourceManagerMac)->Void, selectCamera:@escaping(CameraCaptureDevice)->Void) {
+    init(selectDesktop:@escaping(MacOSScreenPickerSource)->Void, selectCamera:@escaping(CameraCaptureDevice)->Void) {
         self.selectDesktop = selectDesktop
         self.selectCamera = selectCamera
     }
@@ -33,11 +33,11 @@ private struct DesktopCaptureListState : Equatable {
     }
 
     var cameras:[CameraCaptureDevice]
-    var screens: [DesktopCaptureSourceMac]
-    var windows: [DesktopCaptureSourceMac]
+    var screens: [MacOSScreenPickerSource]
+    var windows: [MacOSScreenPickerSource]
     var selected: VideoSourceMac?
     var access:Access
-    init(cameras: [CameraCaptureDevice], screens: [DesktopCaptureSourceMac], windows: [DesktopCaptureSourceMac], selected: VideoSourceMac?, access: Access) {
+    init(cameras: [CameraCaptureDevice], screens: [MacOSScreenPickerSource], windows: [MacOSScreenPickerSource], selected: VideoSourceMac?, access: Access) {
         self.cameras = cameras
         self.screens = screens
         self.windows = windows
@@ -46,7 +46,7 @@ private struct DesktopCaptureListState : Equatable {
     }
     static func ==(lhs: DesktopCaptureListState, rhs: DesktopCaptureListState) -> Bool {
         let listEquals = lhs.cameras == rhs.cameras && lhs.screens == rhs.screens && lhs.windows == rhs.windows
-        
+
         if !listEquals {
             return false
         }
@@ -64,12 +64,12 @@ private struct DesktopCaptureListState : Equatable {
     }
 }
 
-private func entries(_ state: DesktopCaptureListState, screens: DesktopCaptureSourceManagerMac?, windows: DesktopCaptureSourceManagerMac?, excludeWindowNumber: Int = 0, arguments: DesktopCaptureListArguments) -> [InputDataEntry] {
-        
+private func entries(_ state: DesktopCaptureListState, arguments: DesktopCaptureListArguments) -> [InputDataEntry] {
+
     var entries:[InputDataEntry] = []
-    
+
     struct DesktopTuple : Equatable {
-        let source: DesktopCaptureSourceMac
+        let source: MacOSScreenPickerSource
         let selected: Bool
         let isAvailable: Bool
     }
@@ -78,16 +78,16 @@ private func entries(_ state: DesktopCaptureListState, screens: DesktopCaptureSo
         let selected: Bool
         let isAvailable: Bool
     }
-    
+
     var sectionId:Int32 = 0
     var index: Int32 = 0
-    
+
     entries.append(.custom(sectionId: sectionId, index: index, value: .none, identifier: InputDataIdentifier("\(sectionId)"), equatable: nil, comparable: nil, item: { initialSize, stableId in
         return GeneralRowItem(initialSize, height: 15, stableId: stableId, backgroundColor: .clear)
     }))
     sectionId += 1
-    
-    
+
+
     for source in state.cameras {
         let id: String = source.uniqueKey()
         let selected = state.selected != nil ? source.isEqual(state.selected!) : false
@@ -97,24 +97,24 @@ private func entries(_ state: DesktopCaptureListState, screens: DesktopCaptureSo
         }))
         index += 1
     }
-    
+
     for source in state.screens {
         let id: String = source.uniqueKey()
         let selected = state.selected != nil ? source.isEqual(state.selected!) : false
         let tuple = DesktopTuple(source: source, selected: selected, isAvailable: state.access.sharing)
-        entries.append(.custom(sectionId: sectionId, index: index, value: .none, identifier: InputDataIdentifier(id), equatable: InputDataEquatable(tuple), comparable: nil, item: { [weak screens] initialSize, stableId in
-            return DesktopCapturePreviewItem(initialSize, stableId: stableId, source: tuple.source, isAvailable: tuple.isAvailable, isSelected: tuple.selected, manager: screens, select: arguments.selectDesktop)
+        entries.append(.custom(sectionId: sectionId, index: index, value: .none, identifier: InputDataIdentifier(id), equatable: InputDataEquatable(tuple), comparable: nil, item: { initialSize, stableId in
+            return DesktopCapturePreviewItem(initialSize, stableId: stableId, source: tuple.source, isAvailable: tuple.isAvailable, isSelected: tuple.selected, select: arguments.selectDesktop)
         }))
         index += 1
     }
-    
+
     for source in state.windows {
         let id: String = source.uniqueKey()
         let selected = state.selected != nil ? source.isEqual(state.selected!) : false
         let tuple = DesktopTuple(source: source, selected: selected, isAvailable: state.access.sharing)
-        
-        entries.append(.custom(sectionId: sectionId, index: index, value: .none, identifier: InputDataIdentifier(id), equatable: InputDataEquatable(tuple), comparable: nil, item: { [weak windows] initialSize, stableId in
-            return DesktopCapturePreviewItem(initialSize, stableId: stableId, source: tuple.source, isAvailable: tuple.isAvailable, isSelected: tuple.selected, manager: windows, select: arguments.selectDesktop)
+
+        entries.append(.custom(sectionId: sectionId, index: index, value: .none, identifier: InputDataIdentifier(id), equatable: InputDataEquatable(tuple), comparable: nil, item: { initialSize, stableId in
+            return DesktopCapturePreviewItem(initialSize, stableId: stableId, source: tuple.source, isAvailable: tuple.isAvailable, isSelected: tuple.selected, select: arguments.selectDesktop)
         }))
         index += 1
     }
@@ -123,14 +123,11 @@ private func entries(_ state: DesktopCaptureListState, screens: DesktopCaptureSo
         return GeneralRowItem(initialSize, height: 15, stableId: stableId, backgroundColor: .clear)
     }))
     sectionId += 1
-    
+
     return entries
 }
 
 final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
-    
-    private var windows: DesktopCaptureSourceManagerMac!
-    private var screens: DesktopCaptureSourceManagerMac!
 
     private var updateDisposable: Disposable?
     private let disposable: MetaDisposable = MetaDisposable()
@@ -138,7 +135,7 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
 
     private let mode: VideoSourceMacMode
     private let devices: DevicesContext
-    
+
     init(size: NSSize, devices: DevicesContext, mode: VideoSourceMacMode) {
         self.devices = devices
         self.mode = mode
@@ -146,27 +143,25 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
         self.bar = .init(height: 0)
     }
 
-    
-    
-    var updateDesktopSelected:((DesktopCapturerObjectWrapper, DesktopCaptureSourceManagerMac)->Void)? = nil
+
+
+    var updateDesktopSelected:((DesktopCapturerObjectWrapper)->Void)? = nil
     var updateCameraSelected:((DesktopCapturerObjectWrapper)->Void)? = nil
 
 
-    
+
     var excludeWindowNumber: Int = 0
-    
+
     private var getCurrentlySelected: (()->VideoSourceMac?)? = nil
     var selected: VideoSourceMac? {
         return self.getCurrentlySelected?()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.windows = DesktopCaptureSourceManagerMac(_w: ())
-        self.screens = DesktopCaptureSourceManagerMac(_s: ())
 
         let actionsDisposable = DisposableSet()
-        
+
         var hasCameraAccess = false
         var requestCamera = false
         if #available(OSX 10.14, *) {
@@ -183,22 +178,16 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
             hasCameraAccess = true
         }
 
-        var sList:[DesktopCaptureSourceMac] = []
-        var wList: [DesktopCaptureSourceMac] = []
         var sharingAccess: Bool = false
 
         switch mode {
         case .screencast:
-            sList = screens.list()
-            wList = windows.list()
-            sharingAccess = requestScreenCaptureAccess()
+            sharingAccess = macOSScreenShareSupported() && requestScreenCaptureAccess()
         case .video:
             break
         }
-        
-        let selected = sList.first(where: { $0.uniqueKey() == FastSettings.defaultScreenShare() }) ?? wList.first(where: { $0.uniqueKey() == FastSettings.defaultScreenShare() })
-        
-        let initialState = DesktopCaptureListState(cameras: [], screens: sList, windows: wList, selected: selected, access: .init(sharing: sharingAccess, camera: hasCameraAccess))
+
+        let initialState = DesktopCaptureListState(cameras: [], screens: [], windows: [], selected: nil, access: .init(sharing: sharingAccess, camera: hasCameraAccess))
 
 
         let statePromise = ValuePromise(initialState, ignoreRepeated: true)
@@ -209,7 +198,7 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
         getCurrentlySelected = {
             stateValue.with { $0.selected }
         }
-        
+
         self.onDeinit = {
             updateState { current in
                 var current = current
@@ -231,10 +220,7 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
                 }
             }))
         }
-        
-        let windows = self.windows
-        let screens = self.screens
-        
+
         let checkSelected = {
             updateState { current in
                 var current = current
@@ -253,53 +239,72 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
                     }
                 }
                 if current.selected == nil {
-                    current.selected = current.cameras.first ?? current.screens.first ?? current.windows.first
+                    let savedKey: String = FastSettings.defaultScreenShare()
+                    let savedScreen: MacOSScreenPickerSource? = current.screens.first(where: { $0.uniqueKey() == savedKey })
+                    let savedWindow: MacOSScreenPickerSource? = current.windows.first(where: { $0.uniqueKey() == savedKey })
+                    let firstCamera: CameraCaptureDevice? = current.cameras.first
+                    let firstScreen: MacOSScreenPickerSource? = current.screens.first
+                    let firstWindow: MacOSScreenPickerSource? = current.windows.first
+                    if let savedScreen = savedScreen {
+                        current.selected = savedScreen
+                    } else if let savedWindow = savedWindow {
+                        current.selected = savedWindow
+                    } else if let firstCamera = firstCamera {
+                        current.selected = firstCamera
+                    } else if let firstScreen = firstScreen {
+                        current.selected = firstScreen
+                    } else {
+                        current.selected = firstWindow
+                    }
                 }
                 return current
             }
         }
-                
+
         let muxedDevices = devices.signal |> deliverOnMainQueue |> map { devices in
-            
+
             updateState { current in
                 var current = current
                 current.cameras = devices.camera.filter { !$0.isSuspended && $0.isConnected && $0.hasMediaType(.muxed) }.map { CameraCaptureDevice($0) }
                 return current
             }
-            
+
         }
-        
-        let updateSignal = (Signal<NoValue, NoError> { [weak windows, weak screens] subscriber in
-            
-            updateState { current in
-                var current = current
-                current.screens = screens?.list() ?? []
-                current.windows = windows?.list() ?? []
-                return current
+
+        let updateSignal = (Signal<NoValue, NoError> { subscriber in
+
+            Task { @MainActor in
+                let listing = await MacOSScreenPickerListing.load()
+                updateState { current in
+                    var current = current
+                    current.screens = listing.displays
+                    current.windows = listing.windows
+                    return current
+                }
+                checkSelected()
             }
-            checkSelected()
             subscriber.putCompletion()
-            
+
             return EmptyDisposable
         } |> then(.complete() |> suspendAwareDelay(2, queue: .mainQueue()))) |> restart
-        
+
         let updateAccess = (Signal<NoValue, NoError> { subscriber in
-            
+
             updateState { current in
                 var current = current
                 if #available(macOS 10.14, *) {
-                    current.access = .init(sharing: screenCaptureAvailable(), camera: AVCaptureDevice.authorizationStatus(for: .video) == .authorized)
+                    current.access = .init(sharing: macOSScreenShareSupported() && screenCaptureAvailable(), camera: AVCaptureDevice.authorizationStatus(for: .video) == .authorized)
                 } else {
-                    current.access = .init(sharing: screenCaptureAvailable(), camera: true)
+                    current.access = .init(sharing: macOSScreenShareSupported() && screenCaptureAvailable(), camera: true)
                 }
                 return current
             }
             checkSelected()
             subscriber.putCompletion()
-            
+
             return EmptyDisposable
         } |> then(.complete() |> suspendAwareDelay(5, queue: .mainQueue()))) |> restart
-        
+
         let updateSelected: Signal<VideoSourceMac?, NoError> = statePromise.get() |> map { $0.selected } |> distinctUntilChanged(isEqual:  { lhs, rhs in
             if let lhs = lhs, let rhs = rhs {
                 return lhs.isEqual(rhs)
@@ -308,18 +313,18 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
             }
             return true
         })
-        actionsDisposable.add(updateSelected.start(next: { [weak self, weak screens] selected in
-            if let selected = selected as? DesktopCaptureSourceMac, let screens = screens {
-                self?.updateDesktopSelected?(DesktopCapturerObjectWrapper(source: selected, isAvailableToStream: stateValue.with { $0.access.sharing }), screens)
+        actionsDisposable.add(updateSelected.start(next: { [weak self] selected in
+            if let selected = selected as? MacOSScreenPickerSource {
+                self?.updateDesktopSelected?(DesktopCapturerObjectWrapper(source: selected, isAvailableToStream: stateValue.with { $0.access.sharing }))
             } else if let selected = selected as? CameraCaptureDevice {
                 self?.updateCameraSelected?(DesktopCapturerObjectWrapper(source: selected, isAvailableToStream: stateValue.with { $0.access.camera }))
             }
         }))
-        
+
         switch mode {
         case .screencast:
             self.updateDisposable = combineLatest(updateSignal, muxedDevices).start()
-            
+
         case .video:
             var first: Bool = true
             devicesDisposable.set((devices.signal |> deliverOnMainQueue).start(next: { devices in
@@ -332,14 +337,14 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
                     }
                     return current
                 }
-                
+
                 checkSelected()
             }))
         }
-        
+
         actionsDisposable.add(updateAccess.start())
-        
-        let arguments = DesktopCaptureListArguments(selectDesktop: { source, manager in
+
+        let arguments = DesktopCaptureListArguments(selectDesktop: { source in
             updateState { current in
                 var current = current
                 current.selected = source
@@ -354,30 +359,27 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
             }
             FastSettings.setDefaultVideoShare(source.uniqueKey())
         })
-        
-        let excludeWindowNumber = self.excludeWindowNumber
 
-        
-        let signal = statePromise.get() |> map { [weak windows, weak screens] state in
-            return InputDataSignalValue(entries: entries(state, screens: screens, windows: windows, excludeWindowNumber: excludeWindowNumber, arguments: arguments))
+        let signal = statePromise.get() |> map { state in
+            return InputDataSignalValue(entries: entries(state, arguments: arguments))
         }
-        
+
         let previous: Atomic<[AppearanceWrapperEntry<InputDataEntry>]> = Atomic(value: [])
-        
+
         let initialSize = self.atomicSize
-        
+
         let transaction: Signal<TableUpdateTransition, NoError> = combineLatest(signal, appearanceSignal) |> mapToQueue { state, appearance in
-            
+
             let entries = state.entries.map { AppearanceWrapperEntry(entry: $0, appearance: appearance) }
             return prepareInputDataTransition(left: previous.swap(entries), right: entries, animated: state.animated, searchState: nil, initialSize: initialSize.with { $0 }, arguments: InputDataArguments(select: {_, _ in }, dataUpdated: {}), onMainQueue: false)
         } |> deliverOnMainQueue
-        
+
         genericView.needUpdateVisibleAfterScroll = true
-        
+
         genericView.getBackgroundColor = {
             .clear
         }
-        
+
         disposable.set(transaction.start(next: { [weak self] transaction in
             self?.genericView.merge(with: transaction)
             self?.readyOnce()
@@ -385,7 +387,7 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
         }))
 
     }
-    
+
     override func initializer() -> HorizontalTableView {
         return HorizontalTableView(frame: _frameRect.size.bounds, isFlipped: true, bottomInset: 0, drawBorder: false)
     }
@@ -396,6 +398,5 @@ final class DesktopCaptureListUI : GenericViewController<HorizontalTableView> {
         devicesDisposable.dispose()
         onDeinit?()
     }
-    
-}
 
+}
