@@ -1216,7 +1216,7 @@ public final class GroupCallUIController : ViewController {
                 case .screencast:
                     Task { @MainActor in
                         let listing = await MacOSScreenPickerListing.load()
-                        let savedKey: String = FastSettings.defaultScreenShare()
+                        let savedKey: String? = FastSettings.defaultScreenShare()
                         let preselected: MacOSScreenPickerSource? = listing.displays.first(where: { $0.uniqueKey() == savedKey })
                             ?? listing.windows.first(where: { $0.uniqueKey() == savedKey })
                             ?? listing.displays.first
