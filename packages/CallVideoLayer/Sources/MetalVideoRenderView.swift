@@ -47,20 +47,26 @@ private func copyI420ToNV12Buffer(
     }
     let dstStrideUV: Int = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 1)
 
-    LibYUVConverter.i420ToNV12(
-        withSrcY: srcY,
-        srcStrideY: Int32(strideY),
-        srcU: srcU,
-        srcStrideU: Int32(strideU),
-        srcV: srcV,
-        srcStrideV: Int32(strideV),
-        dstY: dstY.assumingMemoryBound(to: UInt8.self),
-        dstStrideY: Int32(dstStrideY),
-        dstUV: dstUV.assumingMemoryBound(to: UInt8.self),
-        dstStrideUV: Int32(dstStrideUV),
-        width: Int32(width),
-        height: Int32(height)
-    )
+    let dstYBytes: UnsafeMutablePointer<UInt8> = dstY.assumingMemoryBound(to: UInt8.self)
+    let dstUVBytes: UnsafeMutablePointer<UInt8> = dstUV.assumingMemoryBound(to: UInt8.self)
+
+    for row in 0 ..< height {
+        let srcYRow: UnsafePointer<UInt8> = srcY + row * strideY
+        let dstYRow: UnsafeMutablePointer<UInt8> = dstYBytes + row * dstStrideY
+        memcpy(dstYRow, srcYRow, width)
+    }
+
+    let chromaWidth: Int = (width + 1) / 2
+    let chromaHeight: Int = (height + 1) / 2
+    for row in 0 ..< chromaHeight {
+        let srcURow: UnsafePointer<UInt8> = srcU + row * strideU
+        let srcVRow: UnsafePointer<UInt8> = srcV + row * strideV
+        let dstUVRow: UnsafeMutablePointer<UInt8> = dstUVBytes + row * dstStrideUV
+        for col in 0 ..< chromaWidth {
+            dstUVRow[2 * col] = srcURow[col]
+            dstUVRow[2 * col + 1] = srcVRow[col]
+        }
+    }
     return true
 }
 
