@@ -56,7 +56,7 @@ public final class CameraCaptureDevice : VideoSourceMac, Equatable {
         return lhs.device == rhs.device
     }
     /// The LiveKit camera track of this device. `LiveKitVideoSources` builds it, the same factory the call capturer uses.
-    public func makeLiveKitVideoTrack() -> LocalVideoTrack? {
-        return LiveKitVideoSources.createCameraTrack(captureCode: .front, deviceId: self.device.uniqueID)
+    public func makeLiveKitVideoTrack() async -> LocalVideoTrack? {
+        return await LiveKitVideoSources.createCameraTrack(captureCode: .front, deviceId: self.device.uniqueID)
     }
 }
