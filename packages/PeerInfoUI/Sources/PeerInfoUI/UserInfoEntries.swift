@@ -7,6 +7,7 @@ import TGUIKit
 import InputView
 import AffiliateUI
 import AlertsUI
+import ApiCredentials
 import AvatarEditorUI
 import BusinessUI
 import CalendarUI
@@ -3040,8 +3041,8 @@ func userInfoEntries<Context: AccountContextProtocol>(view: PeerView, arguments:
                 let starBalance = (revenueState?.stats?.balances.currentBalance.amount.value ?? 0)
                 let tonBalance = (tonRevenueState?.stats?.balances.currentBalance.amount.value ?? 0)
 
-                let hasStars = (revenueState?.stats?.balances.overallRevenue.amount.value ?? 0) > 0
-                let hasTon = (tonRevenueState?.stats?.balances.overallRevenue.amount.value ?? 0) > 0
+                let hasStars: Bool = ImpulseFeatures.STARS_AND_TON && (revenueState?.stats?.balances.overallRevenue.amount.value ?? 0) > 0
+                let hasTon: Bool = ImpulseFeatures.STARS_AND_TON && (tonRevenueState?.stats?.balances.overallRevenue.amount.value ?? 0) > 0
 
                 
                 if hasStars || hasTon {

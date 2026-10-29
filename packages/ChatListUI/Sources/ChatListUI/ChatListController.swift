@@ -13,6 +13,7 @@ import GeneralRows
 import LocalAnimations
 import Strings
 import AlertsUI
+import ApiCredentials
 import StarsUI
 import PasskeysUI
 import StoriesUI
@@ -173,7 +174,7 @@ public struct UIChatFrozenAction : UIChatListTextAction {
         let attributedTitle = NSMutableAttributedString(string: strings().chatListFreezeAccountTitle, font: .medium(.text), textColor: theme.colors.redUI)
         
         self.text = attributedTitle
-        let appealLink = context.appConfiguration.getStringValue("freeze_appeal_url", orElse: "https://t.me/spambot")
+        let appealLink = context.appConfiguration.getStringValue("freeze_appeal_url", orElse: context.meUrlPrefix + "spambot")
 
         let text = strings().chatListFreezeAccountTitle
         
@@ -1073,7 +1074,7 @@ public class ChatListController<Context: AccountContextProtocol> : PeersListCont
                 additionItems.append(.custom(UICrashReportAction(card: crashReportCard)))
             }
             if state.mode == .plain, !update.list.hasLater, state.splitState != .minimisize, state.filterData.filter == .allChats, state.forumPeer == nil {
-                if suggestions.contains(where: { $0 == .starsSubscriptionLowBalance }), let missingBalanceState {
+                if ImpulseFeatures.STARS_AND_TON, suggestions.contains(where: { $0 == .starsSubscriptionLowBalance }), let missingBalanceState {
                     if missingBalanceState.balance.value > 0, !missingBalanceState.subscriptions.isEmpty {
                         additionItems.append(.custom(UIChatListBuyStarsAction(context: context, state: missingBalanceState)))
                     }

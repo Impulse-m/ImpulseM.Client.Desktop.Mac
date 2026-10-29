@@ -6,6 +6,7 @@ import TGUIKit
 import SwiftSignalKit
 import InAppSettings
 import AlertsUI
+import ApiCredentials
 import AvatarEditorUI
 import BoostUI
 import ChannelAdminUI
@@ -1410,7 +1411,7 @@ func channelInfoEntries<Context: AccountContextProtocol>(view: PeerView, argumen
                 let ton: String? = tonRevenueState?.stats?.balances.availableBalance.fullyFormatted
                 
                 
-                if cachedData.flags.contains(.canViewRevenue) || cachedData.flags.contains(.canViewStarsRevenue), stars != nil || ton != nil {
+                if ImpulseFeatures.STARS_AND_TON, cachedData.flags.contains(.canViewRevenue) || cachedData.flags.contains(.canViewStarsRevenue), stars != nil || ton != nil {
                     entries.append(.balance(section: .manage, ton: ton, stars: stars, canSeeTon: cachedData.flags.contains(.canViewRevenue), canSeeStars: cachedData.flags.contains(.canViewStarsRevenue), viewType: .innerItem))
                 }
 

@@ -17,6 +17,7 @@ import LocalAnimations
 import ProxyUtils
 import ChatModeTypes
 import CurrencyFormat
+import ApiCredentials
 
 
 
@@ -689,39 +690,43 @@ private func accountInfoEntries<Context: AccountContextProtocol>(peerView:PeerVi
         index += 1
     }
     
-    if !context.premiumIsBlocked {
+    let premiumFeaturesBlocked: Bool = context.premiumIsBlocked && !context.isPremium
+    if !premiumFeaturesBlocked {
         entries.append(.premium(index: index, viewType: .singleItem))
         index += 1
-        
-        
-        let stars_purchase_blocked = context.appConfiguration.getBoolValue("stars_purchase_blocked", orElse: true)
-        
-        if !stars_purchase_blocked, let stars  {
-            entries.append(.stars(index: index, count: stars.balance, viewType: .singleItem))
-            index += 1
-        }
-        
-        if let ton, ton.balance.value > 0 || !ton.transactions.isEmpty  {
-            entries.append(.ton(index: index, count: ton.balance, viewType: .singleItem))
-            index += 1
-        }
+    }
 
+    let stars_purchase_blocked = context.appConfiguration.getBoolValue("stars_purchase_blocked", orElse: true)
+
+    if ImpulseFeatures.STARS_AND_TON, !stars_purchase_blocked, let stars {
+        entries.append(.stars(index: index, count: stars.balance, viewType: .singleItem))
+        index += 1
+    }
+
+    if ImpulseFeatures.STARS_AND_TON, let ton, ton.balance.value > 0 || !ton.transactions.isEmpty {
+        entries.append(.ton(index: index, count: ton.balance, viewType: .singleItem))
+        index += 1
+    }
+
+    if !context.premiumIsBlocked {
         entries.append(.business(index: index, viewType: .singleItem))
         index += 1
-        
+
         entries.append(.giftPremium(index: index, viewType: .singleItem))
         index += 1
-        
+
         entries.append(.whiteSpace(index: index, height: 20))
         index += 1
     }
    
 
-    entries.append(.faq(index: index, viewType: .singleItem))
-    index += 1
-    entries.append(.ask(index: index, viewType: .singleItem))
-    index += 1
-    
+    if ImpulseFeatures.HELP_SECTION {
+        entries.append(.faq(index: index, viewType: .singleItem))
+        index += 1
+        entries.append(.ask(index: index, viewType: .singleItem))
+        index += 1
+    }
+
     entries.append(.whiteSpace(index: index, height: 20))
     index += 1
     
@@ -1062,7 +1067,7 @@ open class AccountViewController<Context: AccountContextProtocol> : TelegramGene
         }, giftPremium: { [weak self] in
             SettingsNavigationHooks.shared.showMultigift(context, { [weak self] in (self?.tableView.item(stableId: AccountInfoEntryId.index(21))?.view as? GeneralContainableRowView)?.containerView })
         }, addAccount: { accounts in
-            let testingEnvironment = NSApp.currentEvent?.modifierFlags.contains(.command) == true
+            let testingEnvironment: Bool = ImpulseFeatures.TEST_BACKEND && NSApp.currentEvent?.modifierFlags.contains(.command) == true
             let hasPremium = accounts.contains(where: { $0.peer.isPremium })
             if accounts.count == normalAccountsLimit {
                 if hasPremium {

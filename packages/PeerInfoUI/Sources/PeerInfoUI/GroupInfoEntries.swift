@@ -5,6 +5,7 @@ import TelegramCore
 import SwiftSignalKit
 import TGUIKit
 import AlertsUI
+import ApiCredentials
 import AvatarEditorUI
 import ChannelAdminUI
 import ChatHistoryModel
@@ -2285,7 +2286,7 @@ func groupInfoEntries<Context: AccountContextProtocol>(view: PeerView, arguments
 
                 }
 
-                if channel.linkedCommunityId == nil, (channel.adminRights != nil || channel.flags.contains(.isCreator)) {
+                if ImpulseFeatures.COMMUNITIES, channel.linkedCommunityId == nil, (channel.adminRights != nil || channel.flags.contains(.isCreator)) {
                     entries.append(.addToCommunity(section: GroupInfoSection.members.rawValue, viewType: .singleItem))
                 }
             }
@@ -2343,7 +2344,7 @@ func groupInfoEntries<Context: AccountContextProtocol>(view: PeerView, arguments
                 entries.append(GroupInfoEntry<Context>.verifiedInfo(sectionId: GroupInfoSection.desc.rawValue, value: (view.cachedData as? CachedChannelData)?.verification, viewType: .textBottomItem))
             }
             
-            if let cachedData = (view.cachedData as? CachedChannelData), cachedData.flags.contains(.canViewStarsRevenue) {
+            if ImpulseFeatures.STARS_AND_TON, let cachedData = (view.cachedData as? CachedChannelData), cachedData.flags.contains(.canViewStarsRevenue) {
                 if let stars = revenueState?.stats?.balances.availableBalance.fullyFormatted {
                     entries.append(.balance(section: GroupInfoSection.action.rawValue, stars: stars, canSeeStars: cachedData.flags.contains(.canViewStarsRevenue), viewType: .singleItem))
                 }

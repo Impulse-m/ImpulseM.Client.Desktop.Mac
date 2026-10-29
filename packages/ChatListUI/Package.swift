@@ -42,6 +42,7 @@ let deps: [(String, String)] = [
     ("ChatModeTypes", "../ChatModeTypes"),
     ("ChatHistoryModel", "../ChatHistoryModel"),
     ("ChatUI", "../ChatUI"),
+    ("ApiCredentials", "../ApiCredentials"),
     ("InlineStickerLayer", "../InlineStickerLayer"),
 
 ]
