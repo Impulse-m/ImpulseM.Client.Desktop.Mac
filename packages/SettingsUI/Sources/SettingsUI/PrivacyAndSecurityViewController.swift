@@ -4,6 +4,7 @@ import TelegramCore
 import SwiftSignalKit
 import Postbox
 import Localization
+import ApiCredentials
 import ColorPalette
 import InAppSettings
 import TelegramTheme
@@ -1363,12 +1364,13 @@ open class PrivacyAndSecurityViewController<Context: AccountContextProtocol>: Ta
                 })
             )
         }
-        updateHasPasskeys()
+        if ImpulsePasskeys.isEnabled {
+            updateHasPasskeys()
+        }
 
-           
         #if APP_STORE
         var displayPasskeys = false
-        if let data = context.appConfiguration.data {
+        if ImpulsePasskeys.isEnabled, let data = context.appConfiguration.data {
             if let _ = data["ios_display_passkeys"] {
                 displayPasskeys = true
             } else if let isDev = data["dev"] as? Double, isDev == 1.0 {

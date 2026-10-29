@@ -1433,6 +1433,10 @@ public class AuthController : GenericViewController<AuthView> {
 
     @available(macOS 12.0, *)
     func checkPasskeyAvailability(updateState: @escaping ((State) -> State) -> Void) {
+        guard ImpulsePasskeys.isEnabled else {
+            return
+        }
+
         self.passkeyUpdateState = updateState
         let engine = self.engine
 
@@ -1460,6 +1464,10 @@ public class AuthController : GenericViewController<AuthView> {
 
     @available(macOS 12.0, *)
     func performPasskeyLogin(challengeData: PasskeyChallengeData) {
+        guard ImpulsePasskeys.isEnabled else {
+            return
+        }
+
         let platformProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: challengeData.relyingPartyIdentifier)
         let platformKeyRequest = platformProvider.createCredentialAssertionRequest(challenge: challengeData.challengeData)
         let authController = ASAuthorizationController(authorizationRequests: [platformKeyRequest])
@@ -1513,6 +1521,10 @@ extension AuthController: ASAuthorizationControllerDelegate {
     }
 
     private func loginWithPasskey(_ passkey: AuthorizationPasskeyData) {
+        guard ImpulsePasskeys.isEnabled else {
+            return
+        }
+
         guard let updateState = passkeyUpdateState else {
             return
         }
@@ -1552,6 +1564,11 @@ extension AuthController: ASAuthorizationControllerDelegate {
     }
 
     private func performPasskeyAuthorization(passkey: AuthorizationPasskeyData, updateState: @escaping ((State) -> State) -> Void) {
+        // Never reached while passkeys are hidden: the request would carry this account's auth key id as from_auth_key_id.
+        guard ImpulsePasskeys.isEnabled else {
+            return
+        }
+
         updateState { current in
             var current = current
             current.locked = true
