@@ -78,11 +78,13 @@ python3 "$SCRIPT_DIR/apply-ffi-availability.py" \
     "$SCRIPT_DIR/ffi-availability.txt" \
     "$PACKAGE_DIR/Sources/WalletEngineFFI/WalletEngineFFI.swift"
 
+# The module map sits in its own folder: Xcode copies every static xcframework's headers into one
+# include directory, so a top-level module.modulemap collides with the other binary packages (libXray).
 HEADERS_DIR="$BUILD_DIR/headers"
 rm -rf "$HEADERS_DIR"
-mkdir -p "$HEADERS_DIR"
-cp "$SOURCE_DIR/bindings/swift/Sources/wallet_engineFFI/wallet_engineFFI.h" "$HEADERS_DIR/"
-cp "$SOURCE_DIR/bindings/swift/Sources/wallet_engineFFI/module.modulemap" "$HEADERS_DIR/"
+mkdir -p "$HEADERS_DIR/wallet_engineFFI"
+cp "$SOURCE_DIR/bindings/swift/Sources/wallet_engineFFI/wallet_engineFFI.h" "$HEADERS_DIR/wallet_engineFFI/"
+cp "$SOURCE_DIR/bindings/swift/Sources/wallet_engineFFI/module.modulemap" "$HEADERS_DIR/wallet_engineFFI/"
 
 rm -rf "$PACKAGE_DIR/wallet_engineFFI.xcframework"
 xcodebuild -create-xcframework \

@@ -136,7 +136,7 @@ framework_required_outputs() {
             local XCFRAMEWORK="$1/packages/WalletEngine/wallet_engineFFI.xcframework"
             printf '%s\n' "$BUILD_DIR/libwallet_engine.a" "$BUILD_DIR/WalletEngineFFI.swift" \
                 "$XCFRAMEWORK/Info.plist" "$XCFRAMEWORK/macos-arm64_x86_64/libwallet_engine.a" \
-                "$XCFRAMEWORK/macos-arm64_x86_64/Headers/"{wallet_engineFFI.h,module.modulemap}
+                "$XCFRAMEWORK/macos-arm64_x86_64/Headers/wallet_engineFFI/"{wallet_engineFFI.h,module.modulemap}
             ;;
         *) return 1 ;;
     esac
