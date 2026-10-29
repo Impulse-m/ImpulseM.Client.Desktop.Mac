@@ -21,6 +21,7 @@ let package = Package(
         .package(name: "TgVoipWebrtc", path: "../../submodules/tgcalls"),
         .package(name: "TelegramVoip", path: "../../submodules/telegram-ios/submodules/TelegramVoip"),
         .package(name: "YuvConversion", path: "../../submodules/telegram-ios/submodules/YuvConversion"),
+        .package(url: "https://github.com/livekit/client-sdk-swift.git", exact: "2.19.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -32,7 +33,8 @@ let package = Package(
                            .product(name: "TGUIKit", package: "TGUIKit", condition: nil),
                            .product(name: "TgVoipWebrtc", package: "TgVoipWebrtc", condition: nil),
                            .product(name: "TelegramVoip", package: "TelegramVoip", condition: nil),
-                           .product(name: "YuvConversion", package: "YuvConversion", condition: nil)],
+                           .product(name: "YuvConversion", package: "YuvConversion", condition: nil),
+                           .product(name: "LiveKit", package: "client-sdk-swift", condition: nil)],
             path: "Sources/",
             resources: [.copy("CallScreenShaders.metal")])
     ]
