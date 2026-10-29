@@ -1,4 +1,4 @@
-/// A screen or window that a call can share. Replaces the Objective-C `VideoSourceMac` protocol of the removed tgcalls capture layer.
+/// A screen or window that a call can share. Replaces the Objective-C `VideoSourceMac` protocol of the tgcalls capture layer.
 public protocol CallCaptureSource: AnyObject {
     func deviceIdKey() -> String
 
