@@ -5,6 +5,7 @@ import InAppSettings
 import SwiftSignalKit
 import AVFoundation
 import TelegramVoip
+import LiveKit
 import TGUIKit
 import CallVideoLayer
 import TdBinding
@@ -215,15 +216,6 @@ private extension CurrentImpl {
             callContext.setRequestedVideoChannels(channels)
         case .externalMediaStream:
             break
-        }
-    }
-
-    func video(endpointId: String) -> Signal<OngoingGroupCallContext.VideoFrameData, NoError> {
-        switch self {
-        case let .call(callContext):
-            return callContext.video(endpointId: endpointId)
-        case .externalMediaStream:
-            return .never()
         }
     }
 
@@ -2691,6 +2683,10 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             }
         }))
 
+        genericCallContext.onRemoteTracksChanged = { [weak self] () -> Void in
+            self?.refreshRemoteVideoTracks()
+        }
+        self.refreshRemoteVideoTracks()
         genericCallContext.onAudioLevels = { [weak self] (levels: [(LiveKitGroupAudioLevelKey, Float, Bool)]) -> Void in
             self?.liveKitAudioLevelsPipe.putNext(levels)
         }
@@ -3828,41 +3824,65 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
    
     private final class SharedVideoSource {
         weak var value: VideoSource?
-        weak var context: OngoingGroupCallContext?
-        init(_ value: VideoSource, context: OngoingGroupCallContext) {
+        weak var context: LiveKitGroupCallContext?
+        init(_ value: VideoSource, context: LiveKitGroupCallContext) {
             self.value = value
             self.context = context
         }
     }
     private var sharedVideoSources: [String: SharedVideoSource] = [:]
-    
-    private func sharedVideoSource(context: OngoingGroupCallContext, endpointId: String, videoMode: GroupCallVideoMode) -> VideoSource {
+
+    /// The remote video track of the main room for each endpoint that a view asked for. Each promise is refreshed when the room changes.
+    private var remoteVideoTrackPromises: [String: Promise<VideoTrack?>] = [:]
+
+    /// Emits the remote video track of the endpoint, and nil while the room has no track for it. Camera and presentation endpoints both live in the main room.
+    private func remoteVideoTrackSignal(endpointId: String) -> Signal<VideoTrack?, NoError> {
+        if let promise: Promise<VideoTrack?> = self.remoteVideoTrackPromises[endpointId] {
+            return promise.get()
+        }
+        let promise: Promise<VideoTrack?> = Promise<VideoTrack?>(self.liveKitRemoteVideoTrack(endpointId: endpointId))
+        self.remoteVideoTrackPromises[endpointId] = promise
+        return promise.get()
+    }
+
+    private func liveKitRemoteVideoTrack(endpointId: String) -> VideoTrack? {
+        let track: VideoTrack? = self.genericCallContext?.remoteVideoTrack(endpoint: endpointId)?.sdkTrack
+        return track
+    }
+
+    /// Looks every requested endpoint up again in the current call context.
+    private func refreshRemoteVideoTracks() {
+        for (endpointId, promise): (String, Promise<VideoTrack?>) in self.remoteVideoTrackPromises {
+            promise.set(.single(self.liveKitRemoteVideoTrack(endpointId: endpointId)))
+        }
+    }
+
+    private func sharedVideoSource(context: LiveKitGroupCallContext, endpointId: String, videoMode: GroupCallVideoMode) -> VideoSource {
         self.sharedVideoSources = self.sharedVideoSources.filter { $0.value.value != nil && $0.value.context != nil }
         let key = "\(videoMode)-\(endpointId)"
         if CallVideoTuning.isOptimized, let current = self.sharedVideoSources[key], current.context === context, let value = current.value {
             return value
         }
-        let source = MetalVideoMakeSource(videoStreamSignal: context.video(endpointId: endpointId))
+        let source = MetalVideoMakeSource(trackSignal: self.remoteVideoTrackSignal(endpointId: endpointId), mirrorHorizontally: false)
         self.sharedVideoSources[key] = SharedVideoSource(source, context: context)
         return source
     }
     
     public func makeVideoView(endpointId: String, videoMode: GroupCallVideoMode, completion: @escaping (PresentationCallVideoView?) -> Void) {
-        let context: OngoingGroupCallContext?
+        let context: LiveKitGroupCallContext?
         switch videoMode {
         case .video:
             context = self.genericCallContext
         case .screencast:
             context = self.genericCallContext
         }
-        
+
         guard let context = context else {
             completion(nil)
             return
         }
-        
-#if arch(arm64)
-        let videoView = MetalVideoMakeView(videoSource: self.sharedVideoSource(context: context, endpointId: endpointId, videoMode: videoMode))
+
+        let videoView: MetalCallVideoView = MetalVideoMakeView(videoSource: self.sharedVideoSource(context: context, endpointId: endpointId, videoMode: videoMode))
         
         completion(PresentationCallVideoView(holder: videoView, view: videoView, setOnFirstFrameReceived: { [weak videoView] f in
             videoView?.firstFrameRendered = {
@@ -3882,77 +3902,6 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         }, renderToSize: { [weak videoView] size, animated in
             videoView?.updateLayout(size: size, transition: animated ? .animated(duration: 0.3, curve: .easeOut) : .immediate)
         }))
-#else
-        context.makeIncomingVideoView(endpointId: endpointId, requestClone: false, completion: { view, _ in
-            if let view = view {
-                let setOnFirstFrameReceived = view.setOnFirstFrameReceived
-                let setOnOrientationUpdated = view.setOnOrientationUpdated
-                let setOnIsMirroredUpdated = view.setOnIsMirroredUpdated
-                completion(PresentationCallVideoView(
-                    holder: view,
-                    view: view.view,
-                    setOnFirstFrameReceived: { f in
-                        setOnFirstFrameReceived(f)
-
-                    },
-                    getOrientation: { [weak view] in
-                        if let view = view {
-                            let mappedValue: PresentationCallVideoView.Orientation
-                            switch view.getOrientation() {
-                            case .rotation0:
-                                mappedValue = .rotation0
-                            case .rotation90:
-                                mappedValue = .rotation90
-                            case .rotation180:
-                                mappedValue = .rotation180
-                            case .rotation270:
-                                mappedValue = .rotation270
-                            }
-                            return mappedValue
-                        } else {
-                            return .rotation0
-                        }
-                    },
-                    getAspect: { [weak view] in
-                        if let view = view {
-                            return view.getAspect()
-                        } else {
-                            return 0.0
-                        }
-                    }, setVideoContentMode: { [weak view] mode in
-                        view?.setVideoContentMode(mode)
-                    },
-                    setOnOrientationUpdated: { f in
-                        setOnOrientationUpdated { value, aspect in
-                            let mappedValue: PresentationCallVideoView.Orientation
-                            switch value {
-                            case .rotation0:
-                                mappedValue = .rotation0
-                            case .rotation90:
-                                mappedValue = .rotation90
-                            case .rotation180:
-                                mappedValue = .rotation180
-                            case .rotation270:
-                                mappedValue = .rotation270
-                            }
-                            f?(mappedValue, aspect)
-                        }
-                    },
-                    setOnIsMirroredUpdated: { f in
-                        setOnIsMirroredUpdated { value in
-                            f?(value)
-                        }
-                    }, setIsPaused: { [weak view] paused in
-                        view?.setIsPaused(paused)
-                    }, renderToSize: { [weak view] size, animated in
-                        view?.renderToSize(size, animated)
-                    }
-                ))
-            } else {
-                completion(nil)
-            }
-        })
-#endif
     }
 
     public func loadMore() {
