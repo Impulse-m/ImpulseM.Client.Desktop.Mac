@@ -1,23 +1,23 @@
 import XCTest
+import TelegramVoip
 @testable import TelegramCallsCore
 
 final class CallVersionTests: XCTestCase {
-    private let knownVersions: Set<String> = ["2.7.7", "5.0.0", "7.0.0", "8.0.0", "9.0.0", "10.0.0", "11.0.0", "12.0.0", "13.0.0"]
+    private let knownVersions: Set<String> = ["impulsem-livekit-1"]
 
-    func testRegisteredVersionsAreKnown() {
+    func testRegisteredVersionsAreOnlyTheLiveKitProtocol() {
         let versions = Set(OngoingCallContext.versions(includeExperimental: true, includeReference: true).map { $0.version })
-        XCTAssertEqual(versions, knownVersions, "tgcalls changed its versions: check whether new implementations honor mediaDevicesConfig and update referenceImplementationVersions")
+        XCTAssertEqual(versions, knownVersions)
     }
 
-    func testReferenceVersionsAreRegistered() {
-        let versions = Set(OngoingCallContext.versions(includeExperimental: true, includeReference: true).map { $0.version })
-        XCTAssertTrue(OngoingCallContext.referenceImplementationVersions.isSubset(of: versions))
+    func testMaxLayerIsContractValue() {
+        XCTAssertEqual(OngoingCallContext.maxLayer, 92)
     }
 
     func testOnlyReferenceVersionsIgnoreInitialDevices() {
         XCTAssertTrue(OngoingCallContext.ignoresInitialAudioDevices(version: "10.0.0"))
         XCTAssertTrue(OngoingCallContext.ignoresInitialAudioDevices(version: "11.0.0"))
-        for version in knownVersions.subtracting(["10.0.0", "11.0.0"]) {
+        for version in knownVersions {
             XCTAssertFalse(OngoingCallContext.ignoresInitialAudioDevices(version: version), version)
         }
         XCTAssertFalse(OngoingCallContext.ignoresInitialAudioDevices(version: ""))
@@ -27,6 +27,24 @@ final class CallVersionTests: XCTestCase {
     func testEveryVersionSupportsVideo() {
         for entry in OngoingCallContext.versions(includeExperimental: true, includeReference: true) {
             XCTAssertTrue(entry.supportsVideo, entry.version)
+        }
+    }
+}
+
+
+final class OngoingCallContextStateMappingTests: XCTestCase {
+    func testConnectingMapsToInitializing() {
+        XCTAssertEqual(OngoingCallContext.ongoingState(for: .connecting).state, .initializing)
+    }
+
+    func testConnectedMapsToConnected() {
+        XCTAssertEqual(OngoingCallContext.ongoingState(for: .connected).state, .connected)
+    }
+
+    func testEveryEndMapsToFailed() {
+        let reasons: [LiveKitCallEndReason] = [.hungUp, .joinTimedOut, .connectionFailed, .disconnected, .mediaEncryptionFailed]
+        for reason in reasons {
+            XCTAssertEqual(OngoingCallContext.ongoingState(for: .ended(reason)).state, .failed)
         }
     }
 }
