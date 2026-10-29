@@ -109,7 +109,7 @@ xcodebuild -workspace Telegram-Mac.xcworkspace -scheme ImpulseM -configuration D
 
 The app product is `ImpulseM.app` (executable `ImpulseM`; the Swift module stays `Telegram`).
 The share extension product is `ImpulseMShare`. Both targets set `MACOSX_DEPLOYMENT_TARGET`
-to 12.0. Local Swift packages resolve from their paths in the workspace; the LiveKit and
+to 13.0. Local Swift packages resolve from their paths in the workspace; the LiveKit and
 Centrifugo SDKs are fetched on the first resolve (see the top of this file).
 
 The GitHub Actions workflow `.github/workflows/macos.yml` builds the app unsigned on
