@@ -299,9 +299,6 @@ final class WidgetController<Context: AccountContextProtocol> : TelegramGenericV
         super.viewDidLoad()
         
         controllers.append(WidgetAppearanceController(context))
-        #if BETA || STABLE
-        controllers.append(WidgetAppIconController(context))
-        #endif
 
         controllers.append(WidgetStickersController(context))
         controllers.append(WidgetRecentPeersController(context))
