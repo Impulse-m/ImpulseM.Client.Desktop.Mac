@@ -1,6 +1,8 @@
 import Foundation
 import AVFoundation
 import TgVoipWebrtc
+import LiveKit
+import TelegramVoip
 import Localization
 import ColorPalette
 import TelegramContext
@@ -52,5 +54,9 @@ public final class CameraCaptureDevice : VideoSourceMac, Equatable {
     }
     public static func ==(lhs: CameraCaptureDevice, rhs: CameraCaptureDevice) -> Bool {
         return lhs.device == rhs.device
+    }
+    /// The LiveKit camera track of this device. `LiveKitVideoSources` builds it, the same factory the call capturer uses.
+    public func makeLiveKitVideoTrack() -> LocalVideoTrack? {
+        return LiveKitVideoSources.createCameraTrack(captureCode: .front, deviceId: self.device.uniqueID)
     }
 }
