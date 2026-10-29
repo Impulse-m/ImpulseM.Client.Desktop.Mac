@@ -24,6 +24,8 @@ let package = Package(
         .package(name: "ProxyUtils", path: "../ProxyUtils"),
         .package(name: "QRCodeUtils", path: "../QRCodeUtils"),
         .package(name: "ImpulseProxy", path: "../ImpulseProxy"),
+        .package(name: "ImpulseTransport", path: "../../submodules/telegram-ios/submodules/ImpulseTransport"),
+        .package(name: "ApiCredentials", path: "../ApiCredentials"),
     ],
     targets: [
         .target(
@@ -44,6 +46,8 @@ let package = Package(
                 .product(name: "ProxyUtils", package: "ProxyUtils", condition: nil),
                 .product(name: "QRCodeUtils", package: "QRCodeUtils", condition: nil),
                 .product(name: "ImpulseProxy", package: "ImpulseProxy", condition: nil),
+                .product(name: "ImpulseTransport", package: "ImpulseTransport", condition: nil),
+                .product(name: "ApiCredentials", package: "ApiCredentials", condition: nil),
             ],
             path: "Sources/ProxyUI"),
         .testTarget(
