@@ -55,17 +55,17 @@ public final class L10n {
   public static var yourCardsZipCodeIsInvalid: String  { return L10n.tr("Localizable", "Your_cards_zip_code_is_invalid") }
   /// Check for Updates
   public static var _1000Title: String  { return L10n.tr("Localizable", "1000.title") }
-  /// Telegram
+  /// ImpulseM
   public static var _1XtHYUBwTitle: String  { return L10n.tr("Localizable", "1Xt-HY-uBw.title") }
   /// Transformations
   public static var _2oIRnZJCTitle: String  { return L10n.tr("Localizable", "2oI-Rn-ZJC.title") }
   /// Enter Full Screen
   public static var _4J7DPTxaTitle: String  { return L10n.tr("Localizable", "4J7-dP-txa.title") }
-  /// Quit Telegram
+  /// Quit ImpulseM
   public static var _4sb4sVLiTitle: String  { return L10n.tr("Localizable", "4sb-4s-VLi.title") }
   /// Edit
   public static var _5QFOaP0TTitle: String  { return L10n.tr("Localizable", "5QF-Oa-p0T.title") }
-  /// About Telegram
+  /// About ImpulseM
   public static var _5kVVbQxSTitle: String  { return L10n.tr("Localizable", "5kV-Vb-QxS.title") }
   /// Redo
   public static var _6dhZSVamTitle: String  { return L10n.tr("Localizable", "6dh-zS-Vam.title") }
@@ -97,7 +97,7 @@ public final class L10n {
   public static var aiStyleModalNewStyleTitle: String  { return L10n.tr("Localizable", "AIStyleModal.NewStyleTitle") }
   /// Save
   public static var aiStyleModalSave: String  { return L10n.tr("Localizable", "AIStyleModal.Save") }
-  /// You can save up to %1$d styles. Subscribe to Telegram Premium to increase this limit to %2$d.
+  /// You can save up to %1$d styles. Subscribe to ImpulseM Premium to increase this limit to %2$d.
   public static func aiStyleModalSavedLimitPremiumOther(_ p1: Int, _ p2: Int) -> String {
     return L10n.tr("Localizable", "AIStyleModal.SavedLimitPremium_other", p1, p2)
   }
@@ -113,11 +113,11 @@ public final class L10n {
   public static var aboutDescription: String  { return L10n.tr("Localizable", "About.Description") }
   /// Cocoon (**Co**nfidential **Co**mpute **O**pen **N**etwork) handles AI tasks **safely** and **efficiently.
   public static var aboutCocoonDescription: String  { return L10n.tr("Localizable", "AboutCocoon.Description") }
-  /// Want to integrate Cocoon into your projects?\nReach out at [t.me/cocoon](t.me/cocoon)
+  /// Want to integrate Cocoon into your projects?\nReach out at [o.impulsem.net/cocoon](o.impulsem.net/cocoon)
   public static var aboutCocoonFooter: String  { return L10n.tr("Localizable", "AboutCocoon.Footer") }
   /// COCOON
   public static var aboutCocoonTitle: String  { return L10n.tr("Localizable", "AboutCocoon.Title") }
-  /// Cocoon has allowed Telegram to reduce translation costs by 6x.
+  /// Cocoon has allowed ImpulseM to reduce translation costs by 6x.
   public static var aboutCocoonFeatureEfficientDescription: String  { return L10n.tr("Localizable", "AboutCocoon.Feature.Efficient.Description") }
   /// Efficient
   public static var aboutCocoonFeatureEfficientTitle: String  { return L10n.tr("Localizable", "AboutCocoon.Feature.Efficient.Title") }
@@ -159,7 +159,7 @@ public final class L10n {
   public static var aboutFeatureModalControllerFirstGramsSendInfo: String  { return L10n.tr("Localizable", "AboutFeature.ModalController.FirstGramsSendInfo") }
   /// Store
   public static var aboutFeatureModalControllerFirstGramsStore: String  { return L10n.tr("Localizable", "AboutFeature.ModalController.FirstGramsStore") }
-  /// Keep your Grams in Telegram (Settings > Wallet) or other wallets.
+  /// Keep your Grams in ImpulseM (Settings > Wallet) or other wallets.
   public static var aboutFeatureModalControllerFirstGramsStoreInfo: String  { return L10n.tr("Localizable", "AboutFeature.ModalController.FirstGramsStoreInfo") }
   /// Your first Grams!
   public static var aboutFeatureModalControllerFirstGramsTitle: String  { return L10n.tr("Localizable", "AboutFeature.ModalController.FirstGramsTitle") }
@@ -173,7 +173,7 @@ public final class L10n {
   public static var accentColorsTinted: String  { return L10n.tr("Localizable", "AccentColors.Tinted") }
   /// Open In Window
   public static var accountOpenInWindow: String  { return L10n.tr("Localizable", "Account.OpenInWindow") }
-  /// Please note that Telegram Support is done by volunteers. We try to respond as quickly as possible, but it may take some time.\n\nPlease take a look at the Telegram FAQ: it has important troubleshooting tips and answers to most questions.
+  /// Please note that ImpulseM Support is done by volunteers. We try to respond as quickly as possible, but it may take some time.\n\nPlease take a look at the ImpulseM FAQ: it has important troubleshooting tips and answers to most questions.
   public static var accountConfirmAskQuestion: String  { return L10n.tr("Localizable", "Account.Confirm.AskQuestion") }
   /// Open FAQ
   public static var accountConfirmGoToFaq: String  { return L10n.tr("Localizable", "Account.Confirm.GoToFaq") }
@@ -203,7 +203,7 @@ public final class L10n {
   public static var accountSettingsDataAndStorage: String  { return L10n.tr("Localizable", "AccountSettings.DataAndStorage") }
   /// Remove Account
   public static var accountSettingsDeleteAccount: String  { return L10n.tr("Localizable", "AccountSettings.DeleteAccount") }
-  /// Telegram FAQ
+  /// ImpulseM FAQ
   public static var accountSettingsFAQ: String  { return L10n.tr("Localizable", "AccountSettings.FAQ") }
   /// Chat Folders
   public static var accountSettingsFilters: String  { return L10n.tr("Localizable", "AccountSettings.Filters") }
@@ -221,9 +221,9 @@ public final class L10n {
   public static var accountSettingsMyStories: String  { return L10n.tr("Localizable", "AccountSettings.MyStories") }
   /// Notifications and Sounds
   public static var accountSettingsNotifications: String  { return L10n.tr("Localizable", "AccountSettings.Notifications") }
-  /// Telegram Passport
+  /// ImpulseM Passport
   public static var accountSettingsPassport: String  { return L10n.tr("Localizable", "AccountSettings.Passport") }
-  /// Telegram Premium
+  /// ImpulseM Premium
   public static var accountSettingsPremium: String  { return L10n.tr("Localizable", "AccountSettings.Premium") }
   /// Privacy and Security
   public static var accountSettingsPrivacyAndSecurity: String  { return L10n.tr("Localizable", "AccountSettings.PrivacyAndSecurity") }
@@ -247,7 +247,7 @@ public final class L10n {
   public static var accountSettingsStickers: String  { return L10n.tr("Localizable", "AccountSettings.Stickers") }
   /// Stickers and Emoji
   public static var accountSettingsStickersAndEmoji: String  { return L10n.tr("Localizable", "AccountSettings.StickersAndEmoji") }
-  /// Telegram Business
+  /// ImpulseM Business
   public static var accountSettingsTelegramBusiness: String  { return L10n.tr("Localizable", "AccountSettings.TelegramBusiness") }
   /// Appearance
   public static var accountSettingsTheme: String  { return L10n.tr("Localizable", "AccountSettings.Theme") }
@@ -357,7 +357,7 @@ public final class L10n {
   public static func affiliateProgramJoinSubtitleYearsAny(_ p1: Int) -> String {
     return L10n.tr("Localizable", "AffiliateProgram.JoinSubtitleYears_any", p1)
   }
-  /// By joining this program, you agree to the [terms and conditions](https://telegram.org/tos/affiliate-program) of Affiliate Programs.
+  /// By joining this program, you agree to the [terms and conditions](https://impulsem.net/tos/affiliate-program) of Affiliate Programs.
   public static var affiliateProgramJoinTerms: String  { return L10n.tr("Localizable", "AffiliateProgram.JoinTerms") }
   /// Affiliate Program
   public static var affiliateProgramJoinTitle: String  { return L10n.tr("Localizable", "AffiliateProgram.JoinTitle") }
@@ -453,7 +453,7 @@ public final class L10n {
   public static var affiliateSetupSuggestedSectionEmpty: String  { return L10n.tr("Localizable", "AffiliateSetup.SuggestedSectionEmpty") }
   /// PROGRAMS
   public static var affiliateSetupSuggestedSectionTitle: String  { return L10n.tr("Localizable", "AffiliateSetup.SuggestedSectionTitle") }
-  /// By creating an affiliate program, you agree to the [terms and conditions](https://telegram.org/terms) of Affiliate Programs.
+  /// By creating an affiliate program, you agree to the [terms and conditions](https://impulsem.net/terms) of Affiliate Programs.
   public static var affiliateSetupTermsFooter: String  { return L10n.tr("Localizable", "AffiliateSetup.TermsFooter") }
   /// Earn a commission each time a user who first accessed a mini app through your referral link spends **Stars** within it.
   public static var affiliateSetupTextJoin: String  { return L10n.tr("Localizable", "AffiliateSetup.TextJoin") }
@@ -503,7 +503,7 @@ public final class L10n {
   public static var affiliateSetupIntroJoinTitle3: String  { return L10n.tr("Localizable", "AffiliateSetup.IntroJoin.Title3") }
   /// Set the commission for revenue generated by users referred to you.
   public static var affiliateSetupIntroNewText1: String  { return L10n.tr("Localizable", "AffiliateSetup.IntroNew.Text1") }
-  /// Telegram will feature your program for millions of potential affiliates.
+  /// ImpulseM will feature your program for millions of potential affiliates.
   public static var affiliateSetupIntroNewText2: String  { return L10n.tr("Localizable", "AffiliateSetup.IntroNew.Text2") }
   /// Affiliates will share your referral link with their audience.
   public static var affiliateSetupIntroNewText3: String  { return L10n.tr("Localizable", "AffiliateSetup.IntroNew.Text3") }
@@ -527,13 +527,13 @@ public final class L10n {
   public static var affiliateSetupToastTerminatedText: String  { return L10n.tr("Localizable", "AffiliateSetup.ToastTerminated.Text") }
   /// Affiliate Program Ended
   public static var affiliateSetupToastTerminatedTitle: String  { return L10n.tr("Localizable", "AffiliateSetup.ToastTerminated.Title") }
-  /// To access this content, you must confirm you are at least **18** years old.\n\nThis is a one-time process using your phone's camera. Your selfie will not be stored by Telegram.
+  /// To access this content, you must confirm you are at least **18** years old.\n\nThis is a one-time process using your phone's camera. Your selfie will not be stored by ImpulseM.
   public static var ageVerificationText: String  { return L10n.tr("Localizable", "AgeVerification.Text") }
   /// Age Verification
   public static var ageVerificationTitle: String  { return L10n.tr("Localizable", "AgeVerification.Title") }
   /// Verify My Age
   public static var ageVerificationVerify: String  { return L10n.tr("Localizable", "AgeVerification.Verify") }
-  /// To access this content, you must confirm you are at least **18** years old as required by UK law.\n\nThis is a one-time process using your phone's camera. Your selfie will not be stored by Telegram.
+  /// To access this content, you must confirm you are at least **18** years old as required by UK law.\n\nThis is a one-time process using your phone's camera. Your selfie will not be stored by ImpulseM.
   public static var ageVerificationTextGB: String  { return L10n.tr("Localizable", "AgeVerification.Text.GB") }
   /// Add this style by [%1$@](%1$@) to transform your messages in the AI editor.
   public static func aiStylePreviewAddByAuthor(_ p1: String) -> String {
@@ -553,7 +553,7 @@ public final class L10n {
   public static var aiStylePreviewLabelAfter: String  { return L10n.tr("Localizable", "AiStylePreview.LabelAfter") }
   /// Before
   public static var aiStylePreviewLabelBefore: String  { return L10n.tr("Localizable", "AiStylePreview.LabelBefore") }
-  /// Open the link on Telegram to add this style.
+  /// Open the link on ImpulseM to add this style.
   public static var aiStylePreviewOpenLinkOnTelegram: String  { return L10n.tr("Localizable", "AiStylePreview.OpenLinkOnTelegram") }
   /// Cancel
   public static var alertCancel: String  { return L10n.tr("Localizable", "Alert.Cancel") }
@@ -633,7 +633,7 @@ public final class L10n {
   public static var appUpdateTitle: String  { return L10n.tr("Localizable", "AppUpdate.Title") }
   /// Unarchiving...
   public static var appUpdateUnarchiving: String  { return L10n.tr("Localizable", "AppUpdate.Unarchiving") }
-  /// You have the latest version of Telegram.
+  /// You have the latest version of ImpulseM.
   public static var appUpdateUptodate: String  { return L10n.tr("Localizable", "AppUpdate.Uptodate") }
   /// Failed to download archive. Please try again.
   public static var appUpdateErrorFailedDownload: String  { return L10n.tr("Localizable", "AppUpdate.Error.FailedDownload") }
@@ -671,7 +671,7 @@ public final class L10n {
   public static var appearanceConfirmRemoveTitle: String  { return L10n.tr("Localizable", "Appearance.Confirm.RemoveTitle") }
   /// The file size must not exceed 10MB and the image dimensions must not exceed 500x500px.
   public static var appearanceCustomBackgroundFileError: String  { return L10n.tr("Localizable", "Appearance.CustomBackground.FileError") }
-  /// Subscribe to **Telegram Premium** to unlock a wider range of app Icons.
+  /// Subscribe to **ImpulseM Premium** to unlock a wider range of app Icons.
   public static var appearanceDockIconPremium: String  { return L10n.tr("Localizable", "Appearance.DockIcon.Premium") }
   /// Auto-Night Mode
   public static var appearanceSettingsAutoNight: String  { return L10n.tr("Localizable", "Appearance.Settings.AutoNight") }
@@ -771,7 +771,7 @@ public final class L10n {
   }
   /// Translation Platform
   public static var applyLanguageUnsufficientDataOpenPlatform: String  { return L10n.tr("Localizable", "ApplyLanguage.UnsufficientDataOpenPlatform") }
-  /// Unfortunately, this custom language pack (%@) doesn't contain data for Telegram macOS. You can contribute to this language pack using the translations platform.
+  /// Unfortunately, this custom language pack (%@) doesn't contain data for ImpulseM macOS. You can contribute to this language pack using the translations platform.
   public static func applyLanguageUnsufficientDataText(_ p1: String) -> String {
     return L10n.tr("Localizable", "ApplyLanguage.UnsufficientDataText", p1)
   }
@@ -787,7 +787,7 @@ public final class L10n {
   public static var archiveFoldersTitle: String  { return L10n.tr("Localizable", "Archive.Folders.Title") }
   /// Automatically archive and mute new private chats, groups and channels from non-contacts.
   public static var archiveNewChatsDesc: String  { return L10n.tr("Localizable", "Archive.NewChats.Desc") }
-  /// This setting is available only to the subscribers of [Telegram Premium]()
+  /// This setting is available only to the subscribers of [ImpulseM Premium]()
   public static var archiveNewChatsPremium: String  { return L10n.tr("Localizable", "Archive.NewChats.Premium") }
   /// Automatically Archive
   public static var archiveNewChatsText: String  { return L10n.tr("Localizable", "Archive.NewChats.Text") }
@@ -875,7 +875,7 @@ public final class L10n {
   public static var authLoginWithPasskey: String  { return L10n.tr("Localizable", "Auth.LoginWithPasskey") }
   /// SMS Fee
   public static var authControllerSmsFeeHeader: String  { return L10n.tr("Localizable", "Auth.Controller.SmsFeeHeader") }
-  /// Telecom providers charge very high prices for SMS to this number, so Telegram can't send a login code here. Log in from Telegram on your phone or another device, for example by scanning the QR code.
+  /// Telecom providers charge very high prices for SMS to this number, so ImpulseM can't send a login code here. Log in from ImpulseM on your phone or another device, for example by scanning the QR code.
   public static var authControllerSmsFeeInfo: String  { return L10n.tr("Localizable", "Auth.Controller.SmsFeeInfo") }
   /// Is %@ your phone number?
   public static func authLoginConfirmPhone(_ p1: String) -> String {
@@ -1005,7 +1005,7 @@ public final class L10n {
   public static var birthdaySeparatorTomorrow: String  { return L10n.tr("Localizable", "Birthday.Separator.Tomorrow") }
   /// BIRTHDAY YESTERDAY
   public static var birthdaySeparatorYesterday: String  { return L10n.tr("Localizable", "Birthday.Separator.Yesterday") }
-  /// Do you want to block %@ from messaging and calling you on Telegram?
+  /// Do you want to block %@ from messaging and calling you on ImpulseM?
   public static func blockContactTitle(_ p1: String) -> String {
     return L10n.tr("Localizable", "BlockContact.Title", p1)
   }
@@ -1021,7 +1021,7 @@ public final class L10n {
   public static var blockContactOptionsTitle: String  { return L10n.tr("Localizable", "BlockContact.Options.Title") }
   /// Blocked users can't send you messages or add you to groups. They will not see your profile photos, stories, online and last seen status.
   public static var blockedPeersEmptyDescrpition: String  { return L10n.tr("Localizable", "BlockedPeers.EmptyDescrpition") }
-  /// Boost your channel by gifting your subscribers Telegram Premium. [Get boosts]()
+  /// Boost your channel by gifting your subscribers ImpulseM Premium. [Get boosts]()
   public static var boostGetBoosts: String  { return L10n.tr("Localizable", "Boost.GetBoosts") }
   /// Level %d
   public static func boostBadgeLevel(_ p1: Int) -> String {
@@ -1031,7 +1031,7 @@ public final class L10n {
   public static func boostBadgeLevelPLus(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Boost.Badge.LevelPLus", p1)
   }
-  /// To boost **%@**, get more boosts by gifting **Telegram Premium** to a friend.
+  /// To boost **%@**, get more boosts by gifting **ImpulseM Premium** to a friend.
   public static func boostGiftToGetMoreInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Boost.GiftToGetMore.Info", p1)
   }
@@ -1049,11 +1049,11 @@ public final class L10n {
   public static func boostGiftAdditionalPrizesInfoOn(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "BoostGift.AdditionalPrizesInfoOn", p1, p2, p3)
   }
-  /// %d Telegram Premium subscriptions
+  /// %d ImpulseM Premium subscriptions
   public static func boostGiftAdditionalPrizesInfoSubscriptionsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "BoostGift.AdditionalPrizesInfoSubscriptions_other", p1)
   }
-  /// with %d Telegram Premium subscriptions
+  /// with %d ImpulseM Premium subscriptions
   public static func boostGiftAdditionalPrizesInfoWithSubscriptionsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "BoostGift.AdditionalPrizesInfoWithSubscriptions_other", p1)
   }
@@ -1075,7 +1075,7 @@ public final class L10n {
   public static var boostGroupChatInputBoost: String  { return L10n.tr("Localizable", "BoostGroup.ChatInput.Boost") }
   /// Boost this group to send media.
   public static var boostGroupChatInputSendMedia: String  { return L10n.tr("Localizable", "BoostGroup.ChatInput.SendMedia") }
-  /// To boost **%1$@**, reassign a previous boost or gift **Telegram Premium** to a friend to get **%2$@** additional boosts
+  /// To boost **%1$@**, reassign a previous boost or gift **ImpulseM Premium** to a friend to get **%2$@** additional boosts
   public static func boostReassignInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "BoostReassign.Info", p1, p2)
   }
@@ -1109,7 +1109,7 @@ public final class L10n {
   public static var botGrossingDisclaimerAlertHeader: String  { return L10n.tr("Localizable", "Bot.Grossing.Disclaimer.Alert.Header") }
   /// Understood
   public static var botGrossingDisclaimerAlertOk: String  { return L10n.tr("Localizable", "Bot.Grossing.Disclaimer.Alert.ok") }
-  /// This catalogue ranks mini apps based on their daily revenue, measured in Stars. To be listed, developers must set their main mini app in [@botfather](https://t.me/botfather) (as described [here](https://core.telegram.org/api/bots/webapps)), have over **1,000** daily users, and earn a daily revenue above **1,000** Stars, based on the weekly average.
+  /// This catalogue ranks mini apps based on their daily revenue, measured in Stars. To be listed, developers must set their main mini app in [@botfather](https://o.impulsem.net/botfather) (as described [here](https://core.impulsem.net/api/bots/webapps)), have over **1,000** daily users, and earn a daily revenue above **1,000** Stars, based on the weekly average.
   public static var botGrossingDisclaimerAlertText: String  { return L10n.tr("Localizable", "Bot.Grossing.Disclaimer.Alert.Text") }
   /// Open Link
   public static var botInlineAuthHeader: String  { return L10n.tr("Localizable", "Bot.InlineAuth.Header") }
@@ -1137,13 +1137,13 @@ public final class L10n {
   public static var botTransferOwnershipPasswordDesc: String  { return L10n.tr("Localizable", "Bot.TransferOwnership.Password.Desc") }
   /// Two-Step Verification
   public static var botTransferOwnershipPasswordTitle: String  { return L10n.tr("Localizable", "Bot.TransferOwnership.Password.Title") }
-  /// By publishing this mini app, you agree to the [Telegram Terms of Service for Developers](https://telegram.org/tos/bot-developers).
+  /// By publishing this mini app, you agree to the [ImpulseM Terms of Service for Developers](https://impulsem.net/tos/bot-developers).
   public static var botInfoLaunchInfo: String  { return L10n.tr("Localizable", "BotInfo.LaunchInfo") }
   /// Open App
   public static var botInfoOpenApp: String  { return L10n.tr("Localizable", "BotInfo.OpenApp") }
-  /// https://telegram.org/privacy-tpa
+  /// https://impulsem.net/privacy-tpa
   public static var botInfoLaunchInfoPrivacyUrl: String  { return L10n.tr("Localizable", "BotInfo.LaunchInfo.PrivacyUrl") }
-  /// By launching this mini app, you agree to the [Telegram Terms of Service Mini Apps.](%@)
+  /// By launching this mini app, you agree to the [ImpulseM Terms of Service Mini Apps.](%@)
   public static func botInfoLaunchInfoUser(_ p1: String) -> String {
     return L10n.tr("Localizable", "BotInfo.LaunchInfo.User", p1)
   }
@@ -1245,7 +1245,7 @@ public final class L10n {
   public static var businessScheduleStart: String  { return L10n.tr("Localizable", "Business.ScheduleStart") }
   /// Do Not Hide Ads
   public static var businessSwitchAd: String  { return L10n.tr("Localizable", "Business.SwitchAd") }
-  /// Your Telegram Business has been updated
+  /// Your ImpulseM Business has been updated
   public static var businessUpdated: String  { return L10n.tr("Localizable", "Business.Updated") }
   /// Only if Offline
   public static var businessAwayOnlyOffline: String  { return L10n.tr("Localizable", "Business.Away.OnlyOffline") }
@@ -1295,9 +1295,9 @@ public final class L10n {
   public static var businessChatBotManageProfileName: String  { return L10n.tr("Localizable", "Business.ChatBot.ManageProfile.Name") }
   /// Edit Username
   public static var businessChatBotManageProfileUsername: String  { return L10n.tr("Localizable", "Business.ChatBot.ManageProfile.Username") }
-  /// This bot doesn't support Telegram Business yet.
+  /// This bot doesn't support ImpulseM Business yet.
   public static var businessChatBotsBotNotSupported: String  { return L10n.tr("Localizable", "Business.ChatBots.BotNotSupported") }
-  /// Enter the username or URL of the Telegram bot that you want to automatically process your chats.
+  /// Enter the username or URL of the ImpulseM bot that you want to automatically process your chats.
   public static var businessChatBotsFooter: String  { return L10n.tr("Localizable", "Business.ChatBots.Footer") }
   /// ADD
   public static var businessChatbotsAdd: String  { return L10n.tr("Localizable", "Business.Chatbots.Add") }
@@ -1305,7 +1305,7 @@ public final class L10n {
   public static var businessChatbotsChats: String  { return L10n.tr("Localizable", "Business.Chatbots.Chats") }
   /// CHATS ACCESSIBLE FOR THE BOT
   public static var businessChatbotsChatTypes: String  { return L10n.tr("Localizable", "Business.Chatbots.ChatTypes") }
-  /// Add a bot to your account to help you automatically process and respond to the messages you receive. [Learn More >](https://telegram.org/blog/telegram-business#chatbots-for-business)
+  /// Add a bot to your account to help you automatically process and respond to the messages you receive. [Learn More >](https://impulsem.net/blog/telegram-business#chatbots-for-business)
   public static var businessChatbotsHeader: String  { return L10n.tr("Localizable", "Business.Chatbots.Header") }
   /// No bots found
   public static var businessChatbotsNotFound: String  { return L10n.tr("Localizable", "Business.Chatbots.NotFound") }
@@ -1511,11 +1511,11 @@ public final class L10n {
   public static var businessQuickReplyEditTitle: String  { return L10n.tr("Localizable", "Business.QuickReply.Edit.Title") }
   /// Limit Reached
   public static var businessSelectPeersLimit: String  { return L10n.tr("Localizable", "Business.SelectPeers.Limit") }
-  /// As a Premium subscriber, you don't see any ads on Telegram, but you can turn them on, for example, to view your own ads that you launched on the [Telegram Ad Platform >](https://ads.telegram.org)
+  /// As a Premium subscriber, you don't see any ads on ImpulseM, but you can turn them on, for example, to view your own ads that you launched on the [ImpulseM Ad Platform >](https://ads.impulsem.net)
   public static var businessSwitchAdInfo: String  { return L10n.tr("Localizable", "Business.SwitchAd.Info") }
   /// ADS IN CHANNELS
   public static var businessSwitchAdTitle: String  { return L10n.tr("Localizable", "Business.SwitchAd.Title") }
-  /// Hide Telegram
+  /// Hide ImpulseM
   public static var cagYXWT6Title: String  { return L10n.tr("Localizable", "Cag-YX-WT6.title") }
   /// F
   public static var calendarWeekDaysFriday: String  { return L10n.tr("Localizable", "Calendar.WeekDays.Friday") }
@@ -1595,7 +1595,7 @@ public final class L10n {
   public static func callVideoPaused(_ p1: String) -> String {
     return L10n.tr("Localizable", "Call.VideoPaused", p1)
   }
-  /// Telegram needs access to camera for Video Call.
+  /// ImpulseM needs access to camera for Video Call.
   public static var callCameraError: String  { return L10n.tr("Localizable", "Call.Camera.Error") }
   /// Call in Progress
   public static var callConfirmDiscardCallHeader: String  { return L10n.tr("Localizable", "Call.Confirm.Discard.Call.Header") }
@@ -1629,7 +1629,7 @@ public final class L10n {
   public static var callRatingModalNotNow: String  { return L10n.tr("Localizable", "Call.RatingModal.NotNow") }
   /// Leave comment...
   public static var callRatingModalPlaceholder: String  { return L10n.tr("Localizable", "Call.RatingModal.Placeholder") }
-  /// Please rate the quality of your Telegram call
+  /// Please rate the quality of your ImpulseM call
   public static var callRatingModalText: String  { return L10n.tr("Localizable", "Call.RatingModal.Text") }
   /// Incoming
   public static var callRecentIncoming: String  { return L10n.tr("Localizable", "Call.Recent.Incoming") }
@@ -1639,7 +1639,7 @@ public final class L10n {
   public static var callRecentOutgoing: String  { return L10n.tr("Localizable", "Call.Recent.Outgoing") }
   /// Sorry, you can’t make a call between two accounts on the same device.
   public static var callSameDeviceError: String  { return L10n.tr("Localizable", "Call.SameDevice.Error") }
-  /// Telegram needs access for Screen Sharing.
+  /// ImpulseM needs access for Screen Sharing.
   public static var callScreenError: String  { return L10n.tr("Localizable", "Call.Screen.Error") }
   /// Group Call
   public static var callStatusGroupCall: String  { return L10n.tr("Localizable", "Call.Status.GroupCall") }
@@ -1723,7 +1723,7 @@ public final class L10n {
   public static func cancelResetAccountSuccess(_ p1: String) -> String {
     return L10n.tr("Localizable", "CancelResetAccount.Success", p1)
   }
-  /// Somebody with access to your phone number **%@** has requested to delete your Telegram account and reset your 2-Step Verification password.\n\nIf it wasn't you, please enter the code we've just sent you via SMS to your number. You can also cancel this by **changing your phone number** to a number you control.
+  /// Somebody with access to your phone number **%@** has requested to delete your ImpulseM account and reset your 2-Step Verification password.\n\nIf it wasn't you, please enter the code we've just sent you via SMS to your number. You can also cancel this by **changing your phone number** to a number you control.
   public static func cancelResetAccountTextSMS(_ p1: String) -> String {
     return L10n.tr("Localizable", "CancelResetAccount.TextSMS", p1)
   }
@@ -1763,15 +1763,15 @@ public final class L10n {
   public static var changeNumberSendDataErrorInvalidPhoneNumber: String  { return L10n.tr("Localizable", "ChangeNumber.SendData.Error.InvalidPhoneNumber") }
   /// You have requested for an authorization code too many times. Please try again later.
   public static var changeNumberSendDataErrorLimitExceeded: String  { return L10n.tr("Localizable", "ChangeNumber.SendData.Error.LimitExceeded") }
-  /// The number %@ is already connected to a Telegram account. Please delete that account before using this number.
+  /// The number %@ is already connected to an ImpulseM account. Please delete that account before using this number.
   public static func changeNumberSendDataErrorPhoneNumberOccupied(_ p1: String) -> String {
     return L10n.tr("Localizable", "ChangeNumber.SendData.Error.PhoneNumberOccupied", p1)
   }
-  /// You can only change your phone number using mobile Telegram apps. Please use an official Telegram app on your phone to update your number.
+  /// You can only change your phone number using mobile ImpulseM apps. Please use an official ImpulseM app on your phone to update your number.
   public static var changePhoneUseMobile: String  { return L10n.tr("Localizable", "ChangePhone.UseMobile") }
   /// Users will see your new number if they have it in their address book or your privacy settings allow them to see it. You can modify this in Settings > Privacy and Security > Phone number.
   public static var changePhoneNumberIntroAlert: String  { return L10n.tr("Localizable", "ChangePhoneNumber.Intro.Alert") }
-  /// You can change your Telegram number here. Your account and all your cloud data — messages, media, contacts, etc. will be moved to the new number.
+  /// You can change your ImpulseM number here. Your account and all your cloud data — messages, media, contacts, etc. will be moved to the new number.
   public static var changePhoneNumberIntroDescription: String  { return L10n.tr("Localizable", "ChangePhoneNumber.Intro.Description") }
   /// Sorry, you can't add this user as an admin because they are in the Removed Users list and you can't unban them.
   public static var channelAddAdminKickedError: String  { return L10n.tr("Localizable", "Channel.AddAdminKickedError") }
@@ -1837,7 +1837,7 @@ public final class L10n {
   public static var channelTypeHeaderGroup: String  { return L10n.tr("Localizable", "Channel.TypeHeaderGroup") }
   /// If you set a public link, other people will be able to find and join your channel.\n\nYou can use a–z, 0–9 and underscores.\nMinimum length is 5 characters.
   public static var channelUsernameAboutChannel: String  { return L10n.tr("Localizable", "Channel.UsernameAboutChannel") }
-  /// People can share this link with others and find your group using Telegram search.
+  /// People can share this link with others and find your group using ImpulseM search.
   public static var channelUsernameAboutGroup: String  { return L10n.tr("Localizable", "Channel.UsernameAboutGroup") }
   /// USER RESTRICTIONS
   public static var channelUserRestriction: String  { return L10n.tr("Localizable", "Channel.UserRestriction") }
@@ -2091,7 +2091,7 @@ public final class L10n {
   public static func channelBoostsStatsPrepaidMonths(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Channel.BoostsStats.Prepaid.Months", p1)
   }
-  /// %d Telegram Premium
+  /// %d ImpulseM Premium
   public static func channelBoostsStatsPrepaidQuantity(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Channel.BoostsStats.Prepaid.Quantity", p1)
   }
@@ -2492,7 +2492,7 @@ public final class L10n {
   public static var channelSelectPeersContacts: String  { return L10n.tr("Localizable", "Channel.SelectPeers.Contacts") }
   /// global
   public static var channelSelectPeersGlobal: String  { return L10n.tr("Localizable", "Channel.SelectPeers.Global") }
-  /// Subscribe to **[Telegram Premium]()** to unlock up to **%d** similar channels
+  /// Subscribe to **[ImpulseM Premium]()** to unlock up to **%d** similar channels
   public static func channelSimilarPremium(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Channel.Similar.Premium", p1)
   }
@@ -2562,7 +2562,7 @@ public final class L10n {
   public static var channelAdminsAggressiveAntiSpam: String  { return L10n.tr("Localizable", "ChannelAdmins.AggressiveAntiSpam") }
   /// Recent Actions
   public static var channelAdminsRecentActions: String  { return L10n.tr("Localizable", "ChannelAdmins.RecentActions") }
-  /// Telegram will filter more spam but may occasionally affect ordinary messages. You can report false positives in Recent Actions.
+  /// ImpulseM will filter more spam but may occasionally affect ordinary messages. You can report false positives in Recent Actions.
   public static var channelAdminsAggressiveAntiSpamInfo: String  { return L10n.tr("Localizable", "ChannelAdmins.AggressiveAntiSpam.Info") }
   /// Restrict Member
   public static var channelBlacklistAddMember: String  { return L10n.tr("Localizable", "ChannelBlacklist.AddMember") }
@@ -2764,11 +2764,11 @@ public final class L10n {
   }
   /// Can't Boost Too Often
   public static var channelBoostErrorBoostTooOftenTitle: String  { return L10n.tr("Localizable", "ChannelBoost.Error.BoostTooOftenTitle") }
-  /// Because your **Telegram Premium** subscription was gifted to you, you can't use it to boost channels.
+  /// Because your **ImpulseM Premium** subscription was gifted to you, you can't use it to boost channels.
   public static var channelBoostErrorGiftedPremiumNotAllowedText: String  { return L10n.tr("Localizable", "ChannelBoost.Error.GiftedPremiumNotAllowedText") }
   /// Can't Boost with Gifted Premium
   public static var channelBoostErrorGiftedPremiumNotAllowedTitle: String  { return L10n.tr("Localizable", "ChannelBoost.Error.GiftedPremiumNotAllowedTitle") }
-  /// Only **Telegram Premium** subscribers can boost channels. Do you want to subscribe to **Telegram Premium**?
+  /// Only **ImpulseM Premium** subscribers can boost channels. Do you want to subscribe to **ImpulseM Premium**?
   public static var channelBoostErrorPremiumNeededText: String  { return L10n.tr("Localizable", "ChannelBoost.Error.PremiumNeededText") }
   /// Premium Needed
   public static var channelBoostErrorPremiumNeededTitle: String  { return L10n.tr("Localizable", "ChannelBoost.Error.PremiumNeededTitle") }
@@ -2902,7 +2902,7 @@ public final class L10n {
   public static var channelEventFilterSendMessages: String  { return L10n.tr("Localizable", "ChannelEventFilter.SendMessages") }
   /// Video Chats
   public static var channelEventFilterVoiceChats: String  { return L10n.tr("Localizable", "ChannelEventFilter.VoiceChats") }
-  /// If a person has left a channel in the past, you need to be in their Telegram contacts to add them back.\n\nThey can still join via an invite link as long as they are not on the Removed Users list.
+  /// If a person has left a channel in the past, you need to be in their ImpulseM contacts to add them back.\n\nThey can still join via an invite link as long as they are not on the Removed Users list.
   public static var channelInfoAddUserLeftError: String  { return L10n.tr("Localizable", "ChannelInfo.AddUserLeftError") }
   /// ⚠️ Warning: Many users reported that this channel impersonates a famous person or organization.
   public static var channelInfoFakeWarning: String  { return L10n.tr("Localizable", "ChannelInfo.FakeWarning") }
@@ -3022,7 +3022,7 @@ public final class L10n {
   public static var channelReactionsAddInfo: String  { return L10n.tr("Localizable", "ChannelReactions.Add.Info") }
   /// You can add emoji from any emoji pack as reactions.
   public static var channelReactionsEnableReactionsInfo: String  { return L10n.tr("Localizable", "ChannelReactions.EnableReactions.Info") }
-  /// Switch this on to let your subscribers react to posts with Telegram Stars, which you will be able to withdraw as TON. [Learn More >](https://telegram.org/tos/content-creator-rewards#2-3-subscriber-donations)
+  /// Switch this on to let your subscribers react to posts with ImpulseM Stars, which you will be able to withdraw as TON. [Learn More >](https://impulsem.net/tos/content-creator-rewards#2-3-subscriber-donations)
   public static var channelReactionsEnableStarsInfo: String  { return L10n.tr("Localizable", "ChannelReactions.EnableStars.Info") }
   /// Limit the number of different reactions that can be added to a post, including already published posts.
   public static var channelReactionsMaxCountInfo: String  { return L10n.tr("Localizable", "ChannelReactions.MaxCount.Info") }
@@ -3578,13 +3578,13 @@ public final class L10n {
   public static var chatContextPeerOpenStory: String  { return L10n.tr("Localizable", "Chat.Context.Peer.OpenStory") }
   /// Send Message
   public static var chatContextPeerSendMessage: String  { return L10n.tr("Localizable", "Chat.Context.Peer.SendMessage") }
-  /// This number is not on Telegram
+  /// This number is not on ImpulseM
   public static var chatContextPhoneNotTelegram: String  { return L10n.tr("Localizable", "Chat.Context.Phone.NotTelegram") }
   /// Hide pinned message
   public static var chatContextPinnedHide: String  { return L10n.tr("Localizable", "Chat.Context.Pinned.Hide") }
   /// Set As Quick
   public static var chatContextReactionQuick: String  { return L10n.tr("Localizable", "Chat.Context.Reaction.Quick") }
-  /// Telegram moderators will review your report. Thank you!
+  /// ImpulseM moderators will review your report. Thank you!
   public static var chatContextReportFalsePositiveThanks: String  { return L10n.tr("Localizable", "Chat.Context.ReportFalsePositive.Thanks") }
   /// Save for Notifications
   public static var chatContextSaveRingtoneAdd: String  { return L10n.tr("Localizable", "Chat.Context.SaveRingtone.Add") }
@@ -3656,17 +3656,17 @@ public final class L10n {
   public static var chatDeleteMessageSuggestedPostInfoStars: String  { return L10n.tr("Localizable", "Chat.DeleteMessage.SuggestedPost.Info.Stars") }
   /// You won't receive TON for this post if you delete it now. The post must remain visible for at least 24 hours after publication.
   public static var chatDeleteMessageSuggestedPostInfoTon: String  { return L10n.tr("Localizable", "Chat.DeleteMessage.SuggestedPost.Info.Ton") }
-  /// Send a 🎲 emoji to any chat to get a random number from Telegram.
+  /// Send a 🎲 emoji to any chat to get a random number from ImpulseM.
   public static var chatDiceResult: String  { return L10n.tr("Localizable", "Chat.Dice.Result") }
-  /// Send a %@ emoji to any chat to get a random number from Telegram.
+  /// Send a %@ emoji to any chat to get a random number from ImpulseM.
   public static func chatDiceResultNew(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Dice.ResultNew", p1)
   }
-  /// You will no longer see ads from Telegram.
+  /// You will no longer see ads from ImpulseM.
   public static var chatDisableAdTooltip: String  { return L10n.tr("Localizable", "Chat.DisableAd.Tooltip") }
   /// Sorry, this post has been removed from the discussion group.
   public static var chatDiscussionMessageDeleted: String  { return L10n.tr("Localizable", "Chat.Discussion.MessageDeleted") }
-  /// Subscribe to [Telegram Premium]() to increase download speeds %d times.
+  /// Subscribe to [ImpulseM Premium]() to increase download speeds %d times.
   public static func chatDownloadLimitTextOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Chat.DownloadLimit.Text_other", p1)
   }
@@ -3752,7 +3752,7 @@ public final class L10n {
   public static var chatGiveawayInfoAlmostOver: String  { return L10n.tr("Localizable", "Chat.Giveaway.Info.AlmostOver") }
   /// You didn't win a prize in this giveaway.
   public static var chatGiveawayInfoDidntWin: String  { return L10n.tr("Localizable", "Chat.Giveaway.Info.DidntWin") }
-  /// On **%1$@**, Telegram automatically selected %2$@ of **%3$@**.
+  /// On **%1$@**, ImpulseM automatically selected %2$@ of **%3$@**.
   public static func chatGiveawayInfoEnded(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.Ended", p1, p2, p3)
   }
@@ -3760,15 +3760,15 @@ public final class L10n {
   public static func chatGiveawayInfoEndedIntro(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.EndedIntro", p1, p2, p3)
   }
-  /// On **%1$@**, Telegram automatically selected %2$@ of **%3$@** and other listed channels.
+  /// On **%1$@**, ImpulseM automatically selected %2$@ of **%3$@** and other listed channels.
   public static func chatGiveawayInfoEndedMany(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.EndedMany", p1, p2, p3)
   }
-  /// On **%1$@**, Telegram automatically selected %2$@ that joined **%3$@** after **%4$@**.
+  /// On **%1$@**, ImpulseM automatically selected %2$@ that joined **%3$@** after **%4$@**.
   public static func chatGiveawayInfoEndedNew(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.EndedNew", p1, p2, p3, p4)
   }
-  /// On **%1$@**, Telegram automatically selected %2$@ that joined **%3$@** and other listed channels after **%4$@**.
+  /// On **%1$@**, ImpulseM automatically selected %2$@ that joined **%3$@** and other listed channels after **%4$@**.
   public static func chatGiveawayInfoEndedNewMany(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.EndedNewMany", p1, p2, p3, p4)
   }
@@ -3796,7 +3796,7 @@ public final class L10n {
   public static func chatGiveawayInfoNotQualifiedMany(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.NotQualifiedMany", p1, p2, p3)
   }
-  /// On **%1$@**, Telegram will automatically select %2$@ of **%3$@**.
+  /// On **%1$@**, ImpulseM will automatically select %2$@ of **%3$@**.
   public static func chatGiveawayInfoOngoing(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.Ongoing", p1, p2, p3)
   }
@@ -3804,15 +3804,15 @@ public final class L10n {
   public static func chatGiveawayInfoOngoingIntro(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.OngoingIntro", p1, p2, p3)
   }
-  /// On **%1$@**, Telegram will automatically select %2$@ of **%3$@** and %4$@.
+  /// On **%1$@**, ImpulseM will automatically select %2$@ of **%3$@** and %4$@.
   public static func chatGiveawayInfoOngoingMany(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.OngoingMany", p1, p2, p3, p4)
   }
-  /// On **%1$@**, Telegram will automatically select %2$@ that joined **%3$@** after **%4$@**.
+  /// On **%1$@**, ImpulseM will automatically select %2$@ that joined **%3$@** after **%4$@**.
   public static func chatGiveawayInfoOngoingNew(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.OngoingNew", p1, p2, p3, p4)
   }
-  /// On **%1$@**, Telegram will automatically select %2$@ that joined **%3$@** and %4$@ after **%5$@**.
+  /// On **%1$@**, ImpulseM will automatically select %2$@ that joined **%3$@** and %4$@ after **%5$@**.
   public static func chatGiveawayInfoOngoingNewMany(_ p1: String, _ p2: String, _ p3: String, _ p4: String, _ p5: String) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.OngoingNewMany", p1, p2, p3, p4, p5)
   }
@@ -3838,7 +3838,7 @@ public final class L10n {
   }
   /// The channel canceled the prizes by refunding the payment for them.
   public static var chatGiveawayInfoRefunded: String  { return L10n.tr("Localizable", "Chat.Giveaway.Info.Refunded") }
-  /// **%d Telegram Premium** subscriptions
+  /// **%d ImpulseM Premium** subscriptions
   public static func chatGiveawayInfoSubscriptionsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Info.Subscriptions_other", p1)
   }
@@ -3896,7 +3896,7 @@ public final class L10n {
   public static func chatGiveawayMessageStarWinnersOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Message.StarWinners_other", p1)
   }
-  /// **%d** Telegram Premium Subscriptions
+  /// **%d** ImpulseM Premium Subscriptions
   public static func chatGiveawayMessageSubscriptionsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Message.Subscriptions_other", p1)
   }
@@ -3904,7 +3904,7 @@ public final class L10n {
   public static func chatGiveawayMessageWinnersInfoOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Message.WinnersInfo_other", p1)
   }
-  /// **%d** winners of the [Giveaway]() were randomly selected by Telegram.
+  /// **%d** winners of the [Giveaway]() were randomly selected by ImpulseM.
   public static func chatGiveawayMessageWinnersSelectedTextOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Chat.Giveaway.Message.WinnersSelectedText_other", p1)
   }
@@ -4040,11 +4040,11 @@ public final class L10n {
   public static var chatInputDictationStop: String  { return L10n.tr("Localizable", "Chat.Input.Dictation.Stop") }
   /// Dictation is not available for your current input language.
   public static var chatInputDictationErrorLanguage: String  { return L10n.tr("Localizable", "Chat.Input.Dictation.Error.Language") }
-  /// Telegram needs access to your microphone to dictate messages. You can allow it in System Settings → Privacy & Security → Microphone.
+  /// ImpulseM needs access to your microphone to dictate messages. You can allow it in System Settings → Privacy & Security → Microphone.
   public static var chatInputDictationErrorMicrophone: String  { return L10n.tr("Localizable", "Chat.Input.Dictation.Error.Microphone") }
   /// No microphone found. Connect a microphone and try again.
   public static var chatInputDictationErrorNoInput: String  { return L10n.tr("Localizable", "Chat.Input.Dictation.Error.NoInput") }
-  /// Telegram needs Speech Recognition access to turn your voice into text. You can allow it in System Settings → Privacy & Security → Speech Recognition.
+  /// ImpulseM needs Speech Recognition access to turn your voice into text. You can allow it in System Settings → Privacy & Security → Speech Recognition.
   public static var chatInputDictationErrorSpeech: String  { return L10n.tr("Localizable", "Chat.Input.Dictation.Error.Speech") }
   /// Speech recognition is not available right now. Please try again later.
   public static var chatInputDictationErrorUnavailable: String  { return L10n.tr("Localizable", "Chat.Input.Dictation.Error.Unavailable") }
@@ -4156,9 +4156,9 @@ public final class L10n {
   public static var chatMessageSponsored: String  { return L10n.tr("Localizable", "Chat.Message.Sponsored") }
   /// Unsend my messages
   public static var chatMessageUnsendMessages: String  { return L10n.tr("Localizable", "Chat.Message.UnsendMessages") }
-  /// This message is not supported by your version of Telegram. Please update to the latest version from the AppStore or install it from https://macos.telegram.org
+  /// This message is not supported by your version of ImpulseM. Please update to the latest version from the AppStore or install it from https://macos.impulsem.net
   public static var chatMessageUnsupported: String  { return L10n.tr("Localizable", "Chat.Message.Unsupported") }
-  /// This message is not supported in your version of Telegram. Please update to the latest version.
+  /// This message is not supported in your version of ImpulseM. Please update to the latest version.
   public static var chatMessageUnsupportedNew: String  { return L10n.tr("Localizable", "Chat.Message.UnsupportedNew") }
   /// via
   public static var chatMessageVia: String  { return L10n.tr("Localizable", "Chat.Message.Via") }
@@ -4172,11 +4172,11 @@ public final class L10n {
   public static var chatMessageViewGroup: String  { return L10n.tr("Localizable", "Chat.Message.ViewGroup") }
   /// Read More
   public static var chatMessageAdReadMore: String  { return L10n.tr("Localizable", "Chat.Message.Ad.ReadMore") }
-  /// Unlike other apps, Telegram never uses your private data to target ads. Sponsored messages on Telegram are based solely on the topic of the public channels in which they are shown. This means that no user data is mined or analyzed to display ads, and every user viewing a channel on Telegram sees the same sponsored messages.\n\nUnlike other apps, Telegram doesn't track whether you tapped on a sponsored message and doesn't profile you based on your activity. We also prevent external links in sponsored messages to ensure that third parties can’t spy on our users. We believe that everyone has the right to privacy, and technological platforms should respect that.\n\nTelegram offers a free and unlimited service to hundreds of millions of users, which involves significant server and traffic costs. In order to remain independent and stay true to its values, Telegram developed a paid tool to promote messages with user privacy in mind. We welcome responsible advertisers at:\n\n%@\n\nSponsored Messages are currently in test mode. Once they are fully launched and allow Telegram to cover its basic costs, we will start sharing ad revenue with the owners of public channels in which sponsored messages are displayed.\n\nOnline ads should no longer be synonymous with abuse of user privacy. Let us redefine how a tech company should operate – together.
+  /// Unlike other apps, ImpulseM never uses your private data to target ads. Sponsored messages on ImpulseM are based solely on the topic of the public channels in which they are shown. This means that no user data is mined or analyzed to display ads, and every user viewing a channel on ImpulseM sees the same sponsored messages.\n\nUnlike other apps, ImpulseM doesn't track whether you tapped on a sponsored message and doesn't profile you based on your activity. We also prevent external links in sponsored messages to ensure that third parties can’t spy on our users. We believe that everyone has the right to privacy, and technological platforms should respect that.\n\nImpulseM offers a free and unlimited service to hundreds of millions of users, which involves significant server and traffic costs. In order to remain independent and stay true to its values, ImpulseM developed a paid tool to promote messages with user privacy in mind. We welcome responsible advertisers at:\n\n%@\n\nSponsored Messages are currently in test mode. Once they are fully launched and allow ImpulseM to cover its basic costs, we will start sharing ad revenue with the owners of public channels in which sponsored messages are displayed.\n\nOnline ads should no longer be synonymous with abuse of user privacy. Let us redefine how a tech company should operate – together.
   public static func chatMessageAdText(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Message.Ad.Text", p1)
   }
-  /// https://ads.telegram.org
+  /// https://ads.impulsem.net
   public static var chatMessageAdUrl: String  { return L10n.tr("Localizable", "Chat.Message.Ad.Url") }
   /// Quote
   public static var chatMessageContextQuote: String  { return L10n.tr("Localizable", "Chat.Message.Context.Quote") }
@@ -4234,7 +4234,7 @@ public final class L10n {
   public static var chatMessageSocks5Config: String  { return L10n.tr("Localizable", "Chat.Message.Socks5.Config") }
   /// Advertiser info
   public static var chatMessageSponsoredAdvertiser: String  { return L10n.tr("Localizable", "Chat.Message.Sponsored.Advertiser") }
-  /// https://ads.telegram.org
+  /// https://ads.impulsem.net
   public static var chatMessageSponsoredLink: String  { return L10n.tr("Localizable", "Chat.Message.Sponsored.Link") }
   /// What are sponsored messages?
   public static var chatMessageSponsoredWhat: String  { return L10n.tr("Localizable", "Chat.Message.Sponsored.What") }
@@ -4268,7 +4268,7 @@ public final class L10n {
   public static var chatMessageActionShowMessage: String  { return L10n.tr("Localizable", "Chat.MessageAction.ShowMessage") }
   /// Send Money
   public static var chatMessageMenuItemsSendMoney: String  { return L10n.tr("Localizable", "Chat.MessageMenuItems.SendMoney") }
-  /// Unlike other apps, Telegram never uses your private data to target ads. [Learn more in the Privacy Policy](https://telegram.org/privacy#5-6-no-ads-based-on-user-data)\nYou are seeing this message only because someone chose this public one-to many channel as a space to promote their messages. This means that no user data is mined or analyzed to display ads, and every user viewing a channel on Telegram sees the same sponsored message.\n\nUnline other apps, Telegram doesn't track whether you tapped on a sponsored message and doesn't profile you based on your activity. We also prevent external links in sponsored messages to ensure that third parties can't spy on our users. We believe that everyone has the right to privacy, and technological platforms should respect that.\n\nTelegram offers free and unlimited service to hundreds of millions of users, which involves significant server and traffic costs. In order to remain independent and stay true to its values, Telegram developed a paid tool to promote messages with user privacy in mind. We welcome responsible adverticers at:\n[url]\nAds should no longer be synonymous with abuse of user privacy. Let us redefine how a tech compony should operate — together.
+  /// Unlike other apps, ImpulseM never uses your private data to target ads. [Learn more in the Privacy Policy](https://impulsem.net/privacy#5-6-no-ads-based-on-user-data)\nYou are seeing this message only because someone chose this public one-to many channel as a space to promote their messages. This means that no user data is mined or analyzed to display ads, and every user viewing a channel on ImpulseM sees the same sponsored message.\n\nUnline other apps, ImpulseM doesn't track whether you tapped on a sponsored message and doesn't profile you based on your activity. We also prevent external links in sponsored messages to ensure that third parties can't spy on our users. We believe that everyone has the right to privacy, and technological platforms should respect that.\n\nImpulseM offers free and unlimited service to hundreds of millions of users, which involves significant server and traffic costs. In order to remain independent and stay true to its values, ImpulseM developed a paid tool to promote messages with user privacy in mind. We welcome responsible adverticers at:\n[url]\nAds should no longer be synonymous with abuse of user privacy. Let us redefine how a tech compony should operate — together.
   public static var chatMessageMenuItemsSponsoredInfo: String  { return L10n.tr("Localizable", "Chat.MessageMenuItems.SponsoredInfo") }
   /// All
   public static var chatMonoforumUIAllTab: String  { return L10n.tr("Localizable", "Chat.MonoforumUI.AllTab") }
@@ -4352,7 +4352,7 @@ public final class L10n {
   public static var chatProxySponsoredAlertHeader: String  { return L10n.tr("Localizable", "Chat.ProxySponsored.AlertHeader") }
   /// Settings
   public static var chatProxySponsoredAlertSettings: String  { return L10n.tr("Localizable", "Chat.ProxySponsored.AlertSettings") }
-  /// This channel is shown by your proxy server. To remove this channel from your chat list, disable the proxy in Telegram Settings > Data and Storage.
+  /// This channel is shown by your proxy server. To remove this channel from your chat list, disable the proxy in ImpulseM Settings > Data and Storage.
   public static var chatProxySponsoredAlertText: String  { return L10n.tr("Localizable", "Chat.ProxySponsored.AlertText") }
   /// This channel is shown by your proxy server
   public static var chatProxySponsoredCapDesc: String  { return L10n.tr("Localizable", "Chat.ProxySponsored.CapDesc") }
@@ -4440,7 +4440,7 @@ public final class L10n {
   public static var chatSecretChatPreviewNO: String  { return L10n.tr("Localizable", "Chat.SecretChat.Preview.NO") }
   /// YES
   public static var chatSecretChatPreviewOK: String  { return L10n.tr("Localizable", "Chat.SecretChat.Preview.OK") }
-  /// Would you like to enable extended link previews in Secret Chats? Note that link previews are generated on Telegram servers.
+  /// Would you like to enable extended link previews in Secret Chats? Note that link previews are generated on ImpulseM servers.
   public static var chatSecretChatPreviewText: String  { return L10n.tr("Localizable", "Chat.SecretChat.Preview.Text") }
   /// Add to Calendar
   public static var chatSendAddToCalendar: String  { return L10n.tr("Localizable", "Chat.Send.AddToCalendar") }
@@ -4504,7 +4504,7 @@ public final class L10n {
   }
   /// You received a gift
   public static var chatServiceGiftLink: String  { return L10n.tr("Localizable", "Chat.Service.GiftLink") }
-  /// %1$@ just started a giveaway of Telegram Premium subscriptions for its followers.
+  /// %1$@ just started a giveaway of ImpulseM Premium subscriptions for its followers.
   public static func chatServiceGiveawayStarted(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Service.GiveawayStarted", p1)
   }
@@ -4566,7 +4566,7 @@ public final class L10n {
   public static func chatServicePaymentSentRecurringUsedNoTitle(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Chat.Service.PaymentSentRecurringUsedNoTitle", p1, p2)
   }
-  /// %@ joined Telegram
+  /// %@ joined ImpulseM
   public static func chatServicePeerJoinedTelegram(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Service.PeerJoinedTelegram", p1)
   }
@@ -4608,7 +4608,7 @@ public final class L10n {
   public static func chatServiceStoryMentioned(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Service.StoryMentioned", p1)
   }
-  /// %@ suggests this photo for your Telegram profile
+  /// %@ suggests this photo for your ImpulseM profile
   public static func chatServiceSuggestedPhoto(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Service.SuggestedPhoto", p1)
   }
@@ -4728,7 +4728,7 @@ public final class L10n {
   public static func chatServiceGiftUnpackOutgoing(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Service.GiftUnpack.Outgoing", p1)
   }
-  /// %1$@ just started a giveaway of %2$d Telegram Stars for its followers.
+  /// %1$@ just started a giveaway of %2$d ImpulseM Stars for its followers.
   public static func chatServiceGiveawayStartedStarsOther(_ p1: String, _ p2: Int) -> String {
     return L10n.tr("Localizable", "Chat.Service.GiveawayStarted.Stars_other", p1, p2)
   }
@@ -4940,7 +4940,7 @@ public final class L10n {
   }
   /// Unknown user
   public static var chatServicePremiumUnknown: String  { return L10n.tr("Localizable", "Chat.Service.Premium.Unknown") }
-  /// **Telegram Premium**\nfor %d months
+  /// **ImpulseM Premium**\nfor %d months
   public static func chatServicePremiumGiftInfoOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Chat.Service.PremiumGift.Info_other", p1)
   }
@@ -5024,13 +5024,13 @@ public final class L10n {
   public static func chatServiceStoryMentionedYou(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Service.StoryMentioned.You", p1)
   }
-  /// %@ suggests this photo for your Telegram profile.
+  /// %@ suggests this photo for your ImpulseM profile.
   public static func chatServiceSuggestPhotoInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Service.SuggestPhoto.Info", p1)
   }
   /// Suggested Photo
   public static var chatServiceSuggestPhotoTitle: String  { return L10n.tr("Localizable", "Chat.Service.SuggestPhoto.Title") }
-  /// You suggested %@ to use this photo for their Telegram profile.
+  /// You suggested %@ to use this photo for their ImpulseM profile.
   public static func chatServiceSuggestPhotoInfoYou(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Service.SuggestPhoto.Info.You", p1)
   }
@@ -5126,7 +5126,7 @@ public final class L10n {
   public static var chatServiceTodoAddedYou: String  { return L10n.tr("Localizable", "Chat.Service.Todo.Added.You") }
   /// You added new tasks {values} to {task}.
   public static var chatServiceTodoAddedMultiYou: String  { return L10n.tr("Localizable", "Chat.Service.Todo.Added.Multi.You") }
-  /// Subscribe to Telegram Premium to unlock Checklists. [Read More]()
+  /// Subscribe to ImpulseM Premium to unlock Checklists. [Read More]()
   public static var chatServiceTodoCompletePremium: String  { return L10n.tr("Localizable", "Chat.Service.Todo.Complete.Premium") }
   /// {author} marked {values} as done.
   public static var chatServiceTodoMarkedDone: String  { return L10n.tr("Localizable", "Chat.Service.Todo.Marked.Done") }
@@ -5312,7 +5312,7 @@ public final class L10n {
   public static func chatTitleTopicsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Chat.Title.Topics_other", p1)
   }
-  /// Telegram moderators will review your report. Thank you!
+  /// ImpulseM moderators will review your report. Thank you!
   public static var chatToastReportSuccess: String  { return L10n.tr("Localizable", "Chat.Toast.ReportSuccess") }
   /// The account was hidden by the user
   public static var chatTooltipHiddenForwardName: String  { return L10n.tr("Localizable", "Chat.Tooltip.HiddenForwardName") }
@@ -5380,11 +5380,11 @@ public final class L10n {
   }
   /// Undo
   public static var chatUndoManagerUndo: String  { return L10n.tr("Localizable", "Chat.UndoManager.Undo") }
-  /// Update Telegram to view this part of the message
+  /// Update ImpulseM to view this part of the message
   public static var chatUnsupportedBlockInfo: String  { return L10n.tr("Localizable", "Chat.Unsupported.BlockInfo") }
   /// Unsupported block
   public static var chatUnsupportedBlockTitle: String  { return L10n.tr("Localizable", "Chat.Unsupported.BlockTitle") }
-  /// Update Telegram to view this message
+  /// Update ImpulseM to view this message
   public static var chatUnsupportedMessageInfo: String  { return L10n.tr("Localizable", "Chat.Unsupported.MessageInfo") }
   /// Unsupported message
   public static var chatUnsupportedMessageTitle: String  { return L10n.tr("Localizable", "Chat.Unsupported.MessageTitle") }
@@ -5392,7 +5392,7 @@ public final class L10n {
   public static var chatUnsupportedUpdate: String  { return L10n.tr("Localizable", "Chat.Unsupported.Update") }
   /// UPDATE
   public static var chatUnsupportedUpdatedApp: String  { return L10n.tr("Localizable", "Chat.Unsupported.UpdatedApp") }
-  /// Subscribe to [Telegram Premium]() to increase upload speeds %d times.
+  /// Subscribe to [ImpulseM Premium]() to increase upload speeds %d times.
   public static func chatUploadLimitTextOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Chat.UploadLimit.Text_other", p1)
   }
@@ -5584,7 +5584,7 @@ public final class L10n {
   public static var chatExportControllerRangePresent: String  { return L10n.tr("Localizable", "ChatExport.Controller.RangePresent") }
   /// To
   public static var chatExportControllerRangeTo: String  { return L10n.tr("Localizable", "ChatExport.Controller.RangeTo") }
-  /// You won a prize in a giveaway organized by **%1$@**.\n\nYour prize is a **Telegram Premium** subscription for **%2$@** months.
+  /// You won a prize in a giveaway organized by **%1$@**.\n\nYour prize is a **ImpulseM Premium** subscription for **%2$@** months.
   public static func chatGiftInfoFromGiveAway(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "ChatGift.Info.FromGiveAway", p1, p2)
   }
@@ -5592,19 +5592,19 @@ public final class L10n {
   public static func chatGiftInfoGiveawayStarsOther(_ p1: Int, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "ChatGift.Info.GiveawayStars_other", p1, p2, p3)
   }
-  /// You've received a gift from **%1$@**.\n\nYour gift is a **Telegram Premium** subscription for **%2$@** months.
+  /// You've received a gift from **%1$@**.\n\nYour gift is a **ImpulseM Premium** subscription for **%2$@** months.
   public static func chatGiftInfoNormal(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "ChatGift.Info.Normal", p1, p2)
   }
-  /// You have an unclaimed prize from a giveaway by **%1$@**.\n\nThis prize is a **Telegram Premium** subscription for **%2$@** months.
+  /// You have an unclaimed prize from a giveaway by **%1$@**.\n\nThis prize is a **ImpulseM Premium** subscription for **%2$@** months.
   public static func chatGiftInfoUnclaimed(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "ChatGift.Info.Unclaimed", p1, p2)
   }
-  /// You gifted **Telegram Premium** subscription for **%1$@** months.
+  /// You gifted **ImpulseM Premium** subscription for **%1$@** months.
   public static func chatGiftInfoUnclaimedGift(_ p1: String) -> String {
     return L10n.tr("Localizable", "ChatGift.Info.Unclaimed.Gift", p1)
   }
-  /// You received **Telegram Premium** subscription for **%1$@** months.
+  /// You received **ImpulseM Premium** subscription for **%1$@** months.
   public static func chatGiftInfoUnclaimedGiftYou(_ p1: String) -> String {
     return L10n.tr("Localizable", "ChatGift.Info.Unclaimed.Gift.You", p1)
   }
@@ -5672,7 +5672,7 @@ public final class L10n {
   public static var chatInputRecordingViewResumeDiscardTrimmed: String  { return L10n.tr("Localizable", "ChatInput.RecordingView.ResumeDiscardTrimmed") }
   /// Reply in Another Chat
   public static var chatInputReplyReplyToAnother: String  { return L10n.tr("Localizable", "ChatInput.Reply.ReplyToAnother") }
-  /// Hiding the sender's name for AI-composed messages is available with Telegram Premium.
+  /// Hiding the sender's name for AI-composed messages is available with ImpulseM Premium.
   public static var chatInputAccessoryHideSenderPremium: String  { return L10n.tr("Localizable", "ChatInputAccessory.HideSenderPremium") }
   /// Sorry, this link doesn't seem to exist.
   public static var chatLinkUnavailable: String  { return L10n.tr("Localizable", "ChatLink.Unavailable") }
@@ -5712,7 +5712,7 @@ public final class L10n {
   public static var chatListEmptyText: String  { return L10n.tr("Localizable", "ChatList.EmptyText") }
   /// Channels
   public static var chatListFeeds: String  { return L10n.tr("Localizable", "ChatList.Feeds") }
-  /// Your account has been frozen for a serious violation of Telegram's [Terms and Conditions](https://telegram.org/tos). Your account is now in read-only mode (since %1$@). You can appeal via [@SpamBot](%2$@) if you believe this was a mistake. If we don't hear from you until %3$@, your account will be fully deactivated and terminated.
+  /// Your account has been frozen for a serious violation of ImpulseM's [Terms and Conditions](https://impulsem.net/tos). Your account is now in read-only mode (since %1$@). You can appeal via [@SpamBot](%2$@) if you believe this was a mistake. If we don't hear from you until %3$@, your account will be fully deactivated and terminated.
   public static func chatListFreezeAccount(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "ChatList.FreezeAccount", p1, p2, p3)
   }
@@ -6060,7 +6060,7 @@ public final class L10n {
   public static var chatListFolderDisableAnimations: String  { return L10n.tr("Localizable", "ChatList.Folder.DisableAnimations") }
   /// enable animations
   public static var chatListFolderEnableAnimations: String  { return L10n.tr("Localizable", "ChatList.Folder.EnableAnimations") }
-  /// Subscribe to Telegram Premium to add colors for your folders.
+  /// Subscribe to ImpulseM Premium to add colors for your folders.
   public static var chatListFolderPremiumAlert: String  { return L10n.tr("Localizable", "ChatList.Folder.PremiumAlert") }
   /// Show Folder Tags
   public static var chatListFolderTags: String  { return L10n.tr("Localizable", "ChatList.Folder.Tags") }
@@ -6072,7 +6072,7 @@ public final class L10n {
   public static func chatListFolderUpdatesTitleOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatList.FolderUpdates.Title_other", p1)
   }
-  /// Your account has been frozen for a serious violation of Telegram's [Terms and Conditions](https://telegram.org/tos). Your account is now in read-only mode (since %1$@). You can appeal via [@SpamBot](%2$@) if you believe this was a mistake. If we don't hear from you until %3$@, your account will be fully deactivated and terminated.
+  /// Your account has been frozen for a serious violation of ImpulseM's [Terms and Conditions](https://impulsem.net/tos). Your account is now in read-only mode (since %1$@). You can appeal via [@SpamBot](%2$@) if you believe this was a mistake. If we don't hear from you until %3$@, your account will be fully deactivated and terminated.
   public static func chatListFreezeAccountAlert(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "ChatList.FreezeAccount.Alert", p1, p2, p3)
   }
@@ -6322,11 +6322,11 @@ public final class L10n {
   public static var chatMessageSponsoredTitle: String  { return L10n.tr("Localizable", "ChatMessage.Sponsored.Title") }
   /// This Ad is already reported
   public static var chatMessageSponsoredReportAready: String  { return L10n.tr("Localizable", "ChatMessage.Sponsored.Report.Aready") }
-  /// Learn more about [Telegram Ad Policies and Guidelines](https://ads.telegram.org/guidelines).
+  /// Learn more about [ImpulseM Ad Policies and Guidelines](https://ads.impulsem.net/guidelines).
   public static var chatMessageSponsoredReportLearnMore: String  { return L10n.tr("Localizable", "ChatMessage.Sponsored.Report.LearnMore") }
   /// WHAT IS WRONG WITH THIS AD?
   public static var chatMessageSponsoredReportOptionTitle: String  { return L10n.tr("Localizable", "ChatMessage.Sponsored.Report.OptionTitle") }
-  /// Telegram moderators will review your report. Thank you.
+  /// ImpulseM moderators will review your report. Thank you.
   public static var chatMessageSponsoredReportSuccess: String  { return L10n.tr("Localizable", "ChatMessage.Sponsored.Report.Success") }
   /// views
   public static var chatMessageTooltipViews: String  { return L10n.tr("Localizable", "ChatMessage.Tooltip.Views") }
@@ -6412,7 +6412,7 @@ public final class L10n {
   public static var chatServiceCraftedUniqueCollectible: String  { return L10n.tr("Localizable", "ChatService.CraftedUniqueCollectible") }
   /// This gift was used for crafting and is no longer available.
   public static var chatServiceGiftUsedForCrafting: String  { return L10n.tr("Localizable", "ChatService.GiftUsedForCrafting") }
-  /// %d winners of the giveaway were randomly selected by Telegram and received their gift links in private messages.
+  /// %d winners of the giveaway were randomly selected by ImpulseM and received their gift links in private messages.
   public static func chatServiceGiveawayResultsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatService.GiveawayResults_other", p1)
   }
@@ -6420,11 +6420,11 @@ public final class L10n {
   public static func chatServiceGiveawayResultsMixedUnclaimedOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatService.GiveawayResultsMixedUnclaimed_other", p1)
   }
-  /// **%d** winners of the giveaway were randomly selected by Telegram and received their gift links in private messages.
+  /// **%d** winners of the giveaway were randomly selected by ImpulseM and received their gift links in private messages.
   public static func chatServiceGiveawayResultsMixedWinnersOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatService.GiveawayResultsMixedWinners_other", p1)
   }
-  /// Due to the giveaway terms, no winners could be selected by Telegram, a gift code was forwarded to channel administrators.
+  /// Due to the giveaway terms, no winners could be selected by ImpulseM, a gift code was forwarded to channel administrators.
   public static func chatServiceGiveawayResultsNoWinnersOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatService.GiveawayResultsNoWinners_other", p1)
   }
@@ -6552,7 +6552,7 @@ public final class L10n {
   public static func chatServiceGiftOfferValueLower(_ p1: String) -> String {
     return L10n.tr("Localizable", "ChatService.GiftOffer.ValueLower", p1)
   }
-  /// %d winners of the giveaway were randomly selected by Telegram and received their prize in a private message.
+  /// %d winners of the giveaway were randomly selected by ImpulseM and received their prize in a private message.
   public static func chatServiceGiveawayResultsStarsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatService.GiveawayResults.Stars_other", p1)
   }
@@ -6560,11 +6560,11 @@ public final class L10n {
   public static func chatServiceGiveawayResultsMixedUnclaimedStarsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatService.GiveawayResultsMixedUnclaimed.Stars_other", p1)
   }
-  /// **%d** winners of the giveaway were randomly selected by Telegram and received a private message with prize.
+  /// **%d** winners of the giveaway were randomly selected by ImpulseM and received a private message with prize.
   public static func chatServiceGiveawayResultsMixedWinnersStarsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatService.GiveawayResultsMixedWinners.Stars_other", p1)
   }
-  /// Due to the giveaway terms, no winners could be selected by Telegram, prize codes were forwarded to channel administrators.
+  /// Due to the giveaway terms, no winners could be selected by ImpulseM, prize codes were forwarded to channel administrators.
   public static func chatServiceGiveawayResultsNoWinnersStarsOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatService.GiveawayResultsNoWinners.Stars_other", p1)
   }
@@ -6676,7 +6676,7 @@ public final class L10n {
   public static var checkoutNewCardSaveInfo: String  { return L10n.tr("Localizable", "Checkout.NewCard.SaveInfo") }
   /// You can save your payment information for future use.\nPlease [turn on Two-Step Verification] to enable this.
   public static var checkoutNewCardSaveInfoEnableHelp: String  { return L10n.tr("Localizable", "Checkout.NewCard.SaveInfoEnableHelp") }
-  /// You can save your payment info for future use. It will be stored directly with the payment provider. Telegram has no access to your credit card data.
+  /// You can save your payment info for future use. It will be stored directly with the payment provider. ImpulseM has no access to your credit card data.
   public static var checkoutNewCardSaveInfoHelp: String  { return L10n.tr("Localizable", "Checkout.NewCard.SaveInfoHelp") }
   /// New Card
   public static var checkoutNewCardTitle: String  { return L10n.tr("Localizable", "Checkout.NewCard.Title") }
@@ -7160,7 +7160,7 @@ public final class L10n {
   public static var confirmDeleteChatUser: String  { return L10n.tr("Localizable", "Confirm.DeleteChatUser") }
   /// Are you sure you want to leave this group?
   public static var confirmLeaveGroup: String  { return L10n.tr("Localizable", "Confirm.LeaveGroup") }
-  /// The bot will know your phone number. This can be useful for integration with other services.\n\n⚠️ Warning! Never enter your Telegram login codes in mini apps.
+  /// The bot will know your phone number. This can be useful for integration with other services.\n\n⚠️ Warning! Never enter your ImpulseM login codes in mini apps.
   public static var confirmDescPermissionInlineBotContact: String  { return L10n.tr("Localizable", "Confirm.Desc.PermissionInlineBotContact") }
   /// Share Your Phone Number?
   public static var confirmHeaderPermissionInlineBotContact: String  { return L10n.tr("Localizable", "Confirm.Header.PermissionInlineBotContact") }
@@ -7218,9 +7218,9 @@ public final class L10n {
   public static var contactsAddContact: String  { return L10n.tr("Localizable", "Contacts.AddContact") }
   /// Contacts
   public static var contactsContacsSeparator: String  { return L10n.tr("Localizable", "Contacts.ContacsSeparator") }
-  /// This person is not registered on Telegram yet.\n\nYou will be able to send them a Telegram message as soon as they sign up.
+  /// This person is not registered on ImpulseM yet.\n\nYou will be able to send them an ImpulseM message as soon as they sign up.
   public static var contactsNotRegistredDescription: String  { return L10n.tr("Localizable", "Contacts.NotRegistredDescription") }
-  /// Not a Telegram User
+  /// Not an ImpulseM User
   public static var contactsNotRegistredTitle: String  { return L10n.tr("Localizable", "Contacts.NotRegistredTitle") }
   /// First Name
   public static var contactsFirstNamePlaceholder: String  { return L10n.tr("Localizable", "Contacts.FirstName.Placeholder") }
@@ -7228,7 +7228,7 @@ public final class L10n {
   public static var contactsLastNamePlaceholder: String  { return L10n.tr("Localizable", "Contacts.LastName.Placeholder") }
   /// phone number can't be empty
   public static var contactsPhoneNumberInvalid: String  { return L10n.tr("Localizable", "Contacts.PhoneNumber.Invalid") }
-  /// The person with this phone number is not registered on Telegram yet.
+  /// The person with this phone number is not registered on ImpulseM yet.
   public static var contactsPhoneNumberNotRegistred: String  { return L10n.tr("Localizable", "Contacts.PhoneNumber.NotRegistred") }
   /// Phone Number
   public static var contactsPhoneNumberPlaceholder: String  { return L10n.tr("Localizable", "Contacts.PhoneNumber.Placeholder") }
@@ -7276,7 +7276,7 @@ public final class L10n {
   public static func conversationFreeTranscriptionLimitTooltipOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Conversation.FreeTranscriptionLimitTooltip_other", p1)
   }
-  /// Wait until **%@** to use it again or subscribe to [Telegram Premium]() now.
+  /// Wait until **%@** to use it again or subscribe to [ImpulseM Premium]() now.
   public static func conversationFreeTranscriptionWaitOrSubscribe(_ p1: String) -> String {
     return L10n.tr("Localizable", "Conversation.FreeTranscriptionWaitOrSubscribe", p1)
   }
@@ -7322,7 +7322,7 @@ public final class L10n {
   public static var copyRestrictedGroup: String  { return L10n.tr("Localizable", "CopyRestricted.Group") }
   /// Cancel
   public static var crashOnLaunchCancel: String  { return L10n.tr("Localizable", "CrashOnLaunch.Cancel") }
-  /// If Telegram keeps crashing immediately after you open it, click OK to log out of the app. This should solve this issue.
+  /// If ImpulseM keeps crashing immediately after you open it, click OK to log out of the app. This should solve this issue.
   public static var crashOnLaunchInformation: String  { return L10n.tr("Localizable", "CrashOnLaunch.Information") }
   /// Something's not right.
   public static var crashOnLaunchMessage: String  { return L10n.tr("Localizable", "CrashOnLaunch.Message") }
@@ -7330,7 +7330,7 @@ public final class L10n {
   public static var crashOnLaunchOK: String  { return L10n.tr("Localizable", "CrashOnLaunch.OK") }
   /// Update from the App Store
   public static var crashRecoveryAppStore: String  { return L10n.tr("Localizable", "CrashRecovery.AppStore") }
-  /// The App Store has the newest version of Telegram.
+  /// The App Store has the newest version of ImpulseM.
   public static var crashRecoveryAppStoreDetail: String  { return L10n.tr("Localizable", "CrashRecovery.AppStoreDetail") }
   /// Cancel
   public static var crashRecoveryCancel: String  { return L10n.tr("Localizable", "CrashRecovery.Cancel") }
@@ -7338,17 +7338,17 @@ public final class L10n {
   public static var crashRecoveryCheckAgain: String  { return L10n.tr("Localizable", "CrashRecovery.CheckAgain") }
   /// Checking for updates…
   public static var crashRecoveryChecking: String  { return L10n.tr("Localizable", "CrashRecovery.Checking") }
-  /// Looking for a newer version of Telegram.
+  /// Looking for a newer version of ImpulseM.
   public static var crashRecoveryCheckingDetail: String  { return L10n.tr("Localizable", "CrashRecovery.CheckingDetail") }
   /// Continue Anyway
   public static var crashRecoveryContinueAnyway: String  { return L10n.tr("Localizable", "CrashRecovery.ContinueAnyway") }
-  /// Telegram closed right after it opened. The latest version usually fixes this.
+  /// ImpulseM closed right after it opened. The latest version usually fixes this.
   public static var crashRecoveryDescription: String  { return L10n.tr("Localizable", "CrashRecovery.Description") }
   /// Downloading…
   public static var crashRecoveryDownloadingButton: String  { return L10n.tr("Localizable", "CrashRecovery.DownloadingButton") }
   /// Downloading the update…
   public static var crashRecoveryDownloadingUpdate: String  { return L10n.tr("Localizable", "CrashRecovery.DownloadingUpdate") }
-  /// Downloading Telegram %1$@…
+  /// Downloading ImpulseM %1$@…
   public static func crashRecoveryDownloadingVersion(_ p1: String) -> String {
     return L10n.tr("Localizable", "CrashRecovery.DownloadingVersion", p1)
   }
@@ -7358,9 +7358,9 @@ public final class L10n {
   }
   /// Starting the download…
   public static var crashRecoveryDownloadStarting: String  { return L10n.tr("Localizable", "CrashRecovery.DownloadStarting") }
-  /// Couldn’t update Telegram
+  /// Couldn’t update ImpulseM
   public static var crashRecoveryFailed: String  { return L10n.tr("Localizable", "CrashRecovery.Failed") }
-  /// Try again, or download the latest version from macos.telegram.org.
+  /// Try again, or download the latest version from macos.impulsem.net.
   public static var crashRecoveryFailedDetail: String  { return L10n.tr("Localizable", "CrashRecovery.FailedDetail") }
   /// Install and Relaunch
   public static var crashRecoveryInstall: String  { return L10n.tr("Localizable", "CrashRecovery.Install") }
@@ -7368,11 +7368,11 @@ public final class L10n {
   public static var crashRecoveryInstalling: String  { return L10n.tr("Localizable", "CrashRecovery.Installing") }
   /// Installing…
   public static var crashRecoveryInstallingButton: String  { return L10n.tr("Localizable", "CrashRecovery.InstallingButton") }
-  /// Telegram will reopen in a moment.
+  /// ImpulseM will reopen in a moment.
   public static var crashRecoveryInstallingDetail: String  { return L10n.tr("Localizable", "CrashRecovery.InstallingDetail") }
   /// Open App Store
   public static var crashRecoveryOpenAppStore: String  { return L10n.tr("Localizable", "CrashRecovery.OpenAppStore") }
-  /// Open macos.telegram.org
+  /// Open macos.impulsem.net
   public static var crashRecoveryOpenWebsite: String  { return L10n.tr("Localizable", "CrashRecovery.OpenWebsite") }
   /// Preparing…
   public static var crashRecoveryPreparingButton: String  { return L10n.tr("Localizable", "CrashRecovery.PreparingButton") }
@@ -7380,17 +7380,17 @@ public final class L10n {
   public static var crashRecoveryPreparingDetail: String  { return L10n.tr("Localizable", "CrashRecovery.PreparingDetail") }
   /// Preparing the update…
   public static var crashRecoveryPreparingUpdate: String  { return L10n.tr("Localizable", "CrashRecovery.PreparingUpdate") }
-  /// Preparing Telegram %1$@…
+  /// Preparing ImpulseM %1$@…
   public static func crashRecoveryPreparingVersion(_ p1: String) -> String {
     return L10n.tr("Localizable", "CrashRecovery.PreparingVersion", p1)
   }
-  /// Quit Telegram
+  /// Quit ImpulseM
   public static var crashRecoveryQuit: String  { return L10n.tr("Localizable", "CrashRecovery.Quit") }
-  /// Telegram will relaunch with the new version.
+  /// ImpulseM will relaunch with the new version.
   public static var crashRecoveryReadyDetail: String  { return L10n.tr("Localizable", "CrashRecovery.ReadyDetail") }
   /// The update is ready
   public static var crashRecoveryReadyUpdate: String  { return L10n.tr("Localizable", "CrashRecovery.ReadyUpdate") }
-  /// Telegram %1$@ is ready
+  /// ImpulseM %1$@ is ready
   public static func crashRecoveryReadyVersion(_ p1: String) -> String {
     return L10n.tr("Localizable", "CrashRecovery.ReadyVersion", p1)
   }
@@ -7398,35 +7398,35 @@ public final class L10n {
   public static var crashRecoveryReset: String  { return L10n.tr("Localizable", "CrashRecovery.Reset") }
   /// Reset
   public static var crashRecoveryResetConfirm: String  { return L10n.tr("Localizable", "CrashRecovery.ResetConfirm") }
-  /// Telegram will log out of all accounts on this Mac and delete its local data, including secret chats and downloaded files. Cloud chats will be available after you log in again.
+  /// ImpulseM will log out of all accounts on this Mac and delete its local data, including secret chats and downloaded files. Cloud chats will be available after you log in again.
   public static var crashRecoveryResetInfo: String  { return L10n.tr("Localizable", "CrashRecovery.ResetInfo") }
   /// Reset Local Data?
   public static var crashRecoveryResetTitle: String  { return L10n.tr("Localizable", "CrashRecovery.ResetTitle") }
-  /// Telegram Quit Unexpectedly
+  /// ImpulseM Quit Unexpectedly
   public static var crashRecoveryTitle: String  { return L10n.tr("Localizable", "CrashRecovery.Title") }
   /// Try Again
   public static var crashRecoveryTryAgain: String  { return L10n.tr("Localizable", "CrashRecovery.TryAgain") }
-  /// Update Telegram
+  /// Update ImpulseM
   public static var crashRecoveryUpdate: String  { return L10n.tr("Localizable", "CrashRecovery.Update") }
   /// You have the latest version
   public static var crashRecoveryUpToDate: String  { return L10n.tr("Localizable", "CrashRecovery.UpToDate") }
-  /// If Telegram keeps quitting, try resetting its local data.
+  /// If ImpulseM keeps quitting, try resetting its local data.
   public static var crashRecoveryUpToDateDetail: String  { return L10n.tr("Localizable", "CrashRecovery.UpToDateDetail") }
   /// Download the latest version
   public static var crashRecoveryWebsite: String  { return L10n.tr("Localizable", "CrashRecovery.Website") }
-  /// The newest Telegram is always at macos.telegram.org.
+  /// The newest ImpulseM is always at macos.impulsem.net.
   public static var crashRecoveryWebsiteDetail: String  { return L10n.tr("Localizable", "CrashRecovery.WebsiteDetail") }
-  /// Download from macos.telegram.org
+  /// Download from macos.impulsem.net
   public static var crashRecoveryWebsiteLink: String  { return L10n.tr("Localizable", "CrashRecovery.WebsiteLink") }
-  /// Crash report from Telegram %1$@ (%2$@, %3$@)
+  /// Crash report from ImpulseM %1$@ (%2$@, %3$@)
   public static func crashReportCaption(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "CrashReport.Caption", p1, p2, p3)
   }
   /// Send the report to help us fix it.
   public static var crashReportCardInfo: String  { return L10n.tr("Localizable", "CrashReport.CardInfo") }
-  /// Telegram quit unexpectedly
+  /// ImpulseM quit unexpectedly
   public static var crashReportCardTitle: String  { return L10n.tr("Localizable", "CrashReport.CardTitle") }
-  /// Telegram quit unexpectedly %1$d times
+  /// ImpulseM quit unexpectedly %1$d times
   public static func crashReportCardTitleTimesOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "CrashReport.CardTitleTimes_other", p1)
   }
@@ -7452,7 +7452,7 @@ public final class L10n {
   public static func createBotDescription(_ p1: String) -> String {
     return L10n.tr("Localizable", "CreateBot.Description", p1)
   }
-  /// You have reached the limit of %1$d bots. Subscribe to Telegram Premium to create up to %2$d bots.
+  /// You have reached the limit of %1$d bots. Subscribe to ImpulseM Premium to create up to %2$d bots.
   public static func createBotLimitReached(_ p1: Int, _ p2: Int) -> String {
     return L10n.tr("Localizable", "CreateBot.LimitReached", p1, p2)
   }
@@ -7500,15 +7500,15 @@ public final class L10n {
   public static func createBotUsernameEndingsOr(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "CreateBot.Username.EndingsOr", p1, p2)
   }
-  /// Telegram Premium
+  /// ImpulseM Premium
   public static var createBotUsernamePremium: String  { return L10n.tr("Localizable", "CreateBot.Username.Premium") }
   /// Must end in %1$@ – or %2$@ with %3$@.
   public static func createBotUsernamePremiumHint(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "CreateBot.Username.PremiumHint", p1, p2, p3)
   }
-  /// [Telegram Premium]()
+  /// [ImpulseM Premium]()
   public static var createBotUsernamePremiumLink: String  { return L10n.tr("Localizable", "CreateBot.Username.PremiumLink") }
-  /// Usernames ending in %1$@ require Telegram Premium.
+  /// Usernames ending in %1$@ require ImpulseM Premium.
   public static func createBotUsernamePremiumRequired(_ p1: String) -> String {
     return L10n.tr("Localizable", "CreateBot.Username.PremiumRequired", p1)
   }
@@ -7550,17 +7550,17 @@ public final class L10n {
   public static var customAvatarTitleText: String  { return L10n.tr("Localizable", "CustomAvatar.Title.Text") }
   /// Artists are welcome to add their own emoji sets using our [@stickers]() bot.
   public static var customEmojiInfo: String  { return L10n.tr("Localizable", "CustomEmoji.Info") }
-  /// Subscribe to Telegram Premium to unlock this emoji. [Read More]()
+  /// Subscribe to ImpulseM Premium to unlock this emoji. [Read More]()
   public static var customEmojiPremiumAlert: String  { return L10n.tr("Localizable", "CustomEmoji.PremiumAlert") }
   /// Suggest Animated Emoji
   public static var customEmojiSuggest: String  { return L10n.tr("Localizable", "CustomEmoji.Suggest") }
-  /// Subscribe to Telegram Premium to unlock this reaction. [Read More]()
+  /// Subscribe to ImpulseM Premium to unlock this reaction. [Read More]()
   public static var customReactionPremiumAlert: String  { return L10n.tr("Localizable", "CustomReaction.PremiumAlert") }
   /// YOUR STATUS EXPIRES IN %@
   public static func customStatusExpires(_ p1: String) -> String {
     return L10n.tr("Localizable", "CustomStatus.Expires", p1)
   }
-  /// This account uses 🤡 as a custom status next to its name. Such emoji statuses are available to all subscribers of [Telegram Premium]().
+  /// This account uses 🤡 as a custom status next to its name. Such emoji statuses are available to all subscribers of [ImpulseM Premium]().
   public static var customStatusReportSpam: String  { return L10n.tr("Localizable", "CustomStatus.ReportSpam") }
   /// RIGHT CLICK TO SET A TIMER
   public static var customStatusExpiresPromo: String  { return L10n.tr("Localizable", "CustomStatus.Expires.Promo") }
@@ -7672,7 +7672,7 @@ public final class L10n {
   public static var dateSelectorScheduleRepeatEveryYear: String  { return L10n.tr("Localizable", "DateSelector.Schedule.Repeat.EveryYear") }
   /// Never
   public static var dateSelectorScheduleRepeatNever: String  { return L10n.tr("Localizable", "DateSelector.Schedule.Repeat.Never") }
-  /// Subscribe to Telegram Premium to schedule repeating messages. [Read More]()
+  /// Subscribe to ImpulseM Premium to schedule repeating messages. [Read More]()
   public static var dateSelectorScheduleRepeatPremiumInfo: String  { return L10n.tr("Localizable", "DateSelector.Schedule.Repeat.PremiumInfo") }
   /// You can leave an optional comment
   public static var declineSuggestPostDescription: String  { return L10n.tr("Localizable", "DeclineSuggestPost.Description") }
@@ -7716,7 +7716,7 @@ public final class L10n {
   public static var deprecatedText: String  { return L10n.tr("Localizable", "Deprecated.Text") }
   /// Update macOS
   public static var deprecatedTitle: String  { return L10n.tr("Localizable", "Deprecated.Title") }
-  /// We are no longer updating the app for your system version. Please update your system to receive the latest Telegram updates.
+  /// We are no longer updating the app for your system version. Please update your system to receive the latest ImpulseM updates.
   public static var deprecatedAlertText: String  { return L10n.tr("Localizable", "Deprecated.Alert.Text") }
   /// Hide for a month
   public static var deprecatedAlertThird: String  { return L10n.tr("Localizable", "Deprecated.Alert.Third") }
@@ -8178,7 +8178,7 @@ public final class L10n {
   }
   /// Hover mouse here to choose more emoji
   public static var emojiPackMoreEmoji: String  { return L10n.tr("Localizable", "EmojiPack.MoreEmoji") }
-  /// Subscribe to Telegram Premium to unlock this emoji. [Read More]()
+  /// Subscribe to ImpulseM Premium to unlock this emoji. [Read More]()
   public static var emojiPackPremiumAlert: String  { return L10n.tr("Localizable", "EmojiPack.PremiumAlert") }
   /// RESTORE
   public static var emojiPackRestore: String  { return L10n.tr("Localizable", "EmojiPack.Restore") }
@@ -8242,11 +8242,11 @@ public final class L10n {
   public static var emptyChatStickersNone: String  { return L10n.tr("Localizable", "EmptyChat.Stickers.None") }
   /// Trending Stickers
   public static var emptyChatStickersTrending: String  { return L10n.tr("Localizable", "EmptyChat.Stickers.Trending") }
-  /// Telegram uses **%@** of your storage.
+  /// ImpulseM uses **%@** of your storage.
   public static func emptyChatStorageUsageCacheDesc(_ p1: String) -> String {
     return L10n.tr("Localizable", "EmptyChat.StorageUsage.CacheDesc", p1)
   }
-  /// Telegram cache is empty.
+  /// ImpulseM cache is empty.
   public static var emptyChatStorageUsageCacheDescEmpty: String  { return L10n.tr("Localizable", "EmptyChat.StorageUsage.CacheDescEmpty") }
   /// Clear Cache
   public static var emptyChatStorageUsageClear: String  { return L10n.tr("Localizable", "EmptyChat.StorageUsage.Clear") }
@@ -8262,7 +8262,7 @@ public final class L10n {
   public static var emptyChatStorageUsageMedium: String  { return L10n.tr("Localizable", "EmptyChat.StorageUsage.Medium") }
   /// No Limit
   public static var emptyChatStorageUsageNoLimit: String  { return L10n.tr("Localizable", "EmptyChat.StorageUsage.NoLimit") }
-  /// Telegram\n%@
+  /// ImpulseM\n%@
   public static func emptyChatStorageUsageTooltipApp(_ p1: String) -> String {
     return L10n.tr("Localizable", "EmptyChat.StorageUsage.Tooltip.App", p1)
   }
@@ -8276,7 +8276,7 @@ public final class L10n {
   }
   /// • Persistent chat history
   public static var emptyGroupInfoLine2: String  { return L10n.tr("Localizable", "EmptyGroupInfo.Line2") }
-  /// • Public links such as t.me/title
+  /// • Public links such as o.impulsem.net/title
   public static var emptyGroupInfoLine3: String  { return L10n.tr("Localizable", "EmptyGroupInfo.Line3") }
   /// • Admins with different rights
   public static var emptyGroupInfoLine4: String  { return L10n.tr("Localizable", "EmptyGroupInfo.Line4") }
@@ -8496,7 +8496,7 @@ public final class L10n {
   public static var exportDataChatsSection: String  { return L10n.tr("Localizable", "ExportData.ChatsSection") }
   /// Contacts list
   public static var exportDataContacts: String  { return L10n.tr("Localizable", "ExportData.Contacts") }
-  /// If you allow access, contacts are continuously synced with Telegram. You can adjust this in Settings > Privacy & Security on mobile devices.
+  /// If you allow access, contacts are continuously synced with ImpulseM. You can adjust this in Settings > Privacy & Security on mobile devices.
   public static var exportDataContactsAbout: String  { return L10n.tr("Localizable", "ExportData.ContactsAbout") }
   /// {count} hours
   public static var exportDataDelayHours: String  { return L10n.tr("Localizable", "ExportData.DelayHours") }
@@ -8504,7 +8504,7 @@ public final class L10n {
   public static var exportDataDelayLessThanHour: String  { return L10n.tr("Localizable", "ExportData.DelayLessThanHour") }
   /// For security reasons, you will be able to begin downloading your data in {hours}. We have notified all your devices about the export request to make sure it's authorized and give you time to react if it's not.\n\nPlease come back on {date} and repeat the request using the same device.
   public static var exportDataDelayText: String  { return L10n.tr("Localizable", "ExportData.DelayText") }
-  /// Exporting Telegram Data
+  /// Exporting ImpulseM Data
   public static var exportDataExportingTitle: String  { return L10n.tr("Localizable", "ExportData.ExportingTitle") }
   /// Format
   public static var exportDataFormat: String  { return L10n.tr("Localizable", "ExportData.Format") }
@@ -8516,7 +8516,7 @@ public final class L10n {
   public static var exportDataFormatHtml: String  { return L10n.tr("Localizable", "ExportData.FormatHtml") }
   /// Machine-readable JSON
   public static var exportDataFormatJson: String  { return L10n.tr("Localizable", "ExportData.FormatJson") }
-  /// Export Telegram Data
+  /// Export ImpulseM Data
   public static var exportDataMenuRow: String  { return L10n.tr("Localizable", "ExportData.MenuRow") }
   /// Export your account data — personal information, contacts, active sessions, story archive and the history of your chats — to a folder of HTML and/or JSON files.
   public static var exportDataMenuRowInfo: String  { return L10n.tr("Localizable", "ExportData.MenuRowInfo") }
@@ -8550,11 +8550,11 @@ public final class L10n {
   public static var exportDataSessionsAbout: String  { return L10n.tr("Localizable", "ExportData.SessionsAbout") }
   /// Story archive
   public static var exportDataStories: String  { return L10n.tr("Localizable", "ExportData.Stories") }
-  /// All stories you posted from Telegram mobile apps.
+  /// All stories you posted from ImpulseM mobile apps.
   public static var exportDataStoriesAbout: String  { return L10n.tr("Localizable", "ExportData.StoriesAbout") }
   /// Could not start the export. Please try again later.
   public static var exportDataTakeoutFailed: String  { return L10n.tr("Localizable", "ExportData.TakeoutFailed") }
-  /// Export Telegram Data
+  /// Export ImpulseM Data
   public static var exportDataTitle: String  { return L10n.tr("Localizable", "ExportData.Title") }
   /// Done
   public static var exportedInvitationDone: String  { return L10n.tr("Localizable", "ExportedInvitation.Done") }
@@ -8584,7 +8584,7 @@ public final class L10n {
   }
   /// revoked
   public static var exportedInvitationStatusRevoked: String  { return L10n.tr("Localizable", "ExportedInvitation.Status.Revoked") }
-  /// This clarification was provided by Telegram.
+  /// This clarification was provided by ImpulseM.
   public static var factCheckInfo: String  { return L10n.tr("Localizable", "FactCheck.Info") }
   /// Add Fact Check
   public static var factCheckPlaceholder: String  { return L10n.tr("Localizable", "FactCheck.Placeholder") }
@@ -8612,7 +8612,7 @@ public final class L10n {
   public static var fastSettingsDisableDarkMode: String  { return L10n.tr("Localizable", "FastSettings.DisableDarkMode") }
   /// Enable Dark Mode
   public static var fastSettingsEnableDarkMode: String  { return L10n.tr("Localizable", "FastSettings.EnableDarkMode") }
-  /// Lock Telegram
+  /// Lock ImpulseM
   public static var fastSettingsLockTelegram: String  { return L10n.tr("Localizable", "FastSettings.LockTelegram") }
   /// Mute For 2 Hours
   public static var fastSettingsMute2Hours: String  { return L10n.tr("Localizable", "FastSettings.Mute2Hours") }
@@ -8824,25 +8824,25 @@ public final class L10n {
   }
   /// Understood
   public static var fragmentAdsInfoOK: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.OK") }
-  /// Telegram Ads are very different from ads on other platforms. Ads such as this one:
+  /// ImpulseM Ads are very different from ads on other platforms. Ads such as this one:
   public static var fragmentAdsInfoText: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Text") }
   /// About These Ads
   public static var fragmentAdsInfoTitle: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Title") }
-  /// Anyone can create an ad to display in this channel — with minimal budgets. Check out the Telegram Ad Platform for details. [Learn More >](https://ads.telegram.org)
+  /// Anyone can create an ad to display in this channel — with minimal budgets. Check out the ImpulseM Ad Platform for details. [Learn More >](https://ads.impulsem.net)
   public static var fragmentAdsInfoBlockText: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Block.Text") }
   /// Can I Launch an Ad?
   public static var fragmentAdsInfoBlockTitle: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Block.Title") }
-  /// Ads on Telegram do not use your personal information and are based on the channel in which you see them.
+  /// Ads on ImpulseM do not use your personal information and are based on the channel in which you see them.
   public static var fragmentAdsInfoOption1Info: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Option1.Info") }
   /// Respect Your Privacy
   public static var fragmentAdsInfoOption1Title: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Option1.Title") }
-  /// 50%@ of the revenue from Telegram Ads goes to the owner of the channel where they are displayed.
+  /// 50%@ of the revenue from ImpulseM Ads goes to the owner of the channel where they are displayed.
   public static func fragmentAdsInfoOption2Info(_ p1: String) -> String {
     return L10n.tr("Localizable", "Fragment.AdsInfo.Option2.Info", p1)
   }
   /// Help the Channel Creator
   public static var fragmentAdsInfoOption2Title: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Option2.Title") }
-  /// You can turn off ads by subscribing to Telegram Premium, and Level 50 channels can remove them for their subscribers.
+  /// You can turn off ads by subscribing to ImpulseM Premium, and Level 50 channels can remove them for their subscribers.
   public static var fragmentAdsInfoOption3Info: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Option3.Info") }
   /// Can Be Removed
   public static var fragmentAdsInfoOption3Title: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Option3.Title") }
@@ -8910,7 +8910,7 @@ public final class L10n {
   public static var freezeAccountOK: String  { return L10n.tr("Localizable", "FreezeAccount.OK") }
   /// Your Account is Frozen
   public static var freezeAccountTitle: String  { return L10n.tr("Localizable", "FreezeAccount.Title") }
-  /// Your account was frozen for violating Telegram’s Terms of Service.
+  /// Your account was frozen for violating ImpulseM’s Terms of Service.
   public static var freezeAccountOption1Text: String  { return L10n.tr("Localizable", "FreezeAccount.Option1.Text") }
   /// Violation of Terms
   public static var freezeAccountOption1Title: String  { return L10n.tr("Localizable", "FreezeAccount.Option1.Title") }
@@ -9188,7 +9188,7 @@ public final class L10n {
   public static var giftMarketplaceSortPrice: String  { return L10n.tr("Localizable", "Gift.Marketplace.Sort.Price") }
   /// Gift moved to your account.
   public static var giftMoveToGiftsSuccess: String  { return L10n.tr("Localizable", "Gift.MoveToGifts.Success") }
-  /// Transfer this collectible off-chain to your Telegram account?
+  /// Transfer this collectible off-chain to your ImpulseM account?
   public static var giftMoveToGiftsText: String  { return L10n.tr("Localizable", "Gift.MoveToGifts.Text") }
   /// Move to My Gifts
   public static var giftMoveToGiftsTitle: String  { return L10n.tr("Localizable", "Gift.MoveToGifts.Title") }
@@ -9224,7 +9224,7 @@ public final class L10n {
   public static func giftPremiumPreviewInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Gift.Premium.PreviewInfo", p1)
   }
-  /// Subscription for exclusive Telegram features
+  /// Subscription for exclusive ImpulseM features
   public static var giftPremiumText: String  { return L10n.tr("Localizable", "Gift.Premium.Text") }
   /// Your balance is %@. [Get More Stars >]()
   public static func giftPremiumYourBalance(_ p1: String) -> String {
@@ -9300,13 +9300,13 @@ public final class L10n {
   }
   /// Too Early
   public static var giftTransferUnavailableTitle: String  { return L10n.tr("Localizable", "Gift.Transfer.Unavailable.Title") }
-  /// In %@, you'll be able to send this collectible to any TON blockchain address outside Telegram for sale or auction.
+  /// In %@, you'll be able to send this collectible to any TON blockchain address outside ImpulseM for sale or auction.
   public static func giftTransferUnlockPendingText(_ p1: String) -> String {
     return L10n.tr("Localizable", "Gift.Transfer.UnlockPending.Text", p1)
   }
   /// Unlocking In Progress
   public static var giftTransferUnlockPendingTitle: String  { return L10n.tr("Localizable", "Gift.Transfer.UnlockPending.Title") }
-  /// Please update your Telegram application to the latest version.
+  /// Please update your ImpulseM application to the latest version.
   public static var giftTransferUpdateRequiredText: String  { return L10n.tr("Localizable", "Gift.Transfer.UpdateRequired.Text") }
   /// Update Required
   public static var giftTransferUpdateRequiredTitle: String  { return L10n.tr("Localizable", "Gift.Transfer.UpdateRequired.Title") }
@@ -9352,11 +9352,11 @@ public final class L10n {
   public static var giftUniqueOwner: String  { return L10n.tr("Localizable", "Gift.Unique.Owner") }
   /// Symbol
   public static var giftUniqueSymbol: String  { return L10n.tr("Localizable", "Gift.Unique.Symbol") }
-  /// Telegram
+  /// ImpulseM
   public static var giftUniqueTelegram: String  { return L10n.tr("Localizable", "Gift.Unique.Telegram") }
   /// change
   public static var giftUniqueTransfer: String  { return L10n.tr("Localizable", "Gift.Unique.Transfer") }
-  /// Subscribe to [Telegram Premium](premium) to wear this collectible.
+  /// Subscribe to [ImpulseM Premium](premium) to wear this collectible.
   public static var giftUniqueNeedsPremium: String  { return L10n.tr("Localizable", "Gift.Unique.Needs.Premium") }
   /// epic
   public static var giftUniqueRarityEpic: String  { return L10n.tr("Localizable", "Gift.Unique.Rarity.Epic") }
@@ -9408,9 +9408,9 @@ public final class L10n {
   public static var giftUpgradeTradableIncludeDescription: String  { return L10n.tr("Localizable", "Gift.Upgrade.Tradable.IncludeDescription") }
   /// Tradable
   public static var giftUpgradeTradableTitle: String  { return L10n.tr("Localizable", "Gift.Upgrade.Tradable.Title") }
-  /// Send your upgraded gift to any of your friends on Telegram.
+  /// Send your upgraded gift to any of your friends on ImpulseM.
   public static var giftUpgradeTransferableDescription: String  { return L10n.tr("Localizable", "Gift.Upgrade.Transferable.Description") }
-  /// The recipient will be able to send the gift to anyone Telegram.
+  /// The recipient will be able to send the gift to anyone ImpulseM.
   public static var giftUpgradeTransferableIncludeDescription: String  { return L10n.tr("Localizable", "Gift.Upgrade.Transferable.IncludeDescription") }
   /// Transferable
   public static var giftUpgradeTransferableTitle: String  { return L10n.tr("Localizable", "Gift.Upgrade.Transferable.Title") }
@@ -9434,11 +9434,11 @@ public final class L10n {
   public static var giftViewContextHideFromProfile: String  { return L10n.tr("Localizable", "Gift.View.Context.HideFromProfile") }
   /// Show on Profile
   public static var giftViewContextShowOnProfile: String  { return L10n.tr("Localizable", "Gift.View.Context.ShowOnProfile") }
-  /// Your channel can add this gift to its profile or convert it to %@. [More About Stars >](https://telegram.org)
+  /// Your channel can add this gift to its profile or convert it to %@. [More About Stars >](https://impulsem.net)
   public static func giftViewKeepOrConvertDescriptionChannel(_ p1: String) -> String {
     return L10n.tr("Localizable", "Gift.View.KeepOrConvertDescription.Channel", p1)
   }
-  /// Your channel can keep this gift, upgrade it, or sell it for %@. [More About Stars >](https://telegram.org)
+  /// Your channel can keep this gift, upgrade it, or sell it for %@. [More About Stars >](https://impulsem.net)
   public static func giftViewKeepUpgradeOrConvertDescriptionChannel(_ p1: String) -> String {
     return L10n.tr("Localizable", "Gift.View.KeepUpgradeOrConvertDescription.Channel", p1)
   }
@@ -9476,7 +9476,7 @@ public final class L10n {
   public static var giftWithdrawSecurityRequirements: String  { return L10n.tr("Localizable", "Gift.Withdraw.SecurityRequirements") }
   /// Enable 2-Step Verification
   public static var giftWithdrawSetupTwoStepAuth: String  { return L10n.tr("Localizable", "Gift.Withdraw.SetupTwoStepAuth") }
-  /// You can use Fragment, a third-party service, to transfer **%@** to the TON blockchain. After that, you can manage it as an NFT with any TON wallet application.\n\nYou can also move such NFTs back to your Telegram account via Fragment.
+  /// You can use Fragment, a third-party service, to transfer **%@** to the TON blockchain. After that, you can manage it as an NFT with any TON wallet application.\n\nYou can also move such NFTs back to your ImpulseM account via Fragment.
   public static func giftWithdrawText(_ p1: String) -> String {
     return L10n.tr("Localizable", "Gift.Withdraw.Text", p1)
   }
@@ -9490,9 +9490,9 @@ public final class L10n {
   public static var giftLinkUseLink: String  { return L10n.tr("Localizable", "GiftLink.UseLink") }
   /// You successfully activated gift link.
   public static var giftLinkUseSuccess: String  { return L10n.tr("Localizable", "GiftLink.UseSuccess") }
-  /// This link allows you to activate a **Telegram Premium** subscription.
+  /// This link allows you to activate a **ImpulseM Premium** subscription.
   public static var giftLinkInfoNotUsed: String  { return L10n.tr("Localizable", "GiftLink.Info.NotUsed") }
-  /// This link was used to activate a **Telegram Premium** subscription.
+  /// This link was used to activate a **ImpulseM Premium** subscription.
   public static var giftLinkInfoUsed: String  { return L10n.tr("Localizable", "GiftLink.Info.Used") }
   /// You can also send this [link](share) to a friend as a gift.
   public static var giftLinkInfoNotUsedInfo: String  { return L10n.tr("Localizable", "GiftLink.Info.NotUsed.Info") }
@@ -9500,11 +9500,11 @@ public final class L10n {
   public static func giftLinkInfoUsedInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "GiftLink.Info.Used.Info", p1)
   }
-  /// Telegram Premium for %d months
+  /// ImpulseM Premium for %d months
   public static func giftLinkPremiumDurationMonths(_ p1: Int) -> String {
     return L10n.tr("Localizable", "GiftLink.PremiumDuration.Months", p1)
   }
-  /// Telegram Premium 1 Year
+  /// ImpulseM Premium 1 Year
   public static var giftLinkPremiumDurationYear: String  { return L10n.tr("Localizable", "GiftLink.PremiumDuration.Year") }
   /// Date
   public static var giftLinkRowDate: String  { return L10n.tr("Localizable", "GiftLink.Row.Date") }
@@ -9532,13 +9532,13 @@ public final class L10n {
   public static func giftingUserChargeStars(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Gifting.UserChargeStars", p1, p2)
   }
-  /// Are you sure you want to gift **Telegram Premium** to **%1$@** for **%2$@**?
+  /// Are you sure you want to gift **ImpulseM Premium** to **%1$@** for **%2$@**?
   public static func giftingPremWithStarsConfirmInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Gifting.PremWithStars.Confirm.Info", p1, p2)
   }
   /// Send a Gift
   public static var giftingPremWithStarsConfirmTitle: String  { return L10n.tr("Localizable", "Gifting.PremWithStars.Confirm.Title") }
-  /// Give %@ access to exclusive features with Telegram Premium. [See Features >](premium)
+  /// Give %@ access to exclusive features with ImpulseM Premium. [See Features >](premium)
   public static func giftingPremiumInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Gifting.Premium.Info", p1)
   }
@@ -9624,7 +9624,7 @@ public final class L10n {
   public static var giveawayChannelsHeaderGroup: String  { return L10n.tr("Localizable", "Giveaway.Channels.Header.Group") }
   /// Ends
   public static var giveawayDateEnds: String  { return L10n.tr("Localizable", "Giveaway.Date.Ends") }
-  /// Choose when subscribers of your channel will be randomly selected to receive Telegram Premium.
+  /// Choose when subscribers of your channel will be randomly selected to receive ImpulseM Premium.
   public static var giveawayDateInfo: String  { return L10n.tr("Localizable", "Giveaway.Date.Info") }
   /// %d
   public static func giveawayDateInfoCountable(_ p1: Int) -> String {
@@ -9634,17 +9634,17 @@ public final class L10n {
   public static var giveawayDateSelectDate: String  { return L10n.tr("Localizable", "Giveaway.Date.SelectDate") }
   /// DATE WHEN GIVEAWAY ENDS
   public static var giveawayDateTitle: String  { return L10n.tr("Localizable", "Giveaway.Date.Title") }
-  /// Choose when members of your group will be randomly selected to receive Telegram Premium.
+  /// Choose when members of your group will be randomly selected to receive ImpulseM Premium.
   public static var giveawayDateInfoGroup: String  { return L10n.tr("Localizable", "Giveaway.Date.Info.Group") }
   /// OK
   public static var giveawayDateSelectDateOK: String  { return L10n.tr("Localizable", "Giveaway.Date.SelectDate.OK") }
   /// Get more boosts for your channel by gifting
   public static var giveawayHeaderText: String  { return L10n.tr("Localizable", "Giveaway.Header.Text") }
-  /// **Gift Telegram Premium**
+  /// **Gift ImpulseM Premium**
   public static var giveawayHeaderTitle: String  { return L10n.tr("Localizable", "Giveaway.Header.Title") }
   /// Get more boosts for your group by gifting
   public static var giveawayHeaderTextGroup: String  { return L10n.tr("Localizable", "Giveaway.Header.Text.Group") }
-  /// You can review the list of features and more details about Telegram Premium [here](premium).
+  /// You can review the list of features and more details about ImpulseM Premium [here](premium).
   public static var giveawayPaymentOptionsInfo: String  { return L10n.tr("Localizable", "Giveaway.PaymentOptions.Info") }
   /// %d Months
   public static func giveawayPaymentOptionsMonths(_ p1: Int) -> String {
@@ -9702,11 +9702,11 @@ public final class L10n {
   public static func giveawayStarsPrepaidDescOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Giveaway.Stars.Prepaid.Desc_other", p1)
   }
-  /// %d Telegram Stars
+  /// %d ImpulseM Stars
   public static func giveawayStarsPrepaidTitle(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Giveaway.Stars.Prepaid.Title", p1)
   }
-  /// Telegram Premium
+  /// ImpulseM Premium
   public static var giveawayTypePremiumTitle: String  { return L10n.tr("Localizable", "Giveaway.Type.Premium.Title") }
   /// winners are chosen randomly
   public static var giveawayTypePremiumRandomText: String  { return L10n.tr("Localizable", "Giveaway.Type.Premium.Random.Text") }
@@ -9714,7 +9714,7 @@ public final class L10n {
   public static func giveawayTypePrepaidDesc(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Giveaway.Type.Prepaid.Desc", p1)
   }
-  /// %d Telegram Premium
+  /// %d ImpulseM Premium
   public static func giveawayTypePrepaidTitle(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Giveaway.Type.Prepaid.Title", p1)
   }
@@ -9730,7 +9730,7 @@ public final class L10n {
   public static var giveawayTypeSpecificModalSelectUsers: String  { return L10n.tr("Localizable", "Giveaway.Type.Specific.Modal.SelectUsers") }
   /// winners are chosen randomly
   public static var giveawayTypeStarsText: String  { return L10n.tr("Localizable", "Giveaway.Type.Stars.Text") }
-  /// Telegram Stars
+  /// ImpulseM Stars
   public static var giveawayTypeStarsTitle: String  { return L10n.tr("Localizable", "Giveaway.Type.Stars.Title") }
   /// Choose the channels users need to join to take part in the giveaway.
   public static var givewayChannelsInfo: String  { return L10n.tr("Localizable", "Giveway.Channels.Info") }
@@ -9834,7 +9834,7 @@ public final class L10n {
   public static var groupUsersTooMuchError: String  { return L10n.tr("Localizable", "Group.UsersTooMuchError") }
   /// Change Group Info
   public static var groupEditAdminPermissionChangeInfo: String  { return L10n.tr("Localizable", "Group.EditAdmin.Permission.ChangeInfo") }
-  /// All members will be able to use these emoji in the group, even if they don't have Telegram Premium.\n\nYou can create your own custom emoji set using the [@stickers](stickers) bot.
+  /// All members will be able to use these emoji in the group, even if they don't have ImpulseM Premium.\n\nYou can create your own custom emoji set using the [@stickers](stickers) bot.
   public static var groupEmojiPackCreateInfo: String  { return L10n.tr("Localizable", "Group.EmojiPack.CreateInfo") }
   /// CHOOSE EMOJI PACK
   public static var groupEmojiPackHeader: String  { return L10n.tr("Localizable", "Group.EmojiPack.Header") }
@@ -9906,13 +9906,13 @@ public final class L10n {
   public static var groupCallInputPlaceholder: String  { return L10n.tr("Localizable", "GroupCall.Input.Placeholder") }
   /// Group call is no longer available
   public static var groupCallInviteNotAvailable: String  { return L10n.tr("Localizable", "GroupCall.Invite.NotAvailable") }
-  /// Anyone on Telegram will be able to join your call by following this link.
+  /// Anyone on ImpulseM will be able to join your call by following this link.
   public static var groupCallInviteLinkBasic: String  { return L10n.tr("Localizable", "GroupCall.InviteLink.Basic") }
   /// This link is no longer active
   public static var groupCallInviteLinkExpired: String  { return L10n.tr("Localizable", "GroupCall.InviteLink.Expired") }
   /// The invite link has been revoked
   public static var groupCallInviteLinkRevoked: String  { return L10n.tr("Localizable", "GroupCall.InviteLink.Revoked") }
-  /// Anyone on Telegram can join your call by following the link below.
+  /// Anyone on ImpulseM can join your call by following the link below.
   public static var groupCallInviteLinkShare: String  { return L10n.tr("Localizable", "GroupCall.InviteLink.Share") }
   /// Call Link
   public static var groupCallInviteLinkTitle: String  { return L10n.tr("Localizable", "GroupCall.InviteLink.Title") }
@@ -9956,7 +9956,7 @@ public final class L10n {
   public static var groupCallStatusBarStopVideo: String  { return L10n.tr("Localizable", "GroupCall.StatusBar.StopVideo") }
   /// Add Group to a Community
   public static var groupInfoAddGroupToCommunity: String  { return L10n.tr("Localizable", "GroupInfo.AddGroupToCommunity") }
-  /// If a person has left the group in the past, you need to be in their Telegram contacts to add them back.\n\nThey can still join via an invite link as long as they are not on the Removed Users list.
+  /// If a person has left the group in the past, you need to be in their ImpulseM contacts to add them back.\n\nThey can still join via an invite link as long as they are not on the Removed Users list.
   public static var groupInfoAddUserLeftError: String  { return L10n.tr("Localizable", "GroupInfo.AddUserLeftError") }
   /// Administrators
   public static var groupInfoAdministrators: String  { return L10n.tr("Localizable", "GroupInfo.Administrators") }
@@ -9992,11 +9992,11 @@ public final class L10n {
   public static var groupInfoPermissionsSearchPlaceholder: String  { return L10n.tr("Localizable", "GroupInfo.Permissions.SearchPlaceholder") }
   /// WHAT CAN MEMBERS OF THIS GROUP DO?
   public static var groupInfoPermissionsSectionTitle: String  { return L10n.tr("Localizable", "GroupInfo.Permissions.SectionTitle") }
-  /// Anyone who has Telegram installed will be able to join your channel by following this link
+  /// Anyone who has ImpulseM installed will be able to join your channel by following this link
   public static var groupInvationChannelDescription: String  { return L10n.tr("Localizable", "GroupInvation.ChannelDescription") }
   /// Copy Link
   public static var groupInvationCopyLink: String  { return L10n.tr("Localizable", "GroupInvation.CopyLink") }
-  /// Anyone who has Telegram installed will be able to join your group by opening this link.
+  /// Anyone who has ImpulseM installed will be able to join your group by opening this link.
   public static var groupInvationGroupDescription: String  { return L10n.tr("Localizable", "GroupInvation.GroupDescription") }
   /// Revoke
   public static var groupInvationRevoke: String  { return L10n.tr("Localizable", "GroupInvation.Revoke") }
@@ -10262,7 +10262,7 @@ public final class L10n {
   public static var inviteFailedSkip: String  { return L10n.tr("Localizable", "InviteFailed.Skip") }
   /// Invite Via Link
   public static var inviteFailedTitle: String  { return L10n.tr("Localizable", "InviteFailed.Title") }
-  /// Subscribe to Telegram Premium
+  /// Subscribe to ImpulseM Premium
   public static var inviteFailedPremiumAction: String  { return L10n.tr("Localizable", "InviteFailed.Premium.Action") }
   /// Upgrade to Premium
   public static var inviteFailedPremiumTitle: String  { return L10n.tr("Localizable", "InviteFailed.Premium.Title") }
@@ -10332,9 +10332,9 @@ public final class L10n {
   public static var inviteLinkShareLink: String  { return L10n.tr("Localizable", "InviteLink.ShareLink") }
   /// Link created and copied to clipboard.
   public static var inviteLinkCreateCopied: String  { return L10n.tr("Localizable", "InviteLink.Create.Copied") }
-  /// Everyone on Telegram can scan this code to join your channel.
+  /// Everyone on ImpulseM can scan this code to join your channel.
   public static var inviteLinkQrCodeInfoChannel: String  { return L10n.tr("Localizable", "InviteLink.QrCode.InfoChannel") }
-  /// Everyone on Telegram can scan this code to join your group.
+  /// Everyone on ImpulseM can scan this code to join your group.
   public static var inviteLinkQrCodeInfoGroup: String  { return L10n.tr("Localizable", "InviteLink.QrCode.InfoGroup") }
   /// Copy Image
   public static var inviteLinkQrCodeMenuCopyImage: String  { return L10n.tr("Localizable", "InviteLink.QrCode.MenuCopyImage") }
@@ -10358,7 +10358,7 @@ public final class L10n {
   public static func inviteLinkStickerTimeLeft(_ p1: String) -> String {
     return L10n.tr("Localizable", "InviteLink.Sticker.TimeLeft", p1)
   }
-  /// Charge a subscription fee from people who join your channel via this link. [Learn More >](https://telegram.org/tos/stars)
+  /// Charge a subscription fee from people who join your channel via this link. [Learn More >](https://impulsem.net/tos/stars)
   public static var inviteLinkSubInfo: String  { return L10n.tr("Localizable", "InviteLink.Sub.Info") }
   /// You can't enable admin approval for links that require a monthly fee.
   public static var inviteLinkSubReqApproval: String  { return L10n.tr("Localizable", "InviteLink.Sub.ReqApproval") }
@@ -10394,7 +10394,7 @@ public final class L10n {
   public static var languageTranslateMessagesHeader: String  { return L10n.tr("Localizable", "Language.TranslateMessages.Header") }
   /// Translate all messages in chat. This is available only for [Premium Users]().
   public static var languageTranslateMessagesChannelInfo: String  { return L10n.tr("Localizable", "Language.TranslateMessages.Channel.Info") }
-  /// Subscribe to [Telegram Premium](premium) to translate entire chats.
+  /// Subscribe to [ImpulseM Premium](premium) to translate entire chats.
   public static var languageTranslateMessagesChannelPremium: String  { return L10n.tr("Localizable", "Language.TranslateMessages.Channel.Premium") }
   /// last seen %d hours ago
   public static func lastSeenHoursAgoOther(_ p1: Int) -> String {
@@ -10418,7 +10418,7 @@ public final class L10n {
   public static var leaveChatActionsRemovedFromChatList: String  { return L10n.tr("Localizable", "LeaveChat.Actions.RemovedFromChatList") }
   /// Secret Chat deleted
   public static var leaveChatActionsSecretChatDeleted: String  { return L10n.tr("Localizable", "LeaveChat.Actions.SecretChatDeleted") }
-  /// Welcome to the new super-fast and stable Telegram for macOS, fully rewritten in Swift 3.0.
+  /// Welcome to the new super-fast and stable ImpulseM for macOS, fully rewritten in Swift 3.0.
   public static var legacyIntroDescription1: String  { return L10n.tr("Localizable", "Legacy.Intro.Description1") }
   /// Please note that your existing secret chats will be available in read-only mode. You can of course create new ones to continue chatting.
   public static var legacyIntroDescription2: String  { return L10n.tr("Localizable", "Legacy.Intro.Description2") }
@@ -10446,7 +10446,7 @@ public final class L10n {
   public static var liteModeLowPower: String  { return L10n.tr("Localizable", "LiteMode.LowPower") }
   /// Power Saving
   public static var liteModeTitle: String  { return L10n.tr("Localizable", "LiteMode.Title") }
-  /// Other animations that make Telegram look amazing.
+  /// Other animations that make ImpulseM look amazing.
   public static var liteModeKeyAnimationsInfo: String  { return L10n.tr("Localizable", "LiteMode.Key.animations.Info") }
   /// Interface Animations
   public static var liteModeKeyAnimationsTitle: String  { return L10n.tr("Localizable", "LiteMode.Key.animations.Title") }
@@ -10552,7 +10552,7 @@ public final class L10n {
   public static var loginCountryLabel: String  { return L10n.tr("Localizable", "Login.countryLabel") }
   /// Your email has been changed.
   public static var loginEmailChanged: String  { return L10n.tr("Localizable", "Login.EmailChanged") }
-  /// We've sent the code to the Telegram app on your other devices.
+  /// We've sent the code to the ImpulseM app on your other devices.
   public static var loginEnterCodeFromApp: String  { return L10n.tr("Localizable", "Login.EnterCodeFromApp") }
   /// Please enter the code we have sent to your new email %@.
   public static func loginEnterCodeNewEmailText(_ p1: String) -> String {
@@ -10606,19 +10606,19 @@ public final class L10n {
   public static var loginPasswordPlaceholder: String  { return L10n.tr("Localizable", "Login.passwordPlaceholder") }
   /// We've just called your number. Please enter the code above.
   public static var loginPhoneCalledCode: String  { return L10n.tr("Localizable", "Login.PhoneCalledCode") }
-  /// Telegram dialed your number
+  /// ImpulseM dialed your number
   public static var loginPhoneDialed: String  { return L10n.tr("Localizable", "Login.PhoneDialed") }
   /// phone number
   public static var loginPhoneFieldPlaceholder: String  { return L10n.tr("Localizable", "Login.phoneFieldPlaceholder") }
   /// This account is already logged in from this app.
   public static var loginPhoneNumberAlreadyAuthorized: String  { return L10n.tr("Localizable", "Login.PhoneNumberAlreadyAuthorized") }
-  /// This phone number isn't registered. If you don't have a Telegram account yet, please sign up on your mobile device.
+  /// This phone number isn't registered. If you don't have an ImpulseM account yet, please sign up on your mobile device.
   public static var loginPhoneNumberNotRegistred: String  { return L10n.tr("Localizable", "Login.PhoneNumberNotRegistred") }
   /// Since you didn't provide a recovery email when setting up your password, your remaining options are either to remember your password or to reset your account.
   public static var loginRecoveryMailFailed: String  { return L10n.tr("Localizable", "Login.RecoveryMailFailed") }
   /// RESET MY ACCOUNT
   public static var loginResetAccount: String  { return L10n.tr("Localizable", "Login.ResetAccount") }
-  /// You will lose all your Telegram chats, messages, media and files if you proceed with resetting your account.
+  /// You will lose all your ImpulseM chats, messages, media and files if you proceed with resetting your account.
   public static var loginResetAccountDescription: String  { return L10n.tr("Localizable", "Login.ResetAccountDescription") }
   /// Reset Account
   public static var loginResetAccountText: String  { return L10n.tr("Localizable", "Login.ResetAccountText") }
@@ -10626,7 +10626,7 @@ public final class L10n {
   public static var loginSendSmsIfNotReceivedAppCode: String  { return L10n.tr("Localizable", "Login.SendSmsIfNotReceivedAppCode") }
   /// Welcome to the macOS application
   public static var loginWelcomeDescription: String  { return L10n.tr("Localizable", "Login.WelcomeDescription") }
-  /// Telegram will call you in %d:%@
+  /// ImpulseM will call you in %d:%@
   public static func loginWillCall(_ p1: Int, _ p2: String) -> String {
     return L10n.tr("Localizable", "Login.willCall", p1, p2)
   }
@@ -10666,7 +10666,7 @@ public final class L10n {
   public static func loginNewCodeCallInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Login.New.Code.CallInfo", p1)
   }
-  /// We’ve sent the code to the Telegram app\nfor **%@** on your device · [Edit]()
+  /// We’ve sent the code to the ImpulseM app\nfor **%@** on your device · [Edit]()
   public static func loginNewCodeCodeInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Login.New.Code.CodeInfo", p1)
   }
@@ -10674,7 +10674,7 @@ public final class L10n {
   public static func loginNewCodeEmail(_ p1: String) -> String {
     return L10n.tr("Localizable", "Login.New.Code.Email", p1)
   }
-  /// Check your Telegram messages
+  /// Check your ImpulseM messages
   public static var loginNewCodeEnterCode: String  { return L10n.tr("Localizable", "Login.New.Code.EnterCode") }
   /// Enter Code
   public static var loginNewCodeEnterSms: String  { return L10n.tr("Localizable", "Login.New.Code.EnterSms") }
@@ -10738,7 +10738,7 @@ public final class L10n {
   public static var loginPhoneNumberAlreadyAuthorizedSwitch: String  { return L10n.tr("Localizable", "Login.PhoneNumberAlreadyAuthorized.Switch") }
   /// Log in by phone number
   public static var loginQRCancel: String  { return L10n.tr("Localizable", "Login.QR.Cancel") }
-  /// Open Telegram on your phone
+  /// Open ImpulseM on your phone
   public static var loginQRHelp1: String  { return L10n.tr("Localizable", "Login.QR.Help1") }
   /// Go to **Settings** > **Devices** > **Link Desktop Device**
   public static var loginQRHelp2: String  { return L10n.tr("Localizable", "Login.QR.Help2") }
@@ -10746,9 +10746,9 @@ public final class L10n {
   public static var loginQRHelp3: String  { return L10n.tr("Localizable", "Login.QR.Help3") }
   /// Log in by QR Code
   public static var loginQRLogin: String  { return L10n.tr("Localizable", "Login.QR.Login") }
-  /// Log in to Telegram by QR Code
+  /// Log in to ImpulseM by QR Code
   public static var loginQRTitle: String  { return L10n.tr("Localizable", "Login.QR.Title") }
-  /// Open Telegram on your phone
+  /// Open ImpulseM on your phone
   public static var loginQR1Help1: String  { return L10n.tr("Localizable", "Login.QR1.Help1") }
   /// Point your phone at this screen to confirm login
   public static var loginQR1Help3: String  { return L10n.tr("Localizable", "Login.QR1.Help3") }
@@ -10762,7 +10762,7 @@ public final class L10n {
   public static var loginRegisterFirstNamePlaceholder: String  { return L10n.tr("Localizable", "Login.Register.FirstName.Placeholder") }
   /// Last Name
   public static var loginRegisterLastNamePlaceholder: String  { return L10n.tr("Localizable", "Login.Register.LastName.Placeholder") }
-  /// If you already signed up for Telegram, please enter the code which was sent to your mobile app via Telegram.\n\nIf you haven’t signed up yet, please register from your phone or tablet first.
+  /// If you already signed up for ImpulseM, please enter the code which was sent to your mobile app via ImpulseM.\n\nIf you haven’t signed up yet, please register from your phone or tablet first.
   public static var loginSmsAppErr: String  { return L10n.tr("Localizable", "Login.Sms.AppErr") }
   /// Open Site
   public static var loginSmsAppErrGotoSite: String  { return L10n.tr("Localizable", "Login.Sms.AppErr.GotoSite") }
@@ -10828,9 +10828,9 @@ public final class L10n {
   public static var loginWidgetUnverifiedApp: String  { return L10n.tr("Localizable", "LoginWidget.UnverifiedApp") }
   /// Tap the number shown on your other device
   public static var loginWidgetConfirmationTapNumber: String  { return L10n.tr("Localizable", "LoginWidget.Confirmation.TapNumber") }
-  /// Telegram wants to make sure it's really you.
+  /// ImpulseM wants to make sure it's really you.
   public static var loginWidgetConfirmationVerifyIdentity: String  { return L10n.tr("Localizable", "LoginWidget.Confirmation.VerifyIdentity") }
-  /// Connect other Telegram accounts and easily switch between them.
+  /// Connect other ImpulseM accounts and easily switch between them.
   public static var logoutOptionsAddAccountText: String  { return L10n.tr("Localizable", "LogoutOptions.AddAccountText") }
   /// Add another account
   public static var logoutOptionsAddAccountTitle: String  { return L10n.tr("Localizable", "LogoutOptions.AddAccountTitle") }
@@ -10902,11 +10902,11 @@ public final class L10n {
   public static var manageLinksContextShare: String  { return L10n.tr("Localizable", "ManageLinks.Context.Share") }
   /// Are you sure you want to delete all revoked links?
   public static var manageLinksDeleteAllConfirm: String  { return L10n.tr("Localizable", "ManageLinks.DeleteAll.Confirm") }
-  /// Anyone who has Telegram installed will be able to join your group by following this link.
+  /// Anyone who has ImpulseM installed will be able to join your group by following this link.
   public static var manageLinksHeaderDesc: String  { return L10n.tr("Localizable", "ManageLinks.Header.Desc") }
-  /// Anyone who has Telegram installed will be able to join your channel by following this link.
+  /// Anyone who has ImpulseM installed will be able to join your channel by following this link.
   public static var manageLinksHeaderChannelDesc: String  { return L10n.tr("Localizable", "ManageLinks.Header.Channel.Desc") }
-  /// Anyone who has Telegram installed will be able to join your group by following this link.
+  /// Anyone who has ImpulseM installed will be able to join your group by following this link.
   public static var manageLinksHeaderGroupDesc: String  { return L10n.tr("Localizable", "ManageLinks.Header.Group.Desc") }
   /// FAKE
   public static var markFake: String  { return L10n.tr("Localizable", "Mark.Fake") }
@@ -11160,15 +11160,15 @@ public final class L10n {
   public static var modalYes: String  { return L10n.tr("Localizable", "Modal.Yes") }
   /// AD REWARDS
   public static var monetizationAdRevenueTitle: String  { return L10n.tr("Localizable", "Monetization.AdRevenueTitle") }
-  /// You will be able to collect rewards using Fragment, a third-party platform used by advertisers to pay for ads. [Terms & Conditions >](https://telegram.org/tos/content-creator-rewards)
+  /// You will be able to collect rewards using Fragment, a third-party platform used by advertisers to pay for ads. [Terms & Conditions >](https://impulsem.net/tos/content-creator-rewards)
   public static var monetizationBalanceInfo: String  { return L10n.tr("Localizable", "Monetization.BalanceInfo") }
-  /// https://telegram.org/tos/content-creator-rewards
+  /// https://impulsem.net/tos/content-creator-rewards
   public static var monetizationBalanceInfoURL: String  { return L10n.tr("Localizable", "Monetization.BalanceInfo_URL") }
   /// AVAILABLE REWARD
   public static var monetizationBalanceTitle: String  { return L10n.tr("Localizable", "Monetization.BalanceTitle") }
   /// Collect via Fragment
   public static var monetizationBalanceWithdraw: String  { return L10n.tr("Localizable", "Monetization.BalanceWithdraw") }
-  /// Telegram shares 50%@ of the revenue from ads displayed in your channel as rewards. [Learn More >]()
+  /// ImpulseM shares 50%@ of the revenue from ads displayed in your channel as rewards. [Learn More >]()
   public static func monetizationHeader(_ p1: String) -> String {
     return L10n.tr("Localizable", "Monetization.Header", p1)
   }
@@ -11182,13 +11182,13 @@ public final class L10n {
   public static var monetizationSwitchOffAdsInfo: String  { return L10n.tr("Localizable", "Monetization.SwitchOffAdsInfo") }
   /// TRANSACTION HISTORY
   public static var monetizationTransactionsTitle: String  { return L10n.tr("Localizable", "Monetization.TransactionsTitle") }
-  /// You will be able to collect rewards using Fragment, a third-party platform used by advertisers to pay for ads. [Terms & Conditions >](https://telegram.org/tos/content-creator-rewards)
+  /// You will be able to collect rewards using Fragment, a third-party platform used by advertisers to pay for ads. [Terms & Conditions >](https://impulsem.net/tos/content-creator-rewards)
   public static var monetizationBalanceComingLaterInfo: String  { return L10n.tr("Localizable", "Monetization.Balance.ComingLaterInfo") }
   /// Withdraw via Fragment
   public static var monetizationBalanceWithdrawStars: String  { return L10n.tr("Localizable", "Monetization.BalanceWithdraw.Stars") }
   /// Withdraw via Fragment
   public static var monetizationBalanceWithdrawTon: String  { return L10n.tr("Localizable", "Monetization.BalanceWithdraw.Ton") }
-  /// Telegram shares 50%@ of the revenue from ads displayed in your bot as rewards. [Learn More >]()
+  /// ImpulseM shares 50%@ of the revenue from ads displayed in your bot as rewards. [Learn More >]()
   public static func monetizationHeaderBot(_ p1: String) -> String {
     return L10n.tr("Localizable", "Monetization.Header.Bot", p1)
   }
@@ -11196,11 +11196,11 @@ public final class L10n {
   public static var monetizationIntroTitle: String  { return L10n.tr("Localizable", "Monetization.Intro.Title") }
   /// Understood
   public static var monetizationIntroUnderstood: String  { return L10n.tr("Localizable", "Monetization.Intro.Understood") }
-  /// Telegram can display ads in your channel.
+  /// ImpulseM can display ads in your channel.
   public static var monetizationIntroAdsText: String  { return L10n.tr("Localizable", "Monetization.Intro.Ads.Text") }
-  /// Telegram Ads
+  /// ImpulseM Ads
   public static var monetizationIntroAdsTitle: String  { return L10n.tr("Localizable", "Monetization.Intro.Ads.Title") }
-  /// TON is a blockchain platform and cryptocurrency that Telegram uses for its high speed and low commissions on transactions. [Learn More >](https://telegram.org/blog/monetization-for-channels)
+  /// TON is a blockchain platform and cryptocurrency that ImpulseM uses for its high speed and low commissions on transactions. [Learn More >](https://impulsem.net/blog/monetization-for-channels)
   public static var monetizationIntroInfoText: String  { return L10n.tr("Localizable", "Monetization.Intro.Info.Text") }
   /// What's %@ TON?
   public static func monetizationIntroInfoTitle(_ p1: String) -> String {
@@ -11218,7 +11218,7 @@ public final class L10n {
   public static var monetizationIntroWithdrawalTitle: String  { return L10n.tr("Localizable", "Monetization.Intro.Withdrawal.Title") }
   /// Earn From Your Bot
   public static var monetizationIntroBotTitle: String  { return L10n.tr("Localizable", "Monetization.IntroBot.Title") }
-  /// Telegram can display ads in your bot.
+  /// ImpulseM can display ads in your bot.
   public static var monetizationIntroBotAdsText: String  { return L10n.tr("Localizable", "Monetization.IntroBot.Ads.Text") }
   /// Rewards Available for Collection
   public static var monetizationOverviewAvailable: String  { return L10n.tr("Localizable", "Monetization.Overview.Available") }
@@ -11226,7 +11226,7 @@ public final class L10n {
   public static var monetizationOverviewCurrent: String  { return L10n.tr("Localizable", "Monetization.Overview.Current") }
   /// Total Lifetime Rewards
   public static var monetizationOverviewTotal: String  { return L10n.tr("Localizable", "Monetization.Overview.Total") }
-  /// You can collect rewards for Stars using Fragment, or use Stars to advertise your bot. [Learn More >](https://telegram.org/tos/bot-developers#6-2-2-tpa-balance)
+  /// You can collect rewards for Stars using Fragment, or use Stars to advertise your bot. [Learn More >](https://impulsem.net/tos/bot-developers#6-2-2-tpa-balance)
   public static var monetizationStarsWithdrawInfo: String  { return L10n.tr("Localizable", "Monetization.Stars.WithdrawInfo") }
   /// STARS BALANCE
   public static var monetizationStarsWithdrawTitle: String  { return L10n.tr("Localizable", "Monetization.Stars.WithdrawTitle") }
@@ -11514,7 +11514,7 @@ public final class L10n {
   public static var newSessionReviewItemTitle: String  { return L10n.tr("Localizable", "NewSessionReview.Item.Title") }
   /// Got It
   public static var newSessionReviewModalButton: String  { return L10n.tr("Localizable", "NewSessionReview.Modal.Button") }
-  /// Never send your login code to anyone or you can lose your Telegram account!
+  /// Never send your login code to anyone or you can lose your ImpulseM account!
   public static var newSessionReviewModalHeader: String  { return L10n.tr("Localizable", "NewSessionReview.Modal.Header") }
   /// We have terminated the login attempt from %1$@, %2$@.
   public static func newSessionReviewModalText(_ p1: String, _ p2: String) -> String {
@@ -11750,7 +11750,7 @@ public final class L10n {
   public static var notificationSettingsChannels: String  { return L10n.tr("Localizable", "NotificationSettings.Channels") }
   /// New Contacts
   public static var notificationSettingsContactJoined: String  { return L10n.tr("Localizable", "NotificationSettings.ContactJoined") }
-  /// Receive notifications when one of your contacts becomes available on Telegram.
+  /// Receive notifications when one of your contacts becomes available on ImpulseM.
   public static var notificationSettingsContactJoinedInfo: String  { return L10n.tr("Localizable", "NotificationSettings.ContactJoinedInfo") }
   /// Count Unread Messages
   public static var notificationSettingsCountUnreadMessages: String  { return L10n.tr("Localizable", "NotificationSettings.CountUnreadMessages") }
@@ -11912,7 +11912,7 @@ public final class L10n {
   public static func notificationSoundTonesSizeError(_ p1: String) -> String {
     return L10n.tr("Localizable", "NotificationSound.Tones.SizeError", p1)
   }
-  /// TELEGRAM TONES
+  /// IMPULSEM TONES
   public static var notificationSoundTonesTitle: String  { return L10n.tr("Localizable", "NotificationSound.Tones.Title") }
   /// Upload Sound
   public static var notificationSoundTonesUpload: String  { return L10n.tr("Localizable", "NotificationSound.Tones.Upload") }
@@ -11966,7 +11966,7 @@ public final class L10n {
   public static var olwNPBQNTitle: String  { return L10n.tr("Localizable", "Olw-nP-bQN.title") }
   /// ENTER UNLOCK COST
   public static var paidMediaHeader: String  { return L10n.tr("Localizable", "PaidMedia.Header") }
-  /// Users will have to transfer this amount of Stars to your channel in order to view this media. [More about stars >](https://telegram.org/blog/telegram-stars)
+  /// Users will have to transfer this amount of Stars to your channel in order to view this media. [More about stars >](https://impulsem.net/blog/telegram-stars)
   public static var paidMediaInfo: String  { return L10n.tr("Localizable", "PaidMedia.Info") }
   /// Make This Media Paid
   public static var paidMediaOk: String  { return L10n.tr("Localizable", "PaidMedia.Ok") }
@@ -12000,7 +12000,7 @@ public final class L10n {
   public static var passcodeTurnOff: String  { return L10n.tr("Localizable", "Passcode.TurnOff") }
   /// Turn Passcode On
   public static var passcodeTurnOn: String  { return L10n.tr("Localizable", "Passcode.TurnOn") }
-  /// When you set up an additional passcode, you can use ⌘ + L to lock Telegram.\n\nNote: if you forget your passcode, you'll need to log out or reinstall the app. All secret chats will be lost.
+  /// When you set up an additional passcode, you can use ⌘ + L to lock ImpulseM.\n\nNote: if you forget your passcode, you'll need to log out or reinstall the app. All secret chats will be lost.
   public static var passcodeTurnOnDescription: String  { return L10n.tr("Localizable", "Passcode.TurnOnDescription") }
   /// unlock itself
   public static var passcodeUnlockTouchIdReason: String  { return L10n.tr("Localizable", "Passcode.UnlockTouchIdReason") }
@@ -12018,7 +12018,7 @@ public final class L10n {
   public static var passcodeSettingsViewControllerConfirmWithPasscode: String  { return L10n.tr("Localizable", "Passcode.SettingsViewController.ConfirmWithPasscode") }
   /// Confirm with Touch ID
   public static var passcodeSettingsViewControllerConfirmWithTouchId: String  { return L10n.tr("Localizable", "Passcode.SettingsViewController.ConfirmWithTouchId") }
-  /// Lock Telegram
+  /// Lock ImpulseM
   public static var passcodeSettingsViewControllerLockTelegram: String  { return L10n.tr("Localizable", "Passcode.SettingsViewController.LockTelegram") }
   /// Lock Wallet
   public static var passcodeSettingsViewControllerLockWallet: String  { return L10n.tr("Localizable", "Passcode.SettingsViewController.LockWallet") }
@@ -12030,7 +12030,7 @@ public final class L10n {
   }
   /// Couldn't update the passcode. Unlock again and try once more.
   public static var passcodeControllerSyncFailed: String  { return L10n.tr("Localizable", "PasscodeController.SyncFailed") }
-  /// To lock, hover over the Settings icon in the tab bar and choose "Lock Telegram" or use ⌘ + L.\n\nNote: if you forget your local passcode, you'll need to log out of Telegram for macOS and log in again.
+  /// To lock, hover over the Settings icon in the tab bar and choose "Lock ImpulseM" or use ⌘ + L.\n\nNote: if you forget your local passcode, you'll need to log out of ImpulseM for macOS and log in again.
   public static var passcodeControllerText: String  { return L10n.tr("Localizable", "PasscodeController.Text") }
   /// This will also turn off passcode and biometric protection for every wallet on this device.
   public static var passcodeControllerWalletDisableWarning: String  { return L10n.tr("Localizable", "PasscodeController.WalletDisableWarning") }
@@ -12178,7 +12178,7 @@ public final class L10n {
   public static var passportResetPasswordConfirmHeader: String  { return L10n.tr("Localizable", "Passport.ResetPassword.Confirm.Header") }
   /// Reset
   public static var passportResetPasswordConfirmOK: String  { return L10n.tr("Localizable", "Passport.ResetPassword.Confirm.OK") }
-  /// All documents uploaded to your Telegram Passport will be lost. You will be able to upload new documents.
+  /// All documents uploaded to your ImpulseM Passport will be lost. You will be able to upload new documents.
   public static var passportResetPasswordConfirmText: String  { return L10n.tr("Localizable", "Passport.ResetPassword.Confirm.Text") }
   /// You paid %1$@ for %2$@
   public static func paymentsPaid(_ p1: String, _ p2: String) -> String {
@@ -12186,9 +12186,9 @@ public final class L10n {
   }
   /// Tip (Optional)
   public static var paymentsTipLabel: String  { return L10n.tr("Localizable", "Payments.TipLabel") }
-  /// Sorry, Telegram for macOS doesn't support payments yet. \nPlease try again from the iOS or Android app.
+  /// Sorry, ImpulseM for macOS doesn't support payments yet. \nPlease try again from the iOS or Android app.
   public static var paymentsUnsupported: String  { return L10n.tr("Localizable", "Payments.Unsupported") }
-  /// Neither Telegram, nor %1$@ will have access to your credit card information. Credit card details will be handled only by the payments system, %2$@.\n\nPayments will go directly to the developer of %3$@. Telegram cannot provide any guarantees, so proceed at your own risk. In case of problems, please contact the developer of %4$@ or your bank.
+  /// Neither ImpulseM, nor %1$@ will have access to your credit card information. Credit card details will be handled only by the payments system, %2$@.\n\nPayments will go directly to the developer of %3$@. ImpulseM cannot provide any guarantees, so proceed at your own risk. In case of problems, please contact the developer of %4$@ or your bank.
   public static func paymentsWarningText(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
     return L10n.tr("Localizable", "Payments.WarningText", p1, p2, p3, p4)
   }
@@ -12364,7 +12364,7 @@ public final class L10n {
   public static var peerRatingPreviewBadgeAdded: String  { return L10n.tr("Localizable", "Peer.RatingPreview.Badge.Added") }
   /// DEDUCTED
   public static var peerRatingPreviewBadgeDeducted: String  { return L10n.tr("Localizable", "Peer.RatingPreview.Badge.Deducted") }
-  /// This rating reflects **%@'s** activity on Telegram. It is based on:
+  /// This rating reflects **%@'s** activity on ImpulseM. It is based on:
   public static func peerRatingPreviewInfoHeader(_ p1: String) -> String {
     return L10n.tr("Localizable", "Peer.RatingPreview.Info.Header", p1)
   }
@@ -12372,7 +12372,7 @@ public final class L10n {
   public static func peerRatingPreviewInfoPendingOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Peer.RatingPreview.Info.Pending_other", p1)
   }
-  /// This rating reflects your activity\non Telegram. It is based on:
+  /// This rating reflects your activity\non ImpulseM. It is based on:
   public static var peerRatingPreviewInfoHeaderYou: String  { return L10n.tr("Localizable", "Peer.RatingPreview.Info.Header.You") }
   /// Refunds and Conversions
   public static var peerRatingPreviewRefundsHeader: String  { return L10n.tr("Localizable", "Peer.RatingPreview.Refunds.Header") }
@@ -12380,9 +12380,9 @@ public final class L10n {
   public static func peerRatingPreviewRefundsText(_ p1: String) -> String {
     return L10n.tr("Localizable", "Peer.RatingPreview.Refunds.Text", p1)
   }
-  /// Gifts from Telegram
+  /// Gifts from ImpulseM
   public static var peerRatingPreviewTelegramHeader: String  { return L10n.tr("Localizable", "Peer.RatingPreview.Telegram.Header") }
-  /// %@ of the Stars spent on gifts purchased from Telegram.
+  /// %@ of the Stars spent on gifts purchased from ImpulseM.
   public static func peerRatingPreviewTelegramText(_ p1: String) -> String {
     return L10n.tr("Localizable", "Peer.RatingPreview.Telegram.Text", p1)
   }
@@ -12634,7 +12634,7 @@ public final class L10n {
   public static var peerInfoUnblockUser: String  { return L10n.tr("Localizable", "PeerInfo.UnblockUser") }
   /// username
   public static var peerInfoUsername: String  { return L10n.tr("Localizable", "PeerInfo.username") }
-  /// %@ This bot is verified as official by the representatives of Telegram.
+  /// %@ This bot is verified as official by the representatives of ImpulseM.
   public static func peerInfoVerified(_ p1: String) -> String {
     return L10n.tr("Localizable", "PeerInfo.Verified", p1)
   }
@@ -12698,7 +12698,7 @@ public final class L10n {
   public static var peerInfoBlockHeader: String  { return L10n.tr("Localizable", "PeerInfo.Block.Header") }
   /// Block
   public static var peerInfoBlockOK: String  { return L10n.tr("Localizable", "PeerInfo.Block.OK") }
-  /// Do you want to block %@ from messaging and calling you on Telegram?
+  /// Do you want to block %@ from messaging and calling you on ImpulseM?
   public static func peerInfoBlockText(_ p1: String) -> String {
     return L10n.tr("Localizable", "PeerInfo.Block.Text", p1)
   }
@@ -12830,7 +12830,7 @@ public final class L10n {
   public static var peerInfoCopyProtectionInfo: String  { return L10n.tr("Localizable", "PeerInfo.CopyProtection.Info") }
   /// Users will not be able to forward messages from your personal chat, save media from it and take screenshots. This will also restrict users from copying text.
   public static var peerInfoCopyProtectionInfoRestrict: String  { return L10n.tr("Localizable", "PeerInfo.CopyProtection.InfoRestrict") }
-  /// This feature requires Telegram Premium.
+  /// This feature requires ImpulseM Premium.
   public static var peerInfoCopyProtectionRequiresPremium: String  { return L10n.tr("Localizable", "PeerInfo.CopyProtection.RequiresPremium") }
   /// Restrict Forwarding
   public static var peerInfoCopyProtectionRestrict: String  { return L10n.tr("Localizable", "PeerInfo.CopyProtection.Restrict") }
@@ -12862,7 +12862,7 @@ public final class L10n {
   public static var peerInfoGiftsChannelNotify: String  { return L10n.tr("Localizable", "PeerInfo.Gifts.ChannelNotify") }
   /// You will not be notified when your channel receives a gift.
   public static var peerInfoGiftsChannelNotifyDisabledTooltip: String  { return L10n.tr("Localizable", "PeerInfo.Gifts.ChannelNotifyDisabledTooltip") }
-  /// Telegram will send you a message when your channel receives a gift.
+  /// ImpulseM will send you a message when your channel receives a gift.
   public static var peerInfoGiftsChannelNotifyTooltip: String  { return L10n.tr("Localizable", "PeerInfo.Gifts.ChannelNotifyTooltip") }
   /// Displayed
   public static var peerInfoGiftsDisplayed: String  { return L10n.tr("Localizable", "PeerInfo.Gifts.Displayed") }
@@ -12900,7 +12900,7 @@ public final class L10n {
   public static var peerInfoGroupTypePublic: String  { return L10n.tr("Localizable", "PeerInfo.GroupType.Public") }
   /// Send Money
   public static var peerInfoHeadItemSendMoney: String  { return L10n.tr("Localizable", "PeerInfo.HeadItem.SendMoney") }
-  /// Sorry, you must be in this user's Telegram contacts to add them to this group.\n\nThey can also join on their own if you send them an invite link.
+  /// Sorry, you must be in this user's ImpulseM contacts to add them to this group.\n\nThey can also join on their own if you send them an invite link.
   public static var peerInfoInviteErrorContactNeeded: String  { return L10n.tr("Localizable", "PeerInfo.InviteError.ContactNeeded") }
   /// Last Name
   public static var peerInfoLastNamePlaceholder: String  { return L10n.tr("Localizable", "PeerInfo.LastName.Placeholder") }
@@ -12940,7 +12940,7 @@ public final class L10n {
   public static func peerInfoTopicStatusIn(_ p1: String) -> String {
     return L10n.tr("Localizable", "PeerInfo.TopicStatus.In", p1)
   }
-  /// %1$@ uses an unofficial Telegram client — messages to this user may be less secure.
+  /// %1$@ uses an unofficial ImpulseM client — messages to this user may be less secure.
   public static func peerInfoUnofficialClientText(_ p1: String) -> String {
     return L10n.tr("Localizable", "PeerInfo.UnofficialClient.Text", p1)
   }
@@ -12950,13 +12950,13 @@ public final class L10n {
   public static func peerInfoUsernamesList(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "PeerInfo.Usernames.List", p1, p2)
   }
-  /// This bot was verified by Telegram.
+  /// This bot was verified by ImpulseM.
   public static var peerInfoVerificationInfoBot: String  { return L10n.tr("Localizable", "PeerInfo.VerificationInfo.Bot") }
-  /// This channel was verified by Telegram.
+  /// This channel was verified by ImpulseM.
   public static var peerInfoVerificationInfoChannel: String  { return L10n.tr("Localizable", "PeerInfo.VerificationInfo.Channel") }
-  /// This group was verified by Telegram.
+  /// This group was verified by ImpulseM.
   public static var peerInfoVerificationInfoGroup: String  { return L10n.tr("Localizable", "PeerInfo.VerificationInfo.Group") }
-  /// https://telegram.org/verify
+  /// https://impulsem.net/verify
   public static var peerInfoVerificationInfoURL: String  { return L10n.tr("Localizable", "PeerInfo.VerificationInfo.URL") }
   /// Verified Account
   public static var peerInfoVerifiedTooltip: String  { return L10n.tr("Localizable", "PeerInfo.Verified.Tooltip") }
@@ -13168,29 +13168,29 @@ public final class L10n {
   public static var premiumBoardingGraceText: String  { return L10n.tr("Localizable", "Premium.Boarding.GraceText") }
   /// Your benefits will expire soon!
   public static var premiumBoardingGraceTitle: String  { return L10n.tr("Localizable", "Premium.Boarding.GraceTitle") }
-  /// Go **beyond the limits** and **unlock dozens of exclusive** features by subscribing to **Telegram Premium**.
+  /// Go **beyond the limits** and **unlock dozens of exclusive** features by subscribing to **ImpulseM Premium**.
   public static var premiumBoardingInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.Info") }
   /// Subscribe for %@ per month
   public static func premiumBoardingSubscribe(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Subscribe", p1)
   }
-  /// Telegram Premium
+  /// ImpulseM Premium
   public static var premiumBoardingTitle: String  { return L10n.tr("Localizable", "Premium.Boarding.Title") }
-  /// While the free version of Telegram already gives its users more than any other messaging application, **Telegram Premium** pushes its capabilities even further.\n\n**Telegram Premium** is a paid option, because most Premium Features require additional expenses from Telegram to third parties such as data center providers and server manufacturers. Contributions from **Telegram Premium** users allow us to cover such costs and also help Telegram stay free for everyone.
+  /// While the free version of ImpulseM already gives its users more than any other messaging application, **ImpulseM Premium** pushes its capabilities even further.\n\n**ImpulseM Premium** is a paid option, because most Premium Features require additional expenses from ImpulseM to third parties such as data center providers and server manufacturers. Contributions from **ImpulseM Premium** users allow us to cover such costs and also help ImpulseM stay free for everyone.
   public static var premiumBoardingAboutText: String  { return L10n.tr("Localizable", "Premium.Boarding.About.Text") }
-  /// About Telegram Premium
+  /// About ImpulseM Premium
   public static var premiumBoardingAboutTitle: String  { return L10n.tr("Localizable", "Premium.Boarding.About.Title") }
-  /// By purchasing a Premium subscription, you agree to the Telegram [Terms of Service](terms) and [Privacy Policy](privacy).
+  /// By purchasing a Premium subscription, you agree to the ImpulseM [Terms of Service](terms) and [Privacy Policy](privacy).
   public static var premiumBoardingAboutTos: String  { return L10n.tr("Localizable", "Premium.Boarding.About.Tos") }
   /// Purchase was canceled or failed.
   public static var premiumBoardingAppStoreCancelled: String  { return L10n.tr("Localizable", "Premium.Boarding.AppStore.Cancelled") }
-  /// You successfully subscribed for Telegram Premium.
+  /// You successfully subscribed for ImpulseM Premium.
   public static var premiumBoardingAppStoreSuccess: String  { return L10n.tr("Localizable", "Premium.Boarding.AppStore.Success") }
   /// Video avatars animated in chat lists and chats to allow for additional self-expression.
   public static var premiumBoardingAvatarInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.Avatar.Info") }
   /// Animated Profile Pictures
   public static var premiumBoardingAvatarTitle: String  { return L10n.tr("Localizable", "Premium.Boarding.Avatar.Title") }
-  /// An exclusive badge next to your name showing that you subscribe to Telegram Premium.
+  /// An exclusive badge next to your name showing that you subscribe to ImpulseM Premium.
   public static var premiumBoardingBadgeInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.Badge.Info") }
   /// Profile Badge
   public static var premiumBoardingBadgeTitle: String  { return L10n.tr("Localizable", "Premium.Boarding.Badge.Title") }
@@ -13256,7 +13256,7 @@ public final class L10n {
   public static func premiumBoardingDoublePinnedChatsInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Double.PinnedChats.Info", p1)
   }
-  /// Reserve up to %@ t.me/username links
+  /// Reserve up to %@ o.impulsem.net/username links
   public static func premiumBoardingDoublePublicLinksInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Double.PublicLinks.Info", p1)
   }
@@ -13278,7 +13278,7 @@ public final class L10n {
   }
   /// Unlimited Cloud Storage
   public static var premiumBoardingFileSizeTitle: String  { return L10n.tr("Localizable", "Premium.Boarding.FileSize.Title") }
-  /// Thank you for subscribing to Telegram Premium. Here's what is now unlocked.
+  /// Thank you for subscribing to ImpulseM Premium. Here's what is now unlocked.
   public static var premiumBoardingGotInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.Got.Info") }
   /// You are all set!
   public static var premiumBoardingGotTitle: String  { return L10n.tr("Localizable", "Premium.Boarding.Got.Title") }
@@ -13290,41 +13290,41 @@ public final class L10n {
   public static var premiumBoardingMessagePrivacyInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.MessagePrivacy.Info") }
   /// Message Privacy
   public static var premiumBoardingMessagePrivacyTitle: String  { return L10n.tr("Localizable", "Premium.Boarding.MessagePrivacy.Title") }
-  /// No more ads in public channels where Telegram sometimes shows ads.
+  /// No more ads in public channels where ImpulseM sometimes shows ads.
   public static var premiumBoardingNoAdsInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.NoAds.Info") }
   /// No Ads
   public static var premiumBoardingNoAdsTitle: String  { return L10n.tr("Localizable", "Premium.Boarding.NoAds.Title") }
   /// Not Available
   public static var premiumBoardingPaymentNotAvailalbe: String  { return L10n.tr("Localizable", "Premium.Boarding.Payment.NotAvailalbe") }
-  /// Owners of Telegram Premium accounts have exclusive access to multiple additional features.
+  /// Owners of ImpulseM Premium accounts have exclusive access to multiple additional features.
   public static var premiumBoardingPeerInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.Peer.Info") }
-  /// [%@](profile) is a subscriber of\nTelegram Premium
+  /// [%@](profile) is a subscriber of\nImpulseM Premium
   public static func premiumBoardingPeerTitle(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Peer.Title", p1)
   }
   /// You now have access to additional features.
   public static var premiumBoardingPeerGiftInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.Peer.Gift.Info") }
-  ///  This link allows you or anyone you choose to activate a **Telegram Premium** subscription.
+  ///  This link allows you or anyone you choose to activate a **ImpulseM Premium** subscription.
   public static var premiumBoardingPeerGiftLinkInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.Peer.Gift.LinkInfo") }
-  /// [%1$@](profile) has gifted you a %2$@-month subscription to Telegram Premium
+  /// [%1$@](profile) has gifted you a %2$@-month subscription to ImpulseM Premium
   public static func premiumBoardingPeerGiftTitle(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Peer.Gift.Title", p1, p2)
   }
-  /// [%1$@](profile) has gifted you a %2$@ subscription for Telegram Premium
+  /// [%1$@](profile) has gifted you a %2$@ subscription for ImpulseM Premium
   public static func premiumBoardingPeerGiftTitleUpdated(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Peer.Gift.Title.Updated", p1, p2)
   }
   /// They now have access to additional features.
   public static var premiumBoardingPeerGiftYouInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.Peer.Gift.You.Info") }
-  /// You gifted [%1$@](profile) a %2$@-month subscription to Telegram Premium
+  /// You gifted [%1$@](profile) a %2$@-month subscription to ImpulseM Premium
   public static func premiumBoardingPeerGiftYouTitle(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Peer.Gift.You.Title", p1, p2)
   }
-  /// You gifted [%1$@](profile) a %2$@ subscription for Telegram Premium
+  /// You gifted [%1$@](profile) a %2$@ subscription for ImpulseM Premium
   public static func premiumBoardingPeerGiftYouTitleUpdated(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Peer.Gift.You.Title.Updated", p1, p2)
   }
-  /// Emoji status is a premium feature.\nOther features included in **Telegram Premium**:
+  /// Emoji status is a premium feature.\nOther features included in **ImpulseM Premium**:
   public static var premiumBoardingPeerStatusInfo: String  { return L10n.tr("Localizable", "Premium.Boarding.PeerStatus.Info") }
   /// This is %@'s current status from\n🤡 [%@]().
   public static func premiumBoardingPeerStatusCustomTitle(_ p1: String, _ p2: String) -> String {
@@ -13408,23 +13408,23 @@ public final class L10n {
   public static func premiumGiftReceiveBoost(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Gift.ReceiveBoost", p1)
   }
-  /// By gifting Telegram Premium, you agree to the Telegram [Terms of Service](terms) and [Privacy Policy](privacy).
+  /// By gifting ImpulseM Premium, you agree to the ImpulseM [Terms of Service](terms) and [Privacy Policy](privacy).
   public static var premiumGiftTerms: String  { return L10n.tr("Localizable", "Premium.Gift.Terms") }
-  /// Give **%@** access to exclusive features with **Telegram Premium**.
+  /// Give **%@** access to exclusive features with **ImpulseM Premium**.
   public static func premiumGiftText(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Gift.Text", p1)
   }
-  /// Gift Telegram Premium
+  /// Gift ImpulseM Premium
   public static var premiumGiftTitle: String  { return L10n.tr("Localizable", "Premium.Gift.Title") }
   /// buy yourself a gift
   public static var premiumGiftContactSelectionBuySelf: String  { return L10n.tr("Localizable", "Premium.Gift.ContactSelection.BuySelf") }
   /// THIS IS YOU
   public static var premiumGiftContactSelectionThisIsYou: String  { return L10n.tr("Localizable", "Premium.Gift.ContactSelection.ThisIsYou") }
-  /// Get **%1$@** and **%2$@** more access to exclusive features with **Telegram Premium**.
+  /// Get **%1$@** and **%2$@** more access to exclusive features with **ImpulseM Premium**.
   public static func premiumGiftGetAccessMoreThanThree(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Gift.GetAccess.MoreThanThree", p1, p2)
   }
-  /// Get **%1$@** access to exclusive features with **Telegram Premium**.
+  /// Get **%1$@** access to exclusive features with **ImpulseM Premium**.
   public static func premiumGiftGetAccessOneToThree(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Gift.GetAccess.OneToThree", p1)
   }
@@ -13454,35 +13454,35 @@ public final class L10n {
   public static var premiumLimitPremium: String  { return L10n.tr("Localizable", "Premium.Limit.Premium") }
   /// Limit Reached
   public static var premiumLimitReached: String  { return L10n.tr("Localizable", "Premium.Limit.Reached") }
-  /// The 'Bio' section can't have more than **%1$@** characters. You can double this limit to **%2$@** characters by subscribing to **Telegram Premium**.
+  /// The 'Bio' section can't have more than **%1$@** characters. You can double this limit to **%2$@** characters by subscribing to **ImpulseM Premium**.
   public static func premiumLimitAboutInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.About.Info", p1, p2)
   }
-  /// You have reached the limit of %@ connected accounts. You can free one more place by subscribing to Telegram Premium with one of these connected accounts.
+  /// You have reached the limit of %@ connected accounts. You can free one more place by subscribing to ImpulseM Premium with one of these connected accounts.
   public static func premiumLimitAccountsInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.Accounts.Info", p1)
   }
-  /// Captions can't have more than **%1$@** characters. You can double this limit to **%2$@** characters by subscribing to **Telegram Premium**.
+  /// Captions can't have more than **%1$@** characters. You can double this limit to **%2$@** characters by subscribing to **ImpulseM Premium**.
   public static func premiumLimitCaptionInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.Caption.Info", p1, p2)
   }
-  /// You are a member of **%1$@** groups and channels. Please leave some before joining a new one or upgrade to **Telegram Premium** to double the limit to **%2$@** groups and channels.
+  /// You are a member of **%1$@** groups and channels. Please leave some before joining a new one or upgrade to **ImpulseM Premium** to double the limit to **%2$@** groups and channels.
   public static func premiumLimitChannelsInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.Channels.Info", p1, p2)
   }
-  /// Sorry, you can't add more than **%1$@** chats to a folder. You can increase this limit to **%2$@** by upgrading to **Telegram Premium**.
+  /// Sorry, you can't add more than **%1$@** chats to a folder. You can increase this limit to **%2$@** by upgrading to **ImpulseM Premium**.
   public static func premiumLimitChatInFoldersInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.ChatInFolders.Info", p1, p2)
   }
-  /// Sorry, you can't add more than **%1$@** stickers to favorites. Replace an older saved sticker or subscribe to **Telegram Premium** to double the limit to **%2$@** favorite stickers.
+  /// Sorry, you can't add more than **%1$@** stickers to favorites. Replace an older saved sticker or subscribe to **ImpulseM Premium** to double the limit to **%2$@** favorite stickers.
   public static func premiumLimitFaveStickersInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.FaveStickers.Info", p1, p2)
   }
-  /// The document can't be sent, because it is larger than **%1$@**. You can double this limit to **%2$@** per document by subscribing to **Telegram Premium**.
+  /// The document can't be sent, because it is larger than **%1$@**. You can double this limit to **%2$@** per document by subscribing to **ImpulseM Premium**.
   public static func premiumLimitFileSizeInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.FileSize.Info", p1, p2)
   }
-  /// You have reached the limit of **%1$@** folders. You can double the limit to **%2$@** folders by subscribing to **Telegram Premium**.
+  /// You have reached the limit of **%1$@** folders. You can double the limit to **%2$@** folders by subscribing to **ImpulseM Premium**.
   public static func premiumLimitFoldersInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.Folders.Info", p1, p2)
   }
@@ -13544,35 +13544,35 @@ public final class L10n {
   public static func premiumLimitLockedSharedFoldersInvitesInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.Locked.SharedFoldersInvites.Info", p1)
   }
-  /// Sorry, you can't pin more than **%1$@** chats to the top. Unpin some of the currently pinned ones or subscribe to **Telegram Premium** to double the limit to **%2$@** chats.
+  /// Sorry, you can't pin more than **%1$@** chats to the top. Unpin some of the currently pinned ones or subscribe to **ImpulseM Premium** to double the limit to **%2$@** chats.
   public static func premiumLimitPinInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.Pin.Info", p1, p2)
   }
-  /// Sorry, you can't pin more than **%1$@** chats in archive to the top. Unpin some of the currently pinned ones or subscribe to **Telegram Premium** to double the limit to **%2$@** chats.
+  /// Sorry, you can't pin more than **%1$@** chats in archive to the top. Unpin some of the currently pinned ones or subscribe to **ImpulseM Premium** to double the limit to **%2$@** chats.
   public static func premiumLimitPinInArchiveInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.PinInArchive.Info", p1, p2)
   }
-  /// Sorry, you can't pin more than **%1$@** chats to the top. Unpin some of the currently pinned ones or subscribe to **Telegram Premium** to double the limit to **%2$@** chats.
+  /// Sorry, you can't pin more than **%1$@** chats to the top. Unpin some of the currently pinned ones or subscribe to **ImpulseM Premium** to double the limit to **%2$@** chats.
   public static func premiumLimitPinInFoldersInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.PinInFolders.Info", p1, p2)
   }
-  /// You have reserved too many public links. Try revoking the link from an older group or channel, or upgrade to **Telegram Premium** to double the limit to **%1$@** public links.
+  /// You have reserved too many public links. Try revoking the link from an older group or channel, or upgrade to **ImpulseM Premium** to double the limit to **%1$@** public links.
   public static func premiumLimitPublicLinkInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.PublicLink.Info", p1)
   }
-  /// Sorry, you can't save more than **%1$@** GIFs. Replace an older GIF or subscribe to **Telegram Premium** to double the limit to **%2$@** GIFs.
+  /// Sorry, you can't save more than **%1$@** GIFs. Replace an older GIF or subscribe to **ImpulseM Premium** to double the limit to **%2$@** GIFs.
   public static func premiumLimitSavedGifsInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.SavedGifs.Info", p1, p2)
   }
-  /// You can only add **%1$@** shareable folders. Upgrade to **Telegram Premium** to increase this limit to **%2$@**.
+  /// You can only add **%1$@** shareable folders. Upgrade to **ImpulseM Premium** to increase this limit to **%2$@**.
   public static func premiumLimitSharedFoldersInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.SharedFolders.Info", p1, p2)
   }
-  /// You can only create **%1$@** invite links. Upgrade to **Telegram Premium** to create up to **%2$@**.
+  /// You can only create **%1$@** invite links. Upgrade to **ImpulseM Premium** to create up to **%2$@**.
   public static func premiumLimitSharedFoldersInvitesInfo(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Premium.Limit.SharedFoldersInvites.Info", p1, p2)
   }
-  /// You already have Telegram Premium.
+  /// You already have ImpulseM Premium.
   public static var premiumOffsetAlreadyHave: String  { return L10n.tr("Localizable", "Premium.Offset.AlreadyHave") }
   /// Annual
   public static var premiumPeriodAnnual: String  { return L10n.tr("Localizable", "Premium.Period.Annual") }
@@ -13616,7 +13616,7 @@ public final class L10n {
   public static var premiumShowStatusShowYourLastSeen: String  { return L10n.tr("Localizable", "Premium.ShowStatus.ShowYourLastSeen") }
   /// Show Your Read Time
   public static var premiumShowStatusShowYourReadDate: String  { return L10n.tr("Localizable", "Premium.ShowStatus.ShowYourReadDate") }
-  /// Subscribe to Telegram Premium
+  /// Subscribe to ImpulseM Premium
   public static var premiumShowStatusSubscribe: String  { return L10n.tr("Localizable", "Premium.ShowStatus.Subscribe") }
   /// Upgrade to Premium
   public static var premiumShowStatusUpgradeToPremium: String  { return L10n.tr("Localizable", "Premium.ShowStatus.UpgradeToPremium") }
@@ -13640,7 +13640,7 @@ public final class L10n {
   public static func premiumShowStatusUpgradeToPremiumReadInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.ShowStatus.UpgradeToPremium.Read.Info", p1)
   }
-  /// Subscribe to **Telegram Premium** to send up to **%d** of these gifts and unlock powerful features.
+  /// Subscribe to **ImpulseM Premium** to send up to **%d** of these gifts and unlock powerful features.
   public static func premiumStarGiftInfoOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Premium.StarGift.Info_other", p1)
   }
@@ -13656,7 +13656,7 @@ public final class L10n {
   public static var premiumBoardingDisableSharing: String  { return L10n.tr("Localizable", "PremiumBoarding.DisableSharing") }
   /// Disable screenshots, saving and forwarding messages in private chats.
   public static var premiumBoardingDisableSharingInfo: String  { return L10n.tr("Localizable", "PremiumBoarding.DisableSharingInfo") }
-  /// +%d MORE TELEGRAM PREMIUM FEATURES
+  /// +%d MORE IMPULSEM PREMIUM FEATURES
   public static func premiumBoardingMoreBusinessHeaderOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "PremiumBoarding.MoreBusinessHeader_other", p1)
   }
@@ -13668,7 +13668,7 @@ public final class L10n {
   public static var premiumBoardingTagFolders: String  { return L10n.tr("Localizable", "PremiumBoarding.TagFolders") }
   /// Checklists
   public static var premiumBoardingTodo: String  { return L10n.tr("Localizable", "PremiumBoarding.Todo") }
-  /// You are already Telegram Premium subscriber.
+  /// You are already ImpulseM Premium subscriber.
   public static var premiumBoardingActivateForFreeAlready: String  { return L10n.tr("Localizable", "PremiumBoarding.ActivateForFree.Already") }
   /// Away Messages
   public static var premiumBoardingBusinessAwayMessages: String  { return L10n.tr("Localizable", "PremiumBoarding.Business.AwayMessages") }
@@ -13686,7 +13686,7 @@ public final class L10n {
   public static var premiumBoardingBusinessOpeningHours: String  { return L10n.tr("Localizable", "PremiumBoarding.Business.OpeningHours") }
   /// Quick Replies
   public static var premiumBoardingBusinessQuickReplies: String  { return L10n.tr("Localizable", "PremiumBoarding.Business.QuickReplies") }
-  /// Telegram Business
+  /// ImpulseM Business
   public static var premiumBoardingBusinessTelegramBusiness: String  { return L10n.tr("Localizable", "PremiumBoarding.Business.TelegramBusiness") }
   /// Define messages that are automatically sent when you are off.
   public static var premiumBoardingBusinessAwayMessagesInfo: String  { return L10n.tr("Localizable", "PremiumBoarding.Business.AwayMessages.Info") }
@@ -13706,7 +13706,7 @@ public final class L10n {
   public static var premiumBoardingBusinessQuickRepliesInfo: String  { return L10n.tr("Localizable", "PremiumBoarding.Business.QuickReplies.Info") }
   /// You have now unlocked these additional business features. These features are temporarily included with your Premium Subscription.
   public static var premiumBoardingBusinessTelegramBusinessHeaderInfo1: String  { return L10n.tr("Localizable", "PremiumBoarding.Business.TelegramBusiness.HeaderInfo1") }
-  /// Turn your account into a business page with these additional features. The benefits of Telegram Business are temporarily included with Telegram Premium.
+  /// Turn your account into a business page with these additional features. The benefits of ImpulseM Business are temporarily included with ImpulseM Premium.
   public static var premiumBoardingBusinessTelegramBusinessHeaderInfo2: String  { return L10n.tr("Localizable", "PremiumBoarding.Business.TelegramBusiness.HeaderInfo2") }
   /// Upgrade your account with business features such as location, opening hours and quick replies.
   public static var premiumBoardingBusinessTelegramBusinessInfo: String  { return L10n.tr("Localizable", "PremiumBoarding.Business.TelegramBusiness.Info") }
@@ -13874,7 +13874,7 @@ public final class L10n {
   public static var privacyAndSecurityClearCloudDrafts: String  { return L10n.tr("Localizable", "PrivacyAndSecurity.ClearCloudDrafts") }
   /// CHATS
   public static var privacyAndSecurityClearCloudDraftsHeader: String  { return L10n.tr("Localizable", "PrivacyAndSecurity.ClearCloudDraftsHeader") }
-  /// Display sensitive media in public channels on all your Telegram devices.
+  /// Display sensitive media in public channels on all your ImpulseM devices.
   public static var privacyAndSecuritySensitiveDesc: String  { return L10n.tr("Localizable", "PrivacyAndSecurity.SensitiveDesc") }
   /// SENSITIVE CONTENT
   public static var privacyAndSecuritySensitiveHeader: String  { return L10n.tr("Localizable", "PrivacyAndSecurity.SensitiveHeader") }
@@ -13888,13 +13888,13 @@ public final class L10n {
   public static var privacyAndSecurityItemOff: String  { return L10n.tr("Localizable", "PrivacyAndSecurity.Item.Off") }
   /// On
   public static var privacyAndSecurityItemOn: String  { return L10n.tr("Localizable", "PrivacyAndSecurity.Item.On") }
-  /// Link previews will be generated on Telegram servers. We do not store any data about the links you send.
+  /// Link previews will be generated on ImpulseM servers. We do not store any data about the links you send.
   public static var privacyAndSecuritySecretChatWebPreviewDesc: String  { return L10n.tr("Localizable", "PrivacyAndSecurity.SecretChatWebPreview.Desc") }
   /// SECRET CHAT
   public static var privacyAndSecuritySecretChatWebPreviewHeader: String  { return L10n.tr("Localizable", "PrivacyAndSecurity.SecretChatWebPreview.Header") }
   /// Link Previews
   public static var privacyAndSecuritySecretChatWebPreviewText: String  { return L10n.tr("Localizable", "PrivacyAndSecurity.SecretChatWebPreview.Text") }
-  /// Users who add your number to their contacts will see it on Telegram only if they are your contacts.
+  /// Users who add your number to their contacts will see it on ImpulseM only if they are your contacts.
   public static var privacyPhoneNumberSettingsCustomDisabledHelp: String  { return L10n.tr("Localizable", "PrivacyPhoneNumberSettings.CustomDisabledHelp") }
   /// WHO CAN FIND ME BY MY NUMBER
   public static var privacyPhoneNumberSettingsDiscoveryHeader: String  { return L10n.tr("Localizable", "PrivacyPhoneNumberSettings.DiscoveryHeader") }
@@ -13952,11 +13952,11 @@ public final class L10n {
   public static var privacySettingsLoginEmail: String  { return L10n.tr("Localizable", "PrivacySettings.LoginEmail") }
   /// Change Email
   public static var privacySettingsLoginEmailAlertChange: String  { return L10n.tr("Localizable", "PrivacySettings.LoginEmailAlertChange") }
-  /// This email address will be used every time you login to your Telegram account from a new device.
+  /// This email address will be used every time you login to your ImpulseM account from a new device.
   public static var privacySettingsLoginEmailAlertText: String  { return L10n.tr("Localizable", "PrivacySettings.LoginEmailAlertText") }
-  /// Change your email address for Telegram login codes.
+  /// Change your email address for ImpulseM login codes.
   public static var privacySettingsLoginEmailInfo: String  { return L10n.tr("Localizable", "PrivacySettings.LoginEmailInfo") }
-  /// Setup your email address for Telegram login codes.
+  /// Setup your email address for ImpulseM login codes.
   public static var privacySettingsLoginEmailSetupInfo: String  { return L10n.tr("Localizable", "PrivacySettings.LoginEmailSetupInfo") }
   /// Messages
   public static var privacySettingsMessages: String  { return L10n.tr("Localizable", "PrivacySettings.Messages") }
@@ -13966,7 +13966,7 @@ public final class L10n {
   public static var privacySettingsPasskey: String  { return L10n.tr("Localizable", "PrivacySettings.Passkey") }
   /// Phone Number
   public static var privacySettingsPhoneNumber: String  { return L10n.tr("Localizable", "PrivacySettings.PhoneNumber") }
-  /// Subscribe to Telegram Premium
+  /// Subscribe to ImpulseM Premium
   public static var privacySettingsPremium: String  { return L10n.tr("Localizable", "PrivacySettings.Premium") }
   /// Premium
   public static var privacySettingsPremiumUsers: String  { return L10n.tr("Localizable", "PrivacySettings.PremiumUsers") }
@@ -14008,19 +14008,19 @@ public final class L10n {
   public static var privacySettingsMessagesEveryone: String  { return L10n.tr("Localizable", "PrivacySettings.Messages.Everyone") }
   /// WHO CAN SEND ME MESSAGES?
   public static var privacySettingsMessagesHeader: String  { return L10n.tr("Localizable", "PrivacySettings.Messages.Header") }
-  /// You can restrict messages from users who are not in your contacts and whom you haven't messaged first.\n\n[What is Telegram Premium?]()
+  /// You can restrict messages from users who are not in your contacts and whom you haven't messaged first.\n\n[What is ImpulseM Premium?]()
   public static var privacySettingsMessagesInfo: String  { return L10n.tr("Localizable", "PrivacySettings.Messages.Info") }
   /// Contacts And Premium
   public static var privacySettingsMessagesMyContacts: String  { return L10n.tr("Localizable", "PrivacySettings.Messages.MyContacts") }
-  /// Only subscribers of [Telegram Premium]() can restrict receiving Private Messages.
+  /// Only subscribers of [ImpulseM Premium]() can restrict receiving Private Messages.
   public static var privacySettingsMessagesPremiumError: String  { return L10n.tr("Localizable", "PrivacySettings.Messages.PremiumError") }
   /// Add New
   public static var privacySettingsPeerSelectAddNew: String  { return L10n.tr("Localizable", "PrivacySettings.PeerSelect.AddNew") }
   /// Add Users or Groups
   public static var privacySettingsPeerSelectAddUserOrGroup: String  { return L10n.tr("Localizable", "PrivacySettings.PeerSelect.AddUserOrGroup") }
-  /// If you subscribe to Telegram Premium, you will still see other users' last seen and read time even if you hid yours from them (unless they specifically restricted it).
+  /// If you subscribe to ImpulseM Premium, you will still see other users' last seen and read time even if you hid yours from them (unless they specifically restricted it).
   public static var privacySettingsPremiumInfo: String  { return L10n.tr("Localizable", "PrivacySettings.Premium.Info") }
-  /// Only subscribers of [Telegram Premium]() can restrict receiving Voice and Video Messages.
+  /// Only subscribers of [ImpulseM Premium]() can restrict receiving Voice and Video Messages.
   public static var privacySettingsVoicePremiumError: String  { return L10n.tr("Localizable", "PrivacySettings.Voice.PremiumError") }
   /// Add Users
   public static var privacySettingsControllerAddUsers: String  { return L10n.tr("Localizable", "PrivacySettingsController.AddUsers") }
@@ -14112,13 +14112,13 @@ public final class L10n {
   public static var privacySettingsControllerP2pAlways: String  { return L10n.tr("Localizable", "PrivacySettingsController.P2p.Always") }
   /// My Contacts
   public static var privacySettingsControllerP2pContacts: String  { return L10n.tr("Localizable", "PrivacySettingsController.P2p.Contacts") }
-  /// Disabling peer-to-peer will relay all calls through Telegram servers to avoid revealing your IP address, but may decrease audio and video quality.
+  /// Disabling peer-to-peer will relay all calls through ImpulseM servers to avoid revealing your IP address, but may decrease audio and video quality.
   public static var privacySettingsControllerP2pDesc: String  { return L10n.tr("Localizable", "PrivacySettingsController.P2p.Desc") }
   /// PEER TO PEER
   public static var privacySettingsControllerP2pHeader: String  { return L10n.tr("Localizable", "PrivacySettingsController.P2p.Header") }
   /// Never
   public static var privacySettingsControllerP2pNever: String  { return L10n.tr("Localizable", "PrivacySettingsController.P2p.Never") }
-  /// Users who have your number saved in their contacts will also see it on Telegram.
+  /// Users who have your number saved in their contacts will also see it on ImpulseM.
   public static var privacySettingsControllerPhoneNumberCustomHelp: String  { return L10n.tr("Localizable", "PrivacySettingsController.PhoneNumber.CustomHelp") }
   /// WHO CAN SEE MY PHONE NUMBER
   public static var privacySettingsControllerPhoneNumberWhoCanSeePhoneNumber: String  { return L10n.tr("Localizable", "PrivacySettingsController.PhoneNumber.WhoCanSeePhoneNumber") }
@@ -14144,7 +14144,7 @@ public final class L10n {
   public static var privacySettingsControllerSavedMusicNeverShareWithTitle: String  { return L10n.tr("Localizable", "PrivacySettingsController.SavedMusic.NeverShareWith.Title") }
   /// You can upload a public photo for users who are restricted from seeing your real profile photos.
   public static var privacySettingsControllerSetPublicPhotoInfo: String  { return L10n.tr("Localizable", "PrivacySettingsController.SetPublicPhoto.Info") }
-  /// Subscribe to Telegram Premium to restrict who can send you voice or video messages.\n\n[What is Telegram Premium?]()
+  /// Subscribe to ImpulseM Premium to restrict who can send you voice or video messages.\n\n[What is ImpulseM Premium?]()
   public static var privacySettingsControllerVoiceMessagesDescriptionNonPremium: String  { return L10n.tr("Localizable", "PrivacySettingsController.VoiceMessagesDescription.NonPremium") }
   /// Cancel
   public static var privateChannelPeekCancel: String  { return L10n.tr("Localizable", "PrivateChannel.Peek.Cancel") }
@@ -14156,6 +14156,134 @@ public final class L10n {
   public static var privateChannelPeekText: String  { return L10n.tr("Localizable", "PrivateChannel.Peek.Text") }
   /// Set as Main
   public static var profileTabContextMenuSetAsMain: String  { return L10n.tr("Localizable", "ProfileTab.ContextMenu.SetAsMain") }
+  /// Advanced settings
+  public static var impulseProxyAdvancedTitle: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Title") }
+  /// Use VPN for
+  public static var impulseProxyAdvancedUseFor: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.UseFor") }
+  /// Main transport
+  public static var impulseProxyAdvancedUseForTransport: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.UseForTransport") }
+  /// Calls
+  public static var impulseProxyAdvancedUseForCalls: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.UseForCalls") }
+  /// Main transport: messages and sync with the server. Calls: voice and video. Choose both or either one.
+  public static var impulseProxyAdvancedUseForInfo: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.UseForInfo") }
+  /// Choose at least one
+  public static var impulseProxyAdvancedUseForNeedOne: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.UseForNeedOne") }
+  /// Fragmentation
+  public static var impulseProxyAdvancedFragmentation: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Fragmentation") }
+  /// Mode
+  public static var impulseProxyAdvancedMode: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Mode") }
+  /// Off
+  public static var impulseProxyAdvancedOff: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Off") }
+  /// Classic
+  public static var impulseProxyAdvancedClassic: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Classic") }
+  /// finalmask
+  public static var impulseProxyAdvancedFinalMask: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.FinalMask") }
+  /// Packets
+  public static var impulseProxyAdvancedPackets: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Packets") }
+  /// Custom…
+  public static var impulseProxyAdvancedCustom: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Custom") }
+  /// Length
+  public static var impulseProxyAdvancedLength: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Length") }
+  /// Interval
+  public static var impulseProxyAdvancedInterval: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Interval") }
+  /// Use fragment settings from the link
+  public static var impulseProxyAdvancedFromLink: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.FromLink") }
+  /// Splits the TLS handshake so DPI can't read the server name. Classic works everywhere; finalmask works after TLS/REALITY. Link settings apply only when fragmentation here is off.
+  public static var impulseProxyAdvancedFragmentInfo: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.FragmentInfo") }
+  /// TLS fingerprint
+  public static var impulseProxyAdvancedFingerprint: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Fingerprint") }
+  /// As in link
+  public static var impulseProxyAdvancedAsInLink: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.AsInLink") }
+  /// Some mobile networks block the chrome fingerprint more often. Try firefox.
+  public static var impulseProxyAdvancedFingerprintInfo: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.FingerprintInfo") }
+  /// Multiplexing
+  public static var impulseProxyAdvancedMultiplexing: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Multiplexing") }
+  /// Mux
+  public static var impulseProxyAdvancedMux: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Mux") }
+  /// Concurrency
+  public static var impulseProxyAdvancedMuxConcurrency: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.MuxConcurrency") }
+  /// Fewer connections and handshakes. Not used for servers with xtls-rprx-vision.
+  public static var impulseProxyAdvancedMuxInfo: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.MuxInfo") }
+  /// TCP
+  public static var impulseProxyAdvancedTcp: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Tcp") }
+  /// Keepalive: idle
+  public static var impulseProxyAdvancedKeepIdle: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.KeepIdle") }
+  /// Keepalive: interval
+  public static var impulseProxyAdvancedKeepInterval: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.KeepInterval") }
+  /// System
+  public static var impulseProxyAdvancedSystem: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.System") }
+  /// TCP Fast Open
+  public static var impulseProxyAdvancedFastOpen: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.FastOpen") }
+  /// MSS
+  public static var impulseProxyAdvancedMss: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Mss") }
+  /// A small MSS splits every packet. Leave System unless you know you need it.
+  public static var impulseProxyAdvancedTcpInfo: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.TcpInfo") }
+  /// DNS for server addresses
+  public static var impulseProxyAdvancedDns: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Dns") }
+  /// DNS server
+  public static var impulseProxyAdvancedDnsServer: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.DnsServer") }
+  /// Cloudflare (DoH)
+  public static var impulseProxyAdvancedDnsCloudflare: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.DnsCloudflare") }
+  /// Google (DoH)
+  public static var impulseProxyAdvancedDnsGoogle: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.DnsGoogle") }
+  /// Resolves server domain names over encrypted DNS, bypassing operator DNS. Only affects servers with a domain name.
+  public static var impulseProxyAdvancedDnsInfo: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.DnsInfo") }
+  /// Server checks
+  public static var impulseProxyAdvancedChecks: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Checks") }
+  /// In batches of 5
+  public static var impulseProxyAdvancedChecksBatch: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.ChecksBatch") }
+  /// One by one
+  public static var impulseProxyAdvancedChecksOne: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.ChecksOne") }
+  /// Pause between checks
+  public static var impulseProxyAdvancedPause: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Pause") }
+  /// Timeout
+  public static var impulseProxyAdvancedTimeout: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Timeout") }
+  /// Check URL
+  public static var impulseProxyAdvancedUrl: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Url") }
+  /// Don't check while connected
+  public static var impulseProxyAdvancedSkipConnected: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.SkipConnected") }
+  /// Checking many servers at once can trigger operator blocking on mobile networks. One by one with a pause is gentler.
+  public static var impulseProxyAdvancedChecksInfo: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.ChecksInfo") }
+  /// Reset to defaults
+  public static var impulseProxyAdvancedReset: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.Reset") }
+  /// Reset advanced settings?
+  public static var impulseProxyAdvancedResetTitle: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.ResetTitle") }
+  /// Reset
+  public static var impulseProxyAdvancedResetButton: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.ResetButton") }
+  /// Enter a number or a range, for example 100-200
+  public static var impulseProxyAdvancedRangeError: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.RangeError") }
+  /// Enter a number or a range such as 1-3, or tlshello
+  public static var impulseProxyAdvancedPacketsError: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.PacketsError") }
+  /// Enter a number from %1$d to %2$d
+  public static func impulseProxyAdvancedNumberError(_ p1: Int, _ p2: Int) -> String {
+    return L10n.tr("Localizable", "ImpulseProxyAdvanced.NumberError", p1, p2)
+  }
+  /// Enter milliseconds, from %1$d to %2$d
+  public static func impulseProxyAdvancedMillisError(_ p1: Int, _ p2: Int) -> String {
+    return L10n.tr("Localizable", "ImpulseProxyAdvanced.MillisError", p1, p2)
+  }
+  /// Enter seconds, from %1$d to %2$d
+  public static func impulseProxyAdvancedSecondsError(_ p1: Int, _ p2: Int) -> String {
+    return L10n.tr("Localizable", "ImpulseProxyAdvanced.SecondsError", p1, p2)
+  }
+  /// %1$d ms
+  public static func impulseProxyAdvancedMillisValue(_ p1: Int) -> String {
+    return L10n.tr("Localizable", "ImpulseProxyAdvanced.MillisValue", p1)
+  }
+  /// %1$d s
+  public static func impulseProxyAdvancedSecondsValue(_ p1: Int) -> String {
+    return L10n.tr("Localizable", "ImpulseProxyAdvanced.SecondsValue", p1)
+  }
+  /// %1$@ ms
+  public static func impulseProxyAdvancedRangeMillisValue(_ p1: String) -> String {
+    return L10n.tr("Localizable", "ImpulseProxyAdvanced.RangeMillisValue", p1)
+  }
+  /// Enter 0 or a number from 64 to 1460
+  public static var impulseProxyAdvancedMssError: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.MssError") }
+  /// Enter an https:// DoH URL or an IPv4 address
+  public static var impulseProxyAdvancedDnsError: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.DnsError") }
+  /// Enter an https:// address
+  public static var impulseProxyAdvancedUrlError: String  { return L10n.tr("Localizable", "ImpulseProxyAdvanced.UrlError") }
   /// Check Status
   public static var proxyCheckStatus: String  { return L10n.tr("Localizable", "Proxy.CheckStatus") }
   /// Are you sure you want to disable proxy server %@?
@@ -14184,7 +14312,7 @@ public final class L10n {
   public static var proxyForceEnableEnable: String  { return L10n.tr("Localizable", "Proxy.ForceEnable.Enable") }
   /// Do you want to add this proxy?
   public static var proxyForceEnableHeader1: String  { return L10n.tr("Localizable", "Proxy.ForceEnable.Header1") }
-  /// This proxy may display a sponsored channel in your chat list. This doesn't reveal any of your Telegram traffic.
+  /// This proxy may display a sponsored channel in your chat list. This doesn't reveal any of your ImpulseM traffic.
   public static var proxyForceEnableMTPDesc: String  { return L10n.tr("Localizable", "Proxy.ForceEnable.MTPDesc") }
   /// Add Proxy
   public static var proxyForceEnableOK: String  { return L10n.tr("Localizable", "Proxy.ForceEnable.OK") }
@@ -14222,7 +14350,7 @@ public final class L10n {
   public static var proxySettingsDisabled: String  { return L10n.tr("Localizable", "ProxySettings.Disabled") }
   /// Proxy
   public static var proxySettingsEnable: String  { return L10n.tr("Localizable", "ProxySettings.Enable") }
-  /// If your clipboard contains socks5-link (**t.me/socks?server=127.0.0.1&port=80**) it will apply immediately
+  /// If your clipboard contains socks5-link (**o.impulsem.net/socks?server=127.0.0.1&port=80**) it will apply immediately
   public static var proxySettingsExportDescription: String  { return L10n.tr("Localizable", "ProxySettings.ExportDescription") }
   /// Export link from clipboard
   public static var proxySettingsExportLink: String  { return L10n.tr("Localizable", "ProxySettings.ExportLink") }
@@ -14276,7 +14404,7 @@ public final class L10n {
   }
   /// unavailable
   public static var proxySettingsItemNeverConnected: String  { return L10n.tr("Localizable", "ProxySettings.Item.NeverConnected") }
-  /// The proxy may display a sponsored channel in your chat list. This doesn't reveal any of your Telegram traffic.
+  /// The proxy may display a sponsored channel in your chat list. This doesn't reveal any of your ImpulseM traffic.
   public static var proxySettingsMtpSponsor: String  { return L10n.tr("Localizable", "ProxySettings.Mtp.Sponsor") }
   /// Your friends can add this proxy by scanning the code with their camera.
   public static var proxySettingsQRText: String  { return L10n.tr("Localizable", "ProxySettings.QR.Text") }
@@ -14290,7 +14418,7 @@ public final class L10n {
   public static var proxySettingsWebNotTested: String  { return L10n.tr("Localizable", "ProxySettings.Web.NotTested") }
   /// Enable
   public static var proxySettingsWebWarningEnable: String  { return L10n.tr("Localizable", "ProxySettings.Web.Warning.Enable") }
-  /// This proxy loads provider-controlled JavaScript in a hidden browser. The provider can change traffic timing, batching, padding, and network use, and may consume CPU, memory, or battery. Telegram credentials and native APIs are not intentionally exposed, but provider code remains untrusted. Enable only providers you trust.
+  /// This proxy loads provider-controlled JavaScript in a hidden browser. The provider can change traffic timing, batching, padding, and network use, and may consume CPU, memory, or battery. ImpulseM credentials and native APIs are not intentionally exposed, but provider code remains untrusted. Enable only providers you trust.
   public static var proxySettingsWebWarningText: String  { return L10n.tr("Localizable", "ProxySettings.Web.Warning.Text") }
   /// Enable WEB Proxy?
   public static var proxySettingsWebWarningTitle: String  { return L10n.tr("Localizable", "ProxySettings.Web.Warning.Title") }
@@ -14400,7 +14528,7 @@ public final class L10n {
   public static var reactionsPopular: String  { return L10n.tr("Localizable", "Reactions.Popular") }
   /// Recently Used
   public static var reactionsRecentlyUsed: String  { return L10n.tr("Localizable", "Reactions.RecentlyUsed") }
-  /// Unlock additional reactions by subscribing to Telegram Premium
+  /// Unlock additional reactions by subscribing to ImpulseM Premium
   public static var reactionsPreviewPremium: String  { return L10n.tr("Localizable", "Reactions.Preview.Premium") }
   /// Unlock Premium Reactions
   public static var reactionsPreviewUnlock: String  { return L10n.tr("Localizable", "Reactions.Preview.Unlock") }
@@ -14482,11 +14610,11 @@ public final class L10n {
   public static var reportReasonOtherPlaceholder: String  { return L10n.tr("Localizable", "ReportReason.Other.Placeholder") }
   /// Settings
   public static var requestAccesErrorConirmSettings: String  { return L10n.tr("Localizable", "RequestAcces.Error.Conirm.Settings") }
-  /// Telegram needs microphone access so that you can make calls.
+  /// ImpulseM needs microphone access so that you can make calls.
   public static var requestAccesErrorHaveNotAccessCall: String  { return L10n.tr("Localizable", "RequestAcces.Error.HaveNotAccess.Call") }
-  /// Telegram needs access to your microphone and camera to record video messages.
+  /// ImpulseM needs access to your microphone and camera to record video messages.
   public static var requestAccesErrorHaveNotAccessVideoMessages: String  { return L10n.tr("Localizable", "RequestAcces.Error.HaveNotAccess.VideoMessages") }
-  /// Telegram needs access to your microphone to record voice messages.
+  /// ImpulseM needs access to your microphone to record voice messages.
   public static var requestAccesErrorHaveNotAccessVoiceMessages: String  { return L10n.tr("Localizable", "RequestAcces.Error.HaveNotAccess.VoiceMessages") }
   /// Request to Join
   public static var requestJoinButton: String  { return L10n.tr("Localizable", "RequestJoin.Button") }
@@ -14748,7 +14876,7 @@ public final class L10n {
   public static var richTextEditorTableDeleteRow: String  { return L10n.tr("Localizable", "RichTextEditor.Table.DeleteRow") }
   /// Delete Rows
   public static var richTextEditorTableDeleteRows: String  { return L10n.tr("Localizable", "RichTextEditor.Table.DeleteRows") }
-  /// AI tools in the rich text editor are available with Telegram Premium.
+  /// AI tools in the rich text editor are available with ImpulseM Premium.
   public static var richTextEditorWindowAiPremiumRequired: String  { return L10n.tr("Localizable", "RichTextEditorWindow.AiPremiumRequired") }
   /// Code Block
   public static var richTextEditorWindowCodeBlock: String  { return L10n.tr("Localizable", "RichTextEditorWindow.CodeBlock") }
@@ -14760,15 +14888,15 @@ public final class L10n {
   public static var richTextEditorWindowEditWithoutFormatting: String  { return L10n.tr("Localizable", "RichTextEditorWindow.EditWithoutFormatting") }
   /// You can't send an empty message.
   public static var richTextEditorWindowEmptyMessage: String  { return L10n.tr("Localizable", "RichTextEditorWindow.EmptyMessage") }
-  /// Editing a message with this formatting will require [Telegram Premium](premium).
+  /// Editing a message with this formatting will require [ImpulseM Premium](premium).
   public static var richTextEditorWindowPremiumToastEdit: String  { return L10n.tr("Localizable", "RichTextEditorWindow.PremiumToastEdit") }
-  /// Sending a message with this formatting will require [Telegram Premium](premium).
+  /// Sending a message with this formatting will require [ImpulseM Premium](premium).
   public static var richTextEditorWindowPremiumToastSend: String  { return L10n.tr("Localizable", "RichTextEditorWindow.PremiumToastSend") }
   /// Pull Quote
   public static var richTextEditorWindowPullQuote: String  { return L10n.tr("Localizable", "RichTextEditorWindow.PullQuote") }
   /// Remove Formatting
   public static var richTextEditorWindowRemoveFormatting: String  { return L10n.tr("Localizable", "RichTextEditorWindow.RemoveFormatting") }
-  /// This message includes rich formatting, which requires Telegram Premium.
+  /// This message includes rich formatting, which requires ImpulseM Premium.
   public static var richTextEditorWindowRichFormattingRequiresPremium: String  { return L10n.tr("Localizable", "RichTextEditorWindow.RichFormattingRequiresPremium") }
   /// Send
   public static var richTextEditorWindowSend: String  { return L10n.tr("Localizable", "RichTextEditorWindow.Send") }
@@ -14804,7 +14932,7 @@ public final class L10n {
   public static var searchAdRemoveAd: String  { return L10n.tr("Localizable", "Search.Ad.RemoveAd") }
   /// Sponsor Info
   public static var searchAdSponsorInfo: String  { return L10n.tr("Localizable", "Search.Ad.SponsorInfo") }
-  /// You can turn off ads by subscribing to Telegram Premium.
+  /// You can turn off ads by subscribing to ImpulseM Premium.
   public static var searchAdAboutRemove: String  { return L10n.tr("Localizable", "Search.Ad.About.Remove") }
   /// Do you want to clear your search history?
   public static var searchConfirmClearHistory: String  { return L10n.tr("Localizable", "Search.Confirm.ClearHistory") }
@@ -14876,7 +15004,7 @@ public final class L10n {
   public static var searchFieldSearch: String  { return L10n.tr("Localizable", "SearchField.Search") }
   /// Off
   public static var secretTimerOff: String  { return L10n.tr("Localizable", "SecretTimer.Off") }
-  /// Sorry, your Telegram app is out of date and can't handle this request. Please update Telegram.
+  /// Sorry, your ImpulseM app is out of date and can't handle this request. Please update ImpulseM.
   public static var secureIdAppVersionOutdated: String  { return L10n.tr("Localizable", "SecureId.AppVersionOutdated") }
   /// Please correct errors
   public static var secureIdCorrectErrors: String  { return L10n.tr("Localizable", "SecureId.CorrectErrors") }
@@ -14884,15 +15012,15 @@ public final class L10n {
   public static var secureIdDeleteAddress: String  { return L10n.tr("Localizable", "SecureId.DeleteAddress") }
   /// Delete Document
   public static var secureIdDeleteIdentity: String  { return L10n.tr("Localizable", "SecureId.DeleteIdentity") }
-  /// Delete Telegram Passport
+  /// Delete ImpulseM Passport
   public static var secureIdDeletePassport: String  { return L10n.tr("Localizable", "SecureId.DeletePassport") }
   /// Email Address
   public static var secureIdEmail: String  { return L10n.tr("Localizable", "SecureId.Email") }
   /// Identity Document
   public static var secureIdIdentityDocument: String  { return L10n.tr("Localizable", "SecureId.IdentityDocument") }
-  /// With Telegram Passport you can easily sign up for websites and services that require identity verification.\n\nYour information, personal data, and documents are protected by end-to-end encryption. Nobody, including Telegram, can access them without your permission.
+  /// With ImpulseM Passport you can easily sign up for websites and services that require identity verification.\n\nYour information, personal data, and documents are protected by end-to-end encryption. Nobody, including ImpulseM, can access them without your permission.
   public static var secureIdInfo: String  { return L10n.tr("Localizable", "SecureId.Info") }
-  /// Please log in to your account to use Telegram Passport
+  /// Please log in to your account to use ImpulseM Passport
   public static var secureIdLoginText: String  { return L10n.tr("Localizable", "SecureId.LoginText") }
   /// Phone Number
   public static var secureIdPhoneNumber: String  { return L10n.tr("Localizable", "SecureId.PhoneNumber") }
@@ -14976,11 +15104,11 @@ public final class L10n {
   public static var secureIdConfirmDeleteAddress: String  { return L10n.tr("Localizable", "SecureId.Confirm.DeleteAddress") }
   /// Are you sure you want to delete this document?
   public static var secureIdConfirmDeleteDocument: String  { return L10n.tr("Localizable", "SecureId.Confirm.DeleteDocument") }
-  /// Please create a password to protect your passport info. You will also be asked to enter it when you log in to Telegram.
+  /// Please create a password to protect your passport info. You will also be asked to enter it when you log in to ImpulseM.
   public static var secureIdCreatePasswordDescription: String  { return L10n.tr("Localizable", "SecureId.CreatePassword.Description") }
   /// PASSWORD
   public static var secureIdCreatePasswordHeader: String  { return L10n.tr("Localizable", "SecureId.CreatePassword.Header") }
-  /// Please create a password which will be used to encrypt your personal data.\n\nThis password will also be required whenever you log in to Telegram on a new device.
+  /// Please create a password which will be used to encrypt your personal data.\n\nThis password will also be required whenever you log in to ImpulseM on a new device.
   public static var secureIdCreatePasswordIntro: String  { return L10n.tr("Localizable", "SecureId.CreatePassword.Intro") }
   /// Enter your password
   public static var secureIdCreatePasswordPasswordInputPlaceholder: String  { return L10n.tr("Localizable", "SecureId.CreatePassword.PasswordInputPlaceholder") }
@@ -15158,11 +15286,11 @@ public final class L10n {
   public static var secureIdIdentityPlaceholderResidence: String  { return L10n.tr("Localizable", "SecureId.Identity.Placeholder.Residence") }
   /// The document must contain your full name and residential address, as well as a stamp/bar code/QR code/logo and the issue date. It must be less than three months old.
   public static var secureIdIdentityScanDescription: String  { return L10n.tr("Localizable", "SecureId.IdentityScan.Description") }
-  /// Are you sure you want to delete your Telegram Passport? All details will be lost.
+  /// Are you sure you want to delete your ImpulseM Passport? All details will be lost.
   public static var secureIdInfoDeletePassport: String  { return L10n.tr("Localizable", "SecureId.Info.DeletePassport") }
   /// More Info
   public static var secureIdInfoMore: String  { return L10n.tr("Localizable", "SecureId.Info.More") }
-  /// What is Telegram Passport?
+  /// What is ImpulseM Passport?
   public static var secureIdInfoTitle: String  { return L10n.tr("Localizable", "SecureId.Info.Title") }
   /// Please use latin characters only
   public static var secureIdInputErrorLatinOnly: String  { return L10n.tr("Localizable", "SecureId.InputError.LatinOnly") }
@@ -15172,7 +15300,7 @@ public final class L10n {
   public static var secureIdInsertPasswordNext: String  { return L10n.tr("Localizable", "SecureId.InsertPassword.Next") }
   /// Enter your password
   public static var secureIdInsertPasswordPassword: String  { return L10n.tr("Localizable", "SecureId.InsertPassword.Password") }
-  /// Enter your Telegram password to decrypt your data
+  /// Enter your ImpulseM password to decrypt your data
   public static var secureIdInsertPasswordSettingsDescription: String  { return L10n.tr("Localizable", "SecureId.InsertPassword.Settings.Description") }
   /// Email
   public static var secureIdInstallEmailTitle: String  { return L10n.tr("Localizable", "SecureId.InstallEmail.Title") }
@@ -15210,7 +15338,7 @@ public final class L10n {
   public static var secureIdPhoneNumberConfirmCodeInputPlaceholder: String  { return L10n.tr("Localizable", "SecureId.PhoneNumber.ConfirmCode.InputPlaceholder") }
   /// Code
   public static var secureIdPhoneNumberConfirmCodePlaceholder: String  { return L10n.tr("Localizable", "SecureId.PhoneNumber.ConfirmCode.Placeholder") }
-  /// Use the phone number you use for Telegram
+  /// Use the phone number you use for ImpulseM
   public static var secureIdPhoneNumberUseSameDesc: String  { return L10n.tr("Localizable", "SecureId.PhoneNumber.UseSame.Desc") }
   /// Code was sent to %@
   public static func secureIdRecoverPasswordSentEmailCode(_ p1: String) -> String {
@@ -15298,7 +15426,7 @@ public final class L10n {
   public static func secureIdUploadScanSingle(_ p1: String) -> String {
     return L10n.tr("Localizable", "SecureId.UploadScan.Single", p1)
   }
-  /// **Warning**: All data saved in your Telegram Passport will be lost.
+  /// **Warning**: All data saved in your ImpulseM Passport will be lost.
   public static var secureIdWarningDataLost: String  { return L10n.tr("Localizable", "SecureId.Warning.DataLost") }
   /// Since you didn't provide a recovery email when setting up your password, your remaining options are either to remember your password or to reset your account.
   public static var secureIdForgotPasswordNoEmail: String  { return L10n.tr("Localizable", "SecureId.forgotPassword.NoEmail") }
@@ -15330,7 +15458,7 @@ public final class L10n {
   public static var selectColorMyGifts: String  { return L10n.tr("Localizable", "SelectColor.MyGifts") }
   /// You don't have any gifts you can use as styles for your profile.\n\n[Browse gifts available for purchase >](browse)
   public static var selectColorNoGifts: String  { return L10n.tr("Localizable", "SelectColor.NoGifts") }
-  /// Subscribe to [Telegram Premium]() to choose a custom color for your name.
+  /// Subscribe to [ImpulseM Premium]() to choose a custom color for your name.
   public static var selectColorPremium: String  { return L10n.tr("Localizable", "SelectColor.Premium") }
   /// COLOR PREVIEW
   public static var selectColorPreview: String  { return L10n.tr("Localizable", "SelectColor.Preview") }
@@ -15534,7 +15662,7 @@ public final class L10n {
   public static var sessionsTerminateDescription: String  { return L10n.tr("Localizable", "Sessions.TerminateDescription") }
   /// Terminate all other sessions
   public static var sessionsTerminateOthers: String  { return L10n.tr("Localizable", "Sessions.TerminateOthers") }
-  /// Search results from Settings and the Telegram FAQ will appear here.
+  /// Search results from Settings and the ImpulseM FAQ will appear here.
   public static var settingsSearchEmptyItem: String  { return L10n.tr("Localizable", "SettingsSearch.EmptyItem") }
   /// RECENT
   public static var settingsSearchRecent: String  { return L10n.tr("Localizable", "SettingsSearch.Recent") }
@@ -15740,7 +15868,7 @@ public final class L10n {
   public static var shareExtensionPasscodeNext: String  { return L10n.tr("Localizable", "ShareExtension.Passcode.Next") }
   /// passcode
   public static var shareExtensionPasscodePlaceholder: String  { return L10n.tr("Localizable", "ShareExtension.Passcode.Placeholder") }
-  /// To share via Telegram, please open the Telegram app and log in.
+  /// To share via ImpulseM, please open the ImpulseM app and log in.
   public static var shareExtensionUnauthorizedDescription: String  { return L10n.tr("Localizable", "ShareExtension.Unauthorized.Description") }
   /// OK
   public static var shareExtensionUnauthorizedOK: String  { return L10n.tr("Localizable", "ShareExtension.Unauthorized.OK") }
@@ -16042,7 +16170,7 @@ public final class L10n {
   public static var sidebarHide: String  { return L10n.tr("Localizable", "Sidebar.Hide") }
   /// Sidebar is not available in this chat
   public static var sidebarPeerRestricted: String  { return L10n.tr("Localizable", "Sidebar.Peer.Restricted") }
-  /// Subscribe to [Telegram Premium]() to unlock up to %d similar channels
+  /// Subscribe to [ImpulseM Premium]() to unlock up to %d similar channels
   public static func similarChannelAlertText(_ p1: Int) -> String {
     return L10n.tr("Localizable", "SimilarChannel.Alert.Text", p1)
   }
@@ -16238,7 +16366,7 @@ public final class L10n {
   public static func starAuctionPreviewLearnMore(_ p1: String, _ p2: String) -> String {
     return L10n.tr("Localizable", "Star.Auction.Preview.LearnMore", p1, p2)
   }
-  /// Learn more about Telegram Gifts >
+  /// Learn more about ImpulseM Gifts >
   public static var starAuctionPreviewLearnMoreAboutGifts: String  { return L10n.tr("Localizable", "Star.Auction.Preview.LearnMoreAboutGifts") }
   /// %@ left
   public static func starAuctionPreviewLeft(_ p1: String) -> String {
@@ -16290,7 +16418,7 @@ public final class L10n {
   }
   /// Buy stars for your expiring subscriptions.
   public static var starBuyCustomSubs: String  { return L10n.tr("Localizable", "Star.Buy.Custom_subs") }
-  /// With Stars, **%@** will be able to unlock content and services on Telegram. [See Examples >](examples)
+  /// With Stars, **%@** will be able to unlock content and services on ImpulseM. [See Examples >](examples)
   public static func starBuyScreenGift(_ p1: String) -> String {
     return L10n.tr("Localizable", "Star.BuyScreen.Gift", p1)
   }
@@ -16336,11 +16464,11 @@ public final class L10n {
   public static func starListStarsNeededOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Star.List.StarsNeeded_other", p1)
   }
-  /// Telegram Stars
+  /// ImpulseM Stars
   public static var starListTelegramStars: String  { return L10n.tr("Localizable", "Star.List.TelegramStars") }
   /// Top Up
   public static var starListTopUp: String  { return L10n.tr("Localizable", "Star.List.TopUp") }
-  /// By proceeding and purchasing Stars, you agree with the [Terms and Conditions](https://telegram.org/tos/stars).
+  /// By proceeding and purchasing Stars, you agree with the [Terms and Conditions](https://impulsem.net/tos/stars).
   public static var starListTos: String  { return L10n.tr("Localizable", "Star.List.Tos") }
   /// Stats
   public static var starListWithdraw: String  { return L10n.tr("Localizable", "Star.List.Withdraw") }
@@ -16350,7 +16478,7 @@ public final class L10n {
   public static func starListBuySuccessOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Star.List.Buy.Success_other", p1)
   }
-  /// Buy Stars to unlock content and services in mini apps on Telegram.
+  /// Buy Stars to unlock content and services in mini apps on ImpulseM.
   public static var starListBuyAndUserNobot: String  { return L10n.tr("Localizable", "Star.List.BuyAndUser.Nobot") }
   /// %d Stars
   public static func starListItemCountOther(_ p1: Int) -> String {
@@ -16566,7 +16694,7 @@ public final class L10n {
   public static var starTransacitonReferredUser: String  { return L10n.tr("Localizable", "Star.Transaciton.ReferredUser") }
   /// Availability
   public static var starTransactionAvailability: String  { return L10n.tr("Localizable", "Star.Transaction.Availability") }
-  /// By subscribing you agree to the [Terms of Service](https://telegram.org)
+  /// By subscribing you agree to the [Terms of Service](https://impulsem.net)
   public static var starTransactionBotTos: String  { return L10n.tr("Localizable", "Star.Transaction.BotTos") }
   /// %d Messages
   public static func starTransactionBroadcastMessagesOther(_ p1: Int) -> String {
@@ -16616,7 +16744,7 @@ public final class L10n {
   public static var starTransactionSendGift: String  { return L10n.tr("Localizable", "Star.Transaction.SendGift") }
   /// To
   public static var starTransactionTo: String  { return L10n.tr("Localizable", "Star.Transaction.To") }
-  /// Review the [Terms of Services](https://telegram.org/tos/stars) for Stars.
+  /// Review the [Terms of Services](https://impulsem.net/tos/stars) for Stars.
   public static var starTransactionTos: String  { return L10n.tr("Localizable", "Star.Transaction.Tos") }
   /// Transaction URL
   public static var starTransactionTransactionUrl: String  { return L10n.tr("Localizable", "Star.Transaction.TransactionUrl") }
@@ -16710,7 +16838,7 @@ public final class L10n {
   public static var starTransactionVisibilityInfo: String  { return L10n.tr("Localizable", "Star.Transaction.Visibility.Info") }
   /// Open Fragment
   public static var starGiftActionLockedOpen: String  { return L10n.tr("Localizable", "StarGift.ActionLockedOpen") }
-  /// Transfer this gift to your Telegram account on Fragment to unlock this action.
+  /// Transfer this gift to your ImpulseM account on Fragment to unlock this action.
   public static var starGiftActionLockedText: String  { return L10n.tr("Localizable", "StarGift.ActionLockedText") }
   /// Action Locked
   public static var starGiftActionLockedTitle: String  { return L10n.tr("Localizable", "StarGift.ActionLockedTitle") }
@@ -16824,7 +16952,7 @@ public final class L10n {
   }
   /// Gifts are collectible items you can trade or showcase on your profile.
   public static var starGiftLearnAboutDescription: String  { return L10n.tr("Localizable", "StarGift.LearnAbout.Description") }
-  /// Telegram Gifts
+  /// ImpulseM Gifts
   public static var starGiftLearnAboutTitle: String  { return L10n.tr("Localizable", "StarGift.LearnAbout.Title") }
   /// You don't have other gifts from this collection.
   public static var starGiftMarketplaceNoOtherGifts: String  { return L10n.tr("Localizable", "StarGift.Marketplace.NoOtherGifts") }
@@ -16914,7 +17042,7 @@ public final class L10n {
   public static var starGiftPriceDecreaseHint: String  { return L10n.tr("Localizable", "StarGift.PriceDecrease.Hint") }
   /// See how this price will decrease >
   public static var starGiftPriceDecreasePreview: String  { return L10n.tr("Localizable", "StarGift.PriceDecrease.Preview") }
-  /// Learn more about wearing Telegram Gifts >
+  /// Learn more about wearing ImpulseM Gifts >
   public static var starGiftSelfAuctionLearnMore: String  { return L10n.tr("Localizable", "StarGift.SelfAuction.LearnMore") }
   /// limited
   public static var starGiftSelfAuctionLimited: String  { return L10n.tr("Localizable", "StarGift.SelfAuction.Limited") }
@@ -16942,7 +17070,7 @@ public final class L10n {
   public static func starGiftValuePayForUpgrade(_ p1: String) -> String {
     return L10n.tr("Localizable", "StarGift.Value.PayForUpgrade", p1)
   }
-  /// The average sale price of **%@** gifts on Telegram and Fragment over the past month.
+  /// The average sale price of **%@** gifts on ImpulseM and Fragment over the past month.
   public static func starGiftValueDescriptionAverage(_ p1: String) -> String {
     return L10n.tr("Localizable", "StarGift.Value.Description.Average", p1)
   }
@@ -16954,7 +17082,7 @@ public final class L10n {
   public static func starGiftValueListingFragment(_ p1: Int, _ p2: String) -> String {
     return L10n.tr("Localizable", "StarGift.Value.Listing.Fragment", p1, p2)
   }
-  /// %d %@ for sale on Telegram >
+  /// %d %@ for sale on ImpulseM >
   public static func starGiftValueListingTelegram(_ p1: Int, _ p2: String) -> String {
     return L10n.tr("Localizable", "StarGift.Value.Listing.Telegram", p1, p2)
   }
@@ -16964,7 +17092,7 @@ public final class L10n {
   public static var starGiftValueRowLabel: String  { return L10n.tr("Localizable", "StarGift.Value.Row.Label") }
   /// Fragment
   public static var starGiftValueSourceFragment: String  { return L10n.tr("Localizable", "StarGift.Value.Source.Fragment") }
-  /// Telegram
+  /// ImpulseM
   public static var starGiftValueSourceTelegram: String  { return L10n.tr("Localizable", "StarGift.Value.Source.Telegram") }
   /// This option is available only for gifts priced above %1$@.
   public static func starGiftNftResaleMinPriceInfo(_ p1: String) -> String {
@@ -16972,9 +17100,9 @@ public final class L10n {
   }
   /// TON
   public static var starListTon: String  { return L10n.tr("Localizable", "StarList.Ton") }
-  /// Offer TON to submit post suggestions to channels on Telegram
+  /// Offer TON to submit post suggestions to channels on ImpulseM
   public static var starListTonInfo: String  { return L10n.tr("Localizable", "StarList.TonInfo") }
-  /// Collect your TON using Fragment. [Learn More >](telegram.org)
+  /// Collect your TON using Fragment. [Learn More >](impulsem.net)
   public static var starListTonWithdrawInfo: String  { return L10n.tr("Localizable", "StarList.Ton.Withdraw.Info") }
   /// This gift was downgraded because a request to refund the payment related to this gift was made, and the money was returned.
   public static var starTransactionGiftRefundedInfo: String  { return L10n.tr("Localizable", "StarTransaction.GiftRefundedInfo") }
@@ -16986,9 +17114,9 @@ public final class L10n {
   public static var starsYouHaveEnough: String  { return L10n.tr("Localizable", "Stars.YouHaveEnough") }
   /// Buy Ads
   public static var starsBalanceBuyAds: String  { return L10n.tr("Localizable", "Stars.Balance.BuyAds") }
-  /// Use Stars to unlock content and services on Telegram. [See Examples >](apps)
+  /// Use Stars to unlock content and services on ImpulseM. [See Examples >](apps)
   public static var starsExampleAppsText: String  { return L10n.tr("Localizable", "Stars.ExampleApps.Text") }
-  /// Use Stars to unlock content and services on Telegram.
+  /// Use Stars to unlock content and services on ImpulseM.
   public static var starsGiftServiceInfo: String  { return L10n.tr("Localizable", "Stars.Gift.ServiceInfo") }
   /// Gift Stars
   public static var starsGiftTitle: String  { return L10n.tr("Localizable", "Stars.Gift.Title") }
@@ -17032,17 +17160,17 @@ public final class L10n {
   public static var starsIntroTransactionTelegramBotApiTitle: String  { return L10n.tr("Localizable", "Stars.Intro.Transaction.TelegramBotApi.Title") }
   /// What are Stars?
   public static var starsPromoHeader: String  { return L10n.tr("Localizable", "Stars.Promo.Header") }
-  /// Telegram Stars allow users to:
+  /// ImpulseM Stars allow users to:
   public static var starsPromoHeaderInfo: String  { return L10n.tr("Localizable", "Stars.Promo.HeaderInfo") }
   /// Give your friends gifts that can be added to their profiles or converted to Stars.
   public static var starsPromoOption1Info: String  { return L10n.tr("Localizable", "Stars.Promo.Option1.Info") }
   /// Send Gifts to Friends
   public static var starsPromoOption1Title: String  { return L10n.tr("Localizable", "Stars.Promo.Option1.Title") }
-  /// Buy additional content and services in Telegram mini apps. [See Examples >](examples)
+  /// Buy additional content and services in ImpulseM mini apps. [See Examples >](examples)
   public static var starsPromoOption2Info: String  { return L10n.tr("Localizable", "Stars.Promo.Option2.Info") }
   /// Use Stars in mini apps
   public static var starsPromoOption2Title: String  { return L10n.tr("Localizable", "Stars.Promo.Option2.Title") }
-  /// Get access to paid content and services in Telegram channels.
+  /// Get access to paid content and services in ImpulseM channels.
   public static var starsPromoOption3Info: String  { return L10n.tr("Localizable", "Stars.Promo.Option3.Info") }
   /// Unlock content in channels
   public static var starsPromoOption3Title: String  { return L10n.tr("Localizable", "Stars.Promo.Option3.Title") }
@@ -17092,7 +17220,7 @@ public final class L10n {
   }
   /// Anonymous
   public static var starsReactScreenAnonymous: String  { return L10n.tr("Localizable", "Stars.ReactScreen.Anonymous") }
-  /// By sending Stars you agree to the [Terms of Service](https://telegram.org/tos/stars).
+  /// By sending Stars you agree to the [Terms of Service](https://impulsem.net/tos/stars).
   public static var starsReactScreenFooter: String  { return L10n.tr("Localizable", "Stars.ReactScreen.Footer") }
   /// Choose how many stars you want to send to **%@** to support this post.
   public static func starsReactScreenInfo(_ p1: String) -> String {
@@ -17194,7 +17322,7 @@ public final class L10n {
   public static func starsTransferVideosOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Stars.Transfer.Videos_other", p1)
   }
-  /// This gift is limited and available only for **Telegram Premium** Users. You can send it **%d** more times.
+  /// This gift is limited and available only for **ImpulseM Premium** Users. You can send it **%d** more times.
   public static func starsGiftPreviewLimitedText(_ p1: Int) -> String {
     return L10n.tr("Localizable", "StarsGift.Preview.Limited.Text", p1)
   }
@@ -17354,7 +17482,7 @@ public final class L10n {
   public static var statsMessageStatsStoryTitle: String  { return L10n.tr("Localizable", "Stats.MessageStats.StoryTitle") }
   /// Story
   public static var statsStoryTitle: String  { return L10n.tr("Localizable", "Stats.Story.Title") }
-  /// Show Telegram
+  /// Show ImpulseM
   public static var statusBarActivate: String  { return L10n.tr("Localizable", "StatusBar.Activate") }
   /// Hide
   public static var statusBarHide: String  { return L10n.tr("Localizable", "StatusBar.Hide") }
@@ -17484,7 +17612,7 @@ public final class L10n {
   public static var stickersContextArchive: String  { return L10n.tr("Localizable", "Stickers.Context.Archive") }
   /// Unlock Premium Stickers
   public static var stickersPremiumUnlock: String  { return L10n.tr("Localizable", "Stickers.Premium.Unlock") }
-  /// Unlock this sticker and many more by subscribing to Telegram Premium.
+  /// Unlock this sticker and many more by subscribing to ImpulseM Premium.
   public static var stickersPreviewPremium: String  { return L10n.tr("Localizable", "Stickers.Preview.Premium") }
   /// %d stickers
   public static func stickersSetCount1Other(_ p1: Int) -> String {
@@ -17532,9 +17660,9 @@ public final class L10n {
   public static var storageExceptionsTitlePrivate: String  { return L10n.tr("Localizable", "StorageExceptions.Title.Private") }
   /// Stories
   public static var storageExceptionsTitleStories: String  { return L10n.tr("Localizable", "StorageExceptions.Title.Stories") }
-  /// Telegram is calculating the current cache size.\nThis can take a few minutes.
+  /// ImpulseM is calculating the current cache size.\nThis can take a few minutes.
   public static var storageUsageCalculating: String  { return L10n.tr("Localizable", "StorageUsage.Calculating") }
-  /// All media will stay in the Telegram cloud and can be re-downloaded if you need them again.
+  /// All media will stay in the ImpulseM cloud and can be re-downloaded if you need them again.
   public static var storageUsageCategoryText: String  { return L10n.tr("Localizable", "StorageUsage.CategoryText") }
   /// CHATS
   public static var storageUsageChatsHeader: String  { return L10n.tr("Localizable", "StorageUsage.ChatsHeader") }
@@ -17588,11 +17716,11 @@ public final class L10n {
   public static var storageUsageClearConfirmOKPart: String  { return L10n.tr("Localizable", "StorageUsage.Clear.Confirm.OK.Part") }
   /// Media files will be cleared from your disk, but will remain available for re-downloading if necessary.
   public static var storageUsageClearChatInfo: String  { return L10n.tr("Localizable", "StorageUsage.ClearChat.Info") }
-  /// All media can be re-downloaded from the Telegram cloud if you need them again.
+  /// All media can be re-downloaded from the ImpulseM cloud if you need them again.
   public static var storageUsageClearedInfo: String  { return L10n.tr("Localizable", "StorageUsage.Cleared.Info") }
   /// Channels
   public static var storageUsageKeepMediaChannels: String  { return L10n.tr("Localizable", "StorageUsage.KeepMedia.Channels") }
-  /// Photos, videos and other files from cloud chats that you have **not accessed** during this period will be removed from this device to save disk space.\n\nAll media will stay in the Telegram cloud and can be re-downloaded if you need it again.
+  /// Photos, videos and other files from cloud chats that you have **not accessed** during this period will be removed from this device to save disk space.\n\nAll media will stay in the ImpulseM cloud and can be re-downloaded if you need it again.
   public static var storageUsageKeepMediaDescription: String  { return L10n.tr("Localizable", "StorageUsage.KeepMedia.Description") }
   /// Photos, videos and other files from cloud chats that you have **not accessed** during this period will be removed from this device to save disk space.
   public static var storageUsageKeepMediaDescription1: String  { return L10n.tr("Localizable", "StorageUsage.KeepMedia.Description1") }
@@ -17610,7 +17738,7 @@ public final class L10n {
   public static var storageUsageKeepMediaPrivate: String  { return L10n.tr("Localizable", "StorageUsage.KeepMedia.Private") }
   /// Stories
   public static var storageUsageKeepMediaStories: String  { return L10n.tr("Localizable", "StorageUsage.KeepMedia.Stories") }
-  /// If your cache size exceeds this limit, the oldest media will be removed from the device.\n\nAll media will stay in the Telegram cloud and can be re-downloaded if you need it again.
+  /// If your cache size exceeds this limit, the oldest media will be removed from the device.\n\nAll media will stay in the ImpulseM cloud and can be re-downloaded if you need it again.
   public static var storageUsageLimitDesc: String  { return L10n.tr("Localizable", "StorageUsage.Limit.Desc") }
   /// MAXIMUM CACHE SIZE
   public static var storageUsageLimitHeader: String  { return L10n.tr("Localizable", "StorageUsage.Limit.Header") }
@@ -17656,19 +17784,19 @@ public final class L10n {
   }
   /// Empty
   public static var storageUsageSelectedMediaEmpty: String  { return L10n.tr("Localizable", "StorageUsage.SelectedMedia.Empty") }
-  /// Telegram uses less than %@ of your free disk space.
+  /// ImpulseM uses less than %@ of your free disk space.
   public static func storageUsageTelegramUsageEmpty(_ p1: String) -> String {
     return L10n.tr("Localizable", "StorageUsage.TelegramUsage.Empty", p1)
   }
-  /// Telegram uses **%@** of your free disk space.
+  /// ImpulseM uses **%@** of your free disk space.
   public static func storageUsageTelegramUsageText(_ p1: String) -> String {
     return L10n.tr("Localizable", "StorageUsage.TelegramUsage.Text", p1)
   }
-  /// This chat uses less than %@ of your Telegram Cache.
+  /// This chat uses less than %@ of your ImpulseM Cache.
   public static func storageUsageTelegramUsageEmptyPeer(_ p1: String) -> String {
     return L10n.tr("Localizable", "StorageUsage.TelegramUsage.Empty.Peer", p1)
   }
-  /// This chat uses **%2$@** of your Telegram Cache.
+  /// This chat uses **%2$@** of your ImpulseM Cache.
   public static func storageUsageTelegramUsageTextPeer(_ p1: String) -> String {
     return L10n.tr("Localizable", "StorageUsage.TelegramUsage.Text.Peer", p1)
   }
@@ -17790,7 +17918,7 @@ public final class L10n {
   public static var storyLiveStreamStarMessagePinInChat: String  { return L10n.tr("Localizable", "Story.LiveStream.StarMessage.PinInChat") }
   /// Location
   public static var storyLocationTitle: String  { return L10n.tr("Localizable", "Story.Location.Title") }
-  /// This story is not supported by your version of Telegram. Please update the app to the latest version.
+  /// This story is not supported by your version of ImpulseM. Please update the app to the latest version.
   public static var storyMediaUnsupported: String  { return L10n.tr("Localizable", "Story.Media.Unsupported") }
   /// Copy Link
   public static var storyMyInputCopyLink: String  { return L10n.tr("Localizable", "Story.MyInput.CopyLink") }
@@ -17814,7 +17942,7 @@ public final class L10n {
   public static var storyMyInputViewsZeroValueHolder: String  { return L10n.tr("Localizable", "Story.MyInput.Views_ZeroValueHolder") }
   /// You can't reply to this story
   public static var storyNoReplyInputNoReply: String  { return L10n.tr("Localizable", "Story.NoReplyInput.NoReply") }
-  /// Telegram moderators will review your report. Thank you!
+  /// ImpulseM moderators will review your report. Thank you!
   public static var storyReportSuccessText: String  { return L10n.tr("Localizable", "Story.Report.SuccessText") }
   /// Slow Mode - %@
   public static func storySlowModePlaceholder(_ p1: String) -> String {
@@ -17838,7 +17966,7 @@ public final class L10n {
   public static var storyStealthModeFirstInfo: String  { return L10n.tr("Localizable", "Story.StealthMode.First.Info") }
   /// Hide Recent Views
   public static var storyStealthModeFirstTitle: String  { return L10n.tr("Localizable", "Story.StealthMode.First.Title") }
-  /// Subscribe to Telegram Premium to watch stories without appearing in the list of viewers.
+  /// Subscribe to ImpulseM Premium to watch stories without appearing in the list of viewers.
   public static var storyStealthModeInfoSubscribe: String  { return L10n.tr("Localizable", "Story.StealthMode.Info.Subscribe") }
   /// Turn Stealth Mode on to watch stories without appearing in the list of viewers.
   public static var storyStealthModeInfoText: String  { return L10n.tr("Localizable", "Story.StealthMode.Info.Text") }
@@ -17896,7 +18024,7 @@ public final class L10n {
   public static var storyTooltipRemovedTitle: String  { return L10n.tr("Localizable", "Story.Tooltip.Removed.Title") }
   /// Story removed from the channel page.
   public static var storyTooltipRemovedFromProfileChannel: String  { return L10n.tr("Localizable", "Story.Tooltip.RemovedFromProfile.Channel") }
-  /// Subscribe to Telegram Premium to save other people's stories that are not protected.
+  /// Subscribe to ImpulseM Premium to save other people's stories that are not protected.
   public static var storyTooltipSaveToGalleryPremium: String  { return L10n.tr("Localizable", "Story.Tooltip.SaveToGallery.Premium") }
   /// Stories Saved
   public static var storyTooltipSavedTitle: String  { return L10n.tr("Localizable", "Story.Tooltip.Saved.Title") }
@@ -18184,7 +18312,7 @@ public final class L10n {
   public static var storyViewersViewers: String  { return L10n.tr("Localizable", "StoryViewers.Viewers") }
   /// Learn More
   public static var storyViewersPremiumLearnMore: String  { return L10n.tr("Localizable", "StoryViewers.Premium.LearnMore") }
-  /// To unlock viewer lists for expired and posted stories, subscribe to [Telegram Premium]().
+  /// To unlock viewer lists for expired and posted stories, subscribe to [ImpulseM Premium]().
   public static var storyViewersPremiumUnlock: String  { return L10n.tr("Localizable", "StoryViewers.Premium.Unlock") }
   /// %d views
   public static func storyViewsTitleOther(_ p1: Int) -> String {
@@ -18317,7 +18445,7 @@ public final class L10n {
   /// Forward Messages
   public static var telegramForwardChatListController: String  { return L10n.tr("Localizable", "Telegram.ForwardChatListController") }
   /// General Settings
-  public static var telegramGeneralSettingsViewController: String  { return L10n.tr("Localizable", "Telegram.GeneralSettingsViewController") }
+  public static var impulseMGeneralSettingsViewController: String  { return L10n.tr("Localizable", "ImpulseM.GeneralSettingsViewController") }
   /// Admins
   public static var telegramGroupAdminsController: String  { return L10n.tr("Localizable", "Telegram.GroupAdminsController") }
   /// Groups In Common
@@ -18325,9 +18453,9 @@ public final class L10n {
   /// Group Sticker Set
   public static var telegramGroupStickerSetController: String  { return L10n.tr("Localizable", "Telegram.GroupStickerSetController") }
   /// Stickers and Emoji
-  public static var telegramInstalledStickerPacksController: String  { return L10n.tr("Localizable", "Telegram.InstalledStickerPacksController") }
+  public static var impulseMInstalledStickerPacksController: String  { return L10n.tr("Localizable", "ImpulseM.InstalledStickerPacksController") }
   /// Language
-  public static var telegramLanguageViewController: String  { return L10n.tr("Localizable", "Telegram.LanguageViewController") }
+  public static var impulseMLanguageViewController: String  { return L10n.tr("Localizable", "ImpulseM.LanguageViewController") }
   /// Settings
   public static var telegramLayoutAccountController: String  { return L10n.tr("Localizable", "Telegram.LayoutAccountController") }
   /// Recent Calls
@@ -18335,7 +18463,7 @@ public final class L10n {
   /// Invite Link
   public static var telegramLinkInvationController: String  { return L10n.tr("Localizable", "Telegram.LinkInvationController") }
   /// Notifications
-  public static var telegramNotificationSettingsViewController: String  { return L10n.tr("Localizable", "Telegram.NotificationSettingsViewController") }
+  public static var impulseMNotificationSettingsViewController: String  { return L10n.tr("Localizable", "ImpulseM.NotificationSettingsViewController") }
   /// Passcode
   public static var telegramPasscodeSettingsViewController: String  { return L10n.tr("Localizable", "Telegram.PasscodeSettingsViewController") }
   /// Passport
@@ -18364,13 +18492,13 @@ public final class L10n {
   public static var telegramTwoStepVerificationUnlockController: String  { return L10n.tr("Localizable", "Telegram.TwoStepVerificationUnlockController") }
   /// Username
   public static var telegramUsernameSettingsViewController: String  { return L10n.tr("Localizable", "Telegram.UsernameSettingsViewController") }
-  /// Logged In with Telegram
+  /// Logged In with ImpulseM
   public static var telegramWebSessionsController: String  { return L10n.tr("Localizable", "Telegram.WebSessionsController") }
   /// Channel
   public static var telegramChannelVisibilityControllerChannel: String  { return L10n.tr("Localizable", "Telegram.ChannelVisibilityController.Channel") }
   /// Group
   public static var telegramChannelVisibilityControllerGroup: String  { return L10n.tr("Localizable", "Telegram.ChannelVisibilityController.Group") }
-  /// Telegram needs to optimize its database after this update. This may take a few minutes, sorry for the inconvenience.
+  /// ImpulseM needs to optimize its database after this update. This may take a few minutes, sorry for the inconvenience.
   public static var telegramUpgradeDatabaseText: String  { return L10n.tr("Localizable", "Telegram.UpgradeDatabase.Text") }
   /// Optimizing Database
   public static var telegramUpgradeDatabaseTitle: String  { return L10n.tr("Localizable", "Telegram.UpgradeDatabase.Title") }
@@ -18392,9 +18520,9 @@ public final class L10n {
   public static var termsOfServiceAcceptConfirmAge: String  { return L10n.tr("Localizable", "TermsOfService.Accept.ConfirmAge") }
   /// Decline & Delete
   public static var termsOfServiceDisagreeOK: String  { return L10n.tr("Localizable", "TermsOfService.Disagree.OK") }
-  /// Unfortunately, there are no other options. Unlike other apps, Telegram does not use user data for ad targeting or other commercial purposes. Telegram only stores the information it needs to function as a feature-rich cloud service. You can adjust how your data is used in Privacy and Security settings.\n\nIf you are not comfortable with Telegram's modest needs, it won't be possible for us to provide you with this service.
+  /// Unfortunately, there are no other options. Unlike other apps, ImpulseM does not use user data for ad targeting or other commercial purposes. ImpulseM only stores the information it needs to function as a feature-rich cloud service. You can adjust how your data is used in Privacy and Security settings.\n\nIf you are not comfortable with ImpulseM's modest needs, it won't be possible for us to provide you with this service.
   public static var termsOfServiceDisagreeText: String  { return L10n.tr("Localizable", "TermsOfService.Disagree.Text") }
-  /// Warning, this will irreversibly delete your Telegram account and all the data you store in the Telegram cloud.\n\nImportant: You can Cancel now and export your data first instead of losing it. (To do this, open the latest version of Telegram Desktop and go to Settings > Advanced > Export Telegram data.)
+  /// Warning, this will irreversibly delete your ImpulseM account and all the data you store in the ImpulseM cloud.\n\nImportant: You can Cancel now and export your data first instead of losing it. (To do this, open the latest version of ImpulseM Desktop and go to Settings > Advanced > Export ImpulseM data.)
   public static var termsOfServiceDisagreeTextLast: String  { return L10n.tr("Localizable", "TermsOfService.Disagree.Text.Last") }
   /// Delete Now
   public static var termsOfServiceDisagreeTextLastOK: String  { return L10n.tr("Localizable", "TermsOfService.Disagree.Text.Last.OK") }
@@ -18712,7 +18840,7 @@ public final class L10n {
   public static var translateApply: String  { return L10n.tr("Localizable", "Translate.Apply") }
   /// Copy to Clipboard
   public static var translateCopyToClipboard: String  { return L10n.tr("Localizable", "Translate.CopyToClipboard") }
-  /// Get Telegram Premium for 50x more text edits per day.
+  /// Get ImpulseM Premium for 50x more text edits per day.
   public static var translateDailyLimitInfo: String  { return L10n.tr("Localizable", "Translate.DailyLimitInfo") }
   /// Daily limit reached
   public static var translateDailyLimitReached: String  { return L10n.tr("Localizable", "Translate.DailyLimitReached") }
@@ -19000,7 +19128,7 @@ public final class L10n {
   public static var translateModalPromptStyle: String  { return L10n.tr("Localizable", "TranslateModal.PromptStyle") }
   /// Share Style
   public static var translateModalShareStyle: String  { return L10n.tr("Localizable", "TranslateModal.ShareStyle") }
-  /// Style by [@%1$@](https://t.me/%1$@)
+  /// Style by [@%1$@](https://o.impulsem.net/%1$@)
   public static func translateModalStyleByAuthor(_ p1: String) -> String {
     return L10n.tr("Localizable", "TranslateModal.StyleByAuthor", p1)
   }
@@ -19040,7 +19168,7 @@ public final class L10n {
   public static var twoStepAuthEmailInvalid: String  { return L10n.tr("Localizable", "TwoStepAuth.EmailInvalid") }
   /// We have sent you an email to confirm your address.
   public static var twoStepAuthEmailSent: String  { return L10n.tr("Localizable", "TwoStepAuth.EmailSent") }
-  /// No, seriously.\n\nIf you forget your password, you will lose access to your Telegram account. There will be no way to restore it.
+  /// No, seriously.\n\nIf you forget your password, you will lose access to your ImpulseM account. There will be no way to restore it.
   public static var twoStepAuthEmailSkipAlert: String  { return L10n.tr("Localizable", "TwoStepAuth.EmailSkipAlert") }
   /// Enter Code
   public static var twoStepAuthEnterEmailCode: String  { return L10n.tr("Localizable", "TwoStepAuth.EnterEmailCode") }
@@ -19058,7 +19186,7 @@ public final class L10n {
   public static var twoStepAuthFloodError: String  { return L10n.tr("Localizable", "TwoStepAuth.FloodError") }
   /// An error occurred. Please try again later.
   public static var twoStepAuthGenericError: String  { return L10n.tr("Localizable", "TwoStepAuth.GenericError") }
-  /// You have enabled Two-Step verification.\nYou'll need the password you set up here to log in to your Telegram account.
+  /// You have enabled Two-Step verification.\nYou'll need the password you set up here to log in to your ImpulseM account.
   public static var twoStepAuthGenericHelp: String  { return L10n.tr("Localizable", "TwoStepAuth.GenericHelp") }
   /// Invalid password. Please try again.
   public static var twoStepAuthInvalidPasswordError: String  { return L10n.tr("Localizable", "TwoStepAuth.InvalidPasswordError") }
@@ -19174,11 +19302,11 @@ public final class L10n {
   public static func urlLinkOnlyAllowed(_ p1: String) -> String {
     return L10n.tr("Localizable", "URL.Link.OnlyAllowed", p1)
   }
-  /// Update Telegram
+  /// Update ImpulseM
   public static var updateUpdateTelegram: String  { return L10n.tr("Localizable", "Update.UpdateTelegram") }
-  /// Telegram Update
+  /// ImpulseM Update
   public static var updateAppTelegramUpdate: String  { return L10n.tr("Localizable", "UpdateApp.TelegramUpdate") }
-  /// Update Telegram
+  /// Update ImpulseM
   public static var updateAppUpdateTelegram: String  { return L10n.tr("Localizable", "UpdateApp.UpdateTelegram") }
   /// Sorry, you are a member of too many groups and channels. For technical reasons, you need to leave some first before changing this setting in your groups.
   public static var upgradeChannelsTooMuch: String  { return L10n.tr("Localizable", "Upgrade.ChannelsTooMuch") }
@@ -19230,13 +19358,13 @@ public final class L10n {
   }
   /// SET
   public static var userInfoSetPhotoConfirmOK: String  { return L10n.tr("Localizable", "UserInfo.SetPhoto.Confirm.OK") }
-  /// Do you want to suggest this photo for %@'s Telegram profile?
+  /// Do you want to suggest this photo for %@'s ImpulseM profile?
   public static func userInfoSuggestConfirm(_ p1: String) -> String {
     return L10n.tr("Localizable", "UserInfo.Suggest.Confirm", p1)
   }
   /// Suggest Photo
   public static var userInfoSuggestTitle: String  { return L10n.tr("Localizable", "UserInfo.Suggest.Title") }
-  /// You suggested a new photo for %@'s Telegram profile
+  /// You suggested a new photo for %@'s ImpulseM profile
   public static func userInfoSuggestTooltip(_ p1: String) -> String {
     return L10n.tr("Localizable", "UserInfo.Suggest.Tooltip", p1)
   }
@@ -19302,7 +19430,7 @@ public final class L10n {
   public static func usernameSettingsAvailable(_ p1: String) -> String {
     return L10n.tr("Localizable", "UsernameSettings.available", p1)
   }
-  /// You can choose a username on Telegram. If you do, people will be able to find you by this username and contact you without needing your phone number.\n\n\nYou can use a-z, 0-9 and underscores. Minimum length is 5 characters.
+  /// You can choose a username on ImpulseM. If you do, people will be able to find you by this username and contact you without needing your phone number.\n\n\nYou can use a-z, 0-9 and underscores. Minimum length is 5 characters.
   public static var usernameSettingsChangeDescription: String  { return L10n.tr("Localizable", "UsernameSettings.ChangeDescription") }
   /// Done
   public static var usernameSettingsDone: String  { return L10n.tr("Localizable", "UsernameSettings.Done") }
@@ -19378,7 +19506,7 @@ public final class L10n {
   public static var voiceChatRemovePeerRemove: String  { return L10n.tr("Localizable", "VoiceChat.RemovePeerRemove") }
   /// Cancel Reminder
   public static var voiceChatRemoveReminder: String  { return L10n.tr("Localizable", "VoiceChat.RemoveReminder") }
-  /// Telegram needs access to your microphone so that you can speak.
+  /// ImpulseM needs access to your microphone so that you can speak.
   public static var voiceChatRequestAccess: String  { return L10n.tr("Localizable", "VoiceChat.RequestAccess") }
   /// Set Reminder
   public static var voiceChatSetReminder: String  { return L10n.tr("Localizable", "VoiceChat.SetReminder") }
@@ -19502,7 +19630,7 @@ public final class L10n {
   }
   /// Software encoding recommended (x264 in OBS).
   public static var voiceChatRTMPDesc: String  { return L10n.tr("Localizable", "VoiceChat.RTMP.Desc") }
-  /// Oops! Telegram doesn't see any stream coming from your streaming app. Please make sure you entered the right Server URL and Stream Key in your app.
+  /// Oops! ImpulseM doesn't see any stream coming from your streaming app. Please make sure you entered the right Server URL and Stream Key in your app.
   public static var voiceChatRTMPError: String  { return L10n.tr("Localizable", "VoiceChat.RTMP.Error") }
   /// To stream video with another app, enter this Server URL and Stream Key in your streaming app.
   public static var voiceChatRTMPInfo: String  { return L10n.tr("Localizable", "VoiceChat.RTMP.Info") }
@@ -19516,7 +19644,7 @@ public final class L10n {
   public static var voiceChatRTMPStreamKey: String  { return L10n.tr("Localizable", "VoiceChat.RTMP.StreamKey") }
   /// Stream With...
   public static var voiceChatRTMPTitle: String  { return L10n.tr("Localizable", "VoiceChat.RTMP.Title") }
-  /// Telegram couldn’t detect any live stream from %@
+  /// ImpulseM couldn’t detect any live stream from %@
   public static func voiceChatRTMPViewerError(_ p1: String) -> String {
     return L10n.tr("Localizable", "VoiceChat.RTMP.ViewerError", p1)
   }
@@ -19620,7 +19748,7 @@ public final class L10n {
   public static var voiceChatSettingsPerformanceHeader: String  { return L10n.tr("Localizable", "VoiceChat.Settings.Performance.Header") }
   /// PERMISSIONS
   public static var voiceChatSettingsPermissionsTitle: String  { return L10n.tr("Localizable", "VoiceChat.Settings.Permissions.Title") }
-  /// If you want this shortcut to work even when Telegram is not in focus\nPlease grant Telegram access to [Input Monitor](input)
+  /// If you want this shortcut to work even when ImpulseM is not in focus\nPlease grant ImpulseM access to [Input Monitor](input)
   public static var voiceChatSettingsPushToTalkAccess: String  { return L10n.tr("Localizable", "VoiceChat.Settings.PushToTalk.Access") }
   /// When the Video Chat window is in focus, you can also use ⎵ regardless of this setting.
   public static var voiceChatSettingsPushToTalkDesc: String  { return L10n.tr("Localizable", "VoiceChat.Settings.PushToTalk.Desc") }
@@ -19634,7 +19762,7 @@ public final class L10n {
   public static var voiceChatSettingsPushToTalkTitle: String  { return L10n.tr("Localizable", "VoiceChat.Settings.PushToTalk.Title") }
   /// Undefined
   public static var voiceChatSettingsPushToTalkUndefined: String  { return L10n.tr("Localizable", "VoiceChat.Settings.PushToTalk.Undefined") }
-  /// Please allow Accessibility for Telegram in [Privacy Settings.](access)\n\nYou may need to restart the app.
+  /// Please allow Accessibility for ImpulseM in [Privacy Settings.](access)\n\nYou may need to restart the app.
   public static var voiceChatSettingsPushToTalkAccessOld: String  { return L10n.tr("Localizable", "VoiceChat.Settings.PushToTalk.Access.Old") }
   /// Include Video
   public static var voiceChatSettingsRecordIncludeVideo: String  { return L10n.tr("Localizable", "VoiceChat.Settings.Record.IncludeVideo") }
@@ -19800,7 +19928,7 @@ public final class L10n {
   public static var voiceOverDiscardPreparedContent: String  { return L10n.tr("Localizable", "VoiceOver.DiscardPreparedContent") }
   /// Dismiss Context Menu
   public static var voiceOverDismissContextMenu: String  { return L10n.tr("Localizable", "VoiceOver.DismissContextMenu") }
-  /// Gift Telegram Premium
+  /// Gift ImpulseM Premium
   public static var voiceOverGiftPremium: String  { return L10n.tr("Localizable", "VoiceOver.GiftPremium") }
   /// Delete
   public static var voiceOverMessageContextDelete: String  { return L10n.tr("Localizable", "VoiceOver.MessageContextDelete") }
@@ -20536,7 +20664,7 @@ public final class L10n {
   public static var w486f4DlTitle: String  { return L10n.tr("Localizable", "W48-6f-4Dl.title") }
   /// GRAM
   public static var walletAmountRowItemGram: String  { return L10n.tr("Localizable", "Wallet.AmountRowItem.Gram") }
-  /// Please enter your Telegram passcode to access your wallet.
+  /// Please enter your ImpulseM passcode to access your wallet.
   public static var walletAuthorizeControllerDescription: String  { return L10n.tr("Localizable", "Wallet.AuthorizeController.Description") }
   /// Enter Passcode
   public static var walletAuthorizeControllerEnterPasscode: String  { return L10n.tr("Localizable", "Wallet.AuthorizeController.EnterPasscode") }
@@ -20548,13 +20676,13 @@ public final class L10n {
   }
   /// Couldn't verify the passcode. Please try again.
   public static var walletAuthorizeControllerVerifyFailed: String  { return L10n.tr("Localizable", "Wallet.AuthorizeController.VerifyFailed") }
-  /// Enable encrypted backup before restoring the secret phrase from Telegram.
+  /// Enable encrypted backup before restoring the secret phrase from ImpulseM.
   public static var walletAuthorizedOperationBackupDisabledInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.BackupDisabledInfo") }
   /// Backup Is Disabled
   public static var walletAuthorizedOperationBackupDisabledTitle: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.BackupDisabledTitle") }
   /// The wallet verification request expired. Please try enabling backup again.
   public static var walletAuthorizedOperationBackupProofExpiredInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.BackupProofExpiredInfo") }
-  /// Telegram couldn’t confirm the secret phrase change on the blockchain yet. Wait a moment and retry, or enter the current secret phrase.
+  /// ImpulseM couldn’t confirm the secret phrase change on the blockchain yet. Wait a moment and retry, or enter the current secret phrase.
   public static var walletAuthorizedOperationBackupRotationPendingInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.BackupRotationPendingInfo") }
   /// Encrypted backup is not available for this wallet.
   public static var walletAuthorizedOperationBackupUnavailableInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.BackupUnavailableInfo") }
@@ -20598,11 +20726,11 @@ public final class L10n {
   public static var walletAuthorizedOperationKeyRotationFailedInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.KeyRotationFailedInfo") }
   /// Couldn’t Update Secret Phrase
   public static var walletAuthorizedOperationKeyRotationFailedTitle: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.KeyRotationFailedTitle") }
-  /// Enter your Telegram 2-Step Verification password to continue.
+  /// Enter your ImpulseM 2-Step Verification password to continue.
   public static var walletAuthorizedOperationPasswordInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.PasswordInfo") }
   /// Password
   public static var walletAuthorizedOperationPasswordPlaceholder: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.PasswordPlaceholder") }
-  /// Telegram Password
+  /// ImpulseM Password
   public static var walletAuthorizedOperationPasswordTitle: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.PasswordTitle") }
   /// Try again in %1$@.
   public static func walletAuthorizedOperationPasswordTooNewInfo(_ p1: String) -> String {
@@ -20618,13 +20746,13 @@ public final class L10n {
   public static var walletAuthorizedOperationProofExpiredInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.ProofExpiredInfo") }
   /// Verification Expired
   public static var walletAuthorizedOperationProofExpiredTitle: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.ProofExpiredTitle") }
-  /// Telegram couldn’t verify that you own this wallet. Please try importing it again.
+  /// ImpulseM couldn’t verify that you own this wallet. Please try importing it again.
   public static var walletAuthorizedOperationProofInvalidInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.ProofInvalidInfo") }
   /// Couldn’t Verify Wallet
   public static var walletAuthorizedOperationProofInvalidTitle: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.ProofInvalidTitle") }
   /// Retry
   public static var walletAuthorizedOperationRetry: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.Retry") }
-  /// Telegram couldn’t confirm the secret phrase change on the blockchain yet. Wait a moment and try again.
+  /// ImpulseM couldn’t confirm the secret phrase change on the blockchain yet. Wait a moment and try again.
   public static var walletAuthorizedOperationRotationPendingInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.RotationPendingInfo") }
   /// Secret Phrase Update Pending
   public static var walletAuthorizedOperationRotationPendingTitle: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.RotationPendingTitle") }
@@ -20634,7 +20762,7 @@ public final class L10n {
   }
   /// Session Is Too New
   public static var walletAuthorizedOperationSessionTooNewTitle: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.SessionTooNewTitle") }
-  /// Set up a Telegram password before changing this wallet.
+  /// Set up an ImpulseM password before changing this wallet.
   public static var walletAuthorizedOperationTwoStepRequiredInfo: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.TwoStepRequiredInfo") }
   /// Two-Step Verification Required
   public static var walletAuthorizedOperationTwoStepRequiredTitle: String  { return L10n.tr("Localizable", "Wallet.AuthorizedOperation.TwoStepRequiredTitle") }
@@ -20776,7 +20904,7 @@ public final class L10n {
   public static var walletControllerConnectFailed: String  { return L10n.tr("Localizable", "Wallet.Controller.ConnectFailed") }
   /// Connection Successful
   public static var walletControllerConnectionSuccessful: String  { return L10n.tr("Localizable", "Wallet.Controller.ConnectionSuccessful") }
-  /// Open the app in your browser, choose Telegram Wallet, then copy the connection link and paste it here.
+  /// Open the app in your browser, choose ImpulseM Wallet, then copy the connection link and paste it here.
   public static var walletControllerConnectLinkInfo: String  { return L10n.tr("Localizable", "Wallet.Controller.ConnectLinkInfo") }
   /// This isn’t a valid TON Connect link or wallet address.
   public static var walletControllerConnectLinkInvalid: String  { return L10n.tr("Localizable", "Wallet.Controller.ConnectLinkInvalid") }
@@ -20924,9 +21052,9 @@ public final class L10n {
   public static var walletFlowAuthorizationRetry: String  { return L10n.tr("Localizable", "Wallet.FlowAuthorization.Retry") }
   /// TON address copied to clipboard
   public static var walletFormatAddressCopied: String  { return L10n.tr("Localizable", "Wallet.Format.AddressCopied") }
-  /// Gram — Digital currency for Telegram
+  /// Gram — Digital currency for ImpulseM
   public static var walletGramTooltipDigitalCurrency: String  { return L10n.tr("Localizable", "Wallet.GramTooltip.DigitalCurrency") }
-  /// Since you disabled backups for your wallet, you have to manually enter your Secret Phrase in every new Telegram session.
+  /// Since you disabled backups for your wallet, you have to manually enter your Secret Phrase in every new ImpulseM session.
   public static var walletImportControllerBackupDisabledInfo: String  { return L10n.tr("Localizable", "Wallet.ImportController.BackupDisabledInfo") }
   /// Cancel
   public static var walletImportControllerCancel: String  { return L10n.tr("Localizable", "Wallet.ImportController.Cancel") }
@@ -20946,7 +21074,7 @@ public final class L10n {
   public static var walletImportControllerImportWalletInfo: String  { return L10n.tr("Localizable", "Wallet.ImportController.ImportWalletInfo") }
   /// Import Wallet
   public static var walletImportControllerImportWalletTitle: String  { return L10n.tr("Localizable", "Wallet.ImportController.ImportWalletTitle") }
-  /// Check the word order.\n\nOnly a secret phrase created in Telegram can be imported here.
+  /// Check the word order.\n\nOnly a secret phrase created in ImpulseM can be imported here.
   public static var walletImportControllerInvalidPhraseInfo: String  { return L10n.tr("Localizable", "Wallet.ImportController.InvalidPhraseInfo") }
   /// Invalid Secret Phrase
   public static var walletImportControllerInvalidPhraseTitle: String  { return L10n.tr("Localizable", "Wallet.ImportController.InvalidPhraseTitle") }
@@ -21068,9 +21196,9 @@ public final class L10n {
   public static var walletInfoControllerShowSecretPhrase: String  { return L10n.tr("Localizable", "Wallet.InfoController.ShowSecretPhrase") }
   /// Store
   public static var walletInfoControllerStore: String  { return L10n.tr("Localizable", "Wallet.InfoController.Store") }
-  /// Keep your Grams in Telegram (#→ Money) or other wallets.
+  /// Keep your Grams in ImpulseM (#→ Money) or other wallets.
   public static var walletInfoControllerStoreInfo: String  { return L10n.tr("Localizable", "Wallet.InfoController.StoreInfo") }
-  /// Telegram Support **will never ask you** for your Secret Phrase.
+  /// ImpulseM Support **will never ask you** for your Secret Phrase.
   public static var walletInfoControllerSupportNeverAsks: String  { return L10n.tr("Localizable", "Wallet.InfoController.SupportNeverAsks") }
   /// Trade
   public static var walletInfoControllerTrade: String  { return L10n.tr("Localizable", "Wallet.InfoController.Trade") }
@@ -21088,11 +21216,11 @@ public final class L10n {
   }
   /// Gram Wallet
   public static var walletLinkedRecipientRowItemGramWallet: String  { return L10n.tr("Localizable", "Wallet.LinkedRecipientRowItem.GramWallet") }
-  /// This TON Blockchain address is linked to %1$@ on Telegram.
+  /// This TON Blockchain address is linked to %1$@ on ImpulseM.
   public static func walletLinkedRecipientRowItemLinkedTo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Wallet.LinkedRecipientRowItem.LinkedTo", p1)
   }
-  /// This TON Blockchain address has no linked Telegram account.
+  /// This TON Blockchain address has no linked ImpulseM account.
   public static var walletLinkedRecipientRowItemNotLinked: String  { return L10n.tr("Localizable", "Wallet.LinkedRecipientRowItem.NotLinked") }
   /// %1$@’s wallet
   public static func walletLinkedRecipientRowItemPeerWallet(_ p1: String) -> String {
@@ -21102,7 +21230,7 @@ public final class L10n {
   public static var walletLinkedRecipientRowItemUnlinkedWallet: String  { return L10n.tr("Localizable", "Wallet.LinkedRecipientRowItem.UnlinkedWallet") }
   /// Show More
   public static var walletLoadMoreRowItemShowMore: String  { return L10n.tr("Localizable", "Wallet.LoadMoreRowItem.ShowMore") }
-  /// This will cancel all your Secret Chats and **delete wallet backups holding %1$@**. You will lose access to these funds if you haven't saved their recovery phrases.\n\nYou can use Telegram on all your devices at once and use several accounts in the same app.
+  /// This will cancel all your Secret Chats and **delete wallet backups holding %1$@**. You will lose access to these funds if you haven't saved their recovery phrases.\n\nYou can use ImpulseM on all your devices at once and use several accounts in the same app.
   public static func walletLogoutWarningBackupsWillBeDeleted(_ p1: String) -> String {
     return L10n.tr("Localizable", "Wallet.LogoutWarning.BackupsWillBeDeleted", p1)
   }
@@ -21256,15 +21384,15 @@ public final class L10n {
   public static var walletSendControllerTransferPendingTitle: String  { return L10n.tr("Localizable", "Wallet.SendController.TransferPendingTitle") }
   /// Backup Disabled
   public static var walletSettingsControllerBackupDisabled: String  { return L10n.tr("Localizable", "Wallet.SettingsController.BackupDisabled") }
-  /// Your encrypted key backup will be split into three parts and stored across three continents.\n\nIt can only be reassembled on your devices, so no one — not even Telegram — can access your key.
+  /// Your encrypted key backup will be split into three parts and stored across three continents.\n\nIt can only be reassembled on your devices, so no one — not even ImpulseM — can access your key.
   public static var walletSettingsControllerBackupDisabledInfo: String  { return L10n.tr("Localizable", "Wallet.SettingsController.BackupDisabledInfo") }
   /// Your secret phrase is now the only way to restore your wallet.
   public static var walletSettingsControllerBackupDisabledNotice: String  { return L10n.tr("Localizable", "Wallet.SettingsController.BackupDisabledNotice") }
   /// Backup Enabled
   public static var walletSettingsControllerBackupEnabled: String  { return L10n.tr("Localizable", "Wallet.SettingsController.BackupEnabled") }
-  /// Your encrypted key backup is split into three parts and stored across three continents.\n\nIt can only be reassembled on your devices, so no one — not even Telegram — can access your key.
+  /// Your encrypted key backup is split into three parts and stored across three continents.\n\nIt can only be reassembled on your devices, so no one — not even ImpulseM — can access your key.
   public static var walletSettingsControllerBackupEnabledInfo: String  { return L10n.tr("Localizable", "Wallet.SettingsController.BackupEnabledInfo") }
-  /// Your keys are now stored encrypted across Telegram’s datacenters.
+  /// Your keys are now stored encrypted across ImpulseM’s datacenters.
   public static var walletSettingsControllerBackupEnabledNotice: String  { return L10n.tr("Localizable", "Wallet.SettingsController.BackupEnabledNotice") }
   /// Cancel
   public static var walletSettingsControllerCancel: String  { return L10n.tr("Localizable", "Wallet.SettingsController.Cancel") }
@@ -21320,11 +21448,11 @@ public final class L10n {
   public static var walletSettingsControllerErrorProofExpired: String  { return L10n.tr("Localizable", "Wallet.SettingsController.ErrorProofExpired") }
   /// Verification Expired
   public static var walletSettingsControllerErrorProofExpiredTitle: String  { return L10n.tr("Localizable", "Wallet.SettingsController.ErrorProofExpiredTitle") }
-  /// Telegram couldn’t verify that you own this wallet. Please try again.
+  /// ImpulseM couldn’t verify that you own this wallet. Please try again.
   public static var walletSettingsControllerErrorProofInvalid: String  { return L10n.tr("Localizable", "Wallet.SettingsController.ErrorProofInvalid") }
   /// Couldn’t Verify Wallet
   public static var walletSettingsControllerErrorProofInvalidTitle: String  { return L10n.tr("Localizable", "Wallet.SettingsController.ErrorProofInvalidTitle") }
-  /// Telegram couldn’t confirm the secret phrase change on the blockchain yet. Wait a moment and click Disable again.
+  /// ImpulseM couldn’t confirm the secret phrase change on the blockchain yet. Wait a moment and click Disable again.
   public static var walletSettingsControllerErrorRotationPending: String  { return L10n.tr("Localizable", "Wallet.SettingsController.ErrorRotationPending") }
   /// Secret Phrase Update Pending
   public static var walletSettingsControllerErrorRotationPendingTitle: String  { return L10n.tr("Localizable", "Wallet.SettingsController.ErrorRotationPendingTitle") }
@@ -21442,9 +21570,9 @@ public final class L10n {
   public static var walletTransactionControllerEncryptRecipientUnavailableInfo: String  { return L10n.tr("Localizable", "Wallet.TransactionController.EncryptRecipientUnavailableInfo") }
   /// Fee
   public static var walletTransactionControllerFee: String  { return L10n.tr("Localizable", "Wallet.TransactionController.Fee") }
-  /// Free (paid by Telegram)
+  /// Free (paid by ImpulseM)
   public static var walletTransactionControllerFeeFree: String  { return L10n.tr("Localizable", "Wallet.TransactionController.FeeFree") }
-  /// .\n\nTelegram covers your first %1$d transfers each day.
+  /// .\n\nImpulseM covers your first %1$d transfers each day.
   public static func walletTransactionControllerNetworkFeeGaslessOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "Wallet.TransactionController.NetworkFeeGasless_other", p1)
   }
@@ -21534,9 +21662,9 @@ public final class L10n {
   public static var walletTransactionRowItemOutgoingTransfer: String  { return L10n.tr("Localizable", "Wallet.TransactionRowItem.OutgoingTransfer") }
   /// Sending
   public static var walletTransactionRowItemSending: String  { return L10n.tr("Localizable", "Wallet.TransactionRowItem.Sending") }
-  /// Telegram
+  /// ImpulseM
   public static var walletTransactionRowItemTelegram: String  { return L10n.tr("Localizable", "Wallet.TransactionRowItem.Telegram") }
-  /// Telegram User
+  /// ImpulseM User
   public static var walletTransactionRowItemTelegramUser: String  { return L10n.tr("Localizable", "Wallet.TransactionRowItem.TelegramUser") }
   /// Unknown Address
   public static var walletTransactionRowItemUnknownAddress: String  { return L10n.tr("Localizable", "Wallet.TransactionRowItem.UnknownAddress") }
@@ -21618,7 +21746,7 @@ public final class L10n {
   public static var webAppFullscreen: String  { return L10n.tr("Localizable", "WebApp.Fullscreen") }
   /// Install Bot
   public static var webAppInstallBot: String  { return L10n.tr("Localizable", "WebApp.InstallBot") }
-  /// QR Codes for bots are not supported on Desktop. Please use one of Telegram’s mobile apps.
+  /// QR Codes for bots are not supported on Desktop. Please use one of ImpulseM’s mobile apps.
   public static var webAppQrIsNotSupported: String  { return L10n.tr("Localizable", "WebApp.QrIsNotSupported") }
   /// Reload Page
   public static var webAppReload: String  { return L10n.tr("Localizable", "WebApp.Reload") }
@@ -21674,7 +21802,7 @@ public final class L10n {
   public static func webAppBiometryConfirmTouchId(_ p1: String) -> String {
     return L10n.tr("Localizable", "WebApp.Biometry.Confirm.TouchId", p1)
   }
-  /// Are you sure you want to open %@ in Telegram?
+  /// Are you sure you want to open %@ in ImpulseM?
   public static func webAppConfirmOpenWebapp(_ p1: String) -> String {
     return L10n.tr("Localizable", "WebApp.Confirm.OpenWebapp", p1)
   }
@@ -21724,7 +21852,7 @@ public final class L10n {
   public static var webAuthorizationsConfirmRevokeAll: String  { return L10n.tr("Localizable", "WebAuthorizations.Confirm.RevokeAll") }
   /// CONNECTED WEBSITES
   public static var webAuthorizationsLoggedInDescrpiption: String  { return L10n.tr("Localizable", "WebAuthorizations.LoggedIn.Descrpiption") }
-  /// You can log in on websites that support signing in with Telegram.
+  /// You can log in on websites that support signing in with ImpulseM.
   public static var webAuthorizationsLogoutAllDescription: String  { return L10n.tr("Localizable", "WebAuthorizations.LogoutAll.Description") }
   /// **%@** shortcuts will be added in your attachment menu and Settings.
   public static func webBotAccountDesclaimerDesc(_ p1: String) -> String {
@@ -21732,9 +21860,9 @@ public final class L10n {
   }
   /// Continue
   public static var webBotAccountDisclaimerOK: String  { return L10n.tr("Localizable", "WebBot.Account.Disclaimer.OK") }
-  /// You are about to use a mini app operated by an independent party **not affiliated with Telegram**. You must agree to the Terms of Use for mini apps to continue.
+  /// You are about to use a mini app operated by an independent party **not affiliated with ImpulseM**. You must agree to the Terms of Use for mini apps to continue.
   public static var webBotAccountDisclaimerText: String  { return L10n.tr("Localizable", "WebBot.Account.Disclaimer.Text") }
-  /// I agree to the [Terms of Use](https://telegram.org/tos/mini-apps)
+  /// I agree to the [Terms of Use](https://impulsem.net/tos/mini-apps)
   public static var webBotAccountDisclaimerThird: String  { return L10n.tr("Localizable", "WebBot.Account.Disclaimer.Third") }
   /// Terms of Use
   public static var webBotAccountDisclaimerTitle: String  { return L10n.tr("Localizable", "WebBot.Account.Disclaimer.Title") }
@@ -21746,7 +21874,7 @@ public final class L10n {
   public static var webBrowserOpenMainPage: String  { return L10n.tr("Localizable", "WebBrowser.OpenMainPage") }
   /// Allow
   public static var webappAllowMessagesOK: String  { return L10n.tr("Localizable", "Webapp.AllowMessages.OK") }
-  /// This will allow the bot %@ to message you on Telegram.
+  /// This will allow the bot %@ to message you on ImpulseM.
   public static func webappAllowMessagesText(_ p1: String) -> String {
     return L10n.tr("Localizable", "Webapp.AllowMessages.Text", p1)
   }
@@ -21906,11 +22034,11 @@ public final class L10n {
   public static var pa3QIU2kTitle: String  { return L10n.tr("Localizable", "pa3-QI-u2k.title") }
   /// Leave
   public static var peerInfoConfirmLeave: String  { return L10n.tr("Localizable", "peerInfo.Confirm.Leave") }
-  /// This will delete all messages and media in this chat from your Telegram cloud. Other members of the group will still have them.
+  /// This will delete all messages and media in this chat from your ImpulseM cloud. Other members of the group will still have them.
   public static var peerInfoConfirmClearHistoryGroup: String  { return L10n.tr("Localizable", "peerInfo.Confirm.ClearHistory.Group") }
-  /// This will delete all messages and media in this chat from your Telegram cloud.
+  /// This will delete all messages and media in this chat from your ImpulseM cloud.
   public static var peerInfoConfirmClearHistorySavedMesssages: String  { return L10n.tr("Localizable", "peerInfo.Confirm.ClearHistory.SavedMesssages") }
-  /// This will delete all messages and media in this chat from your Telegram cloud. Your chat partner will still have them.
+  /// This will delete all messages and media in this chat from your ImpulseM cloud. Your chat partner will still have them.
   public static var peerInfoConfirmClearHistoryUser: String  { return L10n.tr("Localizable", "peerInfo.Confirm.ClearHistory.User") }
   /// Are you sure you want to delete all messages in the chat?
   public static var peerInfoConfirmClearHistoryUserBothSides: String  { return L10n.tr("Localizable", "peerInfo.Confirm.ClearHistory.UserBothSides") }
@@ -21928,17 +22056,17 @@ public final class L10n {
   public static var psaChatAlertLearnmoreCovid: String  { return L10n.tr("Localizable", "psa.chat.alert.learnmore.covid") }
   /// Learn More
   public static var psaChatAlertLearnmorePsa: String  { return L10n.tr("Localizable", "psa.chat.alert.learnmore.psa") }
-  /// This message provides you with a public service announcement in relation to the ongoing COVID-19 pandemic. Learn more about this initiative at https://telegram.org/blog/coronavirus
+  /// This message provides you with a public service announcement in relation to the ongoing COVID-19 pandemic. Learn more about this initiative at https://impulsem.net/blog/coronavirus
   public static var psaChatTextCovid: String  { return L10n.tr("Localizable", "psa.chat.text.covid") }
-  /// This is an official message from the CEO of Telegram regarding the ongoing conflict.
+  /// This is an official message from the CEO of ImpulseM regarding the ongoing conflict.
   public static var psaChatTextPsa: String  { return L10n.tr("Localizable", "psa.chat.text.psa") }
   /// COVID-19
   public static var psaChatlistCovid: String  { return L10n.tr("Localizable", "psa.chatlist.covid") }
   /// Announcement
   public static var psaChatlistPsa: String  { return L10n.tr("Localizable", "psa.chatlist.psa") }
-  /// This message provides you with a public service announcement in relation to the ongoing COVID-19 pandemic. Learn more about this initiative at https://telegram.org/blog/coronavirus
+  /// This message provides you with a public service announcement in relation to the ongoing COVID-19 pandemic. Learn more about this initiative at https://impulsem.net/blog/coronavirus
   public static var psaTextCovid: String  { return L10n.tr("Localizable", "psa.text.covid") }
-  /// This is an official message from the CEO of Telegram regarding the ongoing conflict.
+  /// This is an official message from the CEO of ImpulseM regarding the ongoing conflict.
   public static var psaTextPsa: String  { return L10n.tr("Localizable", "psa.text.psa") }
   /// PSA Notification\nfrom: [%@]()
   public static func psaTitleBubbles(_ p1: String) -> String {
@@ -21968,7 +22096,7 @@ public final class L10n {
   public static var sZhCtGQSTitle: String  { return L10n.tr("Localizable", "sZh-ct-GQS.title") }
   /// Data Detectors
   public static var tRrPd1PSTitle: String  { return L10n.tr("Localizable", "tRr-pd-1PS.title") }
-  /// Telegram
+  /// ImpulseM
   public static var uQyDDJDrTitle: String  { return L10n.tr("Localizable", "uQy-DD-JDr.title") }
   /// Cut
   public static var uRlIYUnGTitle: String  { return L10n.tr("Localizable", "uRl-iY-unG.title") }
