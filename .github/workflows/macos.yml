@@ -211,6 +211,7 @@ jobs:
             -scheme ImpulseM \
             -configuration Debug \
             -destination 'platform=macOS' \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             build 2>&1 | tee build-logs/xcodebuild.log
@@ -221,22 +222,28 @@ jobs:
         id: locate-app
         run: |
           set -eu
-          SETTINGS_JSON="$(xcodebuild -workspace Telegram-Mac.xcworkspace -scheme ImpulseM -configuration Debug -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO -showBuildSettings -json)"
-          APP_PATH="$(printf '%s' "$SETTINGS_JSON" | python3 -c '
-          import json
-          import os
-          import sys
-          entries = json.load(sys.stdin)
-          apps = []
-          for entry in entries:
-              settings = entry["buildSettings"]
-              if entry.get("target") == "Telegram" and settings.get("WRAPPER_EXTENSION") == "app":
-                  apps.append(os.path.join(settings["BUILT_PRODUCTS_DIR"], settings["FULL_PRODUCT_NAME"]))
-          unique_apps = sorted(set(apps))
-          if len(unique_apps) != 1:
-              sys.exit("expected exactly one app bundle, found: " + repr(unique_apps))
-          print(unique_apps[0])
-          ')"
+          PRODUCTS_DIR="$RUNNER_TEMP/DerivedData/Build/Products/Debug"
+          if [ ! -d "$PRODUCTS_DIR" ]; then
+            echo "::error::Products directory not found: $PRODUCTS_DIR"
+            exit 1
+          fi
+          APPS="$(find "$PRODUCTS_DIR" -mindepth 1 -maxdepth 1 -type d -name '*.app' | sort)"
+          if [ -z "$APPS" ]; then
+            APP_COUNT=0
+          else
+            APP_COUNT="$(printf '%s\n' "$APPS" | wc -l | tr -d ' ')"
+          fi
+          if [ "$APP_COUNT" -ne 1 ]; then
+            echo "::error::Expected exactly one .app bundle in $PRODUCTS_DIR, found $APP_COUNT"
+            echo "Contents of $PRODUCTS_DIR:"
+            ls -1 "$PRODUCTS_DIR"
+            if [ -n "$APPS" ]; then
+              echo "Matching .app directories:"
+              printf '%s\n' "$APPS"
+            fi
+            exit 1
+          fi
+          APP_PATH="$APPS"
           test -d "$APP_PATH"
           echo "app_path=$APP_PATH" >> "$GITHUB_OUTPUT"
 
