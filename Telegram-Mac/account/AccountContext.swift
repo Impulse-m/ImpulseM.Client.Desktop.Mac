@@ -13,6 +13,7 @@ import FetchManager
 import InAppPurchaseManager
 import CurrencyFormat
 import WalletContext
+import TelegramContext
 #endif
 import ApiCredentials
 
@@ -280,7 +281,6 @@ final class AccountContext {
         return self.mainQueueContexts.takeUnretainedValue().webSessions
     }
     let reactions: Reactions
-    let dockControl: DockControl
     private(set) var reactionSettings: ReactionSettings = ReactionSettings.default
     private let reactionSettingsDisposable = MetaDisposable()
     private var chatInterfaceTempState:[PeerId : ChatInterfaceTempState] = [:]
@@ -400,7 +400,8 @@ final class AccountContext {
     private let checkSidebarShouldEnable = MetaDisposable()
     private let actionsDisposable = DisposableSet()
     private let _limitConfiguration: Atomic<LimitsConfiguration> = Atomic(value: LimitsConfiguration.defaultValue)
-    
+    private let meUrlPrefixStorage: Atomic<String> = Atomic(value: "")
+
     
     private var _peerNameColors: PeerNameColors?
     
@@ -415,7 +416,7 @@ final class AccountContext {
     }
 
     var meUrlPrefix: String {
-        return appConfiguration.getStringValue("me_url_prefix", orElse: "https://t.me/")
+        return meUrlPrefixStorage.with { $0 }
     }
 
     var meUrlDisplayPrefix: String {
@@ -549,7 +550,6 @@ final class AccountContext {
         self.cachedGroupCallContexts = AccountGroupCallContextCacheImpl()
         self.networkStatusManager = NetworkStatusManager(account: account, window: window, sharedContext: sharedContext)
         self.reactions = Reactions(engine)
-        self.dockControl = DockControl(engine, accountManager: sharedContext.accountManager)
         self.starsContext = engine.payments.peerStarsContext()
         self.tonContext = engine.payments.peerTonContext()
         self.starsSubscriptionsContext = engine.payments.peerStarsSubscriptionsContext(starsContext: self.starsContext)
@@ -684,6 +684,17 @@ final class AccountContext {
         let limitConfiguration = _limitConfiguration
         prefDisposable.add(account.postbox.preferencesView(keys: [PreferencesKeys.limitsConfiguration]).start(next: { view in
             _ = limitConfiguration.swap(view.values[PreferencesKeys.limitsConfiguration]?.get(LimitsConfiguration.self) ?? LimitsConfiguration.defaultValue)
+        }))
+        let meUrlPrefixStore: Atomic<String> = meUrlPrefixStorage
+        prefDisposable.add(account.postbox.preferencesView(keys: [PreferencesKeys.linksConfiguration]).start(next: { view in
+            var prefix: String = view.values[PreferencesKeys.linksConfiguration]?.get(LinksConfiguration.self)?.meUrlPrefix ?? ""
+            if !prefix.isEmpty && !prefix.hasSuffix("/") {
+                prefix += "/"
+            }
+            _ = meUrlPrefixStore.swap(prefix)
+            #if !SHARE
+            MeUrlPrefixMirror.set(prefix)
+            #endif
         }))
         let appConfiguration = _appConfiguration
         prefDisposable.add(account.postbox.preferencesView(keys: [PreferencesKeys.appConfiguration]).start(next: { view in
@@ -965,8 +976,6 @@ final class AccountContext {
         actionsDisposable.add((contentSettingsConfiguration(network: account.network) |> deliverOnMainQueue).startStandalone(next: { [weak self] settings in
             self?.contentConfig = settings
         }))
-
-        actionsDisposable.add(requestApplicationIcons(engine: engine).start())
     }
     #endif
 
@@ -1111,7 +1120,6 @@ final class AccountContext {
         _chatThemes.set(.single([]))
         _cloudThemes.set(.single(.init(themes: [], list: [:], default: nil, custom: nil)))
         reactionSettingsDisposable.dispose()
-        dockControl.clear()
         captureExclusionManager.cleanup()
         #endif
     }
