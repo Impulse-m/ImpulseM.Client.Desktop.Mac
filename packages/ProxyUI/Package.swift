@@ -23,6 +23,7 @@ let package = Package(
         .package(name: "AlertsUI", path: "../AlertsUI"),
         .package(name: "ProxyUtils", path: "../ProxyUtils"),
         .package(name: "QRCodeUtils", path: "../QRCodeUtils"),
+        .package(name: "ImpulseProxy", path: "../ImpulseProxy"),
     ],
     targets: [
         .target(
@@ -42,7 +43,14 @@ let package = Package(
                 .product(name: "AlertsUI", package: "AlertsUI", condition: nil),
                 .product(name: "ProxyUtils", package: "ProxyUtils", condition: nil),
                 .product(name: "QRCodeUtils", package: "QRCodeUtils", condition: nil),
+                .product(name: "ImpulseProxy", package: "ImpulseProxy", condition: nil),
             ],
             path: "Sources/ProxyUI"),
+        .testTarget(
+            name: "ProxyUITests",
+            dependencies: [
+                "ProxyUI",
+            ],
+            path: "Tests/ProxyUITests"),
     ]
 )
