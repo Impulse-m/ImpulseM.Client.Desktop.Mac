@@ -1754,55 +1754,11 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         
         if shouldJoin, let callInfo = activeCallInfo, !self.liveKitContextRequested {
             self.liveKitContextRequested = true
-            let initialMuted: Bool = self.initialOutput.isMuted
-            Task { @MainActor [weak self] in
-                guard let strongSelf = self, !strongSelf.markedAsCanBeRemoved else {
-                    return
-                }
-                let genericCallContext: LiveKitGroupCallContext = LiveKitGroupCallContext(
-                    callId: callInfo.id,
-                    joinRequest: { [weak self] (payload: String, isPresentation: Bool) async throws -> LiveKitGroupJoinResponse in
-                        guard let strongSelf = self else {
-                            throw LiveKitGroupJoinError.serverError("the group call is released")
-                        }
-                        if isPresentation {
-                            return try await strongSelf.liveKitPresentationJoin(callInfo: callInfo, payload: payload)
-                        } else {
-                            return try await strongSelf.liveKitMainJoin(callInfo: callInfo, payload: payload)
-                        }
-                    },
-                    checkRequest: { [weak self] (sources: [UInt32]) async throws -> [UInt32] in
-                        guard let strongSelf = self else {
-                            throw LiveKitGroupCheckError.other
-                        }
-                        return try await strongSelf.liveKitCheck(callInfo: callInfo, sources: sources)
-                    },
-                    leavePresentationRequest: { [weak self] () async -> Void in
-                        guard let strongSelf = self else {
-                            return
-                        }
-                        await strongSelf.liveKitLeavePresentation(callInfo: callInfo)
-                    },
-                    initialMuted: initialMuted
-                )
-                genericCallContext.onStateChanged = { [weak self] (state: LiveKitGroupCallState) -> Void in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    strongSelf.liveKitNetworkStatePromise.set(LiveKitGroupNetworkState(state: state))
-                    if case .ended = state {
-                        strongSelf.markAsCanBeRemoved()
-                    }
-                }
-                strongSelf.genericCallContext = genericCallContext
-                strongSelf.settingsDisposable = (voiceCallSettings(strongSelf.sharedContext.accountManager) |> deliverOnMainQueue).start(next: { [weak genericCallContext] settings in
-                    Task { @MainActor in
-                        genericCallContext?.setNoiseSuppressionEnabled(settings.noiseSuppression)
-                    }
-                })
-                strongSelf.stateVersionValue += 1
-                genericCallContext.start()
-                strongSelf.subscribeLiveKitGroupCall(genericCallContext)
+            if self.isRefusedOnLiveKit {
+                // Group E2E, conference and stream calls have no group media on LiveKit. They end before any room is joined.
+                self.markAsCanBeRemoved()
+            } else {
+                self.startLiveKitGroupCall(callInfo: callInfo)
             }
         }
         switch previousInternalState {
@@ -2595,6 +2551,82 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             })
         }
     }
+
+    /// Whether the call cannot run on LiveKit group media: group E2E, conference and stream calls end before any room is joined.
+    private var isRefusedOnLiveKit: Bool {
+        return self.e2eContext != nil || self.isConference || self.isStream
+    }
+
+
+    /// The microphone state the LiveKit context must have now: muted while the server forbids speaking, otherwise the local mute action.
+    private var effectiveLiveKitMuted: Bool {
+        if let muteState: GroupCallParticipantsContext.Participant.MuteState = self.stateValue.muteState, !muteState.canUnmute {
+            return true
+        }
+        switch self.isMutedValue {
+        case let .muted(isPushToTalkActive):
+            return !isPushToTalkActive
+        case .unmuted:
+            return false
+        }
+    }
+
+
+    /// Builds the LiveKit group context of the call and starts it. The mute state is read when the context is built and pushed again before it starts,
+    /// so a mute set in between holds when the room connects.
+    private func startLiveKitGroupCall(callInfo: GroupCallInfo) {
+        Task { @MainActor [weak self] in
+            guard let strongSelf = self, !strongSelf.markedAsCanBeRemoved else {
+                return
+            }
+            let genericCallContext: LiveKitGroupCallContext = LiveKitGroupCallContext(
+                callId: callInfo.id,
+                joinRequest: { [weak self] (payload: String, isPresentation: Bool) async throws -> LiveKitGroupJoinResponse in
+                    guard let strongSelf = self else {
+                        throw LiveKitGroupJoinError.serverError("the group call is released")
+                    }
+                    if isPresentation {
+                        return try await strongSelf.liveKitPresentationJoin(callInfo: callInfo, payload: payload)
+                    } else {
+                        return try await strongSelf.liveKitMainJoin(callInfo: callInfo, payload: payload)
+                    }
+                },
+                checkRequest: { [weak self] (sources: [UInt32]) async throws -> [UInt32] in
+                    guard let strongSelf = self else {
+                        throw LiveKitGroupCheckError.other
+                    }
+                    return try await strongSelf.liveKitCheck(callInfo: callInfo, sources: sources)
+                },
+                leavePresentationRequest: { [weak self] () async -> Void in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    await strongSelf.liveKitLeavePresentation(callInfo: callInfo)
+                },
+                initialMuted: strongSelf.effectiveLiveKitMuted
+            )
+            genericCallContext.onStateChanged = { [weak self] (state: LiveKitGroupCallState) -> Void in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.liveKitNetworkStatePromise.set(LiveKitGroupNetworkState(state: state))
+                if case .ended = state {
+                    strongSelf.markAsCanBeRemoved()
+                }
+            }
+            strongSelf.genericCallContext = genericCallContext
+            strongSelf.settingsDisposable = (voiceCallSettings(strongSelf.sharedContext.accountManager) |> deliverOnMainQueue).start(next: { [weak genericCallContext] settings in
+                Task { @MainActor in
+                    genericCallContext?.setNoiseSuppressionEnabled(settings.noiseSuppression)
+                }
+            })
+            strongSelf.stateVersionValue += 1
+            genericCallContext.setMuted(strongSelf.effectiveLiveKitMuted)
+            genericCallContext.start()
+            strongSelf.subscribeLiveKitGroupCall(genericCallContext)
+        }
+    }
+
 
     @MainActor
     private func subscribeLiveKitGroupCall(_ genericCallContext: LiveKitGroupCallContext) {
