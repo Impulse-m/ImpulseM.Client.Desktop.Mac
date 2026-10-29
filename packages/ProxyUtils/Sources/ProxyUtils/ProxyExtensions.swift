@@ -4,6 +4,7 @@ import Postbox
 import SwiftSignalKit
 import MtProtoKit
 import FoundationUtils
+import ImpulseProxy
 
 public func proxySettings(accountManager: AccountManager<TelegramAccountManagerTypes>) -> Signal<ProxySettings, NoError>  {
     return accountManager.sharedData(keys: [SharedDataKeys.proxySettings]) |> map { view in
@@ -62,38 +63,6 @@ public extension ProxySettings {
 }
 
 public extension ProxyServerSettings {
-    var link: String {
-        let prefix: String
-        switch self.connection {
-        case .mtp:
-            prefix = "proxy"
-        case .socks5:
-            prefix = "socks"
-        case .web:
-            prefix = "webproxy"
-        }
-        var link: String
-        if case .web = self.connection {
-            return webProxySettingsLink(self) ?? ""
-        } else {
-            link = "tg://\(prefix)?server=\(self.host)&port=\(self.port)"
-        }
-        switch self.connection {
-        case let .mtp(secret):
-            link += "&secret=\((secret as NSData).hexString)"
-        case let .socks5(username, password):
-            if let username = username {
-                link += "&user=\(username)"
-            }
-            if let password = password {
-                link += "&pass=\(password)"
-            }
-        case .web:
-            break
-        }
-        return link
-    }
-    
     var isEmpty: Bool {
         if host.isEmpty {
             return true
@@ -115,5 +84,54 @@ public extension ProxyServerSettings {
             break
         }
         return false
+    }
+}
+
+
+/// A proxy link found in pasted text: a VLESS share line or an http(s) subscription URL.
+public enum ProxyLinkCandidate: Equatable {
+    case vless(String)
+    case subscription(URL)
+}
+
+
+/// Finds the ImpulseM proxy link candidates in text, one per line. Telegram proxy links (`tg://proxy`,
+/// `tg://socks`, `t.me/proxy`, `t.me/socks`) are not candidates.
+public enum ProxyLinkCandidates {
+    private static let telegramDomains: [String] = ["t.me", "telegram.me", "telegram.dog"]
+
+
+    public static func extract(
+        text: String
+    ) -> [ProxyLinkCandidate] {
+        var candidates: [ProxyLinkCandidate] = []
+        for rawLine: Substring in text.split(whereSeparator: { (character: Character) -> Bool in
+            return character.isNewline
+        }) {
+            let line: String = String(rawLine).trimmingCharacters(in: .whitespacesAndNewlines)
+            switch ProxyLinks.detectInputKind(text: line) {
+            case .links:
+                candidates.append(.vless(line))
+            case .subscription:
+                if let url: URL = URL(string: line), !isTelegramLink(url) {
+                    candidates.append(.subscription(url))
+                }
+            case .unknown:
+                break
+            }
+        }
+        return candidates
+    }
+
+
+    private static func isTelegramLink(
+        _ url: URL
+    ) -> Bool {
+        guard let host: String = url.host?.lowercased() else {
+            return false
+        }
+        return telegramDomains.contains(where: { (domain: String) -> Bool in
+            return host == domain || host.hasSuffix("." + domain)
+        })
     }
 }

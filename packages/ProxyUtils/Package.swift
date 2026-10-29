@@ -14,6 +14,7 @@ let package = Package(
         .package(name: "Postbox", path: "../../submodules/telegram-ios/submodules/Postbox"),
         .package(name: "FoundationUtils", path: "../FoundationUtils"),
         .package(name: "MtProtoKit", path: "../../submodules/telegram-ios/submodules/MtProtoKit"),
+        .package(name: "ImpulseProxy", path: "../ImpulseProxy"),
     ],
     targets: [
         .target(
@@ -24,7 +25,12 @@ let package = Package(
                 .product(name: "Postbox", package: "Postbox", condition: nil),
                 .product(name: "FoundationUtils", package: "FoundationUtils", condition: nil),
                 .product(name: "MtProtoKit", package: "MtProtoKit", condition: nil),
+                .product(name: "ImpulseProxy", package: "ImpulseProxy", condition: nil),
             ],
             path: "Sources/ProxyUtils"),
+        .testTarget(
+            name: "ProxyUtilsTests",
+            dependencies: ["ProxyUtils"],
+            path: "Tests/ProxyUtilsTests"),
     ]
 )
