@@ -270,7 +270,13 @@ public func callScreen(_ result:PCallResult, source: CallWindowSource? = nil) {
             }
             session?.acceptCallSession()
         }, video: { [weak session] isIncoming in
-            return session?.makeVideo(isIncoming: isIncoming).map { MetalVideoMakeSource(videoStreamSignal: $0) }
+            guard let session else {
+                return nil
+            }
+            guard let trackSignal = session.makeVideo(isIncoming: isIncoming) else {
+                return nil
+            }
+            return MetalVideoMakeSource(trackSignal: trackSignal, mirrorHorizontally: !isIncoming && !session.isScreenCapture)
         }, nativeVideo: { [weak session] isIncoming, completion in
             guard let session, isNativeCallVideoRenderingAvailable else {
                 completion(nil)

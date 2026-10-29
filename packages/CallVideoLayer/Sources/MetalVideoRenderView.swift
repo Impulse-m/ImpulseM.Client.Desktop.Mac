@@ -390,9 +390,84 @@ private final class AdaptedCallVideoSource: VideoSource {
 }
 
 
+/// Follows a signal of LiveKit video tracks and renders the track it currently emits. It has no output while the signal emits nil.
+private final class SignalCallVideoSource: VideoSource {
+    private let mirrorHorizontally: Bool
+    private var onUpdatedListeners = Bag<() -> Void>()
+    private var trackDisposable: Disposable?
+    private var adaptedSource: AdaptedCallVideoSource?
+    private var adaptedUpdatedDisposable: Disposable?
+
+
+    var currentOutput: VideoSource.Output? {
+        return self.adaptedSource?.currentOutput
+    }
+
+
+    init(trackSignal: Signal<VideoTrack?, NoError>, mirrorHorizontally: Bool) {
+        self.mirrorHorizontally = mirrorHorizontally
+        self.trackDisposable = deliverOnMainQueue(trackSignal).start(next: { [weak self] (track: VideoTrack?) in
+            self?.adoptTrack(track)
+        })
+    }
+
+
+    func addOnUpdated(_ f: @escaping () -> Void) -> Disposable {
+        let index = self.onUpdatedListeners.add(f)
+
+        return ActionDisposable { [weak self] in
+            DispatchQueue.main.async {
+                guard let self else {
+                    return
+                }
+                self.onUpdatedListeners.remove(index)
+            }
+        }
+    }
+
+
+    private func adoptTrack(_ track: VideoTrack?) {
+        self.adaptedUpdatedDisposable?.dispose()
+        self.adaptedUpdatedDisposable = nil
+
+        guard let track else {
+            self.adaptedSource = nil
+            self.notifyUpdated()
+            return
+        }
+
+        let adaptedSource: AdaptedCallVideoSource = AdaptedCallVideoSource(track: track, mirrorHorizontally: self.mirrorHorizontally)
+        self.adaptedSource = adaptedSource
+        self.adaptedUpdatedDisposable = adaptedSource.addOnUpdated { [weak self] in
+            self?.notifyUpdated()
+        }
+        self.notifyUpdated()
+    }
+
+
+    private func notifyUpdated() {
+        for onUpdated in self.onUpdatedListeners.copyItems() {
+            onUpdated()
+        }
+    }
+
+
+    deinit {
+        self.trackDisposable?.dispose()
+        self.adaptedUpdatedDisposable?.dispose()
+    }
+}
+
+
 /// Builds a Metal video source that renders the frames of a LiveKit video track (a remote track or the local camera or screen track).
 public func MetalVideoMakeSource(track: VideoTrack, mirrorHorizontally: Bool) -> VideoSource {
     return AdaptedCallVideoSource(track: track, mirrorHorizontally: mirrorHorizontally)
+}
+
+
+/// Builds a Metal video source that follows a signal of LiveKit video tracks. It renders the track as soon as the signal emits one, and follows each later track change, so it can be returned before the track exists.
+public func MetalVideoMakeSource(trackSignal: Signal<VideoTrack?, NoError>, mirrorHorizontally: Bool) -> VideoSource {
+    return SignalCallVideoSource(trackSignal: trackSignal, mirrorHorizontally: mirrorHorizontally)
 }
 
 #if arch(arm64)
