@@ -1616,7 +1616,7 @@ public final class PremiumBoardingController : ModalViewController {
         
         let buyNonStore = {
             
-            let url = context.appConfiguration.getStringValue("premium_manage_subscription_url", orElse: "https://t.me/premiumbot?start=status")
+            let url = context.appConfiguration.getStringValue("premium_manage_subscription_url", orElse: context.meUrlPrefix + "premiumbot?start=status")
             if source == .grace_period {
                 PremiumHooks.shared.openLinkObserved(context, url, arguments.openInfo)
                 close()

@@ -933,10 +933,11 @@ private func renderedAttributedStringForRichText(_ text: RichText, styleStack: I
         styleStack.pop()
         return result
     case let .textTonAddress(text):
-        var components = URLComponents(string: "https://t.me/sendgrams")!
+        let sendGramsUrl: String = MeUrlPrefixMirror.current() + "sendgrams"
+        var components: URLComponents = URLComponents(string: sendGramsUrl) ?? URLComponents()
         components.queryItems = [URLQueryItem(name: "to", value: text.plainText)]
         styleStack.push(.link(false))
-        let result = attributedStringForRichText(text, styleStack: styleStack, url: InstantPageUrlItem(url: components.string!, webpageId: nil, tonAddress: text.plainText), inlineButtonMaxWidth: inlineButtonMaxWidth, isInsideTableCell: isInsideTableCell)
+        let result = attributedStringForRichText(text, styleStack: styleStack, url: InstantPageUrlItem(url: components.string ?? sendGramsUrl, webpageId: nil, tonAddress: text.plainText), inlineButtonMaxWidth: inlineButtonMaxWidth, isInsideTableCell: isInsideTableCell)
         styleStack.pop()
         return result
     case let .textMention(text):
