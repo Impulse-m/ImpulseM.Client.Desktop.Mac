@@ -19,7 +19,7 @@ func parseContactTokenLink(_ link: String) -> ContactTokenLink? {
         }
         token = value
     case "http", "https":
-        guard let host = components.host?.lowercased(), ["t.me", "telegram.me", "telegram.dog"].contains(host), components.path.hasPrefix("/contact/") else {
+        guard let host = components.host?.lowercased(), ["t.me", "telegram.me", "telegram.dog", "o.impulsem.net"].contains(host), components.path.hasPrefix("/contact/") else {
             return nil
         }
         token = String(components.path.dropFirst("/contact/".count))
