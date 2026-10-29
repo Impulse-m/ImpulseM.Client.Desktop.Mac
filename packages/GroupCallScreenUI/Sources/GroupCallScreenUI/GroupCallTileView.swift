@@ -4,7 +4,6 @@ import TGUIKit
 import TelegramCore
 import Postbox
 import SwiftSignalKit
-import TgVoipWebrtc
 import CallsUI
 import Localization
 import TelegramCallsCore

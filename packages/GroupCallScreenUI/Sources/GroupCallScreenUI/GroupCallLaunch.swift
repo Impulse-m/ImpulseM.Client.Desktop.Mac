@@ -6,7 +6,6 @@ import SwiftSignalKit
 import AVFoundation
 import TGUIKit
 import TelegramMedia
-import TgVoipWebrtc
 import TelegramCallsCore
 import TelegramContext
 import TelegramTheme

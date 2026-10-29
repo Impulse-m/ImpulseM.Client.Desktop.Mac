@@ -6,7 +6,6 @@ import Postbox
 import ColorPalette
 import TelegramCore
 import HotKey
-import TgVoipWebrtc
 import InAppSettings
 import ObjcUtils
 import InputView
@@ -83,7 +82,7 @@ public final class GroupCallUIArguments {
     public let dismissTooltip:(GroupCallUIState.ControlsTooltip)->Void
     public let focusVideo: (String?)->Void
     public let takeTileView:() -> (NSSize, GroupCallTileView)?
-    public let getSource:(VideoSourceMacMode)->VideoSourceMac?
+    public let getSource:(VideoSourceMacMode)->CallCaptureSource?
     public let toggleShowConferenceKey: (Bool)->Void
     public let getConferenceLimit: ()->Int32
     public let getContext:()->(any AccountContextProtocol)?
@@ -124,7 +123,7 @@ public final class GroupCallUIArguments {
     dismissTooltip:@escaping(GroupCallUIState.ControlsTooltip)->Void,
     focusVideo: @escaping(String?)->Void,
     takeTileView:@escaping() -> (NSSize, GroupCallTileView)?,
-    getSource:@escaping(VideoSourceMacMode)->VideoSourceMac?,
+    getSource:@escaping(VideoSourceMacMode)->CallCaptureSource?,
     toggleShowConferenceKey: @escaping(Bool)->Void,
     getConferenceLimit: @escaping()->Int32,
     getContext:@escaping()->(any AccountContextProtocol)?) {
@@ -1182,7 +1181,7 @@ public final class GroupCallUIController : ViewController {
                 }
             }
             
-            let select:(VideoSourceMac)->Void = { source in
+            let select:(CallCaptureSource)->Void = { source in
                 switch source.mode {
                 case .screencast:
                     if let screenSource = source as? MacOSScreenPickerSource, let capturer = screenSource.makeCapturer() {

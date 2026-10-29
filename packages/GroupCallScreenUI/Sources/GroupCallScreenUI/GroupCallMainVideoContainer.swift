@@ -5,7 +5,6 @@ import SwiftSignalKit
 import TelegramCore
 import Postbox
 import ColorPalette
-import TgVoipWebrtc
 import CallsUI
 import Localization
 import TelegramCallsCore
