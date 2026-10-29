@@ -18,6 +18,81 @@ import ProxyUtils
 
 
 
+/// The outcome of waiting for the first event of a signal from an async context.
+private enum GroupCallSignalOutcome<Value, Failure> {
+    case value(Value)
+    case failure(Failure)
+    case completed
+    case cancelled
+}
+
+
+/// Waits for the first event of a signal. Cancelling the calling task disposes the signal and resolves the wait as cancelled.
+private func awaitGroupCallSignal<Value, Failure>(_ signal: Signal<Value, Failure>) async -> GroupCallSignalOutcome<Value, Failure> {
+    let waiter: GroupCallSignalWaiter<Value, Failure> = GroupCallSignalWaiter<Value, Failure>()
+    return await waiter.wait(for: signal)
+}
+
+
+private final class GroupCallSignalWaiter<Value, Failure>: @unchecked Sendable {
+    private let lock: NSLock = NSLock()
+    private let disposable: MetaDisposable = MetaDisposable()
+    private var continuation: CheckedContinuation<GroupCallSignalOutcome<Value, Failure>, Never>?
+    private var isCancelled: Bool = false
+
+
+    func wait(for signal: Signal<Value, Failure>) async -> GroupCallSignalOutcome<Value, Failure> {
+        return await withTaskCancellationHandler(operation: { () async -> GroupCallSignalOutcome<Value, Failure> in
+            return await withCheckedContinuation { (continuation: CheckedContinuation<GroupCallSignalOutcome<Value, Failure>, Never>) -> Void in
+                self.start(signal: signal, continuation: continuation)
+            }
+        }, onCancel: { () -> Void in
+            self.cancel()
+        })
+    }
+
+
+    private func start(
+        signal: Signal<Value, Failure>,
+        continuation: CheckedContinuation<GroupCallSignalOutcome<Value, Failure>, Never>
+    ) {
+        self.lock.lock()
+        if self.isCancelled {
+            self.lock.unlock()
+            continuation.resume(returning: .cancelled)
+            return
+        }
+        self.continuation = continuation
+        self.lock.unlock()
+        self.disposable.set(signal.start(next: { (value: Value) -> Void in
+            self.finish(.value(value))
+        }, error: { (error: Failure) -> Void in
+            self.finish(.failure(error))
+        }, completed: { () -> Void in
+            self.finish(.completed)
+        }))
+    }
+
+
+    private func finish(_ outcome: GroupCallSignalOutcome<Value, Failure>) {
+        self.lock.lock()
+        let pending: CheckedContinuation<GroupCallSignalOutcome<Value, Failure>, Never>? = self.continuation
+        self.continuation = nil
+        self.lock.unlock()
+        pending?.resume(returning: outcome)
+    }
+
+
+    private func cancel() {
+        self.lock.lock()
+        self.isCancelled = true
+        self.lock.unlock()
+        self.disposable.dispose()
+        self.finish(.cancelled)
+    }
+}
+
+
 private enum CurrentImpl {
     case call(OngoingGroupCallContext)
     case externalMediaStream(DirectMediaStreamingContext)
@@ -858,7 +933,8 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
     private let internalStatePromise = Promise<InternalState>(.requesting)
     private var currentLocalSsrc: UInt32?
     
-    private var genericCallContext: OngoingGroupCallContext?
+    private var genericCallContext: LiveKitGroupCallContext?
+    private var liveKitContextRequested: Bool = false
     private var currentConnectionMode: OngoingGroupCallContext.ConnectionMode = .none
     private var screencastCallContext: OngoingGroupCallContext?
     
@@ -1674,312 +1750,58 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
                                    
         let prioritizeVP8 = self.accountContext.appConfiguration.getBoolValue("macos_calls_prioritize_vp8", orElse: false)
         
-        if shouldJoin, let callInfo = activeCallInfo {
-            let genericCallContext: OngoingGroupCallContext
-            if let current = self.genericCallContext {
-                genericCallContext = current
-            } else {
-                genericCallContext = OngoingGroupCallContext(inputDeviceId: devicesContext.currentMicroId ?? "", outputDeviceId: devicesContext.currentOutputId ?? "", audioSessionActive: .single(true), video: self.videoCapturer, requestMediaChannelDescriptions: { [weak self] ssrcs, completion in
-                    let disposable = MetaDisposable()
-                    Queue.mainQueue().async {
-                        guard let strongSelf = self else {
-                            return
-                        }
-                        disposable.set(strongSelf.requestMediaChannelDescriptions(ssrcs: ssrcs, completion: completion))
-                    }
-                    return disposable
-                }, rejoinNeeded: { [weak self] in
-                    Queue.mainQueue().async {
-                        guard let strongSelf = self else {
-                            return
-                        }
-                        if case .established = strongSelf.internalState {
-                            strongSelf.requestCall(movingFromBroadcastToRtc: false)
-                        }
-                    }
-                }, outgoingAudioBitrateKbit: nil, videoContentType: .generic, enableNoiseSuppression: false, disableAudioInput: self.isStream, enableSystemMute: false, useReferenceImpl: true, prioritizeVP8: prioritizeVP8, logPath: allocateCallLogPath(account: self.account), onMutedSpeechActivityDetected: { _ in }, isConference: isConference, audioIsActiveByDefault: !self.initialOutput.isMuted, isStream: false, sharedAudioDevice: nil, encryptionContext: encryptionContext)
-                
-                
-                
-                self.genericCallContext = genericCallContext
-                genericCallContext.setRequestedVideoChannels(self.suspendVideoChannelRequests ? [] : self.requestedVideoChannels)
-                self.settingsDisposable = (voiceCallSettings(self.sharedContext.accountManager) |> deliverOnMainQueue).start(next: { [weak self] settings in
-                    self?.genericCallContext?.setIsNoiseSuppressionEnabled(settings.noiseSuppression)
-                })
-                
-                self.stateVersionValue += 1
-                
-               
-            }
-            self.joinDisposable.set((genericCallContext.joinPayload
-            |> distinctUntilChanged(isEqual: { lhs, rhs in
-                if lhs.0 != rhs.0 {
-                    return false
-                }
-                if lhs.1 != rhs.1 {
-                    return false
-                }
-                return true
-            })
-            |> deliverOnMainQueue).start(next: { [weak self] joinPayload, ssrc in
-                guard let strongSelf = self else {
+        if shouldJoin, let callInfo = activeCallInfo, !self.liveKitContextRequested {
+            self.liveKitContextRequested = true
+            let initialMuted: Bool = self.initialOutput.isMuted
+            Task { @MainActor [weak self] in
+                guard let strongSelf = self, !strongSelf.markedAsCanBeRemoved else {
                     return
                 }
-
-                let peerAdminIds: Signal<[PeerId], NoError>
-                let peerId = strongSelf.peerId
-                if let peerId {
-                    if peerId.namespace == Namespaces.Peer.CloudChannel {
-                        peerAdminIds = Signal { subscriber in
-                            let (disposable, _) = strongSelf.accountContext.peerChannelMemberCategoriesContextsManager.admins(peerId: peerId, updated: { list in
-                                var peerIds = Set<PeerId>()
-                                for item in list.list {
-                                    if let adminInfo = item.participant.adminInfo, adminInfo.rights.rights.contains(.canManageCalls) {
-                                        peerIds.insert(item.peer.id)
-                                    }
-                                }
-                                subscriber.putNext(Array(peerIds))
-                            })
-                            return disposable
-                        }
-                        |> distinctUntilChanged
-                        |> runOn(.mainQueue())
-                    } else {
-                        peerAdminIds = strongSelf.account.postbox.transaction { transaction -> [PeerId] in
-                            var result: [PeerId] = []
-                            if let cachedData = transaction.getPeerCachedData(peerId: peerId) as? CachedGroupData {
-                                if let participants = cachedData.participants {
-                                    for participant in participants.participants {
-                                        if case .creator = participant {
-                                            result.append(participant.peerId)
-                                        } else if case .admin = participant {
-                                            result.append(participant.peerId)
-                                        }
-                                    }
-                                }
-                            }
-                            return result
-                        }
-                    }
-                } else {
-                    peerAdminIds = .single([])
-                }
-                var generateE2EData: ((Data?) -> JoinGroupCallE2E?)?
-                if let keyPair = strongSelf.keyPair {
-                    if let mappedKeyPair = TdKeyPair(keyId: keyPair.id, publicKey: keyPair.publicKey.data) {
-                        let userId = strongSelf.joinAsPeerId.id._internalGetInt64Value()
-                        var checkIndex = 0
-                        generateE2EData = { block -> JoinGroupCallE2E? in
-                            
-                            checkIndex += 1
-                            
-                            if checkIndex > 1 {
-                                var bp = 0
-                                bp += 1
-                            }
-                            
-                            if let block {
-                                guard let resultBlock = tdGenerateSelfAddBlock(mappedKeyPair, userId, block) else {
-                                    return nil
-                                }
-                                return JoinGroupCallE2E(
-                                    publicKey: keyPair.publicKey,
-                                    block: resultBlock
-                                )
-                            } else {
-                                guard let resultBlock = tdGenerateZeroBlock(mappedKeyPair, userId) else {
-                                    return nil
-                                }
-                                return JoinGroupCallE2E(
-                                    publicKey: keyPair.publicKey,
-                                    block: resultBlock
-                                )
-                            }
-                        }
-                    }
-                }
-                
-                let reference: InternalGroupCallReference
-                if let initialCall = strongSelf.initialCall {
-                    reference = initialCall.reference
-                } else {
-                    reference = .id(id: callInfo.id, accessHash: callInfo.accessHash)
-                }
-                
-
-                strongSelf.currentLocalSsrc = ssrc
-                strongSelf.checkIndex += 1
-                
-                if strongSelf.checkIndex > 1 {
-                    var bp = 0
-                    bp += 1
-                }
-                strongSelf.requestDisposable.set((strongSelf.accountContext.engine.calls.joinGroupCall(
-                    peerId: strongSelf.peerId,
-                    joinAs: strongSelf.joinAsPeerId,
+                let genericCallContext: LiveKitGroupCallContext = LiveKitGroupCallContext(
                     callId: callInfo.id,
-                    reference: reference,
-                    isStream: strongSelf.isStream,
-                    streamPeerId: strongSelf.streamPeerId,
-                    preferMuted: true,
-                    joinPayload: joinPayload,
-                    peerAdminIds: peerAdminIds,
-                    inviteHash: strongSelf.invite,
-                    generateE2E: generateE2EData
-                ) |> deliverOnMainQueue).start(next: { joinCallResult in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    let clientParams = joinCallResult.jsonParams
-
-                    strongSelf.ssrcMapping.removeAll()
-                    for participant in joinCallResult.state.participants {
-                        if let ssrc = participant.ssrc {
-                            if let participantPeer = participant.peer {
-                                strongSelf.ssrcMapping[ssrc] = SsrcMapping(peerId: participantPeer.id, isPresentation: false)
-                            }
+                    joinRequest: { [weak self] (payload: String, isPresentation: Bool) async throws -> LiveKitGroupJoinResponse in
+                        guard let strongSelf = self else {
+                            throw LiveKitGroupJoinError.serverError("the group call is released")
                         }
-                        if let presentationSsrc = participant.presentationDescription?.audioSsrc {
-                            if let participantPeer = participant.peer {
-                                strongSelf.ssrcMapping[presentationSsrc] = SsrcMapping(peerId: participantPeer.id, isPresentation: true)
-                            }
-                        }
-                    }
-
-                    switch joinCallResult.connectionMode {
-                    case .rtc:
-                        strongSelf.currentConnectionMode = .rtc
-                        strongSelf.genericCallContext?.setConnectionMode(.rtc, keepBroadcastConnectedIfWasEnabled: false, isUnifiedBroadcast: false)
-                        strongSelf.genericCallContext?.setJoinResponse(payload: clientParams)
-                    case let .broadcast(isExternalStream):
-                        strongSelf.currentConnectionMode = .broadcast
-                        strongSelf.genericCallContext?.setAudioStreamData(audioStreamData: OngoingGroupCallContext.AudioStreamData(engine: strongSelf.accountContext.engine, callId: callInfo.id, accessHash: callInfo.accessHash, isExternalStream: isExternalStream))
-                        strongSelf.genericCallContext?.setConnectionMode(.broadcast, keepBroadcastConnectedIfWasEnabled: false, isUnifiedBroadcast: isExternalStream)
-                    }
-
-                    strongSelf.updateSessionState(internalState: .established(info: joinCallResult.callInfo, connectionMode: joinCallResult.connectionMode, clientParams: clientParams, localSsrc: ssrc, initialState: joinCallResult.state))
-                    strongSelf.e2eContext?.begin(initialState: joinCallResult.e2eState)
-
-                }, error: { error in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    if case .anonymousNotAllowed = error {
-                        CallsCoreHooks.shared.alert(strongSelf.accountContext.window, strings().voiceChatAnonymousDisabledAlertText)
-                    } else if case .tooManyParticipants = error {
-                        CallsCoreHooks.shared.alert(strongSelf.accountContext.window, strings().voiceChatJoinErrorTooMany)
-                    }
-                    strongSelf.markAsCanBeRemoved()
-                }))
-            }))
-            self.networkStateDisposable.set((genericCallContext.networkState
-            |> deliverOnMainQueue).start(next: { [weak self] state in
-                guard let strongSelf = self else {
-                    return
-                }
-                let mappedState: PresentationGroupCallState.NetworkState
-                if state.isConnected {
-                    mappedState = .connected
-                } else {
-                    mappedState = .connecting
-                }
-
-                _ = strongSelf.stateValue.networkState == .connecting
-                if strongSelf.stateValue.networkState != mappedState {
-                    strongSelf.stateValue.networkState = mappedState
-                }
-                let isConnecting = mappedState == .connecting
-                
-                if strongSelf.isCurrentlyConnecting != isConnecting {
-                    strongSelf.isCurrentlyConnecting = isConnecting
-                    if isConnecting {
-                        strongSelf.startCheckingCallIfNeeded()
-                    } else {
-                        strongSelf.checkCallDisposable?.dispose()
-                        strongSelf.checkCallDisposable = nil
-                    }
-                }
-
-                strongSelf.isReconnectingAsSpeaker = state.isTransitioningFromBroadcastToRtc
-                
-                if isConnecting {
-                    strongSelf.didStartConnectingOnce = true
-                }
-                
-                if state.isConnected {
-                    if !strongSelf.didConnectOnce {
-                        strongSelf.didConnectOnce = true
-                    }
-
-                    if let peer = strongSelf.reconnectingAsPeer {
-                        strongSelf.reconnectingAsPeer = nil
-                        strongSelf.reconnectedAsEventsPipe.putNext(peer)
-                    }
-                }
-            }))
-            
-            self.audioLevelsDisposable.set((genericCallContext.audioLevels
-            |> deliverOnMainQueue).start(next: { [weak self] levels in
-                guard let strongSelf = self else {
-                    return
-                }
-                var result: [(PeerId, UInt32, Float, Bool)] = []
-                var myLevel: Float = 0.0
-                var myLevelHasVoice: Bool = false
-                var orignalMyLevelHasVoice: Bool = false
-                var missingSsrcs = Set<UInt32>()
-                for (ssrcKey, level, hasVoice) in levels {
-                    var peerId: PeerId?
-                    let ssrcValue: UInt32
-                    switch ssrcKey {
-                    case .local:
-                        peerId = strongSelf.joinAsPeerId
-                        ssrcValue = 0
-                    case let .source(ssrc):
-                        if let mapping = strongSelf.ssrcMapping[ssrc] {
-                            if mapping.isPresentation {
-                                peerId = nil
-                                ssrcValue = 0
-                            } else {
-                                peerId = mapping.peerId
-                                ssrcValue = ssrc
-                            }
+                        if isPresentation {
+                            return try await strongSelf.liveKitPresentationJoin(callInfo: callInfo, payload: payload)
                         } else {
-                            ssrcValue = ssrc
+                            return try await strongSelf.liveKitMainJoin(callInfo: callInfo, payload: payload)
                         }
-                    }
-                    if let peerId = peerId {
-                        if case .local = ssrcKey {
-                            orignalMyLevelHasVoice = hasVoice
-                            myLevel = level
-                            myLevelHasVoice = hasVoice
+                    },
+                    checkRequest: { [weak self] (sources: [UInt32]) async throws -> [UInt32] in
+                        guard let strongSelf = self else {
+                            throw LiveKitGroupCheckError.other
                         }
-                        result.append((peerId, ssrcValue, level, hasVoice))
-                    } else if ssrcValue != 0 {
-                        missingSsrcs.insert(ssrcValue)
+                        return try await strongSelf.liveKitCheck(callInfo: callInfo, sources: sources)
+                    },
+                    leavePresentationRequest: { [weak self] () async -> Void in
+                        guard let strongSelf = self else {
+                            return
+                        }
+                        await strongSelf.liveKitLeavePresentation(callInfo: callInfo)
+                    },
+                    initialMuted: initialMuted
+                )
+                genericCallContext.onStateChanged = { [weak self] (state: LiveKitGroupCallState) -> Void in
+                    guard let strongSelf = self else {
+                        return
                     }
-
+                    if case .ended = state {
+                        strongSelf.markAsCanBeRemoved()
+                    }
                 }
-                            
-                strongSelf.speakingParticipantsContext.update(levels: result)
-                
-                if strongSelf.stateValue.muteState == nil {
-                    let mappedLevel = myLevel * 1.5
-                    strongSelf.myAudioLevelPipe.putNext(mappedLevel)
-                    strongSelf.processMyAudioLevel(level: mappedLevel, hasVoice: myLevelHasVoice && orignalMyLevelHasVoice)
-                } else {
-                    strongSelf.myAudioLevelPipe.putNext(0)
-                    strongSelf.processMyAudioLevel(level: 0, hasVoice: false)
-                }
-                
-                strongSelf.isSpeakingPromise.set(orignalMyLevelHasVoice)
-                if !missingSsrcs.isEmpty && !strongSelf.isStream {
-                    strongSelf.participantsContext?.ensureHaveParticipants(ssrcs: missingSsrcs)
-                }
-            }))
+                strongSelf.genericCallContext = genericCallContext
+                strongSelf.settingsDisposable = (voiceCallSettings(strongSelf.sharedContext.accountManager) |> deliverOnMainQueue).start(next: { [weak genericCallContext] settings in
+                    Task { @MainActor in
+                        genericCallContext?.setNoiseSuppressionEnabled(settings.noiseSuppression)
+                    }
+                })
+                strongSelf.stateVersionValue += 1
+                genericCallContext.start()
+                strongSelf.subscribeLiveKitGroupCall(genericCallContext)
+            }
         }
-        
         switch previousInternalState {
         case .established:
             break
@@ -2771,6 +2593,368 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         }
     }
 
+    @MainActor
+    private func subscribeLiveKitGroupCall(_ genericCallContext: LiveKitGroupCallContext) {
+        self.networkStateDisposable.set((genericCallContext.networkState
+        |> deliverOnMainQueue).start(next: { [weak self] state in
+            guard let strongSelf = self else {
+                return
+            }
+            let mappedState: PresentationGroupCallState.NetworkState
+            if state.isConnected {
+                mappedState = .connected
+            } else {
+                mappedState = .connecting
+            }
+
+            _ = strongSelf.stateValue.networkState == .connecting
+            if strongSelf.stateValue.networkState != mappedState {
+                strongSelf.stateValue.networkState = mappedState
+            }
+            let isConnecting = mappedState == .connecting
+
+            if strongSelf.isCurrentlyConnecting != isConnecting {
+                strongSelf.isCurrentlyConnecting = isConnecting
+                if isConnecting {
+                    strongSelf.startCheckingCallIfNeeded()
+                } else {
+                    strongSelf.checkCallDisposable?.dispose()
+                    strongSelf.checkCallDisposable = nil
+                }
+            }
+
+            strongSelf.isReconnectingAsSpeaker = state.isTransitioningFromBroadcastToRtc
+
+            if isConnecting {
+                strongSelf.didStartConnectingOnce = true
+            }
+
+            if state.isConnected {
+                if !strongSelf.didConnectOnce {
+                    strongSelf.didConnectOnce = true
+                }
+
+                if let peer = strongSelf.reconnectingAsPeer {
+                    strongSelf.reconnectingAsPeer = nil
+                    strongSelf.reconnectedAsEventsPipe.putNext(peer)
+                }
+            }
+        }))
+
+        self.audioLevelsDisposable.set((genericCallContext.audioLevels
+        |> deliverOnMainQueue).start(next: { [weak self] levels in
+            guard let strongSelf = self else {
+                return
+            }
+            var result: [(PeerId, UInt32, Float, Bool)] = []
+            var myLevel: Float = 0.0
+            var myLevelHasVoice: Bool = false
+            var orignalMyLevelHasVoice: Bool = false
+            var missingSsrcs = Set<UInt32>()
+            for (ssrcKey, level, hasVoice) in levels {
+                var peerId: PeerId?
+                let ssrcValue: UInt32
+                switch ssrcKey {
+                case .local:
+                    peerId = strongSelf.joinAsPeerId
+                    ssrcValue = 0
+                case let .source(ssrc):
+                    if let mapping = strongSelf.ssrcMapping[ssrc] {
+                        if mapping.isPresentation {
+                            peerId = nil
+                            ssrcValue = 0
+                        } else {
+                            peerId = mapping.peerId
+                            ssrcValue = ssrc
+                        }
+                    } else {
+                        ssrcValue = ssrc
+                    }
+                }
+                if let peerId = peerId {
+                    if case .local = ssrcKey {
+                        orignalMyLevelHasVoice = hasVoice
+                        myLevel = level
+                        myLevelHasVoice = hasVoice
+                    }
+                    result.append((peerId, ssrcValue, level, hasVoice))
+                } else if ssrcValue != 0 {
+                    missingSsrcs.insert(ssrcValue)
+                }
+            }
+
+            strongSelf.speakingParticipantsContext.update(levels: result)
+
+            if strongSelf.stateValue.muteState == nil {
+                let mappedLevel = myLevel * 1.5
+                strongSelf.myAudioLevelPipe.putNext(mappedLevel)
+                strongSelf.processMyAudioLevel(level: mappedLevel, hasVoice: myLevelHasVoice && orignalMyLevelHasVoice)
+            } else {
+                strongSelf.myAudioLevelPipe.putNext(0)
+                strongSelf.processMyAudioLevel(level: 0, hasVoice: false)
+            }
+
+            strongSelf.isSpeakingPromise.set(orignalMyLevelHasVoice)
+            if !missingSsrcs.isEmpty && !strongSelf.isStream {
+                strongSelf.participantsContext?.ensureHaveParticipants(ssrcs: missingSsrcs)
+            }
+        }))
+    }
+
+
+    /// Joins the main connection of the group call on the server and returns the LiveKit answer for the context.
+    @MainActor
+    private func liveKitMainJoin(
+        callInfo: GroupCallInfo,
+        payload: String
+    ) async throws -> LiveKitGroupJoinResponse {
+        guard let localSsrc: UInt32 = PresentationGroupCallImpl.localSsrc(joinPayload: payload) else {
+            throw LiveKitGroupJoinError.serverError("invalid join payload")
+        }
+        let peerAdminIds: Signal<[PeerId], NoError>
+        if let peerId = self.peerId {
+            if peerId.namespace == Namespaces.Peer.CloudChannel {
+                peerAdminIds = Signal { subscriber in
+                    let (disposable, _) = self.accountContext.peerChannelMemberCategoriesContextsManager.admins(peerId: peerId, updated: { list in
+                        var peerIds = Set<PeerId>()
+                        for item in list.list {
+                            if let adminInfo = item.participant.adminInfo, adminInfo.rights.rights.contains(.canManageCalls) {
+                                peerIds.insert(item.peer.id)
+                            }
+                        }
+                        subscriber.putNext(Array(peerIds))
+                    })
+                    return disposable
+                }
+                |> distinctUntilChanged
+                |> runOn(.mainQueue())
+            } else {
+                peerAdminIds = self.account.postbox.transaction { transaction -> [PeerId] in
+                    var result: [PeerId] = []
+                    if let cachedData = transaction.getPeerCachedData(peerId: peerId) as? CachedGroupData {
+                        if let participants = cachedData.participants {
+                            for participant in participants.participants {
+                                if case .creator = participant {
+                                    result.append(participant.peerId)
+                                } else if case .admin = participant {
+                                    result.append(participant.peerId)
+                                }
+                            }
+                        }
+                    }
+                    return result
+                }
+            }
+        } else {
+            peerAdminIds = .single([])
+        }
+        var generateE2EData: ((Data?) -> JoinGroupCallE2E?)?
+        if let keyPair = self.keyPair {
+            if let mappedKeyPair = TdKeyPair(keyId: keyPair.id, publicKey: keyPair.publicKey.data) {
+                let userId = self.joinAsPeerId.id._internalGetInt64Value()
+                generateE2EData = { block -> JoinGroupCallE2E? in
+                    if let block {
+                        guard let resultBlock = tdGenerateSelfAddBlock(mappedKeyPair, userId, block) else {
+                            return nil
+                        }
+                        return JoinGroupCallE2E(
+                            publicKey: keyPair.publicKey,
+                            block: resultBlock
+                        )
+                    } else {
+                        guard let resultBlock = tdGenerateZeroBlock(mappedKeyPair, userId) else {
+                            return nil
+                        }
+                        return JoinGroupCallE2E(
+                            publicKey: keyPair.publicKey,
+                            block: resultBlock
+                        )
+                    }
+                }
+            }
+        }
+
+        let reference: InternalGroupCallReference
+        if let initialCall = self.initialCall {
+            reference = initialCall.reference
+        } else {
+            reference = .id(id: callInfo.id, accessHash: callInfo.accessHash)
+        }
+
+        self.currentLocalSsrc = localSsrc
+        self.checkIndex += 1
+        let joinSignal: Signal<JoinGroupCallResult, JoinGroupCallError> = self.accountContext.engine.calls.joinGroupCall(
+            peerId: self.peerId,
+            joinAs: self.joinAsPeerId,
+            callId: callInfo.id,
+            reference: reference,
+            isStream: self.isStream,
+            streamPeerId: self.streamPeerId,
+            preferMuted: true,
+            joinPayload: payload,
+            peerAdminIds: peerAdminIds,
+            inviteHash: self.invite,
+            generateE2E: generateE2EData
+        )
+        let outcome: GroupCallSignalOutcome<JoinGroupCallResult, JoinGroupCallError> = await awaitGroupCallSignal(joinSignal |> deliverOnMainQueue)
+        switch outcome {
+        case let .value(joinCallResult):
+            return self.completeLiveKitMainJoin(joinCallResult: joinCallResult, localSsrc: localSsrc)
+        case let .failure(error):
+            if case .anonymousNotAllowed = error {
+                CallsCoreHooks.shared.alert(self.accountContext.window, strings().voiceChatAnonymousDisabledAlertText)
+            } else if case .tooManyParticipants = error {
+                CallsCoreHooks.shared.alert(self.accountContext.window, strings().voiceChatJoinErrorTooMany)
+            }
+            throw PresentationGroupCallImpl.liveKitJoinError(error)
+        case .completed:
+            throw LiveKitGroupJoinError.serverError("no answer")
+        case .cancelled:
+            throw CancellationError()
+        }
+    }
+
+
+    /// Stores the state of a successful main join and builds the answer that the context connects with.
+    @MainActor
+    private func completeLiveKitMainJoin(
+        joinCallResult: JoinGroupCallResult,
+        localSsrc: UInt32
+    ) -> LiveKitGroupJoinResponse {
+        self.ssrcMapping.removeAll()
+        var participants: [LiveKitGroupParticipant] = []
+        for participant in joinCallResult.state.participants {
+            if let ssrc = participant.ssrc {
+                if let participantPeer = participant.peer {
+                    self.ssrcMapping[ssrc] = SsrcMapping(peerId: participantPeer.id, isPresentation: false)
+                }
+            }
+            if let presentationSsrc = participant.presentationDescription?.audioSsrc {
+                if let participantPeer = participant.peer {
+                    self.ssrcMapping[presentationSsrc] = SsrcMapping(peerId: participantPeer.id, isPresentation: true)
+                }
+            }
+            participants.append(LiveKitGroupParticipant(
+                peerKey: participant.id.description,
+                isSelf: participant.peer?.id == self.joinAsPeerId,
+                videoEndpoint: participant.videoDescription?.endpointId,
+                presentationEndpoint: participant.presentationDescription?.endpointId
+            ))
+        }
+
+        switch joinCallResult.connectionMode {
+        case .rtc:
+            self.currentConnectionMode = .rtc
+        case .broadcast:
+            self.currentConnectionMode = .broadcast
+        }
+
+        self.updateSessionState(internalState: .established(info: joinCallResult.callInfo, connectionMode: joinCallResult.connectionMode, clientParams: joinCallResult.jsonParams, localSsrc: localSsrc, initialState: joinCallResult.state))
+        self.e2eContext?.begin(initialState: joinCallResult.e2eState)
+        return LiveKitGroupJoinResponse(
+            params: joinCallResult.jsonParams,
+            participants: participants
+        )
+    }
+
+
+    /// Joins the screen presentation connection of the group call on the server.
+    @MainActor
+    private func liveKitPresentationJoin(
+        callInfo: GroupCallInfo,
+        payload: String
+    ) async throws -> LiveKitGroupJoinResponse {
+        let joinSignal: Signal<JoinGroupCallAsScreencastResult, JoinGroupCallError> = self.accountContext.engine.calls.joinGroupCallAsScreencast(callId: callInfo.id, accessHash: callInfo.accessHash, joinPayload: payload)
+        let outcome: GroupCallSignalOutcome<JoinGroupCallAsScreencastResult, JoinGroupCallError> = await awaitGroupCallSignal(joinSignal |> deliverOnMainQueue)
+        switch outcome {
+        case let .value(result):
+            return LiveKitGroupJoinResponse(
+                params: result.jsonParams,
+                participants: []
+            )
+        case let .failure(error):
+            throw PresentationGroupCallImpl.liveKitJoinError(error)
+        case .completed:
+            throw LiveKitGroupJoinError.serverError("no answer")
+        case .cancelled:
+            throw CancellationError()
+        }
+    }
+
+
+    /// Checks which of the given call sources the server still reports.
+    @MainActor
+    private func liveKitCheck(
+        callInfo: GroupCallInfo,
+        sources: [UInt32]
+    ) async throws -> [UInt32] {
+        let checkSignal: Signal<[UInt32], CheckGroupCallError> = self.accountContext.engine.calls.checkGroupCallWithError(callId: callInfo.id, accessHash: callInfo.accessHash, ssrcs: sources)
+        let outcome: GroupCallSignalOutcome<[UInt32], CheckGroupCallError> = await awaitGroupCallSignal(checkSignal |> deliverOnMainQueue)
+        switch outcome {
+        case let .value(presentSources):
+            return presentSources
+        case let .failure(error):
+            throw PresentationGroupCallImpl.liveKitCheckError(error)
+        case .completed, .cancelled:
+            throw LiveKitGroupCheckError.other
+        }
+    }
+
+
+    /// Leaves the screen presentation on the server. The answer is not needed.
+    @MainActor
+    private func liveKitLeavePresentation(callInfo: GroupCallInfo) async {
+        let leaveSignal: Signal<Never, LeaveGroupCallAsScreencastError> = self.accountContext.engine.calls.leaveGroupCallAsScreencast(callId: callInfo.id, accessHash: callInfo.accessHash)
+        _ = await awaitGroupCallSignal(leaveSignal |> deliverOnMainQueue)
+    }
+
+
+    private static func liveKitJoinError(_ error: JoinGroupCallError) -> LiveKitGroupJoinError {
+        switch error {
+        case .ssrcDuplicateMuch:
+            return .ssrcDuplicateMuch
+        case .generic:
+            return .serverError("generic")
+        case .anonymousNotAllowed:
+            return .serverError("anonymousNotAllowed")
+        case .tooManyParticipants:
+            return .serverError("tooManyParticipants")
+        case .invalidJoinAsPeer:
+            return .serverError("invalidJoinAsPeer")
+        }
+    }
+
+
+    private static func liveKitCheckError(_ error: CheckGroupCallError) -> LiveKitGroupCheckError {
+        switch error {
+        case .invalid:
+            return .groupCallInvalid
+        case .badRequest:
+            return .badRequest
+        case .generic:
+            return .other
+        }
+    }
+
+
+    /// Reads the connection source from the join payload that this client built.
+    private static func localSsrc(joinPayload: String) -> UInt32? {
+        guard let data: Data = joinPayload.data(using: .utf8) else {
+            return nil
+        }
+        guard let object: Any = try? JSONSerialization.jsonObject(with: data, options: []) else {
+            return nil
+        }
+        guard let root: [String: Any] = object as? [String: Any] else {
+            return nil
+        }
+        guard let ssrc: NSNumber = root["ssrc"] as? NSNumber else {
+            return nil
+        }
+        return UInt32(exactly: ssrc.int64Value)
+    }
+
+
     private func markAsCanBeRemoved() {
         if self.markedAsCanBeRemoved {
             return
@@ -2789,7 +2973,10 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
         self.myAudioLevelTimer?.invalidate()
         self.myAudioLevelTimer = nil
         self.typingDisposable.dispose()
-        self.genericCallContext?.stop(account: account, reportCallId: nil, debugLog: .init(nil))
+        let liveKitContext: LiveKitGroupCallContext? = self.genericCallContext
+        Task { @MainActor in
+            liveKitContext?.stop()
+        }
         self.screencastCallContext?.stop(account: account, reportCallId: nil, debugLog: .init(nil))
         self._canBeRemoved.set(.single(true))
     }
@@ -3299,8 +3486,7 @@ public final class PresentationGroupCallImpl: PresentationGroupCall {
             return
         }
         self.currentConnectionMode = .none
-        self.genericCallContext?.setConnectionMode(.none, keepBroadcastConnectedIfWasEnabled: movingFromBroadcastToRtc, isUnifiedBroadcast: false)
-                
+
         self.internalState = .requesting
         self.internalStatePromise.set(.single(.requesting))
         self.isCurrentlyConnecting = nil
