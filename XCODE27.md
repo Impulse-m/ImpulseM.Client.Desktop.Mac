@@ -18,7 +18,7 @@ Set **macOS Deployment Target** (`MACOSX_DEPLOYMENT_TARGET`) to **12.0** for eve
 (target → Build Settings → macOS Deployment Target), or replace every `MACOSX_DEPLOYMENT_TARGET = 10.x;` with
 `MACOSX_DEPLOYMENT_TARGET = 12.0;` in their `project.pbxproj`:
 
-- `Telegram.xcodeproj` (Telegram, TelegramShare)
+- `Telegram.xcodeproj` (`Telegram`, `TelegramShare` targets)
 - `submodules/CodeSyntax/CodeSyntax/CodeSyntax.xcodeproj`
 - `submodules/RLottie_Xcode/RLottie_Xcode.xcodeproj`
 - `submodules/Sparkle/Sparkle.xcodeproj`

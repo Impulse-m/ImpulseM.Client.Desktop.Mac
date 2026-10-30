@@ -2,7 +2,6 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 #include "common.xcconfig"
 
-SFEED_URL = https:${SIMPLE_SLASH}/macos.impulsem.net/alpha/versions.xml
 IMPULSEM_DISPLAY_NAME = ImpulseM Beta
 
 TYPE = -D'ALPHA'

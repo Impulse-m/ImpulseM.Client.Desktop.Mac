@@ -8,6 +8,7 @@ import Postbox
 import SwiftSignalKit
 import Sparkle
 import CrashRecoveryUI
+import ApiCredentials
 
 
 
@@ -658,8 +659,21 @@ enum UpdaterSource : Equatable {
 }
 
 
-private var updateFeedURL: URL {
-    return URL(string: Bundle.main.infoDictionary!["SUFeedURL"] as! String)!
+private var updateChannelPath: String {
+    #if STABLE
+    return "updates"
+    #elseif ALPHA
+    return "alpha"
+    #else
+    return "beta"
+    #endif
+}
+
+private var updateFeedURL: URL? {
+    guard let feedBase: String = ImpulseBrand.macosFeedUrl else {
+        return nil
+    }
+    return URL(string: feedBase + "/" + updateChannelPath + "/versions.xml")
 }
 
 private func makeUpdateDriver(_ source: UpdaterSource) -> ExternalUpdateDriver {
@@ -676,7 +690,7 @@ private var stagedStartedAt: CFAbsoluteTime = 0
 private let stagedUpdateTimeout: CFAbsoluteTime = 60 * 60
 
 private func stageNewerUpdate() {
-    guard case let .readyToInstall(item) = stateValue.with({ $0.loadingState }), let source = updaterSource else {
+    guard let feedURL: URL = updateFeedURL, case let .readyToInstall(item) = stateValue.with({ $0.loadingState }), let source = updaterSource else {
         return
     }
     if stagedDriver != nil {
@@ -693,7 +707,7 @@ private func stageNewerUpdate() {
     staged.stagedOver = item
     stagedDriver = staged
     stagedStartedAt = CFAbsoluteTimeGetCurrent()
-    staged.checkForUpdates(at: updateFeedURL, host: host, domain: updater.host)
+    staged.checkForUpdates(at: feedURL, host: host, domain: updater.host)
 }
 
 private func promoteStagedUpdate(_ staged: ExternalUpdateDriver) {
@@ -734,7 +748,10 @@ private func cancelStagedUpdate() {
 }
 
 private func resetUpdater() {
-    
+    guard updateFeedURL != nil else {
+        return
+    }
+
     #if !GITHUB
         let update:()->Void = {
             let state = stateValue.with { $0.loadingState }
@@ -744,7 +761,9 @@ private func resetUpdater() {
             case .installing, .unarchiving, .loading:
                 break
             default:
-                driver?.checkForUpdates(at: updateFeedURL, host: host, domain: updater.host)
+                if let feedURL: URL = updateFeedURL {
+                    driver?.checkForUpdates(at: feedURL, host: host, domain: updater.host)
+                }
             }
         }
     
@@ -765,6 +784,9 @@ private func resetUpdater() {
 private var updaterSource: UpdaterSource? = nil
 
 func updater_resetWithUpdaterSource(_ source: UpdaterSource, force: Bool = true) {
+    guard ImpulseBrand.macosFeedUrl != nil else {
+        return
+    }
     let state = stateValue.with { $0 }
     switch state.loadingState {
     case .readyToInstall:

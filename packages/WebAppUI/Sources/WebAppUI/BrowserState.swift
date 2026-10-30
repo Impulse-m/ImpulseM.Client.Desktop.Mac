@@ -463,7 +463,8 @@ public final class BrowserStateContext {
                 guard !cancelled.with({ $0 }), let self else { return }
                 let window = self.browser?.markAsDeinit == false ? self.browser?.window : context.window
                 guard let window else { return }
-                let data = ModalAlertData(title: nil, info: strings().webAppFirstOpenTerms(privacyUrl ?? strings().botInfoLaunchInfoPrivacyUrl), description: nil, ok: strings().botLaunchApp, options: [], mode: .confirm(text: strings().modalCancel, isThird: false), header: .init(id: "header", value: { initialSize, stableId, presentation in
+                let privacyLink: String = privacyUrl ?? strings().botInfoLaunchInfoPrivacyUrl
+                let data = ModalAlertData(title: nil, info: privacyLink.isEmpty ? "" : strings().webAppFirstOpenTerms(privacyLink), description: nil, ok: strings().botLaunchApp, options: [], mode: .confirm(text: strings().modalCancel, isThird: false), header: .init(id: "header", value: { initialSize, stableId, presentation in
                     return AlertHeaderItem(initialSize, stableId: stableId, presentation: presentation, context: context, peer: peer, info: strings().botMoreAbout, callback: { _ in
                         guard !cancelled.with({ $0 }) else { return }
                         request.resolve {

@@ -74,8 +74,14 @@
 	<true/>
 	<key>SOURCE</key>
 	<string>${SOURCE}</string>
-	<key>SUFeedURL</key>
-	<string>${SFEED_URL}</string>
+	<key>IMPULSEM_RPC_URL</key>
+	<string>$(IMPULSEM_RPC_URL)</string>
+	<key>IMPULSEM_LINK_HOST</key>
+	<string>$(IMPULSEM_LINK_HOST)</string>
+	<key>IMPULSEM_SITE_URL</key>
+	<string>$(IMPULSEM_SITE_URL)</string>
+	<key>IMPULSEM_MACOS_FEED_URL</key>
+	<string>$(IMPULSEM_MACOS_FEED_URL)</string>
 	<key>SUPublicEDKey</key>
 	<string>&lt;IMPULSEM_ED_PUBLIC_KEY&gt;</string>
 	<key>UIAppFonts</key>

@@ -2,7 +2,11 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { WebSocket } from 'ws';
 
-const base = process.env.VOXEL_DEMO_URL || 'https://voxel-clash-production.up.railway.app';
+const base = process.env.VOXEL_DEMO_URL;
+if (!base) {
+  console.error('VOXEL_DEMO_URL is required: set it to the origin of a running voxel-clash server, for example https://voxel.example.org');
+  process.exit(1);
+}
 const sockets = [];
 async function request(route, body, token) {
   const response = await fetch(base + route, {

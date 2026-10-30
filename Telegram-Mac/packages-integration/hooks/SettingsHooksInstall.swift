@@ -1,6 +1,7 @@
 import Cocoa
 import ChatHistoryModel
 import ColorPalette
+import ApiCredentials
 import Postbox
 import QrStudioUI
 import SettingsUI
@@ -374,7 +375,11 @@ func installSettingsUIHooks() {
         #if APP_STORE
             appUpdateState = .single(nil)
         #else
-        appUpdateState = appUpdateStateSignal |> map(Optional.init)
+        if ImpulseBrand.macosFeedUrl != nil {
+            appUpdateState = appUpdateStateSignal |> map(Optional.init)
+        } else {
+            appUpdateState = .single(nil)
+        }
         #endif
         return appUpdateState
     }, pushAppUpdate: { navigation in

@@ -57,5 +57,9 @@
 	<string>Copyright © 2026 ImpulseM. All rights reserved.</string>
 	<key>SOURCE</key>
 	<string>${SOURCE}</string>
+	<key>IMPULSEM_RPC_URL</key>
+	<string>$(IMPULSEM_RPC_URL)</string>
+	<key>IMPULSEM_LINK_HOST</key>
+	<string>$(IMPULSEM_LINK_HOST)</string>
 </dict>
 </plist>

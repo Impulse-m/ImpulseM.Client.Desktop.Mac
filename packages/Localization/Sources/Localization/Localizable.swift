@@ -113,7 +113,7 @@ public final class L10n {
   public static var aboutDescription: String  { return L10n.tr("Localizable", "About.Description") }
   /// Cocoon (**Co**nfidential **Co**mpute **O**pen **N**etwork) handles AI tasks **safely** and **efficiently.
   public static var aboutCocoonDescription: String  { return L10n.tr("Localizable", "AboutCocoon.Description") }
-  /// Want to integrate Cocoon into your projects?\nReach out at [o.impulsem.net/cocoon](o.impulsem.net/cocoon)
+  /// Want to integrate Cocoon into your projects?
   public static var aboutCocoonFooter: String  { return L10n.tr("Localizable", "AboutCocoon.Footer") }
   /// COCOON
   public static var aboutCocoonTitle: String  { return L10n.tr("Localizable", "AboutCocoon.Title") }
@@ -357,7 +357,7 @@ public final class L10n {
   public static func affiliateProgramJoinSubtitleYearsAny(_ p1: Int) -> String {
     return L10n.tr("Localizable", "AffiliateProgram.JoinSubtitleYears_any", p1)
   }
-  /// By joining this program, you agree to the [terms and conditions](https://impulsem.net/tos/affiliate-program) of Affiliate Programs.
+  /// By joining this program, you agree to the terms and conditions of Affiliate Programs.
   public static var affiliateProgramJoinTerms: String  { return L10n.tr("Localizable", "AffiliateProgram.JoinTerms") }
   /// Affiliate Program
   public static var affiliateProgramJoinTitle: String  { return L10n.tr("Localizable", "AffiliateProgram.JoinTitle") }
@@ -453,7 +453,7 @@ public final class L10n {
   public static var affiliateSetupSuggestedSectionEmpty: String  { return L10n.tr("Localizable", "AffiliateSetup.SuggestedSectionEmpty") }
   /// PROGRAMS
   public static var affiliateSetupSuggestedSectionTitle: String  { return L10n.tr("Localizable", "AffiliateSetup.SuggestedSectionTitle") }
-  /// By creating an affiliate program, you agree to the [terms and conditions](https://impulsem.net/terms) of Affiliate Programs.
+  /// By creating an affiliate program, you agree to the terms and conditions of Affiliate Programs.
   public static var affiliateSetupTermsFooter: String  { return L10n.tr("Localizable", "AffiliateSetup.TermsFooter") }
   /// Earn a commission each time a user who first accessed a mini app through your referral link spends **Stars** within it.
   public static var affiliateSetupTextJoin: String  { return L10n.tr("Localizable", "AffiliateSetup.TextJoin") }
@@ -1109,7 +1109,7 @@ public final class L10n {
   public static var botGrossingDisclaimerAlertHeader: String  { return L10n.tr("Localizable", "Bot.Grossing.Disclaimer.Alert.Header") }
   /// Understood
   public static var botGrossingDisclaimerAlertOk: String  { return L10n.tr("Localizable", "Bot.Grossing.Disclaimer.Alert.ok") }
-  /// This catalogue ranks mini apps based on their daily revenue, measured in Stars. To be listed, developers must set their main mini app in [@botfather](https://o.impulsem.net/botfather) (as described [here](https://core.impulsem.net/api/bots/webapps)), have over **1,000** daily users, and earn a daily revenue above **1,000** Stars, based on the weekly average.
+  /// This catalogue ranks mini apps based on their daily revenue, measured in Stars. To be listed, developers must set their main mini app in @botfather, have over **1,000** daily users, and earn a daily revenue above **1,000** Stars, based on the weekly average.
   public static var botGrossingDisclaimerAlertText: String  { return L10n.tr("Localizable", "Bot.Grossing.Disclaimer.Alert.Text") }
   /// Open Link
   public static var botInlineAuthHeader: String  { return L10n.tr("Localizable", "Bot.InlineAuth.Header") }
@@ -1137,11 +1137,10 @@ public final class L10n {
   public static var botTransferOwnershipPasswordDesc: String  { return L10n.tr("Localizable", "Bot.TransferOwnership.Password.Desc") }
   /// Two-Step Verification
   public static var botTransferOwnershipPasswordTitle: String  { return L10n.tr("Localizable", "Bot.TransferOwnership.Password.Title") }
-  /// By publishing this mini app, you agree to the [ImpulseM Terms of Service for Developers](https://impulsem.net/tos/bot-developers).
+  /// By publishing this mini app, you agree to the ImpulseM Terms of Service for Developers.
   public static var botInfoLaunchInfo: String  { return L10n.tr("Localizable", "BotInfo.LaunchInfo") }
   /// Open App
   public static var botInfoOpenApp: String  { return L10n.tr("Localizable", "BotInfo.OpenApp") }
-  /// https://impulsem.net/privacy-tpa
   public static var botInfoLaunchInfoPrivacyUrl: String  { return L10n.tr("Localizable", "BotInfo.LaunchInfo.PrivacyUrl") }
   /// By launching this mini app, you agree to the [ImpulseM Terms of Service Mini Apps.](%@)
   public static func botInfoLaunchInfoUser(_ p1: String) -> String {
@@ -1305,7 +1304,7 @@ public final class L10n {
   public static var businessChatbotsChats: String  { return L10n.tr("Localizable", "Business.Chatbots.Chats") }
   /// CHATS ACCESSIBLE FOR THE BOT
   public static var businessChatbotsChatTypes: String  { return L10n.tr("Localizable", "Business.Chatbots.ChatTypes") }
-  /// Add a bot to your account to help you automatically process and respond to the messages you receive. [Learn More >](https://impulsem.net/blog/telegram-business#chatbots-for-business)
+  /// Add a bot to your account to help you automatically process and respond to the messages you receive.
   public static var businessChatbotsHeader: String  { return L10n.tr("Localizable", "Business.Chatbots.Header") }
   /// No bots found
   public static var businessChatbotsNotFound: String  { return L10n.tr("Localizable", "Business.Chatbots.NotFound") }
@@ -1511,7 +1510,7 @@ public final class L10n {
   public static var businessQuickReplyEditTitle: String  { return L10n.tr("Localizable", "Business.QuickReply.Edit.Title") }
   /// Limit Reached
   public static var businessSelectPeersLimit: String  { return L10n.tr("Localizable", "Business.SelectPeers.Limit") }
-  /// As a Premium subscriber, you don't see any ads on ImpulseM, but you can turn them on, for example, to view your own ads that you launched on the [ImpulseM Ad Platform >](https://ads.impulsem.net)
+  /// As a Premium subscriber, you don't see any ads on ImpulseM, but you can turn them on, for example, to view your own ads that you launched on the ImpulseM Ad Platform.
   public static var businessSwitchAdInfo: String  { return L10n.tr("Localizable", "Business.SwitchAd.Info") }
   /// ADS IN CHANNELS
   public static var businessSwitchAdTitle: String  { return L10n.tr("Localizable", "Business.SwitchAd.Title") }
@@ -3022,7 +3021,7 @@ public final class L10n {
   public static var channelReactionsAddInfo: String  { return L10n.tr("Localizable", "ChannelReactions.Add.Info") }
   /// You can add emoji from any emoji pack as reactions.
   public static var channelReactionsEnableReactionsInfo: String  { return L10n.tr("Localizable", "ChannelReactions.EnableReactions.Info") }
-  /// Switch this on to let your subscribers react to posts with ImpulseM Stars, which you will be able to withdraw as TON. [Learn More >](https://impulsem.net/tos/content-creator-rewards#2-3-subscriber-donations)
+  /// Switch this on to let your subscribers react to posts with ImpulseM Stars, which you will be able to withdraw as TON.
   public static var channelReactionsEnableStarsInfo: String  { return L10n.tr("Localizable", "ChannelReactions.EnableStars.Info") }
   /// Limit the number of different reactions that can be added to a post, including already published posts.
   public static var channelReactionsMaxCountInfo: String  { return L10n.tr("Localizable", "ChannelReactions.MaxCount.Info") }
@@ -4156,7 +4155,7 @@ public final class L10n {
   public static var chatMessageSponsored: String  { return L10n.tr("Localizable", "Chat.Message.Sponsored") }
   /// Unsend my messages
   public static var chatMessageUnsendMessages: String  { return L10n.tr("Localizable", "Chat.Message.UnsendMessages") }
-  /// This message is not supported by your version of ImpulseM. Please update to the latest version from the AppStore or install it from https://macos.impulsem.net
+  /// This message is not supported by your version of ImpulseM. Please update to the latest version from the AppStore.
   public static var chatMessageUnsupported: String  { return L10n.tr("Localizable", "Chat.Message.Unsupported") }
   /// This message is not supported in your version of ImpulseM. Please update to the latest version.
   public static var chatMessageUnsupportedNew: String  { return L10n.tr("Localizable", "Chat.Message.UnsupportedNew") }
@@ -4176,7 +4175,6 @@ public final class L10n {
   public static func chatMessageAdText(_ p1: String) -> String {
     return L10n.tr("Localizable", "Chat.Message.Ad.Text", p1)
   }
-  /// https://ads.impulsem.net
   public static var chatMessageAdUrl: String  { return L10n.tr("Localizable", "Chat.Message.Ad.Url") }
   /// Quote
   public static var chatMessageContextQuote: String  { return L10n.tr("Localizable", "Chat.Message.Context.Quote") }
@@ -4234,7 +4232,6 @@ public final class L10n {
   public static var chatMessageSocks5Config: String  { return L10n.tr("Localizable", "Chat.Message.Socks5.Config") }
   /// Advertiser info
   public static var chatMessageSponsoredAdvertiser: String  { return L10n.tr("Localizable", "Chat.Message.Sponsored.Advertiser") }
-  /// https://ads.impulsem.net
   public static var chatMessageSponsoredLink: String  { return L10n.tr("Localizable", "Chat.Message.Sponsored.Link") }
   /// What are sponsored messages?
   public static var chatMessageSponsoredWhat: String  { return L10n.tr("Localizable", "Chat.Message.Sponsored.What") }
@@ -4268,7 +4265,7 @@ public final class L10n {
   public static var chatMessageActionShowMessage: String  { return L10n.tr("Localizable", "Chat.MessageAction.ShowMessage") }
   /// Send Money
   public static var chatMessageMenuItemsSendMoney: String  { return L10n.tr("Localizable", "Chat.MessageMenuItems.SendMoney") }
-  /// Unlike other apps, ImpulseM never uses your private data to target ads. [Learn more in the Privacy Policy](https://impulsem.net/privacy#5-6-no-ads-based-on-user-data)\nYou are seeing this message only because someone chose this public one-to many channel as a space to promote their messages. This means that no user data is mined or analyzed to display ads, and every user viewing a channel on ImpulseM sees the same sponsored message.\n\nUnline other apps, ImpulseM doesn't track whether you tapped on a sponsored message and doesn't profile you based on your activity. We also prevent external links in sponsored messages to ensure that third parties can't spy on our users. We believe that everyone has the right to privacy, and technological platforms should respect that.\n\nImpulseM offers free and unlimited service to hundreds of millions of users, which involves significant server and traffic costs. In order to remain independent and stay true to its values, ImpulseM developed a paid tool to promote messages with user privacy in mind. We welcome responsible adverticers at:\n[url]\nAds should no longer be synonymous with abuse of user privacy. Let us redefine how a tech compony should operate — together.
+  /// Unlike other apps, ImpulseM never uses your private data to target ads. Learn more in the Privacy Policy.\nYou are seeing this message only because someone chose this public one-to many channel as a space to promote their messages. This means that no user data is mined or analyzed to display ads, and every user viewing a channel on ImpulseM sees the same sponsored message.\n\nUnline other apps, ImpulseM doesn't track whether you tapped on a sponsored message and doesn't profile you based on your activity. We also prevent external links in sponsored messages to ensure that third parties can't spy on our users. We believe that everyone has the right to privacy, and technological platforms should respect that.\n\nImpulseM offers free and unlimited service to hundreds of millions of users, which involves significant server and traffic costs. In order to remain independent and stay true to its values, ImpulseM developed a paid tool to promote messages with user privacy in mind. We welcome responsible adverticers.\nAds should no longer be synonymous with abuse of user privacy. Let us redefine how a tech compony should operate — together.
   public static var chatMessageMenuItemsSponsoredInfo: String  { return L10n.tr("Localizable", "Chat.MessageMenuItems.SponsoredInfo") }
   /// All
   public static var chatMonoforumUIAllTab: String  { return L10n.tr("Localizable", "Chat.MonoforumUI.AllTab") }
@@ -5712,7 +5709,7 @@ public final class L10n {
   public static var chatListEmptyText: String  { return L10n.tr("Localizable", "ChatList.EmptyText") }
   /// Channels
   public static var chatListFeeds: String  { return L10n.tr("Localizable", "ChatList.Feeds") }
-  /// Your account has been frozen for a serious violation of ImpulseM's [Terms and Conditions](https://impulsem.net/tos). Your account is now in read-only mode (since %1$@). You can appeal via [@SpamBot](%2$@) if you believe this was a mistake. If we don't hear from you until %3$@, your account will be fully deactivated and terminated.
+  /// Your account has been frozen for a serious violation of ImpulseM's Terms and Conditions. Your account is now in read-only mode (since %1$@). You can appeal via [@SpamBot](%2$@) if you believe this was a mistake. If we don't hear from you until %3$@, your account will be fully deactivated and terminated.
   public static func chatListFreezeAccount(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "ChatList.FreezeAccount", p1, p2, p3)
   }
@@ -6072,7 +6069,7 @@ public final class L10n {
   public static func chatListFolderUpdatesTitleOther(_ p1: Int) -> String {
     return L10n.tr("Localizable", "ChatList.FolderUpdates.Title_other", p1)
   }
-  /// Your account has been frozen for a serious violation of ImpulseM's [Terms and Conditions](https://impulsem.net/tos). Your account is now in read-only mode (since %1$@). You can appeal via [@SpamBot](%2$@) if you believe this was a mistake. If we don't hear from you until %3$@, your account will be fully deactivated and terminated.
+  /// Your account has been frozen for a serious violation of ImpulseM's Terms and Conditions. Your account is now in read-only mode (since %1$@). You can appeal via [@SpamBot](%2$@) if you believe this was a mistake. If we don't hear from you until %3$@, your account will be fully deactivated and terminated.
   public static func chatListFreezeAccountAlert(_ p1: String, _ p2: String, _ p3: String) -> String {
     return L10n.tr("Localizable", "ChatList.FreezeAccount.Alert", p1, p2, p3)
   }
@@ -6322,7 +6319,7 @@ public final class L10n {
   public static var chatMessageSponsoredTitle: String  { return L10n.tr("Localizable", "ChatMessage.Sponsored.Title") }
   /// This Ad is already reported
   public static var chatMessageSponsoredReportAready: String  { return L10n.tr("Localizable", "ChatMessage.Sponsored.Report.Aready") }
-  /// Learn more about [ImpulseM Ad Policies and Guidelines](https://ads.impulsem.net/guidelines).
+  /// Learn more about ImpulseM Ad Policies and Guidelines.
   public static var chatMessageSponsoredReportLearnMore: String  { return L10n.tr("Localizable", "ChatMessage.Sponsored.Report.LearnMore") }
   /// WHAT IS WRONG WITH THIS AD?
   public static var chatMessageSponsoredReportOptionTitle: String  { return L10n.tr("Localizable", "ChatMessage.Sponsored.Report.OptionTitle") }
@@ -7360,7 +7357,7 @@ public final class L10n {
   public static var crashRecoveryDownloadStarting: String  { return L10n.tr("Localizable", "CrashRecovery.DownloadStarting") }
   /// Couldn’t update ImpulseM
   public static var crashRecoveryFailed: String  { return L10n.tr("Localizable", "CrashRecovery.Failed") }
-  /// Try again, or download the latest version from macos.impulsem.net.
+  /// Try again, or download the latest version.
   public static var crashRecoveryFailedDetail: String  { return L10n.tr("Localizable", "CrashRecovery.FailedDetail") }
   /// Install and Relaunch
   public static var crashRecoveryInstall: String  { return L10n.tr("Localizable", "CrashRecovery.Install") }
@@ -7372,7 +7369,7 @@ public final class L10n {
   public static var crashRecoveryInstallingDetail: String  { return L10n.tr("Localizable", "CrashRecovery.InstallingDetail") }
   /// Open App Store
   public static var crashRecoveryOpenAppStore: String  { return L10n.tr("Localizable", "CrashRecovery.OpenAppStore") }
-  /// Open macos.impulsem.net
+  /// Open website
   public static var crashRecoveryOpenWebsite: String  { return L10n.tr("Localizable", "CrashRecovery.OpenWebsite") }
   /// Preparing…
   public static var crashRecoveryPreparingButton: String  { return L10n.tr("Localizable", "CrashRecovery.PreparingButton") }
@@ -7414,9 +7411,9 @@ public final class L10n {
   public static var crashRecoveryUpToDateDetail: String  { return L10n.tr("Localizable", "CrashRecovery.UpToDateDetail") }
   /// Download the latest version
   public static var crashRecoveryWebsite: String  { return L10n.tr("Localizable", "CrashRecovery.Website") }
-  /// The newest ImpulseM is always at macos.impulsem.net.
+  /// The newest ImpulseM is always available for download.
   public static var crashRecoveryWebsiteDetail: String  { return L10n.tr("Localizable", "CrashRecovery.WebsiteDetail") }
-  /// Download from macos.impulsem.net
+  /// Download from the website
   public static var crashRecoveryWebsiteLink: String  { return L10n.tr("Localizable", "CrashRecovery.WebsiteLink") }
   /// Crash report from ImpulseM %1$@ (%2$@, %3$@)
   public static func crashReportCaption(_ p1: String, _ p2: String, _ p3: String) -> String {
@@ -8276,7 +8273,7 @@ public final class L10n {
   }
   /// • Persistent chat history
   public static var emptyGroupInfoLine2: String  { return L10n.tr("Localizable", "EmptyGroupInfo.Line2") }
-  /// • Public links such as o.impulsem.net/title
+  /// • Public links
   public static var emptyGroupInfoLine3: String  { return L10n.tr("Localizable", "EmptyGroupInfo.Line3") }
   /// • Admins with different rights
   public static var emptyGroupInfoLine4: String  { return L10n.tr("Localizable", "EmptyGroupInfo.Line4") }
@@ -8828,7 +8825,7 @@ public final class L10n {
   public static var fragmentAdsInfoText: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Text") }
   /// About These Ads
   public static var fragmentAdsInfoTitle: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Title") }
-  /// Anyone can create an ad to display in this channel — with minimal budgets. Check out the ImpulseM Ad Platform for details. [Learn More >](https://ads.impulsem.net)
+  /// Anyone can create an ad to display in this channel — with minimal budgets. Check out the ImpulseM Ad Platform for details.
   public static var fragmentAdsInfoBlockText: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Block.Text") }
   /// Can I Launch an Ad?
   public static var fragmentAdsInfoBlockTitle: String  { return L10n.tr("Localizable", "Fragment.AdsInfo.Block.Title") }
@@ -9434,11 +9431,11 @@ public final class L10n {
   public static var giftViewContextHideFromProfile: String  { return L10n.tr("Localizable", "Gift.View.Context.HideFromProfile") }
   /// Show on Profile
   public static var giftViewContextShowOnProfile: String  { return L10n.tr("Localizable", "Gift.View.Context.ShowOnProfile") }
-  /// Your channel can add this gift to its profile or convert it to %@. [More About Stars >](https://impulsem.net)
+  /// Your channel can add this gift to its profile or convert it to %@.
   public static func giftViewKeepOrConvertDescriptionChannel(_ p1: String) -> String {
     return L10n.tr("Localizable", "Gift.View.KeepOrConvertDescription.Channel", p1)
   }
-  /// Your channel can keep this gift, upgrade it, or sell it for %@. [More About Stars >](https://impulsem.net)
+  /// Your channel can keep this gift, upgrade it, or sell it for %@.
   public static func giftViewKeepUpgradeOrConvertDescriptionChannel(_ p1: String) -> String {
     return L10n.tr("Localizable", "Gift.View.KeepUpgradeOrConvertDescription.Channel", p1)
   }
@@ -10358,7 +10355,7 @@ public final class L10n {
   public static func inviteLinkStickerTimeLeft(_ p1: String) -> String {
     return L10n.tr("Localizable", "InviteLink.Sticker.TimeLeft", p1)
   }
-  /// Charge a subscription fee from people who join your channel via this link. [Learn More >](https://impulsem.net/tos/stars)
+  /// Charge a subscription fee from people who join your channel via this link.
   public static var inviteLinkSubInfo: String  { return L10n.tr("Localizable", "InviteLink.Sub.Info") }
   /// You can't enable admin approval for links that require a monthly fee.
   public static var inviteLinkSubReqApproval: String  { return L10n.tr("Localizable", "InviteLink.Sub.ReqApproval") }
@@ -11160,9 +11157,8 @@ public final class L10n {
   public static var modalYes: String  { return L10n.tr("Localizable", "Modal.Yes") }
   /// AD REWARDS
   public static var monetizationAdRevenueTitle: String  { return L10n.tr("Localizable", "Monetization.AdRevenueTitle") }
-  /// You will be able to collect rewards using Fragment, a third-party platform used by advertisers to pay for ads. [Terms & Conditions >](https://impulsem.net/tos/content-creator-rewards)
+  /// You will be able to collect rewards using Fragment, a third-party platform used by advertisers to pay for ads.
   public static var monetizationBalanceInfo: String  { return L10n.tr("Localizable", "Monetization.BalanceInfo") }
-  /// https://impulsem.net/tos/content-creator-rewards
   public static var monetizationBalanceInfoURL: String  { return L10n.tr("Localizable", "Monetization.BalanceInfo_URL") }
   /// AVAILABLE REWARD
   public static var monetizationBalanceTitle: String  { return L10n.tr("Localizable", "Monetization.BalanceTitle") }
@@ -11182,7 +11178,7 @@ public final class L10n {
   public static var monetizationSwitchOffAdsInfo: String  { return L10n.tr("Localizable", "Monetization.SwitchOffAdsInfo") }
   /// TRANSACTION HISTORY
   public static var monetizationTransactionsTitle: String  { return L10n.tr("Localizable", "Monetization.TransactionsTitle") }
-  /// You will be able to collect rewards using Fragment, a third-party platform used by advertisers to pay for ads. [Terms & Conditions >](https://impulsem.net/tos/content-creator-rewards)
+  /// You will be able to collect rewards using Fragment, a third-party platform used by advertisers to pay for ads.
   public static var monetizationBalanceComingLaterInfo: String  { return L10n.tr("Localizable", "Monetization.Balance.ComingLaterInfo") }
   /// Withdraw via Fragment
   public static var monetizationBalanceWithdrawStars: String  { return L10n.tr("Localizable", "Monetization.BalanceWithdraw.Stars") }
@@ -11200,7 +11196,7 @@ public final class L10n {
   public static var monetizationIntroAdsText: String  { return L10n.tr("Localizable", "Monetization.Intro.Ads.Text") }
   /// ImpulseM Ads
   public static var monetizationIntroAdsTitle: String  { return L10n.tr("Localizable", "Monetization.Intro.Ads.Title") }
-  /// TON is a blockchain platform and cryptocurrency that ImpulseM uses for its high speed and low commissions on transactions. [Learn More >](https://impulsem.net/blog/monetization-for-channels)
+  /// TON is a blockchain platform and cryptocurrency that ImpulseM uses for its high speed and low commissions on transactions.
   public static var monetizationIntroInfoText: String  { return L10n.tr("Localizable", "Monetization.Intro.Info.Text") }
   /// What's %@ TON?
   public static func monetizationIntroInfoTitle(_ p1: String) -> String {
@@ -11226,7 +11222,7 @@ public final class L10n {
   public static var monetizationOverviewCurrent: String  { return L10n.tr("Localizable", "Monetization.Overview.Current") }
   /// Total Lifetime Rewards
   public static var monetizationOverviewTotal: String  { return L10n.tr("Localizable", "Monetization.Overview.Total") }
-  /// You can collect rewards for Stars using Fragment, or use Stars to advertise your bot. [Learn More >](https://impulsem.net/tos/bot-developers#6-2-2-tpa-balance)
+  /// You can collect rewards for Stars using Fragment, or use Stars to advertise your bot.
   public static var monetizationStarsWithdrawInfo: String  { return L10n.tr("Localizable", "Monetization.Stars.WithdrawInfo") }
   /// STARS BALANCE
   public static var monetizationStarsWithdrawTitle: String  { return L10n.tr("Localizable", "Monetization.Stars.WithdrawTitle") }
@@ -11966,7 +11962,7 @@ public final class L10n {
   public static var olwNPBQNTitle: String  { return L10n.tr("Localizable", "Olw-nP-bQN.title") }
   /// ENTER UNLOCK COST
   public static var paidMediaHeader: String  { return L10n.tr("Localizable", "PaidMedia.Header") }
-  /// Users will have to transfer this amount of Stars to your channel in order to view this media. [More about stars >](https://impulsem.net/blog/telegram-stars)
+  /// Users will have to transfer this amount of Stars to your channel in order to view this media.
   public static var paidMediaInfo: String  { return L10n.tr("Localizable", "PaidMedia.Info") }
   /// Make This Media Paid
   public static var paidMediaOk: String  { return L10n.tr("Localizable", "PaidMedia.Ok") }
@@ -12956,7 +12952,6 @@ public final class L10n {
   public static var peerInfoVerificationInfoChannel: String  { return L10n.tr("Localizable", "PeerInfo.VerificationInfo.Channel") }
   /// This group was verified by ImpulseM.
   public static var peerInfoVerificationInfoGroup: String  { return L10n.tr("Localizable", "PeerInfo.VerificationInfo.Group") }
-  /// https://impulsem.net/verify
   public static var peerInfoVerificationInfoURL: String  { return L10n.tr("Localizable", "PeerInfo.VerificationInfo.URL") }
   /// Verified Account
   public static var peerInfoVerifiedTooltip: String  { return L10n.tr("Localizable", "PeerInfo.Verified.Tooltip") }
@@ -13256,7 +13251,7 @@ public final class L10n {
   public static func premiumBoardingDoublePinnedChatsInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Double.PinnedChats.Info", p1)
   }
-  /// Reserve up to %@ o.impulsem.net/username links
+  /// Reserve up to %@ public username links
   public static func premiumBoardingDoublePublicLinksInfo(_ p1: String) -> String {
     return L10n.tr("Localizable", "Premium.Boarding.Double.PublicLinks.Info", p1)
   }
@@ -14350,7 +14345,7 @@ public final class L10n {
   public static var proxySettingsDisabled: String  { return L10n.tr("Localizable", "ProxySettings.Disabled") }
   /// Proxy
   public static var proxySettingsEnable: String  { return L10n.tr("Localizable", "ProxySettings.Enable") }
-  /// If your clipboard contains socks5-link (**o.impulsem.net/socks?server=127.0.0.1&port=80**) it will apply immediately
+  /// If your clipboard contains socks5-link (**tg://socks?server=127.0.0.1&port=80**) it will apply immediately
   public static var proxySettingsExportDescription: String  { return L10n.tr("Localizable", "ProxySettings.ExportDescription") }
   /// Export link from clipboard
   public static var proxySettingsExportLink: String  { return L10n.tr("Localizable", "ProxySettings.ExportLink") }
@@ -16468,7 +16463,7 @@ public final class L10n {
   public static var starListTelegramStars: String  { return L10n.tr("Localizable", "Star.List.TelegramStars") }
   /// Top Up
   public static var starListTopUp: String  { return L10n.tr("Localizable", "Star.List.TopUp") }
-  /// By proceeding and purchasing Stars, you agree with the [Terms and Conditions](https://impulsem.net/tos/stars).
+  /// By proceeding and purchasing Stars, you agree with the Terms and Conditions.
   public static var starListTos: String  { return L10n.tr("Localizable", "Star.List.Tos") }
   /// Stats
   public static var starListWithdraw: String  { return L10n.tr("Localizable", "Star.List.Withdraw") }
@@ -16694,7 +16689,7 @@ public final class L10n {
   public static var starTransacitonReferredUser: String  { return L10n.tr("Localizable", "Star.Transaciton.ReferredUser") }
   /// Availability
   public static var starTransactionAvailability: String  { return L10n.tr("Localizable", "Star.Transaction.Availability") }
-  /// By subscribing you agree to the [Terms of Service](https://impulsem.net)
+  /// By subscribing you agree to the Terms of Service
   public static var starTransactionBotTos: String  { return L10n.tr("Localizable", "Star.Transaction.BotTos") }
   /// %d Messages
   public static func starTransactionBroadcastMessagesOther(_ p1: Int) -> String {
@@ -16744,7 +16739,7 @@ public final class L10n {
   public static var starTransactionSendGift: String  { return L10n.tr("Localizable", "Star.Transaction.SendGift") }
   /// To
   public static var starTransactionTo: String  { return L10n.tr("Localizable", "Star.Transaction.To") }
-  /// Review the [Terms of Services](https://impulsem.net/tos/stars) for Stars.
+  /// Review the Terms of Services for Stars.
   public static var starTransactionTos: String  { return L10n.tr("Localizable", "Star.Transaction.Tos") }
   /// Transaction URL
   public static var starTransactionTransactionUrl: String  { return L10n.tr("Localizable", "Star.Transaction.TransactionUrl") }
@@ -17102,7 +17097,7 @@ public final class L10n {
   public static var starListTon: String  { return L10n.tr("Localizable", "StarList.Ton") }
   /// Offer TON to submit post suggestions to channels on ImpulseM
   public static var starListTonInfo: String  { return L10n.tr("Localizable", "StarList.TonInfo") }
-  /// Collect your TON using Fragment. [Learn More >](impulsem.net)
+  /// Collect your TON using Fragment.
   public static var starListTonWithdrawInfo: String  { return L10n.tr("Localizable", "StarList.Ton.Withdraw.Info") }
   /// This gift was downgraded because a request to refund the payment related to this gift was made, and the money was returned.
   public static var starTransactionGiftRefundedInfo: String  { return L10n.tr("Localizable", "StarTransaction.GiftRefundedInfo") }
@@ -17220,7 +17215,7 @@ public final class L10n {
   }
   /// Anonymous
   public static var starsReactScreenAnonymous: String  { return L10n.tr("Localizable", "Stars.ReactScreen.Anonymous") }
-  /// By sending Stars you agree to the [Terms of Service](https://impulsem.net/tos/stars).
+  /// By sending Stars you agree to the Terms of Service.
   public static var starsReactScreenFooter: String  { return L10n.tr("Localizable", "Stars.ReactScreen.Footer") }
   /// Choose how many stars you want to send to **%@** to support this post.
   public static func starsReactScreenInfo(_ p1: String) -> String {
@@ -19128,7 +19123,7 @@ public final class L10n {
   public static var translateModalPromptStyle: String  { return L10n.tr("Localizable", "TranslateModal.PromptStyle") }
   /// Share Style
   public static var translateModalShareStyle: String  { return L10n.tr("Localizable", "TranslateModal.ShareStyle") }
-  /// Style by [@%1$@](https://o.impulsem.net/%1$@)
+  /// Style by @%1$@
   public static func translateModalStyleByAuthor(_ p1: String) -> String {
     return L10n.tr("Localizable", "TranslateModal.StyleByAuthor", p1)
   }
@@ -21862,7 +21857,7 @@ public final class L10n {
   public static var webBotAccountDisclaimerOK: String  { return L10n.tr("Localizable", "WebBot.Account.Disclaimer.OK") }
   /// You are about to use a mini app operated by an independent party **not affiliated with ImpulseM**. You must agree to the Terms of Use for mini apps to continue.
   public static var webBotAccountDisclaimerText: String  { return L10n.tr("Localizable", "WebBot.Account.Disclaimer.Text") }
-  /// I agree to the [Terms of Use](https://impulsem.net/tos/mini-apps)
+  /// I agree to the Terms of Use
   public static var webBotAccountDisclaimerThird: String  { return L10n.tr("Localizable", "WebBot.Account.Disclaimer.Third") }
   /// Terms of Use
   public static var webBotAccountDisclaimerTitle: String  { return L10n.tr("Localizable", "WebBot.Account.Disclaimer.Title") }
@@ -22056,7 +22051,7 @@ public final class L10n {
   public static var psaChatAlertLearnmoreCovid: String  { return L10n.tr("Localizable", "psa.chat.alert.learnmore.covid") }
   /// Learn More
   public static var psaChatAlertLearnmorePsa: String  { return L10n.tr("Localizable", "psa.chat.alert.learnmore.psa") }
-  /// This message provides you with a public service announcement in relation to the ongoing COVID-19 pandemic. Learn more about this initiative at https://impulsem.net/blog/coronavirus
+  /// This message provides you with a public service announcement in relation to the ongoing COVID-19 pandemic.
   public static var psaChatTextCovid: String  { return L10n.tr("Localizable", "psa.chat.text.covid") }
   /// This is an official message from the CEO of ImpulseM regarding the ongoing conflict.
   public static var psaChatTextPsa: String  { return L10n.tr("Localizable", "psa.chat.text.psa") }
@@ -22064,7 +22059,7 @@ public final class L10n {
   public static var psaChatlistCovid: String  { return L10n.tr("Localizable", "psa.chatlist.covid") }
   /// Announcement
   public static var psaChatlistPsa: String  { return L10n.tr("Localizable", "psa.chatlist.psa") }
-  /// This message provides you with a public service announcement in relation to the ongoing COVID-19 pandemic. Learn more about this initiative at https://impulsem.net/blog/coronavirus
+  /// This message provides you with a public service announcement in relation to the ongoing COVID-19 pandemic.
   public static var psaTextCovid: String  { return L10n.tr("Localizable", "psa.text.covid") }
   /// This is an official message from the CEO of ImpulseM regarding the ongoing conflict.
   public static var psaTextPsa: String  { return L10n.tr("Localizable", "psa.text.psa") }

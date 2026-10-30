@@ -29,6 +29,16 @@ jobs:
         with:
           submodules: false
 
+      - name: Check build variables
+        env:
+          IMPULSEM_RPC_URL: ${{ vars.IMPULSEM_RPC_URL }}
+        run: |
+          set -eu
+          if [ -z "$IMPULSEM_RPC_URL" ]; then
+            echo "::error::The organisation or repository variable IMPULSEM_RPC_URL is empty. Set it to the transport base URL, for example https://rpc.example.org."
+            exit 1
+          fi
+
       - name: Report disk space before cleanup
         run: df -h /
 
@@ -203,6 +213,11 @@ jobs:
           key: macos-native-${{ hashFiles('scripts/framework-inputs.sh', 'scripts/configure_frameworks.sh') }}-${{ github.run_id }}
 
       - name: Build app without code signing
+        env:
+          IMPULSEM_RPC_URL: ${{ vars.IMPULSEM_RPC_URL }}
+          IMPULSEM_SITE_URL: ${{ vars.IMPULSEM_SITE_URL }}
+          IMPULSEM_LINK_HOST: ${{ vars.IMPULSEM_LINK_HOST }}
+          IMPULSEM_MACOS_FEED_URL: ${{ vars.IMPULSEM_MACOS_FEED_URL }}
         run: |
           set -o pipefail
           mkdir -p build-logs
@@ -215,6 +230,10 @@ jobs:
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
+            "IMPULSEM_RPC_URL=$IMPULSEM_RPC_URL" \
+            "IMPULSEM_SITE_URL=$IMPULSEM_SITE_URL" \
+            "IMPULSEM_LINK_HOST=$IMPULSEM_LINK_HOST" \
+            "IMPULSEM_MACOS_FEED_URL=$IMPULSEM_MACOS_FEED_URL" \
             build 2>&1 | tee build-logs/xcodebuild.log
           echo "xcodebuild took $(( $(date +%s) - START_SECONDS )) seconds"
           df -h /

@@ -136,7 +136,7 @@ class ShareViewController: NSViewController {
             deviceModelName: deviceModelPretty(),
             useBetaFeatures: useBetaFeatures,
             isICloudEnabled: false,
-            networkEngineFactory: ImpulseNetworkEngineFactory()
+            networkEngineFactory: ImpulseNetworkEngineFactory(baseUrl: ImpulseBrand.rpcUrl)
         )
         
         let sharedContext = SharedAccountContext(accountManager: accountManager, networkArguments: networkArguments, rootPath: rootPath, encryptionParameters: encryptionParameters, appEncryption: appEncryption, displayUpgradeProgress: { _ in })

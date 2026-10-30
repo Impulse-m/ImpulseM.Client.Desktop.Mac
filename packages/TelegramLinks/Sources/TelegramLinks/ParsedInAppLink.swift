@@ -1,4 +1,5 @@
 import Foundation
+import ApiCredentials
 import AppKit
 import Postbox
 import TelegramCore
@@ -109,8 +110,9 @@ public struct InAppLinkParsingOptions {
     public var hasCommand: Bool
     public var hasApplyProxy: Bool
     public var confirm: Bool
+    public var linkHost: String?
 
-    public init(peerId: PeerId? = nil, messageId: MessageId? = nil, urlAuthDomains: [String] = [], hasContext: Bool = false, hasOpenInfo: Bool = false, hasHashtag: Bool = false, hasCommand: Bool = false, hasApplyProxy: Bool = false, confirm: Bool = false) {
+    public init(peerId: PeerId? = nil, messageId: MessageId? = nil, urlAuthDomains: [String] = [], hasContext: Bool = false, hasOpenInfo: Bool = false, hasHashtag: Bool = false, hasCommand: Bool = false, hasApplyProxy: Bool = false, confirm: Bool = false, linkHost: String? = ImpulseBrand.linkHost) {
         self.peerId = peerId
         self.messageId = messageId
         self.urlAuthDomains = urlAuthDomains
@@ -120,5 +122,6 @@ public struct InAppLinkParsingOptions {
         self.hasCommand = hasCommand
         self.hasApplyProxy = hasApplyProxy
         self.confirm = confirm
+        self.linkHost = linkHost
     }
 }

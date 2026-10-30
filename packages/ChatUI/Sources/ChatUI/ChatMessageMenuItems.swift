@@ -656,7 +656,7 @@ public func chatMenuItems(for message: Message, entry: ChatHistoryEntry?, textLa
                 items.append(ContextMenuItem(strings().chatMessageSponsoredWhat, handler: {
                     let link = strings().chatMessageAdUrl
                     let text = strings().chatMessageMenuItemsSponsoredInfo
-                    let info = text.replacingOccurrences(of: "[url]", with: "[\(link)](\(link))")
+                    let info: String = link.isEmpty ? text : text.replacingOccurrences(of: "[url]", with: "[\(link)](\(link))")
                     let data = ModalAlertData(title: strings().chatMessageSponsoredWhat, info: info, alignment: .left, width: 400, showCloseButton: true)
                     showModalAlert(for: context.window, data: data, completion: { _ in })
                 }, itemImage: MenuAnimation.menu_report.value))

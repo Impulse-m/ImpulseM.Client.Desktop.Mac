@@ -12,6 +12,7 @@ let package = Package(
         .package(name: "MtProtoKit", path: "../../submodules/telegram-ios/submodules/MtProtoKit"),
         .package(name: "Colors", path: "../Colors"),
         .package(name: "Strings", path: "../Strings"),
+        .package(name: "ApiCredentials", path: "../ApiCredentials"),
     ],
     targets: [
         .target(name: "TelegramLinks", dependencies: [
@@ -20,6 +21,7 @@ let package = Package(
             .product(name: "MtProtoKit", package: "MtProtoKit"),
             .product(name: "Colors", package: "Colors"),
             .product(name: "Strings", package: "Strings"),
+            .product(name: "ApiCredentials", package: "ApiCredentials"),
         ]),
         .testTarget(name: "TelegramLinksTests", dependencies: ["TelegramLinks"]),
     ]

@@ -1,5 +1,4 @@
 #include "common.xcconfig"
-SFEED_URL = https:$(SIMPLE_SLASH)/macos.impulsem.net/updates/versions.xml
 SOURCE = STABLE
 
 TYPE = -D'STABLE'

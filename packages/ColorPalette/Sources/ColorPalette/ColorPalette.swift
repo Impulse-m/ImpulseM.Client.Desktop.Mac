@@ -1,5 +1,6 @@
 import Cocoa
 import Colors
+import ApiCredentials
 
 
 
@@ -126,21 +127,25 @@ public enum PaletteWallpaper : Equatable {
     case url(String)
     case builtin
     case color(NSColor)
-    public init?(_ string: String) {
+    public init?(_ string: String, linkHost: String? = ImpulseBrand.linkHost) {
         switch string {
         case "none":
             self = .none
         case "builtin":
             self = .builtin
         default:
-            let wallpaperLinkPrefixes: [String] = [
-                "o.impulsem.net/bg/",
-                "https://o.impulsem.net/bg/",
-                "http://o.impulsem.net/bg/",
+            var wallpaperLinkPrefixes: [String] = [
                 "t.me/bg/",
                 "https://t.me/bg/",
                 "http://t.me/bg/"
             ]
+            if let linkHost: String = linkHost {
+                wallpaperLinkPrefixes += [
+                    "\(linkHost)/bg/",
+                    "https://\(linkHost)/bg/",
+                    "http://\(linkHost)/bg/"
+                ]
+            }
             if wallpaperLinkPrefixes.contains(where: { string.hasPrefix($0) }) {
                 self = .url(string)
             } else if let color = NSColor(hexString: string) {
@@ -905,7 +910,8 @@ public class ColorPalette : Equatable {
                 string += "\(prop) = \(color.hexString.lowercased())\n"
             }
         }
-        string += "//Parameter only affects bubble chat mode. Available values: none, builtin, hexColor or url to cloud backgound like a o.impulsem.net/bg/%slug%\n"
+        let cloudBackgroundExample: String = ImpulseBrand.linkHost.map { " like a \($0)/bg/%slug%" } ?? ""
+        string += "//Parameter only affects bubble chat mode. Available values: none, builtin, hexColor or url to cloud backgound\(cloudBackgroundExample)\n"
         string += "wallpaper = \(wallpaper.toString)\n"
         return string
     }

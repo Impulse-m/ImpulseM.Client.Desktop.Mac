@@ -4,6 +4,7 @@ import SwiftSignalKit
 import ColorPalette
 import KeyboardKey
 import Localization
+import ApiCredentials
 
 public enum CrashRecoveryUpdateState: Equatable {
     case checking
@@ -56,7 +57,7 @@ private func systemPalette() -> ColorPalette {
 }
 
 private let appStoreURL = URL(string: "macappstore://apps.apple.com/app/id747648890")!
-private let websiteURL = URL(string: "https://macos.telegram.org")!
+private let websiteURL: URL? = ImpulseBrand.siteLink(path: "/dl").flatMap { URL(string: $0) }
 
 private enum Text {
     static let title = strings().crashRecoveryTitle
@@ -116,7 +117,7 @@ private func recoveryContent(update: CrashRecoveryUpdate, state: CrashRecoveryUp
     case .appStore:
         return CrashRecoveryContent(symbol: .appStore, title: Text.appStore, detail: Text.appStoreDetail, progress: nil, primaryTitle: openedExternal ? Text.quit : Text.openAppStore, primaryEnabled: true, secondaryEnabled: true, showsWebsite: false, showsReset: true)
     case .website:
-        return CrashRecoveryContent(symbol: .website, title: Text.website, detail: Text.websiteDetail, progress: nil, primaryTitle: openedExternal ? Text.quit : Text.openWebsite, primaryEnabled: true, secondaryEnabled: true, showsWebsite: false, showsReset: true)
+        return CrashRecoveryContent(symbol: .website, title: Text.website, detail: Text.websiteDetail, progress: nil, primaryTitle: openedExternal ? Text.quit : Text.openWebsite, primaryEnabled: openedExternal || websiteURL != nil, secondaryEnabled: true, showsWebsite: false, showsReset: true)
     case .updater:
         switch state {
         case .checking:
@@ -178,7 +179,9 @@ private final class CrashRecoveryWindowController: NSObject, NSWindowDelegate {
             self?.finish(.continueLaunch)
         }
         view.website = {
-            NSWorkspace.shared.open(websiteURL)
+            if let websiteURL: URL = websiteURL {
+                NSWorkspace.shared.open(websiteURL)
+            }
         }
         view.reset = { [weak self] in
             self?.confirmReset()
@@ -234,7 +237,11 @@ private final class CrashRecoveryWindowController: NSObject, NSWindowDelegate {
     }
 
     private var content: CrashRecoveryContent {
-        return recoveryContent(update: update, state: state, openedExternal: openedExternal)
+        var value: CrashRecoveryContent = recoveryContent(update: update, state: state, openedExternal: openedExternal)
+        if websiteURL == nil {
+            value.showsWebsite = false
+        }
+        return value
     }
 
     private func enqueue(_ state: CrashRecoveryUpdateState) {
@@ -283,7 +290,7 @@ private final class CrashRecoveryWindowController: NSObject, NSWindowDelegate {
             } else {
                 if case .appStore = update {
                     NSWorkspace.shared.open(appStoreURL)
-                } else {
+                } else if let websiteURL: URL = websiteURL {
                     NSWorkspace.shared.open(websiteURL)
                 }
                 openedExternal = true
