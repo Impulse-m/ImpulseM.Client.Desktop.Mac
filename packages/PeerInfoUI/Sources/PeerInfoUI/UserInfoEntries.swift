@@ -2817,8 +2817,10 @@ func userInfoEntries<Context: AccountContextProtocol>(view: PeerView, arguments:
                             if botInfo.flags.contains(.canEdit) {
                                 infoBlock.append(UserInfoEntry<Context>.aboutInfo(sectionId: sectionId, text: strings().botInfoLaunchInfo, viewType: .textBottomItem))
                             } else if botInfo.flags.contains(.hasWebApp) {
-                                let privacyPolicyUrl = cachedUserData.botInfo?.privacyPolicyUrl ?? strings().botInfoLaunchInfoPrivacyUrl
-                                infoBlock.append(UserInfoEntry<Context>.aboutInfo(sectionId: sectionId, text: strings().botInfoLaunchInfoUser(privacyPolicyUrl), viewType: .textBottomItem))
+                                let privacyPolicyUrl: String = cachedUserData.botInfo?.privacyPolicyUrl ?? strings().botInfoLaunchInfoPrivacyUrl
+                                if !privacyPolicyUrl.isEmpty {
+                                    infoBlock.append(UserInfoEntry<Context>.aboutInfo(sectionId: sectionId, text: strings().botInfoLaunchInfoUser(privacyPolicyUrl), viewType: .textBottomItem))
+                                }
                             }
                         } else {
                             infoBlock.append(UserInfoEntry<Context>.bio(sectionId: sectionId, text: about, PeerEquatable(peer), viewType: .singleItem))
@@ -2828,8 +2830,10 @@ func userInfoEntries<Context: AccountContextProtocol>(view: PeerView, arguments:
                         if botInfo.flags.contains(.canEdit) {
                             infoBlock.append(UserInfoEntry<Context>.aboutInfo(sectionId: sectionId, text: strings().botInfoLaunchInfo, viewType: .textBottomItem))
                         } else {
-                            let privacyPolicyUrl = cachedUserData.botInfo?.privacyPolicyUrl ?? strings().botInfoLaunchInfoPrivacyUrl
-                            infoBlock.append(UserInfoEntry<Context>.aboutInfo(sectionId: sectionId, text: strings().botInfoLaunchInfoUser(privacyPolicyUrl), viewType: .textBottomItem))
+                            let privacyPolicyUrl: String = cachedUserData.botInfo?.privacyPolicyUrl ?? strings().botInfoLaunchInfoPrivacyUrl
+                            if !privacyPolicyUrl.isEmpty {
+                                infoBlock.append(UserInfoEntry<Context>.aboutInfo(sectionId: sectionId, text: strings().botInfoLaunchInfoUser(privacyPolicyUrl), viewType: .textBottomItem))
+                            }
 
                         }
                     }

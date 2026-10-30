@@ -5,7 +5,7 @@ import TelegramCore
 
 final class LinkParsingTests: XCTestCase {
     private var enabled: InAppLinkParsingOptions {
-        InAppLinkParsingOptions(hasContext: true, hasOpenInfo: true, hasHashtag: true, hasCommand: true, hasApplyProxy: true)
+        InAppLinkParsingOptions(hasContext: true, hasOpenInfo: true, hasHashtag: true, hasCommand: true, hasApplyProxy: true, linkHost: "o.example.org")
     }
 
     private func parse(_ value: String, options: InAppLinkParsingOptions? = nil) -> ParsedInAppLink {
@@ -30,17 +30,24 @@ final class LinkParsingTests: XCTestCase {
         assertPeer("TG://resolve?domain=alice&post=42", username: "alice", post: 42)
     }
 
-    func testImpulseMShortLinkHostIsRecognisedAndUpstreamHostsAreKept() {
-        assertPeer("https://o.impulsem.net/alice/42", username: "alice", post: 42)
-        assertPeer("o.impulsem.net/alice/42", username: "alice", post: 42)
-        assertPeer("https://o.impulsem.net/alice?start=hello", username: "alice", action: .start(parameter: "hello", behavior: .none))
+    func testConfiguredShortLinkHostIsRecognisedAndUpstreamHostsAreKept() {
+        assertPeer("https://o.example.org/alice/42", username: "alice", post: 42)
+        assertPeer("o.example.org/alice/42", username: "alice", post: 42)
+        assertPeer("https://o.example.org/alice?start=hello", username: "alice", action: .start(parameter: "hello", behavior: .none))
         for domain in ["t.me", "telegram.me", "telegram.dog"] {
             assertPeer("https://\(domain)/alice/42", username: "alice", post: 42)
         }
-        guard case let .external(link, _) = parse("https://impulsem.net/") else {
-            return XCTFail("The ImpulseM site root is an ordinary web link")
+        guard case let .external(link, _) = parse("https://example.org/") else {
+            return XCTFail("A site root on another host is an ordinary web link")
         }
-        XCTAssertEqual(link, "https://impulsem.net/")
+        XCTAssertEqual(link, "https://example.org/")
+    }
+
+    func testShortLinkHostIsNotRecognisedWhenNoLinkHostIsConfigured() {
+        let options: InAppLinkParsingOptions = InAppLinkParsingOptions(linkHost: nil)
+        guard case .external = parse("https://o.example.org/alice/42", options: options) else {
+            return XCTFail("Without a configured link host the short host is an ordinary web link")
+        }
     }
 
     func testFreeMessageLinks() {

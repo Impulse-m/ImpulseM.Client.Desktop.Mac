@@ -1,6 +1,5 @@
 #include "common.xcconfig"
 
-SFEED_URL = https:$(SIMPLE_SLASH)/macos.impulsem.net/beta/versions.xml
 IMPULSEM_DISPLAY_NAME = ImpulseM Beta
 SOURCE = BETA
 

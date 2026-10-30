@@ -154,7 +154,7 @@ var globalLinkExecutor:TextViewInteractions {
                 case let .external(link, _):
                     if isValidEmail(link) {
                         return .email
-                    } else if telegram_me.first(where: {link.contains($0 + "joinchat/")}) != nil {
+                    } else if telegramMeDomains(linkHost: ImpulseBrand.linkHost).first(where: {link.contains($0 + "joinchat/")}) != nil {
                         return .inviteLink
                     } else {
                         return .plain
@@ -672,7 +672,8 @@ private func executeWebAppLink(_ bot: Peer, appname: String, command: String?, m
             if botApp.flags.contains(.requiresWriteAccess) {
                 options.append(.init(string: strings().botAllowSendMessages(bot.displayTitle), isSelected: true, mandatory: true))
             }
-            let data = ModalAlertData(title: nil, info: strings().webAppFirstOpenTerms(strings().botInfoLaunchInfoPrivacyUrl), description: nil, ok: strings().botLaunchApp, options: options, mode: .confirm(text: strings().modalCancel, isThird: false), header: .init(id: "header", value: { initialSize, stableId, presentation in
+            let privacyLink: String = strings().botInfoLaunchInfoPrivacyUrl
+            let data = ModalAlertData(title: nil, info: privacyLink.isEmpty ? "" : strings().webAppFirstOpenTerms(privacyLink), description: nil, ok: strings().botLaunchApp, options: options, mode: .confirm(text: strings().modalCancel, isThird: false), header: .init(id: "header", value: { initialSize, stableId, presentation in
                 return AlertHeaderItem(initialSize, stableId: stableId, presentation: presentation, context: context, peer: .init(bot), info: strings().botMoreAbout, callback: { _ in
                     decision.resolve {
                         guard !finished, isCurrent() else { return }
@@ -2585,16 +2586,16 @@ extension NSMutableAttributedString {
                     if onlyInApp {
                         switch link {
                         case let .external(link, _):
-                            let allowed: [String] = [
+                            var allowed: [String] = [
                                 "telegram.org",
                                 "telegram.dog",
                                 "telegram.me",
                                 "telegra.ph",
-                                "telesco.pe",
-                                "impulsem.net",
-                                "o.impulsem.net",
-                                "p.impulsem.net"
+                                "telesco.pe"
                             ]
+                            if let linkHost: String = ImpulseBrand.linkHost {
+                                allowed.append(linkHost)
+                            }
                             if let url = URL(string: link) {
                                 if let host = url.host, allowed.contains(host) {
                                     self.addAttribute(NSAttributedString.Key.link, value: inAppLink.external(link: sublink, false), range: range)

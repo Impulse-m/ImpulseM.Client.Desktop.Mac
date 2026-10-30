@@ -19,7 +19,6 @@
                 <outlet property="checkForUpdates" destination="xey-M7-XVy" id="7ii-1E-tIe"/>
                 <outlet property="preferences" destination="BOF-NM-1cW" id="iiN-GN-soF"/>
                 <outlet property="showQuickSwitcher" destination="sZh-ct-GQS" id="loY-ub-t4u"/>
-                <outlet property="updater" destination="cz9-G6-B4s" id="O7M-Lm-aWB"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -305,6 +304,5 @@
                 <autoresizingMask key="autoresizingMask"/>
             </view>
         </window>
-        <customObject id="cz9-G6-B4s" customClass="SUUpdater"/>
     </objects>
 </document>

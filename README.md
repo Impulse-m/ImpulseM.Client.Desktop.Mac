@@ -1,83 +1,39 @@
-<div align="center">
-  <img src="Telegram-Mac/Assets.xcassets/AppIcon.appiconset/Logo_1024.png"
-      width="125" 
-      height="125">
-  
-  <h2 align="center">Telegram for macOS</h2>
-</div>
+# ImpulseM for macOS
 
-![Telegram macOS screenshot](images/tg.png)
+ImpulseM for macOS is the native macOS client of the ImpulseM messenger. The source is open, and anyone may build and host it.
 
-[**Telegram**](https://telegram.org) is a messaging app with a focus on speed and security. It’s superfast, simple, and free! This repo contains the official source code for [Telegram for macOS](https://macos.telegram.org/).
+## How to build
 
-## Get it
+Full instructions, requirements and troubleshooting are in [INSTALL.md](INSTALL.md). In short:
 
-[![Download on the Mac App Store](images/mas_badge.png)](https://itunes.apple.com/us/app/telegram/id747648890?mt=12)
-
-### Using `mas-cli`
-
-```
-mas install 747648890
-```
-
-### Manual download
-
-If you would like, you can [download the non-MAS version](https://telegram.org/dl/macos).
-
-You can also [download the beta version](https://telegram.org/dl/macos/beta) if you want to try the latest features and you are prepared for bugs and crashes. If you are running the beta, join the [beta testing chat on Telegram](https://t.me/macswift) to report bugs.
-
-## Contributors
-
-### Contributors on GitHub
-See [this repository’s contributors graph](https://github.com/macosswift/telegram/graphs/contributors).
-
-### Bugs and Suggestions
-You can report bug or suggestions feature for Telegram for macOS on [Telegram’s Bugs & Suggestions platform](https://bugs.telegram.org). Read [the platform tip](https://bugs.telegram.org/c/746) before creating first card.
-
-### Translations
-You can help translate Telegram for macOS on [Telegram’s translations platform](https://translations.telegram.org). Pick your language, then look for the macOS translation set.
-
-<!--### Third-party libraries-->
-<!--See [LIBRARIES](LIBRARIES.md).-->
-
-## Permissions
-Telegram strives to protect your privacy.  This app asks for as few permissions as possible:
-
-* **Microphone**: You can send voice messages and make audio calls with Telegram.
-* **Camera**: You can set your profile picture using your Mac’s iSight camera.
-* **Location**: You can send your location to friends.
-* **Outgoing network connections**: Telegram needs to connect to the internet to send your messages to your friends.
-* **Incoming network connections**: Telegram needs to accept incoming connections for peer-to-peer voice calls.
-* **User-selected files**: You can save files or images to your Mac.
-* **Downloads folder**: Telegram can automatically download files or images you receive.
-
-## Shortcuts
-With [Shortcuts](https://github.com/macosswift/telegram/wiki) you can learn how easy is navigate using your devices.
-
-## License
-Telegram for macOS is licensed under the GNU Public License, version 2.0. See [LICENSE](LICENSE) for more information.
-
-## Forking
-You can fork this application and make something awesome! Make sure that your fork follows these five requirements:
-
-1. **Do** [get your own API ID](https://core.telegram.org/api/obtaining_api_id).
-2. **Don’t** call your fork **Telegram** — or at least make sure your users understand that yours is unofficial.
-3. **Don’t** use our standard logo (white paper plane in a blue circle) for your fork.
-3. **Do** read and follow our [security guidelines](https://core.telegram.org/mtproto/security_guidelines) to make sure you take good care of your users’ data and protect their privacy.
-4. **Do** publish your code. The [GPL license](LICENSE) requires it!
-
-## How to Build
-
-Quick start (full details, requirements and troubleshooting are in [INSTALL.md](INSTALL.md)):
-
-1. Install Xcode 16 or newer, Homebrew and a Rust toolchain (rustup). On Xcode 27, apply the local changes in
-   [XCODE27.md](XCODE27.md) first: it supports macOS 12.0 and newer only, and the project targets 10.13.
-2. Clone with submodules:
+1. Install full Xcode 26 or newer, Homebrew and a Rust toolchain (rustup). On Xcode 27, apply the local changes in [XCODE27.md](XCODE27.md) first.
+2. Clone the repository and enter it:
    ```
-   git clone --recurse-submodules https://github.com/macosswift/telegram.git
+   git clone https://github.com/Impulse-m/ImpulseM.Client.Desktop.Mac.git
+   cd ImpulseM.Client.Desktop.Mac
    ```
-3. Prepare the machine and build the native libraries once:
+3. Prepare the machine, check out the submodules and build the native libraries once:
    ```
    sh scripts/setup_build_env.sh --build
    ```
-4. Open `Telegram-Mac.xcworkspace` in Xcode and build the `Telegram` scheme.
+4. Open `Telegram-Mac.xcworkspace` in Xcode, not `Telegram.xcodeproj`, and build the `ImpulseM` scheme. Or build from the command line without signing:
+   ```
+   xcodebuild -workspace Telegram-Mac.xcworkspace -scheme ImpulseM -configuration Debug build \
+     CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
+   ```
+
+The repository contains no Apple Developer team, so builds are unsigned.
+
+## Build variables
+
+The build reads these variables. Set them as environment variables or build settings with the same names. CI takes them from the organisation variables `${{ vars.IMPULSEM_* }}`. They are not secrets.
+
+| Variable | What it does | When it is empty |
+|---|---|---|
+| `IMPULSEM_RPC_URL` | Base URL of the transport host, for example `https://rpc.example.org`. The client builds its websocket endpoints from it. | CI app builds fail with a clear message. Local and test builds start, make no connection attempt and stay not connected. |
+| `IMPULSEM_LINK_HOST` | Host without scheme of public share links, for example `o.example.org`. Used to build share links and to recognise links in messages. | No host is recognised statically. Links rely on the server prefix and the app's URL scheme, and UI that needs the host to build a link is hidden. |
+| `IMPULSEM_MACOS_FEED_URL` | Base URL of the update feeds, for example `https://macos.example.org`. The app reads `updates/versions.xml`, `beta/versions.xml` and `alpha/versions.xml` below it. | Update checks are off and the update UI is hidden. |
+
+## License
+
+This project is licensed under the GNU General Public License, version 2.0. See [LICENSE](LICENSE) for the full text.

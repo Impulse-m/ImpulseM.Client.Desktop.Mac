@@ -18,6 +18,7 @@ let package = Package(
         .package(name: "TelegramCore", path: "../../submodules/telegram-ios/submodules/TelegramCore"),
         .package(name: "NumberPluralization", path: "../NumberPluralization"),
         .package(name: "Strings", path: "../Strings"),
+        .package(name: "ApiCredentials", path: "../ApiCredentials"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -27,6 +28,7 @@ let package = Package(
             dependencies: [.product(name: "TelegramCore", package: "TelegramCore", condition: nil),
                            .product(name: "NumberPluralization", package: "NumberPluralization", condition: nil),
                            .product(name: "Strings", package: "Strings", condition: nil),
+                           .product(name: "ApiCredentials", package: "ApiCredentials", condition: nil),
                           ]),
     ]
 )

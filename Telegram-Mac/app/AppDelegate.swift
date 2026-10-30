@@ -823,7 +823,7 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
                 useBetaFeatures = false
                 #endif
                 
-                let networkArguments = NetworkInitializationArguments(apiId: ApiEnvironment.apiId, apiHash: ApiEnvironment.apiHash, languagesCategory: ApiEnvironment.language, appVersion: ApiEnvironment.version, voipMaxLayer: OngoingCallContext.maxLayer, voipVersions: voipVersions, appData: appData, externalRequestVerificationStream: .single([:]), externalRecaptchaRequestVerification: { _, _ in return .complete() }, autolockDeadine: .single(nil), encryptionProvider: OpenSSLEncryptionProvider(), deviceModelName: deviceModelPretty(), useBetaFeatures: useBetaFeatures, isICloudEnabled: false, networkEngineFactory: ImpulseNetworkEngineFactory(proxyRouteSource: ImpulseProxyRuntime.shared))
+                let networkArguments = NetworkInitializationArguments(apiId: ApiEnvironment.apiId, apiHash: ApiEnvironment.apiHash, languagesCategory: ApiEnvironment.language, appVersion: ApiEnvironment.version, voipMaxLayer: OngoingCallContext.maxLayer, voipVersions: voipVersions, appData: appData, externalRequestVerificationStream: .single([:]), externalRecaptchaRequestVerification: { _, _ in return .complete() }, autolockDeadine: .single(nil), encryptionProvider: OpenSSLEncryptionProvider(), deviceModelName: deviceModelPretty(), useBetaFeatures: useBetaFeatures, isICloudEnabled: false, networkEngineFactory: ImpulseNetworkEngineFactory(baseUrl: ImpulseBrand.rpcUrl, proxyRouteSource: ImpulseProxyRuntime.shared))
 
                 ImpulseProxyRuntime.shared.start(accountManager: accountManager)
 
@@ -1321,6 +1321,9 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
 
     @IBAction func checkForUpdates(_ sender: Any) {
         #if !APP_STORE
+            guard ImpulseBrand.macosFeedUrl != nil else {
+                return
+            }
             showModal(with: InputDataModalController(AppUpdateViewController()), for: window)
             #if STABLE
                 if let context = self.contextValue?.context {
@@ -1336,10 +1339,13 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
     
     override func awakeFromNib() {
         #if APP_STORE
-        if let menu = NSApp.mainMenu?.item(at: 0)?.submenu, let sparkleItem = menu.item(withTag: 1000) {
+        let removeUpdatesItem: Bool = true
+        #else
+        let removeUpdatesItem: Bool = ImpulseBrand.macosFeedUrl == nil
+        #endif
+        if removeUpdatesItem, let menu = NSApp.mainMenu?.item(at: 0)?.submenu, let sparkleItem = menu.item(withTag: 1000) {
             menu.removeItem(sparkleItem)
         }
-        #endif
         installServicesMenu()
     }
 
@@ -1358,6 +1364,9 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
     
     @objc func checkUpdates() {
         #if !APP_STORE
+        guard ImpulseBrand.macosFeedUrl != nil else {
+            return
+        }
         showModal(with: InputDataModalController(AppUpdateViewController()), for: window)
         #endif
     }

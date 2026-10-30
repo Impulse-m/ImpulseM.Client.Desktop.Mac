@@ -15,7 +15,7 @@ FINISHED_TEXT: str = """
 "ImpulseM.LanguageViewController" = "Language";
 "PremiumBoarding.Business.TelegramBusiness" = "ImpulseM Business";
 "StorageUsage.TelegramUsage.Text" = "ImpulseM uses **%@** of your free disk space.";
-"Business.Chatbots.Header" = "Read [More](https://impulsem.net/blog/telegram-business).";
+"Business.Chatbots.Header" = "Read [More](https://example.org/blog/telegram-business).";
 "Chat.Context.Phone.NotTelegram" = "This number is not on ImpulseM";
 """
 

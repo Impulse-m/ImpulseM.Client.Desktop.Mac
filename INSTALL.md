@@ -181,16 +181,19 @@ passkey sign-in, which is hidden until passkeys are enabled.
 ## Build configurations and release channels
 
 `Telegram-Mac/common.xcconfig` holds the shared settings. The channel is selected by an
-xcconfig that defines `TYPE` (a Swift compiler flag) plus the Sparkle feed URL:
+xcconfig that defines `TYPE` (a Swift compiler flag). The Sparkle feed is built in code from
+`IMPULSEM_MACOS_FEED_URL` plus the channel path, and no updater runs while that variable is empty:
 
 | xcconfig | `TYPE` | Feed |
 |---|---|---|
 | `Telegram-Mac/Debug.xcconfig` | `BETA` | beta feed |
-| `Telegram-Mac/Release.xcconfig` | `STABLE` | `macos.impulsem.net/updates/versions.xml` |
-| `configurations/Stable.xcconfig` | `STABLE` | `macos.impulsem.net/updates/versions.xml` |
-| `configurations/Beta.xcconfig` | `BETA` | `macos.impulsem.net/beta/versions.xml` |
-| `configurations/Alpha.xcconfig` | `ALPHA` | `macos.impulsem.net/alpha/versions.xml` |
+| `Telegram-Mac/Release.xcconfig` | `STABLE` | `<IMPULSEM_MACOS_FEED_URL>/updates/versions.xml` |
+| `configurations/Stable.xcconfig` | `STABLE` | `<IMPULSEM_MACOS_FEED_URL>/updates/versions.xml` |
+| `configurations/Beta.xcconfig` | `BETA` | `<IMPULSEM_MACOS_FEED_URL>/beta/versions.xml` |
+| `configurations/Alpha.xcconfig` | `ALPHA` | `<IMPULSEM_MACOS_FEED_URL>/alpha/versions.xml` |
 | `configurations/AppStore.xcconfig` | `APP_STORE` | none (Mac App Store build) |
+
+`IMPULSEM_MACOS_FEED_URL` is the base URL of the update feeds (see the build variables in [README.md](README.md)).
 
 `buildbox/build-mac.sh <Alpha|Beta|Stable|AppStore>` is the release recipe: it copies the
 tree to `~/build-<channel>`, runs `scripts/configure_frameworks.sh`, copies the chosen
@@ -312,11 +315,11 @@ cd packages/TGUIKit && swift build
    package.
 4. Search the project for `net.impulsem.messenger` and `TEAM_ID_PLACEHOLDER` and replace them
    with your bundle identifier and team (project settings, entitlements, app group).
-5. Replace `SFEED_URL` in the xcconfig files with your update feed. The Sparkle public EdDSA key
+5. Set `IMPULSEM_MACOS_FEED_URL` to your update feed base; the channel paths are appended in code. The Sparkle public EdDSA key
    is `Resources/keys/ed_pub.txt`; generate your own key pair and keep the private key out of
    the repository.
-6. Follow the rules in the README's "Forking" section: do not call the fork Telegram and
-   do not reuse the logo.
+6. Make clear that your fork is unofficial: do not call it ImpulseM and do not reuse the
+   ImpulseM name or logo.
 7. Questions: open an issue at https://github.com/Impulse-m/ImpulseM.Client.Desktop.Mac/issues/new.
 
 ## Performance labs and CI releases

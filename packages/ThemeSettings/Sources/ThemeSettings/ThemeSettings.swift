@@ -5,6 +5,7 @@ import TelegramCore
 import ColorPalette
 import Colors
 import InAppSettings
+import ApiCredentials
 
 private func parseColor(_ decoder: KeyedDecodingContainer<StringCodingKey>, _ key: String) throws -> NSColor? {
     if let value = try decoder.decodeIfPresent(Int32.self, forKey: .init(key)) {
@@ -192,7 +193,10 @@ public enum Wallpaper : Equatable, Codable {
             if !options.isEmpty {
                 optionsString = "?\(options.joined(separator: "&"))"
             }
-            return "https://o.impulsem.net/bg/\(slug)\(optionsString)"
+            guard let linkHost: String = ImpulseBrand.linkHost else {
+                return nil
+            }
+            return "https://\(linkHost)/bg/\(slug)\(optionsString)"
         default:
             return nil
         }
@@ -549,7 +553,10 @@ public struct ThemeWallpaper : Codable, Equatable {
             if !options.isEmpty {
                 optionsString = "?\(options.joined(separator: "&"))"
             }
-            return .url("https://o.impulsem.net/bg/\(slug)\(optionsString)")
+            guard let linkHost: String = ImpulseBrand.linkHost else {
+                return .none
+            }
+            return .url("https://\(linkHost)/bg/\(slug)\(optionsString)")
         case .builtin:
             return .builtin
         default:

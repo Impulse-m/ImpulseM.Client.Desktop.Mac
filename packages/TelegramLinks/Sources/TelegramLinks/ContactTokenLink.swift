@@ -5,7 +5,7 @@ struct ContactTokenLink: Equatable {
     let freeToken: String?
 }
 
-func parseContactTokenLink(_ link: String) -> ContactTokenLink? {
+func parseContactTokenLink(_ link: String, linkHost: String?) -> ContactTokenLink? {
     let value = link.contains("://") ? link : "https://" + link
     guard let components = URLComponents(string: value), components.user == nil, components.password == nil, components.port == nil else {
         return nil
@@ -19,7 +19,11 @@ func parseContactTokenLink(_ link: String) -> ContactTokenLink? {
         }
         token = value
     case "http", "https":
-        guard let host = components.host?.lowercased(), ["t.me", "telegram.me", "telegram.dog", "o.impulsem.net"].contains(host), components.path.hasPrefix("/contact/") else {
+        var allowedHosts: [String] = ["t.me", "telegram.me", "telegram.dog"]
+        if let linkHost: String = linkHost {
+            allowedHosts.append(linkHost.lowercased())
+        }
+        guard let host = components.host?.lowercased(), allowedHosts.contains(host), components.path.hasPrefix("/contact/") else {
             return nil
         }
         token = String(components.path.dropFirst("/contact/".count))

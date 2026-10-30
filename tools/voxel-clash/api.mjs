@@ -11,7 +11,7 @@ const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; ch
 const nameOf = value => typeof value === 'string' && value.trim().length > 0 && value.trim().length <= 24 ? value.trim() : null;
 const validClient = value => typeof value === 'string' && /^[a-zA-Z0-9_-]{20,100}$/.test(value);
 
-export function createServer({ directory = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || '/tmp/voxel-clash', origin = process.env.PUBLIC_URL || 'https://voxel-clash-production.up.railway.app', ticking = true } = {}) {
+export function createServer({ directory = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || '/tmp/voxel-clash', origin = process.env.PUBLIC_URL || '', ticking = true } = {}) {
   const store = new GameStore(directory);
   const sockets = new Map();
   const limits = new Map();

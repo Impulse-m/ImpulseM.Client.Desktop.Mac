@@ -1,5 +1,4 @@
 #include "common.xcconfig"
-SFEED_URL = https:$(SIMPLE_SLASH)/macos.impulsem.net/updates/versions.xml
 IMPULSEM_DISPLAY_NAME = ImpulseM
 SOURCE = STABLE
 

@@ -4,7 +4,6 @@
 
 #include "common.xcconfig"
 
-SFEED_URL = https:$(SIMPLE_SLASH)/macos.impulsem.net/beta/versions.xml
 SOURCE = DEBUG
 
 TYPE = -D'BETA'

@@ -37,7 +37,15 @@ private func hTmeParseDuration(_ durationStr: String) -> Int {
     return Int(durationStr) ?? 0
 }
 
-public let telegram_me:[String] = ["telegram.me/","telegram.dog/","t.me/","o.impulsem.net/"]
+public let telegram_me:[String] = ["telegram.me/","telegram.dog/","t.me/"]
+
+public func telegramMeDomains(linkHost: String?) -> [String] {
+    var domains: [String] = telegram_me
+    if let linkHost: String = linkHost {
+        domains.append(linkHost + "/")
+    }
+    return domains
+}
 private let actions_me:[String] = ["joinchat/","addstickers/","addemoji/","confirmphone","socks", "proxy", "setlanguage/", "bg/", "addtheme/","invoice/", "addlist/", "boost", "giftcode/", "m/", "nft/", "call/", "auction/", "newbot/", "addstyle/", "webproxy"]
 
 let telegram_scheme:String = "tg://"
@@ -152,7 +160,7 @@ public func parseInAppLink(_ url: NSString, options: InAppLinkParsingOptions = I
     let urlString = external as String
     let url = value
 
-    if let contact = parseContactTokenLink(urlString) {
+    if let contact = parseContactTokenLink(urlString, linkHost: options.linkHost) {
         guard options.hasOpenInfo, options.hasContext else {
             return urlString.lowercased().hasPrefix("tg://") ? .nothing : .external(link: urlString, confirm)
         }
@@ -208,13 +216,17 @@ public func parseInAppLink(_ url: NSString, options: InAppLinkParsingOptions = I
         }
     }
 
+    var mightBeLinkHost: Bool = false
+    if let linkHost: String = options.linkHost {
+        mightBeLinkHost = value.range(of: linkHost).location != NSNotFound
+    }
     let mightBeTelegramDomain =
         value.range(of: "t.me").location != NSNotFound ||
         value.range(of: "telegram.").location != NSNotFound ||
-        value.range(of: "impulsem.net").location != NSNotFound
+        mightBeLinkHost
 
     if mightBeTelegramDomain {
-    for domain in telegram_me {
+    for domain in telegramMeDomains(linkHost: options.linkHost) {
         let range = url.range(of: domain)
         if range.location != NSNotFound && (range.location == 0 || (range.location <= 8 && url.substring(from: range.location - 1).hasPrefix("/"))) {
             let string = external.substring(from: range.location + range.length)

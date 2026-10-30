@@ -3,6 +3,7 @@ import TelegramCore
 import NumberPluralization
 import Strings
 import Foundation
+import ApiCredentials
 
 extension Int {
     func description() -> String {
@@ -251,6 +252,10 @@ private let _englishFallbackBundle: Bundle? = {
 /// returns the raw key as a last resort (matches `NSLocalizedString` default
 /// behavior when the key is absent from the bundle).
 internal func _LocalizedStringFor(_ key: String, primary: Language, secondary: Language?, returnNilIfMissing: Bool = false) -> String? {
+    return _LocalizedStringForRaw(key, primary: primary, secondary: secondary, returnNilIfMissing: returnNilIfMissing).map { ImpulseBrand.resolveSiteLinks(in: $0) }
+}
+
+private func _LocalizedStringForRaw(_ key: String, primary: Language, secondary: Language?, returnNilIfMissing: Bool = false) -> String? {
     if let value = primary.strings[key], !value.isEmpty {
         return value
     }

@@ -8,6 +8,7 @@ let deps: [(String, String)] = [
     ("ColorPalette", "../ColorPalette"),
     ("KeyboardKey", "../KeyboardKey"),
     ("Localization", "../Localization"),
+    ("ApiCredentials", "../ApiCredentials"),
 ]
 
 let package = Package(
