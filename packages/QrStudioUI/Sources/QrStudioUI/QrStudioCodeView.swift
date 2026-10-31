@@ -630,7 +630,7 @@ final class QrStudioCodeView: View {
         }
 
         let planeSide = logoDiameter + 8.0
-        let planeCenter = CGPoint(x: size.width * 0.5, y: size.height * 0.5 - 1.0)
+        let planeCenter = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         self.planeFrame = CGRect(x: planeCenter.x - planeSide * 0.5, y: planeCenter.y - planeSide * 0.5, width: planeSide, height: planeSide)
         self.planeLayer.bounds = CGRect(x: 0.0, y: 0.0, width: planeSide, height: planeSide)
         self.planeLayer.position = planeCenter

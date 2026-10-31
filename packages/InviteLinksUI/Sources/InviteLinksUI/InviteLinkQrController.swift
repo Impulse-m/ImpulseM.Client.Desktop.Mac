@@ -55,7 +55,6 @@ private final class InviteLinkQrRowView: TableRowView {
     private let disposable = MetaDisposable()
     private let cardView = View(frame: NSMakeRect(0, 0, cardSize.width, cardSize.height))
     private let imageView = ImageView(frame: NSMakeRect(0, 0, codeSize.width, codeSize.height))
-    private let logoView = LottiePlayerView(frame: NSMakeRect(0, 0, 40, 40))
     private let textView = TextView()
 
     required init(frame frameRect: NSRect) {
@@ -63,7 +62,6 @@ private final class InviteLinkQrRowView: TableRowView {
         self.cardView.backgroundColor = dayClassicPalette.background
         self.cardView.layer?.cornerRadius = 16
         self.cardView.addSubview(self.imageView)
-        self.cardView.addSubview(self.logoView)
         addSubview(self.cardView)
         addSubview(self.textView)
         self.imageView.setAccessibilityLabel(strings().voiceOverCommonQRCode)
@@ -83,21 +81,7 @@ private final class InviteLinkQrRowView: TableRowView {
         super.layout()
         self.cardView.centerX(y: 0)
         self.imageView.center()
-        self.logoView.center()
         self.textView.centerX(y: self.cardView.frame.maxY + 16)
-    }
-
-    override func viewDidMoveToWindow() {
-        super.viewDidMoveToWindow()
-        self.updateLogo()
-    }
-
-    private func updateLogo() {
-        if window != nil, let data = LocalAnimatedSticker.login_airplane.data {
-            self.logoView.set(LottieAnimation(compressed: data, key: .init(key: .bundle("login_airplane"), size: self.logoView.frame.size, backingScale: Int(System.backingScale), fitzModifier: nil), playPolicy: .loop))
-        } else {
-            self.logoView.set(nil)
-        }
     }
 
     override func set(item: TableRowItem, animated: Bool = false) {
@@ -110,7 +94,7 @@ private final class InviteLinkQrRowView: TableRowView {
         self.textView.update(item.textLayout)
 
         let size = InviteLinkQrRowView.codeSize
-        self.disposable.set((qrCode(string: item.link, color: dayClassicPalette.text, backgroundColor: dayClassicPalette.background, icon: .custom(theme.icons.login_qr_empty_cap))
+        self.disposable.set((qrCode(string: item.link, color: dayClassicPalette.text, backgroundColor: dayClassicPalette.background, icon: .custom(theme.icons.login_qr_cap))
         |> map { _, generate -> CGImage? in
             return generate(TransformImageArguments(corners: ImageCorners(), imageSize: size, boundingSize: size, intrinsicInsets: NSEdgeInsets(), scale: System.backingScale))?.generateImage()
         }
