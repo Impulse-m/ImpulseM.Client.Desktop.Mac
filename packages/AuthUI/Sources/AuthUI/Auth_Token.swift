@@ -298,7 +298,7 @@ public final class Auth_TokenController : GenericViewController<Auth_TokenView> 
         var tokenString = (token?.value ?? temp).base64EncodedString()
         tokenString = tokenString.replacingOccurrences(of: "+", with: "-")
         tokenString = tokenString.replacingOccurrences(of: "/", with: "_")
-        let urlString = "tg://login?token=\(tokenString)"
+        let urlString = "im://login?token=\(tokenString)"
 
         self.token = token
 

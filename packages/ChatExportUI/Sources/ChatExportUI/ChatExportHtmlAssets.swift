@@ -1783,7 +1783,7 @@ function GoBack(anchor) {
         var allLinks = document.querySelectorAll('a[href]');
         for (var li = 0; li < allLinks.length; li++) {
             var lhref = allLinks[li].getAttribute('href') || '';
-            if (/^(https?:|tg:|mailto:)/i.test(lhref)) {
+            if (/^(https?:|tg:|im:|mailto:)/i.test(lhref)) {
                 allLinks[li].setAttribute('target', '_blank');
                 allLinks[li].setAttribute('rel', 'noopener noreferrer');
             }

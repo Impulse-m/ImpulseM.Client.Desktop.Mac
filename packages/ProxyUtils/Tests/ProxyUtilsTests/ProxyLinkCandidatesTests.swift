@@ -33,6 +33,7 @@ final class ProxyLinkCandidatesTests: XCTestCase {
         let text: String = [
             "tg://proxy?server=1.2.3.4&port=443&secret=abcd",
             "tg://socks?server=1.2.3.4&port=1080",
+            "im://proxy?server=1.2.3.4&port=443&secret=abcd",
             "https://t.me/proxy?server=1.2.3.4&port=443&secret=abcd",
             "https://t.me/socks?server=1.2.3.4&port=1080",
             "https://telegram.me/socks?server=1.2.3.4&port=1080",

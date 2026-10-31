@@ -41,7 +41,7 @@ public func normalizedTelegramLinkQuery(_ url: String) -> String {
         return url
     }
     let scheme = url.prefix(while: { $0 != ":" }).lowercased()
-    guard scheme == "tg" || scheme == "telegram" else {
+    guard scheme == "tg" || scheme == "im" || scheme == "telegram" else {
         return url
     }
     return url.replacingCharacters(in: separator, with: "?")
@@ -64,8 +64,8 @@ public func proxySettings(from url:String) -> (ProxyServerSettings?, Bool) {
         return (settings, true)
     }
     let url = url.nsstring
-    if url.hasPrefix(telegram_scheme), let _ = URL(string: url as String) {
-        let action = url.substring(from: telegram_scheme.length)
+    if let schemePrefix = appLinkSchemePrefix(url as String), let _ = URL(string: url as String) {
+        let action = url.substring(from: schemePrefix.length)
 
         let (vars, _) = urlVars(with: url as String)
         if action.hasPrefix("socks") {

@@ -77,7 +77,7 @@ public extension ProxyServerSettings {
         if case .web = self.connection {
             return webProxySettingsLink(self) ?? ""
         } else {
-            link = "tg://\(prefix)?server=\(self.host)&port=\(self.port)"
+            link = "im://\(prefix)?server=\(self.host)&port=\(self.port)"
         }
         switch self.connection {
         case let .mtp(secret):
@@ -127,8 +127,8 @@ public enum ProxyLinkCandidate: Equatable {
 }
 
 
-/// Finds the ImpulseM proxy link candidates in text, one per line. Telegram proxy links (`tg://proxy`,
-/// `tg://socks`, `t.me/proxy`, `t.me/socks`) are not candidates.
+/// Finds the ImpulseM proxy link candidates in text, one per line. MTProto proxy links (`tg://proxy`,
+/// `tg://socks`, `im://proxy`, `im://socks`, `t.me/proxy`, `t.me/socks`) are not candidates.
 public enum ProxyLinkCandidates {
     private static let telegramDomains: [String] = ["t.me", "telegram.me", "telegram.dog"]
 

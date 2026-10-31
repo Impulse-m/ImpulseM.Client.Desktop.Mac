@@ -1603,7 +1603,7 @@ public class WebpageModalController: ModalViewController, WKNavigationDelegate, 
         if navigationAction.navigationType == .linkActivated {
             if let url = navigationAction.request.url {
                 if let currentUrl = URL(string: self.url) {
-                    if webAppOrigin(url: currentUrl) == webAppOrigin(url: url) || url.scheme == "tg" {
+                    if webAppOrigin(url: currentUrl) == webAppOrigin(url: url) || (url.scheme == "tg" || url.scheme == "im") {
                         decisionHandler(.allow)
                         return
                     }

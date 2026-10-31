@@ -171,7 +171,7 @@ public final class TextRecognizing {
 
             public var link: String? {
                 let trimmed = payload.trimmingCharacters(in: .whitespacesAndNewlines)
-                if let url = URL(string: trimmed), let scheme = url.scheme?.lowercased(), ["http", "https", "tg", "ton", "mailto"].contains(scheme) {
+                if let url = URL(string: trimmed), let scheme = url.scheme?.lowercased(), ["http", "https", "tg", "im", "ton", "mailto"].contains(scheme) {
                     return trimmed
                 }
                 guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) else {

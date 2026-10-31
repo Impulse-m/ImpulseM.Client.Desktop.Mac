@@ -505,6 +505,34 @@ final class LinkParsingTests: XCTestCase {
         XCTAssertEqual(value, "https://example.com/?text=%ZZ")
     }
 
+    func testImpulseSchemeParsesWithTheTelegramGrammar() {
+        assertPeer("im://resolve?domain=alice&post=42", username: "alice", post: 42)
+        assertPeer("IM://resolve?domain=alice&post=42", username: "alice", post: 42)
+        assertPeer("im://resolve?domain=alice&text=hello%20world", username: "alice", action: .inputText(text: "hello world", behavior: .automatic))
+        assertPeer("im://resolve?domain=alice&direct", username: "alice", action: .direct)
+        guard case let .loginCode(_, code) = parse("im://login?code=12345", options: InAppLinkParsingOptions()) else {
+            return XCTFail("Login code does not require context")
+        }
+        XCTAssertEqual(code, "12345")
+        guard case let .oauth(_, token) = parse("im://oauth?token=token") else {
+            return XCTFail("Expected oauth link")
+        }
+        XCTAssertEqual(token, "token")
+        guard case let .starsInfo(_, isTon) = parse("im://ton") else {
+            return XCTFail("Expected ton info")
+        }
+        XCTAssertTrue(isTon)
+        guard case let .unsupportedScheme(_, path) = parse("im://unknown?value=1") else {
+            return XCTFail("Expected unsupported scheme")
+        }
+        XCTAssertEqual(path, "unknown")
+        guard case .nothing = parse("im://resolve") else {
+            return XCTFail("Missing required arguments")
+        }
+        XCTAssertNotNil(proxySettings(from: "im://socks?server=localhost&port=1080").0)
+        XCTAssertEqual(normalizedTelegramLinkQuery("im://sendgrams&startapp=a&b=c"), "im://sendgrams?startapp=a&b=c")
+    }
+
     func testURLHelpersPreserveDecodingAndEmptyFlags() {
         let (values, flags) = urlVars(with: "https://example.com/?TEXT=a%3Db%2520c&text=last&flag&empty=&token=a=b")
         XCTAssertEqual(values["text"], "last")
@@ -514,6 +542,7 @@ final class LinkParsingTests: XCTestCase {
         XCTAssertEqual(urlVars(with: "text=a%2520b").0["text"], "a%20b")
         XCTAssertEqual(escape(with: "a%20b", addPercent: false), "a b")
         XCTAssertEqual(normalizeURLScheme("TG://resolve?domain=Alice"), "tg://resolve?domain=Alice")
+        XCTAssertEqual(normalizeURLScheme("IM://resolve?domain=Alice"), "im://resolve?domain=Alice")
         XCTAssertEqual(explicitUrl("example.com"), "https://example.com")
         XCTAssertEqual(addUrlParameter(value: "x=1", to: "https://example.com"), "https://example.com/x=1")
         XCTAssertEqual(urlWithoutScheme(from: URL(string: "https://example.com/path?q=1#part")!)?.url, "example.com/path?q=1#part")

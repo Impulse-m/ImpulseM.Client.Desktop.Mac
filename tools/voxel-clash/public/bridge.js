@@ -97,7 +97,7 @@ globalThis.TelegramWidget = {
 };
 function updateTelegramLink() {
   const link = document.getElementById('telegram-link');
-  link.href = 'tg://voxelclash?url=' + encodeURIComponent(location.href);
+  link.href = 'im://voxelclash?url=' + encodeURIComponent(location.href);
   link.hidden = !/^\/(play|watch)\//.test(location.pathname);
 }
 function showEntry(mode = 'create', message = '') {

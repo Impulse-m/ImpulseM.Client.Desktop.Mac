@@ -12,7 +12,7 @@ func parseContactTokenLink(_ link: String, linkHost: String?) -> ContactTokenLin
     }
     let token: String
     switch components.scheme?.lowercased() {
-    case "tg":
+    case "tg", "im":
         guard components.host?.lowercased() == "contact", components.path.isEmpty,
               let value = components.queryItems?.first(where: { $0.name == "token" })?.value else {
             return nil

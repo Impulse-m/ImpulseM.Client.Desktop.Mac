@@ -49,6 +49,18 @@ public func telegramMeDomains(linkHost: String?) -> [String] {
 private let actions_me:[String] = ["joinchat/","addstickers/","addemoji/","confirmphone","socks", "proxy", "setlanguage/", "bg/", "addtheme/","invoice/", "addlist/", "boost", "giftcode/", "m/", "nft/", "call/", "auction/", "newbot/", "addstyle/", "webproxy"]
 
 let telegram_scheme:String = "tg://"
+let impulse_scheme:String = "im://"
+
+func appLinkSchemePrefix(_ url: String) -> String? {
+    if url.hasPrefix(impulse_scheme) {
+        return impulse_scheme
+    }
+    if url.hasPrefix(telegram_scheme) {
+        return telegram_scheme
+    }
+    return nil
+}
+
 private let known_scheme:[String] = ["resolve","msg_url","join","addstickers", "addemoji","confirmphone", "socks", "proxy", "passport", "setlanguage", "bg", "privatepost", "addtheme", "settings", "invoice", "premium_offer", "restore_purchases", "login", "addlist", "boost", "giftcode", "premium_multigift", "stars_topup", "message", "nft", "call", "stars", "ton", "stargift_auction", "oauth", "newbot", "addstyle", "grams", "webproxy", sendGramsPath]
 
 let keyURLUsername = "domain";
@@ -162,7 +174,7 @@ public func parseInAppLink(_ url: NSString, options: InAppLinkParsingOptions = I
 
     if let contact = parseContactTokenLink(urlString, linkHost: options.linkHost) {
         guard options.hasOpenInfo, options.hasContext else {
-            return urlString.lowercased().hasPrefix("tg://") ? .nothing : .external(link: urlString, confirm)
+            return appLinkSchemePrefix(urlString.lowercased()) != nil ? .nothing : .external(link: urlString, confirm)
         }
         return .contactToken(link: urlString, token: contact.token, freeToken: contact.freeToken)
     }
@@ -194,7 +206,7 @@ public func parseInAppLink(_ url: NSString, options: InAppLinkParsingOptions = I
                     u = domain
                 }
                 let host = urlWithoutScheme(from: u)?.host
-                if let host, host.components(separatedBy: ".").last == "ton", urlString != "tg://ton" {
+                if let host, host.components(separatedBy: ".").last == "ton", urlString != "tg://ton", urlString != "im://ton" {
                     var components = URLComponents(url: u, resolvingAgainstBaseURL: false)
                     components?.scheme = "tonsite"
                     var urlString: String? = nil
@@ -712,8 +724,8 @@ public func parseInAppLink(_ url: NSString, options: InAppLinkParsingOptions = I
         return .hashtag(url as String)
     }
 
-    if url.hasPrefix(telegram_scheme) {
-        let action = url.substring(from: telegram_scheme.length)
+    if let schemePrefix = appLinkSchemePrefix(urlString) {
+        let action = url.substring(from: schemePrefix.length)
 
         let (vars, emptyVars) = urlVars(with: external as String)
 
@@ -796,7 +808,7 @@ public func parseInAppLink(_ url: NSString, options: InAppLinkParsingOptions = I
                         if username == legacyPassportUsername {
                             var legacyOptions = options
                             legacyOptions.messageId = nil
-                            return parseInAppLink(external.replacingOccurrences(of: "tg://resolve", with: "tg://passport").nsstring, options: legacyOptions)
+                            return parseInAppLink(external.replacingOccurrences(of: schemePrefix + "resolve", with: schemePrefix + "passport").nsstring, options: legacyOptions)
                         } else if username == "oauth", options.hasContext, let token = vars[keyURLStartapp] {
                             return .oauth(link: urlString, token: token)
                         } else if username == "addtheme", options.hasContext {
@@ -1064,7 +1076,7 @@ public func parseInAppLink(_ url: NSString, options: InAppLinkParsingOptions = I
             }
         }
         if options.hasContext {
-            var path = url.substring(from: telegram_scheme.length)
+            var path = url.substring(from: schemePrefix.length)
             let qLocation = path.nsstring.range(of: "?").location
             path = path.nsstring.substring(to: qLocation != NSNotFound ? qLocation : path.length)
             return .unsupportedScheme(link: urlString, path: path)

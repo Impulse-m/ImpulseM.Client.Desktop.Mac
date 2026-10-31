@@ -119,6 +119,7 @@ final class BarcodeRecognitionTests: XCTestCase {
         XCTAssertEqual(link("https://telegram.org/"), "https://telegram.org/")
         XCTAssertEqual(link("  https://t.me/durov\n"), "https://t.me/durov")
         XCTAssertEqual(link("tg://login?token=abc"), "tg://login?token=abc")
+        XCTAssertEqual(link("im://login?token=abc"), "im://login?token=abc")
         XCTAssertEqual(link("ton://transfer/EQ123"), "ton://transfer/EQ123")
         XCTAssertEqual(link("t.me/durov"), "http://t.me/durov")
         XCTAssertNil(link("WIFI:S:Home;T:WPA;P:secret;;"))

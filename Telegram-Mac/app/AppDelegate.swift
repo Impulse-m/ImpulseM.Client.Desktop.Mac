@@ -470,7 +470,15 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
         
         let bundleId = Bundle.main.bundleIdentifier
         if let bundleId = bundleId {
-            LSSetDefaultHandlerForURLScheme("tg" as CFString, bundleId as CFString)
+            LSSetDefaultHandlerForURLScheme("im" as CFString, bundleId as CFString)
+
+            // Older builds claimed tg://; hand it back to another installed handler.
+            let currentTgHandler: String? = LSCopyDefaultHandlerForURLScheme("tg" as CFString)?.takeRetainedValue() as String?
+            if currentTgHandler?.lowercased() == bundleId.lowercased(),
+               let allTgHandlers: [String] = LSCopyAllHandlersForURLScheme("tg" as CFString)?.takeRetainedValue() as? [String],
+               let otherTgHandler: String = allTgHandlers.first(where: { $0.lowercased() != bundleId.lowercased() }) {
+                LSSetDefaultHandlerForURLScheme("tg" as CFString, otherTgHandler as CFString)
+            }
         }
         
         
@@ -1461,7 +1469,7 @@ class AppDelegate: NSResponder, NSApplicationDelegate, NSUserNotificationCenterD
                     }
                 }
 
-                if url.range(of: legacyPassportUsername) != nil || url.range(of: "tg://passport") != nil {
+                if url.range(of: legacyPassportUsername) != nil || url.range(of: "tg://passport") != nil || url.range(of: "im://passport") != nil {
                     alert(for: mainWindow, info: strings().secureIdLoginText)
                     self.executeUrlAfterLogin = url
                 }

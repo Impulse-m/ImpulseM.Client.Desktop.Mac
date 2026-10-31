@@ -910,7 +910,7 @@ public final class ChatExportHtmlWriter {
         return result
     }
 
-    private static let safeHrefSchemes: Set<String> = ["http", "https", "tg", "ton", "tonsite", "mailto", "tel"]
+    private static let safeHrefSchemes: Set<String> = ["http", "https", "tg", "im", "ton", "tonsite", "mailto", "tel"]
 
     static func safeHref(_ url: String) -> String? {
         let normalized = String(String.UnicodeScalarView(url.unicodeScalars.filter { $0.value > 0x20 && $0.value != 0x7F })).lowercased()
