@@ -397,6 +397,7 @@ public class PCallSession {
     private let callSessionManager: CallSessionManager
     
     private var videoCapturer: OngoingCallVideoCapturer?
+    private let localVideoPromise: Promise<VideoTrack?> = Promise(nil)
     
     public let isOutgoing: Bool
     public private(set) var isVideo: Bool
@@ -545,6 +546,8 @@ public class PCallSession {
         
         if self.isVideo {
             self.videoCapturer = OngoingCallVideoCapturer(devicesContext.currentCameraId ?? "")
+            let localVideo: Signal<VideoTrack?, NoError> = self.videoCapturer?.video() ?? .single(nil)
+            self.localVideoPromise.set(localVideo)
             self.statePromise.set(CallState(state: isOutgoing ? .waiting : .ringing, videoState: self.isVideoPossible ? .active(self.isVideoAvailable) : .notAvailable, remoteVideoState: .inactive, isMuted: self.isMuted, isOutgoingVideoPaused: self.isOutgoingVideoPaused, remoteAspectRatio: self.remoteAspectRatio, remoteAudioState: self.remoteAudioState, remoteBatteryLevel: self.remoteBatteryLevel, isScreenCapture: self.isScreenCapture, participants: self.incomingParticipants, conferenceReference: self.incomingConferenceSource, supportsConferenceCalls: self.supportsConferenceCalls))
         } else {
             self.statePromise.set(CallState(state: isOutgoing ? .waiting : .ringing, videoState: .notAvailable, remoteVideoState: .inactive, isMuted: self.isMuted, isOutgoingVideoPaused: self.isOutgoingVideoPaused, remoteAspectRatio: self.remoteAspectRatio, remoteAudioState: self.remoteAudioState, remoteBatteryLevel: self.remoteBatteryLevel, isScreenCapture: self.isScreenCapture, participants: self.incomingParticipants, conferenceReference: self.incomingConferenceSource, supportsConferenceCalls: self.supportsConferenceCalls))
@@ -946,7 +949,9 @@ public class PCallSession {
                     
                     if self.videoCapturer != nil {
                         if let screenCaptureSource {
-                            initialOutput.screencast = .init(capturer: OngoingCallVideoCapturer(screenCaptureSource.deviceIdKey()), source: screenCaptureSource)
+                            if let screenSource = screenCaptureSource as? MacOSScreenPickerSource, let capturer = screenSource.makeCapturer() {
+                                initialOutput.screencast = .init(capturer: capturer, source: screenCaptureSource)
+                            }
                         } else {
                             let device = self.devices.camera.first(where: { self.devicesContext.currentCameraId == $0.uniqueID })
                             if let device {
@@ -1202,21 +1207,17 @@ public class PCallSession {
     
     public func requestVideo() {
         if isVideoAvailable {
-            let requestVideo: Bool = self.videoCapturer == nil
-            if self.videoCapturer == nil {
+            if self.videoCapturer == nil || self.isScreenCapture {
                 let videoCapturer = OngoingCallVideoCapturer(devicesContext.currentCameraId ?? "")
                 self.videoCapturer = videoCapturer
                 self.videoIsForceDisabled = false
-            }
-            if self.isScreenCapture {
-                self.videoCapturer?.switchVideoInput(devicesContext.currentCameraId ?? "")
-            }
-            self.isScreenCapture = false
-            self.isOutgoingVideoPaused = false
-            
-            if let videoCapturer = self.videoCapturer, requestVideo {
+                self.isScreenCapture = false
+                self.screenCaptureSource = nil
+                self.updateLocalVideoPromise()
                 self.ongoingContext?.requestVideo(videoCapturer)
             }
+            self.isOutgoingVideoPaused = false
+            
             if let state = self.sessionState {
                 self.updateSessionState(sessionState: state, callContextState: self.callContextState, reception: self.reception)
             }
@@ -1226,25 +1227,19 @@ public class PCallSession {
     
     public func enableScreenCapture(_ source: CallCaptureSource) {
         
-        let id = source.deviceIdKey()
-        
-        let requestVideo: Bool = self.videoCapturer == nil
-        if self.videoCapturer == nil {
-            let videoCapturer = OngoingCallVideoCapturer(id)
-            self.videoCapturer = videoCapturer
-            self.videoIsForceDisabled = false
+        guard let screenSource = source as? MacOSScreenPickerSource, let videoCapturer = screenSource.makeCapturer() else {
+            return
         }
+        
+        self.videoCapturer = videoCapturer
+        self.videoIsForceDisabled = false
         
         self.isOutgoingVideoPaused = true
         self.isScreenCapture = true
         self.screenCaptureSource = source
+        self.updateLocalVideoPromise()
+        self.ongoingContext?.requestVideo(videoCapturer)
         
-        if let videoCapturer = self.videoCapturer, requestVideo {
-            self.ongoingContext?.requestVideo(videoCapturer)
-        }
-        if !requestVideo {
-            self.videoCapturer?.switchVideoInput(id)
-        }
         //        setRequestedVideoAspect(Float(System.aspectRatio))
         
         if let state = self.sessionState {
@@ -1252,7 +1247,6 @@ public class PCallSession {
         }
     }
     public func disableScreenCapture() {
-        self.videoCapturer?.switchVideoInput(devicesContext.currentCameraId ?? "")
         if let _ = self.videoCapturer {
             self.videoCapturer = nil
             self.ongoingContext?.disableVideo()
@@ -1261,6 +1255,7 @@ public class PCallSession {
         self.isOutgoingVideoPaused = true
         self.isScreenCapture = false
         self.screenCaptureSource = nil
+        self.updateLocalVideoPromise()
         
         if let state = self.sessionState {
             self.updateSessionState(sessionState: state, callContextState: self.callContextState, reception: self.reception)
@@ -1292,6 +1287,7 @@ public class PCallSession {
         }
         self.isScreenCapture = false
         self.isOutgoingVideoPaused = true
+        self.updateLocalVideoPromise()
         if let state = self.sessionState {
             self.updateSessionState(sessionState: state, callContextState: self.callContextState, reception: self.reception)
         }
@@ -1408,6 +1404,11 @@ public class PCallSession {
         }
     }
     
+    private func updateLocalVideoPromise() {
+        let localVideo: Signal<VideoTrack?, NoError> = self.videoCapturer?.video() ?? .single(nil)
+        self.localVideoPromise.set(localVideo)
+    }
+
     private func stopTone() {
         playingRingtone = false
         player?.stop()
@@ -1434,7 +1435,7 @@ public class PCallSession {
         if isIncoming {
             return self.ongoingContext?.video(isIncoming: isIncoming)
         } else {
-            return self.videoCapturer?.video()
+            return self.localVideoPromise.get()
         }
     }
     

@@ -318,7 +318,8 @@ public final class PeerCallScreen : ViewController {
     
     private var previousState: PeerCallState?
     private var nativeVideoRequests = PeerCallVideoRequests()
-    
+    private var outgoingViewIsScreenCapture: Bool = false
+
     private func configureVideoView(_ view: CallVideoView, isIncoming: Bool, arguments: Arguments, animated: Bool) {
         view.videoMetricsDidUpdate = { [weak self] _ in
             guard let self else {
@@ -386,7 +387,12 @@ public final class PeerCallScreen : ViewController {
         
         switch state.externalState.videoState {
         case .active:
+            if videoViewState.outgoingView != nil, self.outgoingViewIsScreenCapture != state.externalState.isScreenCapture {
+                videoViewState.outgoingView = nil
+                self.nativeVideoRequests.cancel(isIncoming: false)
+            }
             if videoViewState.outgoingView == nil {
+                self.outgoingViewIsScreenCapture = state.externalState.isScreenCapture
                 videoViewState.outgoingView = self.makeVideoView(isIncoming: false, arguments: arguments, animated: animated)
             }
             if let native = videoViewState.outgoingView as? NativeCallVideoView {

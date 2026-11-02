@@ -16,11 +16,6 @@ import TelegramMediaUtils
 import SystemPermissions
 import ProxyUtils
 
-
-
-
-
-
 private let callLogsLimit = 20
 
 public func callLogNameForId(id: Int64, account: Account) -> String? {
@@ -118,32 +113,36 @@ public struct OngoingCallContextState: Equatable {
 }
 
 
-/// Owns the LiveKit call context of one call. The LiveKit call context is main-actor isolated, so every access runs in a main-actor task.
+/// Holds the LiveKit call of one call session. The call is main-actor isolated, so every access runs in a main-actor task.
 ///
-/// Media settings made before the room connects are kept and applied when it connects. Media operations run one after another, and a failed one ends the call.
+/// Media settings made before the call starts are kept and applied when it is created. The call itself keeps the media operations in order.
 private final class LiveKitCallBridge: @unchecked Sendable {
-    private var context: LiveKitCallContext?
+    private var call: LiveKitPrivateCall?
     private var isStopped: Bool = false
-    private var isConnected: Bool = false
     private var isMicrophoneMuted: Bool = false
     private var camera: OngoingCallVideoCapturer?
     private var audioInputId: String?
     private var audioOutputId: String?
-    private var mediaTask: Task<Void, Never>?
-    private let reportState: (LiveKitCallState) -> Void
+    private let reportState: (OngoingCallContextState) -> Void
     private let reportRemoteVideo: (VideoTrack?) -> Void
 
 
     init(
-        reportState: @escaping (LiveKitCallState) -> Void,
+        video: OngoingCallVideoCapturer?,
+        inputDeviceId: String?,
+        outputDeviceId: String?,
+        reportState: @escaping (OngoingCallContextState) -> Void,
         reportRemoteVideo: @escaping (VideoTrack?) -> Void
     ) {
+        self.camera = video
+        self.audioInputId = inputDeviceId
+        self.audioOutputId = outputDeviceId
         self.reportState = reportState
         self.reportRemoteVideo = reportRemoteVideo
     }
 
 
-    /// Creates and starts the call. A parameter or protocol error ends the call at once with a connection failure.
+    /// Creates and starts the call. A parameter or protocol error reports a failed state at once.
     @MainActor
     func start(
         callId: Int64,
@@ -154,30 +153,31 @@ private final class LiveKitCallBridge: @unchecked Sendable {
         guard !self.isStopped else {
             return
         }
-        let created: LiveKitCallContext
+        let created: LiveKitPrivateCall
         do {
-            created = try LiveKitCallContext(
+            created = try LiveKitPrivateCall(
                 callId: callId,
                 versions: [version],
                 parameters: parameters,
                 authKey: authKey
             )
         } catch {
-            self.reportState(.ended(.connectionFailed))
+            self.reportState(OngoingCallContext.failedState())
             return
         }
-        created.onStateChanged = { [weak self] (state: LiveKitCallState) in
-            self?.reportState(state)
-            Task { @MainActor [weak self] in
-                self?.handleState(state)
-            }
+        created.onSnapshot = { [weak self] (snapshot: LiveKitPrivateCallSnapshot) in
+            self?.reportState(OngoingCallContext.ongoingState(for: snapshot))
         }
-        created.onRemoteTracksChanged = { [weak self] in
-            Task { @MainActor [weak self] in
-                self?.publishRemoteVideo()
-            }
+        created.onRemoteVideo = self.reportRemoteVideo
+        self.call = created
+        created.setMuted(self.isMicrophoneMuted)
+        created.setVideo(self.camera)
+        if let inputId: String = self.audioInputId {
+            created.setAudioInputDevice(inputId)
         }
-        self.context = created
+        if let outputId: String = self.audioOutputId {
+            created.setAudioOutputDevice(outputId)
+        }
         created.start()
     }
 
@@ -185,146 +185,42 @@ private final class LiveKitCallBridge: @unchecked Sendable {
     @MainActor
     func setMuted(_ isMuted: Bool) {
         self.isMicrophoneMuted = isMuted
-        enqueueMicrophone()
+        self.call?.setMuted(isMuted)
     }
 
 
     @MainActor
     func requestVideo(_ capturer: OngoingCallVideoCapturer) {
         self.camera = capturer
-        enqueueCamera()
+        self.call?.setVideo(capturer)
     }
 
 
     @MainActor
     func disableVideo() {
         self.camera = nil
-        enqueueCamera()
+        self.call?.setVideo(nil)
     }
 
 
     @MainActor
     func switchAudioInput(_ deviceId: String) {
         self.audioInputId = deviceId
-        enqueueAudioInput(deviceId)
+        self.call?.setAudioInputDevice(deviceId)
     }
 
 
     @MainActor
     func switchAudioOutput(_ deviceId: String) {
         self.audioOutputId = deviceId
-        enqueueAudioOutput(deviceId)
+        self.call?.setAudioOutputDevice(deviceId)
     }
 
 
     @MainActor
     func stop() {
         self.isStopped = true
-        self.context?.stop()
-    }
-
-
-    @MainActor
-    private func handleState(_ state: LiveKitCallState) {
-        switch state {
-        case .connecting:
-            return
-
-        case .connected:
-            self.isConnected = true
-            enqueueMicrophone()
-            enqueueCamera()
-            if let inputId: String = self.audioInputId {
-                enqueueAudioInput(inputId)
-            }
-            if let outputId: String = self.audioOutputId {
-                enqueueAudioOutput(outputId)
-            }
-            publishRemoteVideo()
-
-        case .ended:
-            self.isConnected = false
-            self.mediaTask?.cancel()
-            self.mediaTask = nil
-            publishRemoteVideo()
-        }
-    }
-
-
-    /// Reports the first remote video track of the room, or nil when the room has none.
-    @MainActor
-    private func publishRemoteVideo() {
-        let remoteTrack: RemoteVideoTrack? = self.context?.media?.remoteParticipants
-            .flatMap { (participant: LiveKitGroupRemoteParticipant) -> [LiveKitGroupRemotePublication] in
-                return participant.videoPublications
-            }
-            .compactMap { (publication: LiveKitGroupRemotePublication) -> RemoteVideoTrack? in
-                return publication.videoTrack?.sdkTrack
-            }
-            .first
-        let track: VideoTrack? = remoteTrack
-        self.reportRemoteVideo(track)
-    }
-
-
-    @MainActor
-    private func enqueueMicrophone() {
-        let isEnabled: Bool = !self.isMicrophoneMuted
-        enqueueMedia { (media: LiveKitCallMedia) in
-            try await media.setMicrophoneEnabled(isEnabled)
-        }
-    }
-
-
-    /// The camera of the call: the track of the requested capturer is published, or the camera is muted when no capturer is requested.
-    @MainActor
-    private func enqueueCamera() {
-        let capturer: OngoingCallVideoCapturer? = self.camera
-        enqueueMedia { (media: LiveKitCallMedia) in
-            guard let capturer: OngoingCallVideoCapturer = capturer else {
-                try await media.setCameraEnabled(false)
-                return
-            }
-            guard let track: LiveKitLocalVideoTrack = await capturer.makeLocalVideoTrack() else {
-                return
-            }
-            try await media.publishCamera(track)
-        }
-    }
-
-
-    @MainActor
-    private func enqueueAudioInput(_ deviceId: String) {
-        enqueueMedia { (media: LiveKitCallMedia) in
-            try await media.setAudioInputDevice(id: deviceId)
-        }
-    }
-
-
-    @MainActor
-    private func enqueueAudioOutput(_ deviceId: String) {
-        enqueueMedia { (media: LiveKitCallMedia) in
-            try await media.setAudioOutputDevice(id: deviceId)
-        }
-    }
-
-
-    /// Runs one media operation of the connected room after the operations queued before it. Operations before the connection are dropped, because the connection applies the current state.
-    /// A failed operation ends the call, as the Android call does when a media update fails.
-    @MainActor
-    private func enqueueMedia(_ operation: @escaping (LiveKitCallMedia) async throws -> Void) {
-        guard self.isConnected, let media: LiveKitCallMedia = self.context?.media else {
-            return
-        }
-        let previous: Task<Void, Never>? = self.mediaTask
-        self.mediaTask = Task { @MainActor [weak self] in
-            await previous?.value
-            do {
-                try await operation(media)
-            } catch {
-                self?.context?.failMediaUpdate()
-            }
-        }
+        self.call?.stop()
     }
 }
 
@@ -394,10 +290,34 @@ public final class OngoingCallContext {
         return [(version: "impulsem-livekit-1", supportsVideo: true)]
     }
 
-    /// Maps the state of the LiveKit call to the state the call session reads. Every end of the call is reported as a failure.
-    static func ongoingState(for state: LiveKitCallState) -> OngoingCallContextState {
+    /// The state before the call reports its first snapshot.
+    static func initialState() -> OngoingCallContextState {
+        return OngoingCallContextState(
+            state: .initializing,
+            videoState: .inactive,
+            remoteVideoState: .inactive,
+            remoteAudioState: .active,
+            remoteBatteryLevel: .normal,
+            remoteAspectRatio: 0.0
+        )
+    }
+
+    /// The state of a call that could not be created. It has no media.
+    static func failedState() -> OngoingCallContextState {
+        return OngoingCallContextState(
+            state: .failed,
+            videoState: .inactive,
+            remoteVideoState: .inactive,
+            remoteAudioState: .muted,
+            remoteBatteryLevel: .normal,
+            remoteAspectRatio: 0.0
+        )
+    }
+
+    /// Maps a snapshot of the LiveKit call to the state the call session reads. Every end of the call is reported as a failure.
+    static func ongoingState(for snapshot: LiveKitPrivateCallSnapshot) -> OngoingCallContextState {
         let mappedState: OngoingCallContextState.State
-        switch state {
+        switch snapshot.connection {
         case .connecting:
             mappedState = .initializing
         case .connected:
@@ -405,11 +325,29 @@ public final class OngoingCallContext {
         case .ended:
             mappedState = .failed
         }
+        let videoState: OngoingCallContextState.VideoState
+        if snapshot.localVideo != nil {
+            videoState = .active
+        } else {
+            videoState = .inactive
+        }
+        let remoteVideoState: OngoingCallContextState.RemoteVideoState
+        if snapshot.isRemoteVideoActive {
+            remoteVideoState = .active
+        } else {
+            remoteVideoState = .inactive
+        }
+        let remoteAudioState: OngoingCallContextState.RemoteAudioState
+        if snapshot.isRemoteAudioActive {
+            remoteAudioState = .active
+        } else {
+            remoteAudioState = .muted
+        }
         return OngoingCallContextState(
             state: mappedState,
-            videoState: .inactive,
-            remoteVideoState: .inactive,
-            remoteAudioState: .active,
+            videoState: videoState,
+            remoteVideoState: remoteVideoState,
+            remoteAudioState: remoteAudioState,
             remoteBatteryLevel: .normal,
             remoteAspectRatio: 0.0
         )
@@ -451,14 +389,21 @@ public final class OngoingCallContext {
         let queue: Queue = Queue()
         let contextState: Promise<OngoingCallContextState?> = Promise<OngoingCallContextState?>(nil)
         let remoteVideoPromise: Promise<VideoTrack?> = Promise<VideoTrack?>(nil)
+        let localVideoPromise: Promise<VideoTrack?> = Promise<VideoTrack?>(nil)
+        if let video: OngoingCallVideoCapturer = video {
+            localVideoPromise.set(video.video())
+        }
         self.queue = queue
         self.contextState = contextState
         self.remoteVideoPromise = remoteVideoPromise
-        self.localVideoPromise = Promise<VideoTrack?>(nil)
+        self.localVideoPromise = localVideoPromise
         self.bridge = LiveKitCallBridge(
-            reportState: { (state: LiveKitCallState) in
+            video: video,
+            inputDeviceId: inputDeviceId,
+            outputDeviceId: outputDeviceId,
+            reportState: { (state: OngoingCallContextState) in
                 queue.async {
-                    contextState.set(.single(OngoingCallContext.ongoingState(for: state)))
+                    contextState.set(.single(state))
                 }
             },
             reportRemoteVideo: { (track: VideoTrack?) in
@@ -468,7 +413,7 @@ public final class OngoingCallContext {
 
         cleanupCallLogs(account: account)
 
-        contextState.set(.single(OngoingCallContext.ongoingState(for: .connecting)))
+        contextState.set(.single(OngoingCallContext.initialState()))
         self.receptionPromise.set(.single(4))
 
         let bridge: LiveKitCallBridge = self.bridge
@@ -502,7 +447,7 @@ public final class OngoingCallContext {
         }
     }
 
-    /// Publishes the camera track of the capturer to the call room. The track is created on first use.
+    /// Publishes the local video of the capturer to the call room: its camera, or its screen share. The track is created on first use.
     public func requestVideo(_ capturer: OngoingCallVideoCapturer) {
         self.localVideoPromise.set(capturer.video())
         let bridge: LiveKitCallBridge = self.bridge
@@ -511,7 +456,7 @@ public final class OngoingCallContext {
         }
     }
 
-    /// Mutes the camera of the call room. The local video track is reported as absent.
+    /// Removes the local video from the call room. The local video track is reported as absent.
     public func disableVideo() {
         self.localVideoPromise.set(.single(nil))
         let bridge: LiveKitCallBridge = self.bridge

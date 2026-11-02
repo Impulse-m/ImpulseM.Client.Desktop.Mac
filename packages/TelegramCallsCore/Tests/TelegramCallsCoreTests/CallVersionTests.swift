@@ -1,5 +1,5 @@
 import XCTest
-import TelegramVoip
+@testable import TelegramVoip
 @testable import TelegramCallsCore
 
 final class CallVersionTests: XCTestCase {
@@ -33,19 +33,73 @@ final class CallVersionTests: XCTestCase {
 
 
 final class OngoingCallContextStateMappingTests: XCTestCase {
+    private func makeSnapshot(
+        connection: LiveKitPrivateCallSnapshot.Connection,
+        localVideo: LiveKitPrivateVideoKind? = nil,
+        isRemoteVideoActive: Bool = false,
+        isRemoteAudioActive: Bool = true
+    ) -> LiveKitPrivateCallSnapshot {
+        return LiveKitPrivateCallSnapshot(
+            connection: connection,
+            localVideo: localVideo,
+            isRemoteVideoActive: isRemoteVideoActive,
+            isRemoteAudioActive: isRemoteAudioActive
+        )
+    }
+
     func testConnectingMapsToInitializing() {
-        XCTAssertEqual(OngoingCallContext.ongoingState(for: .connecting).state, .initializing)
+        let state: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connecting))
+        XCTAssertEqual(state.state, .initializing)
     }
 
     func testConnectedMapsToConnected() {
-        XCTAssertEqual(OngoingCallContext.ongoingState(for: .connected).state, .connected)
+        let state: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connected))
+        XCTAssertEqual(state.state, .connected)
     }
 
     func testEveryEndMapsToFailed() {
         let reasons: [LiveKitCallEndReason] = [.hungUp, .joinTimedOut, .connectionFailed, .disconnected, .mediaEncryptionFailed]
         for reason in reasons {
-            XCTAssertEqual(OngoingCallContext.ongoingState(for: .ended(reason)).state, .failed)
+            let state: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .ended(reason)))
+            XCTAssertEqual(state.state, .failed)
         }
+    }
+
+    func testLocalVideoFollowsTheRequestedKind() {
+        let inactive: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connected, localVideo: nil))
+        XCTAssertEqual(inactive.videoState, .inactive)
+        let camera: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connected, localVideo: .camera))
+        XCTAssertEqual(camera.videoState, .active)
+        let screen: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connected, localVideo: .screen))
+        XCTAssertEqual(screen.videoState, .active)
+    }
+
+    func testRemoteVideoFollowsRemoteVideoActivity() {
+        let active: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connected, isRemoteVideoActive: true))
+        XCTAssertEqual(active.remoteVideoState, .active)
+        let inactive: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connected, isRemoteVideoActive: false))
+        XCTAssertEqual(inactive.remoteVideoState, .inactive)
+    }
+
+    func testRemoteAudioIsMutedWhenItIsNotActive() {
+        let active: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connected, isRemoteAudioActive: true))
+        XCTAssertEqual(active.remoteAudioState, .active)
+        let muted: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connected, isRemoteAudioActive: false))
+        XCTAssertEqual(muted.remoteAudioState, .muted)
+    }
+
+    func testEndedCallWithoutMediaReportsNoMedia() {
+        let state: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .ended(.hungUp), localVideo: nil, isRemoteVideoActive: false, isRemoteAudioActive: false))
+        XCTAssertEqual(state.state, .failed)
+        XCTAssertEqual(state.videoState, .inactive)
+        XCTAssertEqual(state.remoteVideoState, .inactive)
+        XCTAssertEqual(state.remoteAudioState, .muted)
+    }
+
+    func testBatteryAndAspectAreFixed() {
+        let state: OngoingCallContextState = OngoingCallContext.ongoingState(for: makeSnapshot(connection: .connected, localVideo: .camera, isRemoteVideoActive: true))
+        XCTAssertEqual(state.remoteBatteryLevel, .normal)
+        XCTAssertEqual(state.remoteAspectRatio, 0.0)
     }
 }
 
