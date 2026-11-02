@@ -397,6 +397,7 @@ public class PCallSession {
     private let callSessionManager: CallSessionManager
     
     private var videoCapturer: OngoingCallVideoCapturer?
+    private var videoCapturerReleased: Bool = false
     private let localVideoPromise: Promise<VideoTrack?> = Promise(nil)
     
     public let isOutgoing: Bool
@@ -1139,6 +1140,7 @@ public class PCallSession {
             if wasActive {
                 self.audioLevelPromise.set(.single(0))
             }
+            self.releaseVideoCapturer()
         default:
             break
         }
@@ -1194,6 +1196,7 @@ public class PCallSession {
     deinit {
         peerDisposable.dispose()
         stateDisposable.dispose()
+        self.videoCapturer?.setIsVideoEnabled(false)
         drop(.disconnect)
         sessionStateDisposable.dispose()
         ongoingContextStateDisposable?.dispose()
@@ -1206,7 +1209,7 @@ public class PCallSession {
     
     
     public func requestVideo() {
-        if isVideoAvailable {
+        if isVideoAvailable, !self.videoCapturerReleased {
             if self.videoCapturer == nil || self.isScreenCapture {
                 let videoCapturer = OngoingCallVideoCapturer(devicesContext.currentCameraId ?? "")
                 self.videoCapturer = videoCapturer
@@ -1227,7 +1230,7 @@ public class PCallSession {
     
     public func enableScreenCapture(_ source: CallCaptureSource) {
         
-        guard let screenSource = source as? MacOSScreenPickerSource, let videoCapturer = screenSource.makeCapturer() else {
+        guard !self.videoCapturerReleased, let screenSource = source as? MacOSScreenPickerSource, let videoCapturer = screenSource.makeCapturer() else {
             return
         }
         
@@ -1247,7 +1250,8 @@ public class PCallSession {
         }
     }
     public func disableScreenCapture() {
-        if let _ = self.videoCapturer {
+        if let videoCapturer = self.videoCapturer {
+            videoCapturer.setIsVideoEnabled(false)
             self.videoCapturer = nil
             self.ongoingContext?.disableVideo()
             self.videoIsForceDisabled = true
@@ -1280,7 +1284,8 @@ public class PCallSession {
     }
     
     public func disableVideo() {
-        if let _ = self.videoCapturer {
+        if let videoCapturer = self.videoCapturer {
+            videoCapturer.setIsVideoEnabled(false)
             self.videoCapturer = nil
             self.ongoingContext?.disableVideo()
             self.videoIsForceDisabled = true
@@ -1407,6 +1412,18 @@ public class PCallSession {
     private func updateLocalVideoPromise() {
         let localVideo: Signal<VideoTrack?, NoError> = self.videoCapturer?.video() ?? .single(nil)
         self.localVideoPromise.set(localVideo)
+    }
+
+    private func releaseVideoCapturer() {
+        guard !self.videoCapturerReleased else {
+            return
+        }
+        self.videoCapturerReleased = true
+        if let videoCapturer: OngoingCallVideoCapturer = self.videoCapturer {
+            videoCapturer.setIsVideoEnabled(false)
+            self.videoCapturer = nil
+            self.updateLocalVideoPromise()
+        }
     }
 
     private func stopTone() {
